@@ -1,6 +1,7 @@
-package com.example.board.apps.daliy.service;
+package com.dreamcapsule.project.apps.daliy.service;
 
-import com.example.board.apps.daliy.domain.DailyDomain;
+
+import com.dreamcapsule.project.apps.daliy.domain.DailyDomain;
 
 import java.util.List;
 

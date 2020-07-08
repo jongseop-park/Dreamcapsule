@@ -1,6 +1,5 @@
 package com.dreamcapsule.project.apps.daliy.controller;
 
-
 import com.dreamcapsule.project.apps.daliy.domain.DailyDomain;
 import com.dreamcapsule.project.apps.daliy.service.DailyService;
 import org.springframework.beans.factory.annotation.Autowired;

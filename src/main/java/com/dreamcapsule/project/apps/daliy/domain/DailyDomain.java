@@ -1,4 +1,4 @@
-package com.example.board.apps.daliy.domain;
+package com.dreamcapsule.project.apps.daliy.domain;
 
 public class DailyDomain {
 

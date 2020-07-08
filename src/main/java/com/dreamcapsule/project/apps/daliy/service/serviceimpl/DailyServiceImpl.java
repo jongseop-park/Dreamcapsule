@@ -1,9 +1,9 @@
-package com.example.board.apps.daliy.service.serviceimpl;
+package com.dreamcapsule.project.apps.daliy.service.serviceimpl;
 
 
-import com.example.board.apps.daliy.domain.DailyDomain;
-import com.example.board.apps.daliy.mapper.DailyMapper;
-import com.example.board.apps.daliy.service.DailyService;
+import com.dreamcapsule.project.apps.daliy.domain.DailyDomain;
+import com.dreamcapsule.project.apps.daliy.mapper.DailyMapper;
+import com.dreamcapsule.project.apps.daliy.service.DailyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

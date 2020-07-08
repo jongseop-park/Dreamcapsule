@@ -1,6 +1,6 @@
-package com.example.board.apps.daliy.mapper;
+package com.dreamcapsule.project.apps.daliy.mapper;
 
-import com.example.board.apps.daliy.domain.DailyDomain;
+import com.dreamcapsule.project.apps.daliy.domain.DailyDomain;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
