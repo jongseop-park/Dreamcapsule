@@ -26,7 +26,7 @@
 <div id="wrapper">
 
     <!-- Sidebar -->
-    <%@include file="include/sidebar.jsp"%>
+    <%@include file="/WEB-INF/views/include/sidebar.jsp"%>
     <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
@@ -36,7 +36,7 @@
         <div id="content">
 
             <!-- Topbar -->
-            <%@include file="include/topbar.jsp"%>
+            <%@include file="../include/topbar.jsp"%>
             <!-- End of Topbar -->
 
             <!-- Begin Page Content -->
@@ -343,7 +343,7 @@
         <!-- End of Main Content -->
 
         <!-- Footer -->
-        <%@include file="include/footer.jsp"%>
+        <%@include file="../include/footer.jsp"%>
         <!-- End of Footer -->
 
     </div>
@@ -377,7 +377,7 @@
 </div>
 
 <!-- plugins_js -->
-    <%@include file="include/plugins_js.jsp"%>
+    <%@include file="../include/plugins_js.jsp"%>
 <!-- /plugins_js -->
 
 </body>
