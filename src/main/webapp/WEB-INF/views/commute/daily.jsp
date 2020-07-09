@@ -125,7 +125,7 @@
                 <table class="table table-bordered" >
                     <thead>
                     <tr >
-                        <th >직원</th>
+                        <th>직원</th>
                         <th>직무</th>
                         <th>직급</th>
                         <th>출근시간</th>
