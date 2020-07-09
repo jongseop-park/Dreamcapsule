@@ -87,7 +87,7 @@
         <div id="content">
 
             <!-- Topbar -->
-            <%@include file="../include/topbar.jsp"%>
+            <%@include file="include/topbar_comm.jsp"%>
             
             <!-- End of Topbar -->
 
