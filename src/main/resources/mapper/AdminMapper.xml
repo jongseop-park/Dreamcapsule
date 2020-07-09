@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dreamcapsule.project.apps.admin.mapper.AdminMapper">
+
+    <resultMap type="AdminVO" id="AdminMap">
+        <id property="adminId" column="ADMIN_ID"/>
+        <result property="seq" column="SEQ"/>
+        <result property="adminPw" column="ADMIN_PW"/>
+        <result property="adminNm" column="ADMIN_NM"/>
+        <result property="regDt" column="REG_DT"/>
+        <result property="modDt" column="MOD_DT"/>
+        <result property="enabled" column="ENABLED"/>
+        <collection property="authList" column="AuthMap"/>
+    </resultMap>
+
+    <resultMap type="AuthorityVO" id="AuthorityMap">
+        <id property="seq" column="SEQ"/>
+        <result property="authId" column="AUTH_ID"/>
+        <result property="auth" column="AUTH"/>
+    </resultMap>
+
+    <select id="read" resultMap="AdminMap">
+        SELECT
+            A.SEQ,
+            A.ADMIN_ID,
+            A.ADMIN_PW,
+            A.ADMIN_NM,
+            A.REG_DT,
+            A.MOD_DT,
+            A.ENABLED,
+            B.SEQ,
+            B.AUTH_ID,
+            B.AUTH
+        FROM ADMIN_TB A LEFT OUTER JOIN AUTHORITY_TB B
+        ON A.ADMIN_ID = B.AUTH_ID
+        WHERE A.ADMIN_ID = #{adminId};
+    </select>
+
+</mapper>
