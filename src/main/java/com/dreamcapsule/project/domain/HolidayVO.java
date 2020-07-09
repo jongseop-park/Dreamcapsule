@@ -14,91 +14,147 @@ public class HolidayVO {
     private String task;
 
     /** 직급 */
-    private String job_grade;
+    private String jobGrade;
 
     /** 휴가유형 */
-    private String holiday_type;
+    private String holidayType;
 
     /** 휴가날짜 */
-    private String holiday_date;
+    private String holidayDate;
 
     /** 메모 */
     private String note;
 
     /** 신청날짜 */
-    private Date application_time;
+    private Date applicationTime;
 
     /** 휴가 승인 여부 */
-    private char state_ysn;
+    private char stateYsn;
 
     /** 답변 */
     private String reply;
 
     /** 필터 표시 여부 */
-    private char filter_yn;
+    private char filterYn;
 
     /** 등록 일시 */
-    private Date reg_dt;
+    private Date regDt;
 
     /** 수정일시 */
-    private Date mod_dt;
+    private Date modDt;
 
     /** 잔여 휴가 일수 */
-    private Long rest_holiday;
+    private Long restHoliday;
 
-    public Long getSeq(){return seq;}
+    public Long getSeq() {
+        return seq;
+    }
 
-    public void setSeq(Long seq){this.seq = seq;}
+    public void setSeq(Long seq) {
+        this.seq = seq;
+    }
 
-    public String getName(){return name;}
+    public String getName() {
+        return name;
+    }
 
-    public void setName(String name){this.name = name;}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public String getTask(){return task;}
+    public String getTask() {
+        return task;
+    }
 
-    public void setTask(String task){this.task = task;}
+    public void setTask(String task) {
+        this.task = task;
+    }
 
-    public String getJob_grade(){return job_grade;}
+    public String getJobGrade() {
+        return jobGrade;
+    }
 
-    public void setJob_grade(String job_grade){this.job_grade = job_grade;}
+    public void setJobGrade(String jobGrade) {
+        this.jobGrade = jobGrade;
+    }
 
-    public String getHoliday_type(){return holiday_type;}
+    public String getHolidayType() {
+        return holidayType;
+    }
 
-    public void setHoliday_type(String holiday_type){this.holiday_type = holiday_type;}
+    public void setHolidayType(String holidayType) {
+        this.holidayType = holidayType;
+    }
 
-    public String getHoliday_date(){return holiday_date;}
+    public String getHolidayDate() {
+        return holidayDate;
+    }
 
-    public void setHoliday_date(String holiday_date){this.holiday_date = holiday_date;}
+    public void setHolidayDate(String holidayDate) {
+        this.holidayDate = holidayDate;
+    }
 
-    public String getNote(){return note;}
+    public String getNote() {
+        return note;
+    }
 
-    public void setNote(String note){this.note = note;}
+    public void setNote(String note) {
+        this.note = note;
+    }
 
-    public Date getApplication_time(){return application_time;}
+    public Date getApplicationTime() {
+        return applicationTime;
+    }
 
-    public void setApplication_time(Date application_time){this.application_time = application_time;}
+    public void setApplicationTime(Date applicationTime) {
+        this.applicationTime = applicationTime;
+    }
 
-    public char getState_ysn(){return state_ysn;}
+    public char getStateYsn() {
+        return stateYsn;
+    }
 
-    public void setState_ysn(char state_ysn){this.state_ysn = state_ysn;}
+    public void setStateYsn(char stateYsn) {
+        this.stateYsn = stateYsn;
+    }
 
-    public String getReply(){return reply;}
+    public String getReply() {
+        return reply;
+    }
 
-    public void setReply(String reply){this.reply = reply;}
+    public void setReply(String reply) {
+        this.reply = reply;
+    }
 
-    public char getFilter_yn(){return filter_yn;}
+    public char getFilterYn() {
+        return filterYn;
+    }
 
-    public void setFilter_yn(char filter_yn){this.filter_yn = filter_yn;}
+    public void setFilterYn(char filterYn) {
+        this.filterYn = filterYn;
+    }
 
-    public Date getReg_dt(){return reg_dt;}
+    public Date getRegDt() {
+        return regDt;
+    }
 
-    public void setReg_dt(Date reg_dt){this.reg_dt = reg_dt;}
+    public void setRegDt(Date regDt) {
+        this.regDt = regDt;
+    }
 
-    public Date getMod_dt(){return mod_dt;}
+    public Date getModDt() {
+        return modDt;
+    }
 
-    public void setMod_dt(Date mod_dt){this.mod_dt = mod_dt;}
+    public void setModDt(Date modDt) {
+        this.modDt = modDt;
+    }
 
-    public Long getRest_holiday(){return rest_holiday;}
+    public Long getRestHoliday() {
+        return restHoliday;
+    }
 
-    public void setRest_holiday(Long rest_holiday){this.rest_holiday = rest_holiday;}
+    public void setRestHoliday(Long restHoliday) {
+        this.restHoliday = restHoliday;
+    }
 }
