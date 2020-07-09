@@ -6,6 +6,8 @@ import com.dreamcapsule.project.apps.daily.service.DailyService;
 import org.mybatis.logging.Logger;
 import org.mybatis.logging.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,7 @@ import org.springsource.loaded.Log;
 import java.util.List;
 
 @Controller
+
 public class DailyController {
 
 //    private final static Logger LOG = LoggerFactory.getLogger(DailyController.class);
@@ -31,6 +34,5 @@ public class DailyController {
        // Log.log(dailyList.get(0).getDutyId());
         return nextPage;
     }
-
 
 }

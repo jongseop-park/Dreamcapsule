@@ -58,7 +58,7 @@
 
 
             <div class="container">
-                <h6>홈 > 휴가관리</h6>
+                <h6><a href="/home"> 홈 </a>> 휴가관리</h6>
                 <div>
                     <h2> 휴가관리</h2>
                     <h6 align="right">

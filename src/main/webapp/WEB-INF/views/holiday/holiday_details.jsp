@@ -55,7 +55,7 @@
                 <div style='width: 50%;height: 100%; float:left;'>
                     <div style='width: 100%;height: 30%; float:top;'>
                         <div style='width : 100%; height : 20%; float:top;'>
-                            홈 > 휴가관리 > 상세<br>
+                            <a href="/home"> 홈 </a>> <a href="/holiday"> 휴가관리 </a>> 상세<br>
                             휴가 관리하기
                         </div>
                         <div style='width : 30%; height : 80%; float:left; margin-top: 10px '>
