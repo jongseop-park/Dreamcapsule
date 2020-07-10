@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 
-<div class="d-sm-flex align-items-center justify-content-between mb-4"
+<div class="d-sm-flex align-items-center justify-content-between mb-1"
      style="float: right; margin: 4px 0 0 30px">
 
     <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
