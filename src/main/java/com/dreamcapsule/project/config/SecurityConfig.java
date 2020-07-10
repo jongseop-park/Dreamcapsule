@@ -25,6 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // WebSecurit
     /*
     * SecurityConfig를 만든 목적은 로그인 기능을 구현하기 위함. pom.xml에 security를 추가하여 처리
     * Security를 통해 계정의 권한을 부여하여 기능에 제한을 둠둠
+    * 세션 - 쿠키 방식의 인증
     * http 기본인증
     * json token
     * session
@@ -55,7 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // WebSecurit
             .and() // 로그인 설정
                 .formLogin() // form 기반으로 인증을 하도록 함. HttpSession을 이용. /login에 접근 시 Spring Security에서 제공하는 로그인 form을 사용할 수 있음.
                 .loginPage("/login") // 커스텀 로그인 폼을 사용하기 위한 메서드. 경로가 일치해야 함.
-                .defaultSuccessUrl("/admin/home") // 로그인이 성공했을 때 이동되는 페이지. 컨트롤러에서 매핑이 되어있어야 함.
+                .defaultSuccessUrl("/home") // 로그인이 성공했을 때 이동되는 페이지. 컨트롤러에서 매핑이 되어있어야 함.
                 .permitAll()
             .and() // 로그아웃 설정
                 .logout() // 로그아웃을 지원하는 메서드. WebSecurityConfigurerAdapter를 사용할 때 자동으로 적용. 기본적으로 /logout 접근 시 HTTP 세션을 제거함.
