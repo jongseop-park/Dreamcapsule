@@ -45,3 +45,8 @@ spring:
     static-path-pattern: /static/**
 
 ---
+# ERROR 기본값 사용 안함
+server:
+  error:
+    whitelabel:
+      enabled: false
