@@ -12,8 +12,9 @@ import java.util.List;
 @Repository
 public interface HolidayMapper {
 
-    @Select("SELECT * FROM HOLIDAYTEST WHERE SEQ = #{SEQ}")
+/*    @Select("SELECT * FROM HOLIDAYTEST WHERE SEQ = #{SEQ}")*/
     public List<HolidayVO> findBySEQ(@Param("SEQ") int SEQ);
 
+/*    @Select("SELECT * FROM HOLIDAYTEST")*/
     public List<HolidayVO> findAll();
 }

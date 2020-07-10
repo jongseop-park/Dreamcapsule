@@ -50,17 +50,17 @@
 
 
             <div class="container">
-                홈 > 휴가관리 > 상세 > 추가<br>
+                <a href="/home"> 홈 </a>> <a href="/holiday"> 휴가관리 </a>> <a href="/holiday_details"> 상세 </a>> 추가<br>
                 휴가 추가하기<br>
                 <div>
                     <img src="/resources/static/img/holiday_sample_img.png" width="100px" height="100px" alt="기본사진">
                     <c:forEach var="holiday" items="${holidayDetails}">
                     ${holiday.name}<br>
-                        ${holiday.task} 팀 | ${holiday.job_grade}
+                        ${holiday.task} 팀 | ${holiday.jobGrade}
                 </div>
 
                 <input type=date><br>
-                (선택된 날짜 표시) (사용하는 휴가) 일 / ${holiday.rest_holiday} 일 전체휴가 15일
+                (선택된 날짜 표시) (사용하는 휴가) 일 / ${holiday.restHoliday} 일 전체휴가 15일
                 휴가유형 <select name="select_type" id="select_type">
                 <option value="regular_holiday">정기휴가</option>
                 <option value="morning_holiday">오전반차</option>

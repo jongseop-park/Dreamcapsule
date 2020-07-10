@@ -26,7 +26,12 @@
         th{
             white-space: nowrap;
         }
+        #div_table{
+            width: 100%;
+            overflow: auto;
+        }
     </style>
+
 </head>
 <body id="page-top">
 
@@ -37,7 +42,7 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
         <!-- Sidebar - Brand -->
-        <%@include file="../include/sidebar.jsp" %>
+        <%@include file="/WEB-INF/views/include/sidebar.jsp" %>
         <!-- Divider -->
         <hr class="sidebar-divider my-0">
 
@@ -52,7 +57,7 @@
         <div id="content">
 
             <!-- Topbar -->
-            <%@include file="../include/topbar.jsp" %>
+            <%@include file="/WEB-INF/views/include/topbar.jsp" %>
 
             <!-- End of Topbar -->
 
@@ -80,7 +85,7 @@
                         </form>
                     </h6>
                 </div>
-                <div style="width:100%; overflow:auto">
+                <div id="div_table">
                     <table class="table table-bordered">
                         <thead>
                         <tr>
@@ -107,7 +112,7 @@
                                 <tr>
                                     <td>${holiday.name}</td>
                                     <td>${holiday.task}</td>
-                                    <td>${holiday.job_grade}</td>
+                                    <td>${holiday.jobGrade}</td>
                                     <td>-</td>
                                     <td>-</td>
                                     <td>-</td>
@@ -120,7 +125,7 @@
                                     <td>-</td>
                                     <td>-</td>
                                     <td>-</td>
-                                    <td>${holiday.rest_holiday} 일 / 15 일</td>
+                                    <td>${holiday.restHoliday} 일 / 15 일</td>
                                 </tr>
                             </c:forEach>
                         </tbody>
@@ -130,7 +135,7 @@
 
 
             <!-- Footer -->
-            <%@include file="../include/footer.jsp" %>
+            <%@include file="/WEB-INF/views/include/footer.jsp" %>
             <!-- End of Footer -->
 
         </div>
@@ -165,7 +170,7 @@
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <%@include file="../include/plugins_js.jsp" %>
+    <%@include file="/WEB-INF/views/include/plugins_js.jsp" %>
 
 </body>
 </html>
