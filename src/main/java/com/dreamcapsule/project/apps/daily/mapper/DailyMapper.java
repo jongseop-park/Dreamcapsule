@@ -14,7 +14,8 @@ import java.util.List;
 public interface DailyMapper {
 
 
-    @Select("select * from comm_tb")
+    @Select("select EMPL_NM ,DUTY_ID ,RANK_ID , ONW_TI ,OFFW_TI ,WORK_ST ,WORK_TI ,REST_TI ,WORK_PL ,WORK_AD ,TOTAL_TI ," +
+            "TARDY_CT ,ABTI_CT ,to_char(REG_DT ,'yyyymmdd')from comm_tb")
     public List<DailyDomain> findAll();
 
 }
