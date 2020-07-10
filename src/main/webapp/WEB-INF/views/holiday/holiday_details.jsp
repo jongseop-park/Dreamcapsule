@@ -31,7 +31,7 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
         <!-- Sidebar - Brand -->
-        <%@include file="../include/sidebar.jsp" %>
+        <%@include file="/WEB-INF/views/include/sidebar.jsp" %>
         <!-- Divider -->
         <hr class="sidebar-divider my-0">
 
@@ -46,7 +46,7 @@
         <div id="content">
 
             <!-- Topbar -->
-            <%@include file="../include/topbar.jsp" %>
+            <%@include file="/WEB-INF/views/include/topbar.jsp" %>
 
             <!-- End of Topbar -->
 
@@ -67,7 +67,7 @@
                                 <h5>${holiday.name}</h5>
                                 <form>
                                     <div style="width: 60%; float:left;">
-                                            ${holiday.task} 팀 | ${holiday.job_grade}
+                                            ${holiday.task} 팀 | ${holiday.jobGrade}
                                     </div>
                                     <div style="width: 40%; float:right;">
                                         <input type="button" value="추가">
@@ -80,32 +80,32 @@
                         <div style=' border-style: solid; border-radius:10px 10px 10px 10px; width: 90%; height: 150px;'>
 
                             <c:forEach var="holiday" items="${holidayDetails}">
-                             <c:set var = "name">${holiday.holiday_date}</c:set>
+                             <c:set var = "name">${holiday.holidayDate}</c:set>
 
                                 <c:choose>
-                                    <c:when test="${holiday.state_ysn eq 'Y'.charAt(0)}">
+                                    <c:when test="${holiday.stateYsn eq 'Y'.charAt(0)}">
                                         승인<br>
                                     </c:when>
-                                    <c:when test="${holiday.state_ysn eq 'S'.charAt(0)}">
+                                    <c:when test="${holiday.stateYsn eq 'S'.charAt(0)}">
                                         대기중<br>
                                     </c:when>
-                                    <c:when test="${holiday.state_ysn eq 'N'.charAt(0)}">
+                                    <c:when test="${holiday.stateYsn eq 'N'.charAt(0)}">
                                         반려<br>
                                     </c:when>
                                 </c:choose>
-                                기간     ${holiday.holiday_date.substring(0,7)} ~ ${holiday.holiday_date.substring(holiday.holiday_date.length()-8,holiday.holiday_date.length())} | *일 <br>
-                                유형     ${holiday.holiday_type}
+                                기간     ${holiday.holidayDate.substring(0,7)} ~ ${holiday.holidayDate.substring(holiday.holidayDate.length()-8,holiday.holidayDate.length())} | *일 <br>
+                                유형     ${holiday.holidayType}
                             
                         </div>
                     </div>
                 </div>
                 <div style='width: 50%;height: 100%; float:right;'>
                     
-                    휴가날짜 ${holiday.holiday_date} <br><br>
+                    휴가날짜 ${holiday.holidayDate} <br><br>
                     차감휴가 일<br><br>
-                    휴가유형 ${holiday.holiday_type} <br><br>
+                    휴가유형 ${holiday.holidayType} <br><br>
                     메모 ${holiday.note}<br><br>
-                    신청날짜 ${holiday.application_time}<br><br>
+                    신청날짜 ${holiday.applicationTime}<br><br>
                     <form>
                         승인<input type="radio" value="승인" name="state">
                         반려<input type="radio" value="반려" name="state">
@@ -121,7 +121,7 @@
 
 
             <!-- Footer -->
-            <%@include file="../include/footer.jsp" %>
+            <%@include file="/WEB-INF/views/include/footer.jsp" %>
             <!-- End of Footer -->
 
         </div>
@@ -156,7 +156,7 @@
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <%@include file="../include/plugins_js.jsp" %>
+    <%@include file="/WEB-INF/views/include/plugins_js.jsp" %>
 
 </body>
 </html>

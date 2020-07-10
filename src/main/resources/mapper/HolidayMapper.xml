@@ -5,9 +5,11 @@
 <mapper namespace="com.dreamcapsule.project.apps.holiday.mapper.HolidayMapper">
 
     <select id="findAll" resultType="HolidayVO">
-        SELECT
-            *
-        FROM HOLIDAYTEST
+        SELECT * FROM HOLIDAYTEST
+    </select>
+
+    <select id="findBySEQ" resultType="HolidayVO">
+        SELECT * FROM HOLIDAYTEST WHERE SEQ = #{SEQ}
     </select>
 
 </mapper>
