@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 @Controller
 public class HomeController {
 
-    @RequestMapping("/home")
+    @RequestMapping({"/home"})
     public String home(){
 
         return "home/home";

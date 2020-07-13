@@ -47,7 +47,7 @@
             <div class="container-fluid">
 
                 <!-- 트리 -->
-                <h5>홈 > 직원관리 > 추가</h5>
+                <h5>홈 > 근무지관리 > 추가</h5>
                 <p class="mb-4"></p>
 
                 <!-- 변경할 뷰 -->
@@ -55,7 +55,7 @@
 
                     <!-- 테이블 상단 바 -->
                     <div class="card-header py-sm-1 ">
-                        <h2 class="m-0 font-weight-bold text-primary">직원 추가하기
+                        <h2 class="m-0 font-weight-bold text-primary">근무지 추가하기
                         </h2>
                         <!-- /테이블 상단 바 -->
 
@@ -64,34 +64,40 @@
                         <div class="table-responsive">
                             <form class="user">
                                 <div class="form-group" >
-                                    이름<input type="text" class="form-control" id="_name" style="width: 80%; float: right;">
+                                    근무지<input type="text" class="form-control" id="_name" style="width: 80%; float: right;">
                                 </div>
                                 <div class="form-group" style="margin-top: 2%">
-                                    직무<input type="text" class="form-control" id="_job" style="width: 80%; float: right;">
+                                    주소<input type="text" class="form-control" id="_job" style="width: 80%; float: right;">
                                 </div>
                                 <div class="form-group" style="margin-top: 2%">
-                                    직급<input type="text" class="form-control" id="_position" style="width: 80%; float: right;">
+                                    출근시간<input type="" class="form-control" id="_position" style="width: 80%; float: right;">
                                 </div>
                                 <div class="form-group" style="margin-top: 2%">
-                                    권한<input type="text" class="form-control" id="_auth" style="width: 80%; float: right;">
+                                    퇴근시간<input type="text" class="form-control" id="_auth" style="width: 80%; float: right;">
+                                </div>
+                                <div class="form-group row" style="margin-top: 2%">
+                                    장비선택
+
+                                    <label style="margin-left: 30px">없음<input type="radio" style="margin-left: 10px" name="equipment" value="없음" ></label>
+                                    <label style="margin-left: 30px">비콘<input type="radio" style="margin-left: 10px" name="equipment" value="비콘" ></label>
+                                    <label style="margin-left: 30px">NFC<input type="radio" style="margin-left: 10px" name="equipment" value="NFC" ></label>
+
+                                </div>
+                                <!-- TODO 상세 기능  -->
+                          <%--      <div class="form-group" style="margin-top: 2%">
+                                    사용장비 1<input type="text" class="form-control" id="_email" style="width: 60%; float: right; margin-right: 20%">
                                 </div>
                                 <div class="form-group" style="margin-top: 2%">
-                                    근무지<input type="text" class="form-control" id="_workplace" style="width: 80%; float: right;">
-                                </div>
-                                <div class="form-group" style="margin-top: 2%">
-                                    이메일<input type="text" class="form-control" id="_email" style="width: 80%; float: right;">
-                                </div>
-                                <div class="form-group" style="margin-top: 2%">
-                                    전화번호<input type="text" class="form-control" id="_tel" style="width: 80%; float: right;">
-                                </div>
-                                <div class="form-group" style="margin-top: 2%">
-                                    입사일
-                                </div>
+                                    <button style="float: right;">삭제</button>
+                                    <button style="float: right;">추가</button>
+                                    사용장비 2<input type="text" class="form-control" id="_tel" style="width: 60%;">
+                                </div>--%>
+                                <!-- TODO 상세 기능  -->
                             </form>
                         </div>
                         <!-- 테이블 하단 바 -->
                         <div>
-                            <button class="btn btn-dark right" type="button" style="float : right; margin-top: 2%" onclick="location.href='/management/employee/list'">
+                            <button class="btn btn-dark right" type="button" style="float : right; margin-top: 2%" onclick="location.href='/management/workplace/list'">
                                 저장
                             </button>
                         </div>
@@ -121,23 +127,7 @@
 </a>
 
 <!-- Logout Modal-->
-<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-primary" href="login.html">Logout</a>
-            </div>
-        </div>
-    </div>
-</div>
+<%@include file="/WEB-INF/views/include/logout_cmmn.jsp"%>
 
 
 <!-- plugins_js -->
