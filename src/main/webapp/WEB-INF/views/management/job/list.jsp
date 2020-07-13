@@ -47,7 +47,7 @@
             <div class="container-fluid">
 
                 <!-- 트리 -->
-                <h5>홈 > 직원관리</h5>
+                <h5>홈 > 직무관리</h5>
                 <p class="mb-4"></p>
 
                 <!-- 변경할 뷰 -->
@@ -55,16 +55,11 @@
 
                     <!-- 테이블 상단 바 -->
                     <div class="card-header py-sm-1">
-                        <h2 class="m-0 font-weight-bold text-primary">직원관리
-                            <div class="d-sm-flex align-items-center justify-content-between mb-1"
-                                 style="float: right; margin: 4px 0 0 10px">
-                                <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                        class="fas fa-download fa-sm text-white-50"></i> 엑셀 업로드</a>
-                            </div>
+                        <h2 class="m-0 font-weight-bold text-primary">직무관리
                              <%@ include file="/WEB-INF/views/include/excel_include.jsp"%>
                             <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" style="float: right">
                                 <div class="input-group" >
-                                    <input type="text" class="form-control bg-light border-1 small" placeholder="직원 검색"
+                                    <input type="text" class="form-control bg-light border-1 small" placeholder="직무명 검색"
                                            aria-label="Search" aria-describedby="basic-addon2">
                                     <div class="input-group-append">
                                         <button class="btn btn-primary" type="button">
@@ -82,41 +77,33 @@
                             <table style="text-align: center" class="table table-bordered" width="100%" cellspacing="0">
                                 <thead>
                                 <tr>
-                                    <th style="width: 20%">직원</th>
-                                    <th style="width: 20%">근무지</th>
-                                    <th style="width: 20%">직무</th>
-                                    <th style="width: 20%">직급</th>
-                                    <th style="width: 20%">권한</th>
+                                    <th style="width: 40%">직무</th>
+                                    <th style="width: 40%">부서관리자</th>
+                                    <th style="width: 20%">직원 수</th>
                                 </tr>
                                 </thead>
                                 <tfoot>
                                 <tbody>
                                     <tr>
+                                        <td>1 팀</td>
                                         <td>홍길동</td>
-                                        <td>본사</td>
-                                        <td>테크니컬 팀</td>
-                                        <td>사원</td>
-                                        <td>직원</td>
+                                        <td>100</td>
                                     </tr>
                                     <tr>
+                                        <td>2 팀</td>
                                         <td>홍길동</td>
-                                        <td>본사</td>
-                                        <td>테크니컬 팀</td>
-                                        <td>사원</td>
-                                        <td>직원</td>
+                                        <td>100</td>
                                     </tr>
                                     <tr>
+                                        <td>3 팀</td>
                                         <td>홍길동</td>
-                                        <td>본사</td>
-                                        <td>테크니컬 팀</td>
-                                        <td>사원</td>
-                                        <td>직원</td>
+                                        <td>100</td>
                                     </tr>
                                 </tbody>
                             </table>
                             <!-- 테이블 하단 바 -->
                             <div>
-                            <button class="btn btn-dark right" type="button" style="float : right;" onclick="location.href='/management/employee/form'">
+                            <button class="btn btn-dark right" type="button" style="float : right;" onclick="location.href='/management/job/form'">
                                 추가
                             </button>
                             </div>
@@ -147,23 +134,7 @@
 </a>
 
 <!-- Logout Modal-->
-<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-primary" href="login.html">Logout</a>
-            </div>
-        </div>
-    </div>
-</div>
+<%@include file="/WEB-INF/views/include/logout_cmmn.jsp"%>
 
 
 <!-- plugins_js -->

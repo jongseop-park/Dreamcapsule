@@ -47,7 +47,10 @@
             <div class="container-fluid">
 
                 <!-- 트리 -->
-                <h5>홈 > 직원관리 > 추가</h5>
+                <h5>홈 > 직무관리 > 추가</h5>
+                <!-- TODO 상세 페이지 기능구현 시 추가 -->
+                <%--<h5>홈 > 직무관리 > 상세</h5>--%>
+                <!-- TODO 상세 페이지 기능구현 시 추가 -->
                 <p class="mb-4"></p>
 
                 <!-- 변경할 뷰 -->
@@ -55,8 +58,10 @@
 
                     <!-- 테이블 상단 바 -->
                     <div class="card-header py-sm-1 ">
-                        <h2 class="m-0 font-weight-bold text-primary">직원 추가하기
-                        </h2>
+                        <h2 class="m-0 font-weight-bold text-primary">직무 추가하기</h2>
+                        <!-- TODO 상세 페이지 기능구현 시 추가 -->
+                        <%--<h2 class="m-0 font-weight-bold text-primary">직무 관리하기</h2>--%>
+                        <!-- TODO 상세 페이지 기능구현 시 추가 -->
                         <!-- /테이블 상단 바 -->
 
                     </div>
@@ -66,32 +71,23 @@
                                 <div class="form-group" >
                                     이름<input type="text" class="form-control" id="_name" style="width: 80%; float: right;">
                                 </div>
-                                <div class="form-group" style="margin-top: 2%">
-                                    직무<input type="text" class="form-control" id="_job" style="width: 80%; float: right;">
+                                <!-- TODO 상세 페이지 기능구현 시 추가 -->
+                                <div class="form-group" >
+                                    부서 관리자<p id="_deptMng" style="width: 80%; float: right;">홍길동</p>
                                 </div>
-                                <div class="form-group" style="margin-top: 2%">
-                                    직급<input type="text" class="form-control" id="_position" style="width: 80%; float: right;">
+                                <div class="form-group" >
+                                    직원 수<p id="_empNum" style="width: 80%; float: right;">100 명</p>
                                 </div>
+                                <!-- TODO 상세 페이지 기능구현 시 추가 -->
                                 <div class="form-group" style="margin-top: 2%">
-                                    권한<input type="text" class="form-control" id="_auth" style="width: 80%; float: right;">
+                                    메모 <textarea class="text-area" id="_memo" style="width: 80%; line-height: 500%;float: right;"></textarea>
                                 </div>
-                                <div class="form-group" style="margin-top: 2%">
-                                    근무지<input type="text" class="form-control" id="_workplace" style="width: 80%; float: right;">
-                                </div>
-                                <div class="form-group" style="margin-top: 2%">
-                                    이메일<input type="text" class="form-control" id="_email" style="width: 80%; float: right;">
-                                </div>
-                                <div class="form-group" style="margin-top: 2%">
-                                    전화번호<input type="text" class="form-control" id="_tel" style="width: 80%; float: right;">
-                                </div>
-                                <div class="form-group" style="margin-top: 2%">
-                                    입사일
-                                </div>
+
                             </form>
                         </div>
                         <!-- 테이블 하단 바 -->
                         <div>
-                            <button class="btn btn-dark right" type="button" style="float : right; margin-top: 2%" onclick="location.href='/management/employee/list'">
+                            <button class="btn btn-dark right" type="button" style="float : right; margin-top: 2%" onclick="location.href='/management/job/list'">
                                 저장
                             </button>
                         </div>
@@ -121,23 +117,7 @@
 </a>
 
 <!-- Logout Modal-->
-<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-primary" href="login.html">Logout</a>
-            </div>
-        </div>
-    </div>
-</div>
+<%@include file="/WEB-INF/views/include/logout_cmmn.jsp"%>
 
 
 <!-- plugins_js -->

@@ -48,10 +48,10 @@
                                 </div>
                                 <form class="user">
                                     <div class="form-group">
-                                        <input type="email" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="아이디">
+                                        <input type="email" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="아이디" value="admin">
                                     </div>
                                     <div class="form-group">
-                                        <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="패스워드">
+                                        <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="패스워드" value="dreamcap0902!">
                                     </div>
                                     <div class="form-group">
                                         <div class="custom-control custom-checkbox small">
