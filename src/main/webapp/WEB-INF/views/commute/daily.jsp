@@ -27,6 +27,14 @@
           crossorigin="anonymous">
     <link href="/static/css/datepicker/datepicker.css" rel="stylesheet">
 
+
+
+<%--    dd--%>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
 </head>
 
 <body id="page-top">
@@ -63,6 +71,7 @@
                 <a href="/home">출퇴근 관리 </a> >
                 <a href="/home">Daily</a>
                 <div class="heighttdivspace"></div>
+
 
 
 
@@ -109,14 +118,27 @@
 
                 </div>
             </h2>
+
+
+                <style type="text/css">
+                    .pagination {
+                       display: none;
+                        text-align: center;
+                    }
+                    .pagination > li > a{
+                        float: none;
+                    }
+                </style>
+
+
             <table class="table table-bordered">
                 <thead>
                 <tr>
                     <th>직원</th>
                     <th>직무</th>
                     <th>직급</th>
-                    <th>출근시간</th>
-                    <th>퇴근시간</th>
+                    <th>출/퇴근 시간</th>
+
                     <th>근무상태</th>
                     <th>근무시간</th>
                     <th>휴게시간</th>
@@ -131,16 +153,16 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="daily" items="${dailyList}">
+                <c:forEach var="daily" items="${daily}">
                     <tr>
                         <td>${daily.emplNm}</td>
-                        <td>${daily.dutyId}</td>
+                        <td>${daily.dutyId} 팀</td>
                         <td>${daily.rankId}</td>
-                        <td>${daily.onwTi}</td>
-                        <td>${daily.offwTi}</td>
+                        <td>${daily.onwTi} ~ ${daily.offwTi}</td>
+<%--                        <td>${daily.offwTi}</td>--%>
                         <td>${daily.workSt}</td>
-                        <td>${daily.workTi}</td>
-                        <td>${daily.restTi}</td>
+                        <td>${daily.workTi}시간</td>
+                        <td>${daily.restTi}시간</td>
                         <td>${daily.workPl}</td>
                         <td>${daily.workAd}</td>
                         <td>${daily.totalTi}</td>
@@ -153,8 +175,23 @@
                 </tbody>
 
             </table>
-        </div>
+                <div>
+                    <ul class="pagination">
+                        <c:if test="${pageMaker.prev}">
+                            <li><a href="daily${pageMaker.makeQuery(pageMaker.startPage - 1)}">이전</a></li>
+                        </c:if>
 
+                        <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
+                            <li><a href="daily${pageMaker.makeQuery(idx)}">${idx}</a></li>
+                        </c:forEach>
+
+                        <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
+                            <li><a href="daily${pageMaker.makeQuery(pageMaker.endPage + 1)}">다음</a></li>
+                        </c:if>
+                    </ul>
+                </div>
+        </div>
+        </br></br></br></br></br>
 
         <!-- Footer -->
         <%@include file="../include/footer.jsp" %>
@@ -188,7 +225,13 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
         crossorigin="anonymous"></script>
 <script src="/static/js/datepicker/datepicker.js"></script>
-<script src="/static/js/datepicker/bootstrap-datepicker.ko.min.js"></script>
+
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+
 <script type="text/javascript">
 
 

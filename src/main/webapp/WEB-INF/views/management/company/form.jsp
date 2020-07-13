@@ -47,7 +47,10 @@
             <div class="container-fluid">
 
                 <!-- 트리 -->
-                <h5>홈 > 직원관리 > 추가</h5>
+                <h5>홈 > 업체관리 > 추가</h5>
+                <!-- TODO 상세 페이지 기능구현 시 추가 -->
+                <%--<h5>홈 > 업체관리 > 상세</h5>--%>
+                <!-- TODO 상세 페이지 기능구현 시 추가 -->
                 <p class="mb-4"></p>
 
                 <!-- 변경할 뷰 -->
@@ -55,8 +58,10 @@
 
                     <!-- 테이블 상단 바 -->
                     <div class="card-header py-sm-1 ">
-                        <h2 class="m-0 font-weight-bold text-primary">직원 추가하기
-                        </h2>
+                        <h2 class="m-0 font-weight-bold text-primary">업체 추가하기</h2>
+                        <!-- TODO 상세 페이지 기능구현 시 추가 -->
+                        <%--<h2 class="m-0 font-weight-bold text-primary">업체 관리하기</h2>--%>
+                        <!-- TODO 상세 페이지 기능구현 시 추가 -->
                         <!-- /테이블 상단 바 -->
 
                     </div>
@@ -64,36 +69,42 @@
                         <div class="table-responsive">
                             <form class="user">
                                 <div class="form-group" >
-                                    이름<input type="text" class="form-control" id="_name" style="width: 80%; float: right;">
+                                    업체명<input type="text" class="form-control" id="_1" style="width: 80%; float: right;">
                                 </div>
                                 <div class="form-group" style="margin-top: 2%">
-                                    직무<input type="text" class="form-control" id="_job" style="width: 80%; float: right;">
+                                    직원수<input type="text" class="form-control" id="_2" style="width: 80%; float: right;">
                                 </div>
                                 <div class="form-group" style="margin-top: 2%">
-                                    직급<input type="text" class="form-control" id="_position" style="width: 80%; float: right;">
+                                    주소<input type="text" class="form-control" id="_3" style="width: 80%; float: right;">
                                 </div>
                                 <div class="form-group" style="margin-top: 2%">
-                                    권한<input type="text" class="form-control" id="_auth" style="width: 80%; float: right;">
+                                    담당자명<input type="text" class="form-control" id="_4" style="width: 80%; float: right;">
                                 </div>
                                 <div class="form-group" style="margin-top: 2%">
-                                    근무지<input type="text" class="form-control" id="_workplace" style="width: 80%; float: right;">
+                                    전화번호<input type="text" class="form-control" id="_5" style="width: 80%; float: right;">
                                 </div>
                                 <div class="form-group" style="margin-top: 2%">
-                                    이메일<input type="text" class="form-control" id="_email" style="width: 80%; float: right;">
+                                    이메일<input type="text" class="form-control" id="_6" style="width: 80%; float: right;">
                                 </div>
                                 <div class="form-group" style="margin-top: 2%">
-                                    전화번호<input type="text" class="form-control" id="_tel" style="width: 80%; float: right;">
+                                    메모 <textarea class="text-area" id="_memo" style="width: 80%; line-height: 500%;float: right;"></textarea>
                                 </div>
-                                <div class="form-group" style="margin-top: 2%">
-                                    입사일
-                                </div>
+
                             </form>
                         </div>
                         <!-- 테이블 하단 바 -->
                         <div>
-                            <button class="btn btn-dark right" type="button" style="float : right; margin-top: 2%" onclick="location.href='/management/employee/list'">
+                            <button class="btn btn-dark right" type="button" style="float : right; margin-top: 2%" onclick="location.href='/management/company/list'">
                                 저장
                             </button>
+                            <%--        <!-- TODO 상세 페이지에서 추가 -->
+                                    <button class="btn btn-dark right" type="button" style="float : right; margin-left: 20px; margin-top: 2%" onclick="location.href='/management/job/list'">
+                                        수정
+                                    </button>
+                                    <button class="btn btn-dark right" type="button" style="float : right; margin-top: 2%" onclick="location.href='/management/job/list'">
+                                        취소
+                                    </button>
+                                    <!-- TODO 상세 페이지에서 추가 -->--%>
                         </div>
                         <!-- /테이블 하단 바 -->
                     </div>
