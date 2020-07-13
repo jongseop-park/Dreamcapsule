@@ -70,15 +70,29 @@
                                     주소<input type="text" class="form-control" id="_job" style="width: 80%; float: right;">
                                 </div>
                                 <div class="form-group" style="margin-top: 2%">
-                                    출근시간<input type="" class="form-control" id="_position" style="width: 80%; float: right;">
+                                    출근시간
+                                    <select name="workingTime" class="form-control" style="width: 80%; float: right;">
+                                        <option value="09:00">09:00</option>
+                                        <option value="10:00">10:00</option>
+                                        <option value="11:00">11:00</option>
+                                        <option value="12:00">12:00</option>
+                                        <option value="13:00">13:00</option>
+                                    </select>
                                 </div>
                                 <div class="form-group" style="margin-top: 2%">
-                                    퇴근시간<input type="text" class="form-control" id="_auth" style="width: 80%; float: right;">
+                                    퇴근시간
+                                    <select name="workTime" class="form-control" style="width: 80%; float: right;">
+                                        <option value="18:00">18:00</option>
+                                        <option value="19:00">19:00</option>
+                                        <option value="20:00">20:00</option>
+                                        <option value="21:00">21:00</option>
+                                        <option value="22:00">22:00</option>
+                                        <option value="23:00">23:00</option>
+                                    </select>
                                 </div>
-                                <div class="form-group row" style="margin-top: 2%">
+                                <div class="form-group" style="margin-top: 2%">
                                     장비선택
-
-                                    <label style="margin-left: 30px">없음<input type="radio" style="margin-left: 10px" name="equipment" value="없음" ></label>
+                                    <label style="margin-left: 15%">없음<input type="radio" style="margin-left: 10px" name="equipment" value="없음" ></label>
                                     <label style="margin-left: 30px">비콘<input type="radio" style="margin-left: 10px" name="equipment" value="비콘" ></label>
                                     <label style="margin-left: 30px">NFC<input type="radio" style="margin-left: 10px" name="equipment" value="NFC" ></label>
 

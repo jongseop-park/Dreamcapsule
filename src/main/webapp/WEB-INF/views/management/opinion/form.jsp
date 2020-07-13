@@ -47,7 +47,10 @@
             <div class="container-fluid">
 
                 <!-- 트리 -->
-                <h5>홈 > 직원관리 > 추가</h5>
+                <h5>홈 > 의견관리 > 추가</h5>
+                <!-- TODO 상세 페이지 기능구현 시 추가 -->
+                <%--<h5>홈 > 의견관리 > 상세</h5>--%>
+                <!-- TODO 상세 페이지 기능구현 시 추가 -->
                 <p class="mb-4"></p>
 
                 <!-- 변경할 뷰 -->
@@ -55,11 +58,13 @@
 
                     <!-- 테이블 상단 바 -->
                     <div class="card-header py-sm-1 ">
-                        <h2 class="m-0 font-weight-bold text-primary">직원 추가하기
-                        </h2>
+                        <h2 class="m-0 font-weight-bold text-primary">의견 추가하기</h2>
+                        <!-- TODO 상세 페이지 기능구현 시 추가 -->
+                        <%--<h2 class="m-0 font-weight-bold text-primary">의견 관리하기</h2>--%>
+                        <!-- TODO 상세 페이지 기능구현 시 추가 -->
                         <!-- /테이블 상단 바 -->
-
                     </div>
+
                     <div class="card-body">
                         <div class="table-responsive">
                             <form class="user">
@@ -91,9 +96,17 @@
                         </div>
                         <!-- 테이블 하단 바 -->
                         <div>
-                            <button class="btn btn-dark right" type="button" style="float : right; margin-top: 2%" onclick="location.href='/management/employee/list'">
+                            <button class="btn btn-dark right" type="button" style="float : right; margin-top: 2%" onclick="location.href='/management/opinion/list'">
                                 저장
                             </button>
+                            <%--        <!-- TODO 상세 페이지에서 추가 -->
+                                    <button class="btn btn-dark right" type="button" style="float : right; margin-left: 20px; margin-top: 2%" onclick="location.href='/management/job/list'">
+                                        수정
+                                    </button>
+                                    <button class="btn btn-dark right" type="button" style="float : right; margin-top: 2%" onclick="location.href='/management/job/list'">
+                                        취소
+                                    </button>
+                                    <!-- TODO 상세 페이지에서 추가 -->--%>
                         </div>
                         <!-- /테이블 하단 바 -->
                     </div>
