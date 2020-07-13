@@ -1,4 +1,4 @@
-package com.dreamcapsule.project.apps.employee.service.serviceImpl;
+package com.dreamcapsule.project.apps.management.employee.service.serviceImpl;
 
 import org.springframework.stereotype.Service;
 

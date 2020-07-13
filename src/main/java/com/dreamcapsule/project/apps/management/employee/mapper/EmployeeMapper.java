@@ -1,4 +1,4 @@
-package com.dreamcapsule.project.apps.employee.mapper;
+package com.dreamcapsule.project.apps.management.employee.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;

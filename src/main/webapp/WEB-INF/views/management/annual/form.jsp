@@ -1,4 +1,5 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+form.jsp
+list.jsp<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="en">
 
@@ -43,56 +44,65 @@
             <%@include file="/WEB-INF/views/include/topbar.jsp"%>
             <!-- End of Topbar -->
 
-            <!-- 변경할 뷰 -->
+            <!-- 뷰 -->
             <div class="container-fluid">
 
                 <!-- 트리 -->
-                <h5>홈 > 직원관리</h5>
+                <h5>홈 > 직원관리 > 추가</h5>
                 <p class="mb-4"></p>
 
-                <!-- DataTales Example -->
+                <!-- 변경할 뷰 -->
                 <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">직원관리</h6>
+
+                    <!-- 테이블 상단 바 -->
+                    <div class="card-header py-sm-1 ">
+                        <h2 class="m-0 font-weight-bold text-primary">직원 추가하기
+                        </h2>
+                        <!-- /테이블 상단 바 -->
+
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-bordered" width="100%" cellspacing="0">
-                                <thead>
-                                <tr>
-                                    <th>직원</th>
-                                    <th>근무지</th>
-                                    <th>제목</th>
-                                    <th>내용</th>
-                                    <th>작성자</th>
-                                    <th>생성일</th>
-                                    <th>수정일</th>
-                                    <th>조회수</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><input type="checkbox"/></td>
-                                        <td>${board.bno}</td>
-                                        <td>${board.title}</td>
-                                        <td>${board.content}</td>
-                                        <td>${board.writer}</td>
-                                        <td>${board.regDate}</td>
-                                        <td>${board.updateDate}</td>
-                                        <td>${board.viewCnt}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <form class="user">
+                                <div class="form-group" >
+                                    이름<input type="text" class="form-control" id="_name" style="width: 80%; float: right;">
+                                </div>
+                                <div class="form-group" style="margin-top: 2%">
+                                    직무<input type="text" class="form-control" id="_job" style="width: 80%; float: right;">
+                                </div>
+                                <div class="form-group" style="margin-top: 2%">
+                                    직급<input type="text" class="form-control" id="_position" style="width: 80%; float: right;">
+                                </div>
+                                <div class="form-group" style="margin-top: 2%">
+                                    권한<input type="text" class="form-control" id="_auth" style="width: 80%; float: right;">
+                                </div>
+                                <div class="form-group" style="margin-top: 2%">
+                                    근무지<input type="text" class="form-control" id="_workplace" style="width: 80%; float: right;">
+                                </div>
+                                <div class="form-group" style="margin-top: 2%">
+                                    이메일<input type="text" class="form-control" id="_email" style="width: 80%; float: right;">
+                                </div>
+                                <div class="form-group" style="margin-top: 2%">
+                                    전화번호<input type="text" class="form-control" id="_tel" style="width: 80%; float: right;">
+                                </div>
+                                <div class="form-group" style="margin-top: 2%">
+                                    입사일
+                                </div>
+                            </form>
                         </div>
-                        <form name="formList">
-                            <button type="submit" onclick="javascript: form.action='/board/form';">등록</button>
-                            <button>삭제</button>
-                        </form>
+                        <!-- 테이블 하단 바 -->
+                        <div>
+                            <button class="btn btn-dark right" type="button" style="float : right; margin-top: 2%" onclick="location.href='/management/employee/list'">
+                                저장
+                            </button>
+                        </div>
+                        <!-- /테이블 하단 바 -->
                     </div>
                 </div>
+                <!--  /변경할 뷰 -->
 
             </div>
-            <!-- /변경할 뷰 -->
+            <!-- /뷰 -->
         </div>
         <!-- End of Main Content -->
 
