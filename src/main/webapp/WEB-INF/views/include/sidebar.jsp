@@ -69,7 +69,7 @@
 
     <!-- 외근관리 -->
     <li class="nav-item">
-        <a class="nav-link" href="javascript:void(0)">
+        <a class="nav-link" href="/outside">
             <i class="fas fa-fw fa-table"></i>
             <span>외근관리</span></a>
     </li>

@@ -8,4 +8,5 @@ public interface HolidayService {
 
     public List<HolidayVO> findBySEQ(int seq);
     public List<HolidayVO> findAll();
+    public List<HolidayVO> findByName(String name);
 }
