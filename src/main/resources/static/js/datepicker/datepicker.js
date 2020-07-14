@@ -40,28 +40,40 @@
 
   var DEFAULTS = {
     // Show the datepicker automatically when initialized
+    // 초기화시 날짜 선택기를 자동으로 표시)
     autoShow: false,
     // Hide the datepicker automatically when picked
+    // 선택할 때 날짜 선택기를 자동으로 숨기기
     autoHide: false,
     // Pick the initial date automatically when initialized
+    // 초기화시 초기 날짜를 자동으로 선택
     autoPick: false,
     // Enable inline mode
+    // 인라인 모드 사용
     inline: false,
     // A element (or selector) for putting the datepicker
+    // 날짜 선택기를 넣는 요소 (또는 선택기)
     container: null,
     // A element (or selector) for triggering the datepicker
+    // 날짜 선택기를 트리거하기위한 요소 (또는 선택기)
     trigger: null,
     // The ISO language code (built-in: en-US)
+    // ISO 언어 코드 (내장 : en-US)
     language: '',
     // The date string format
+    // 날짜 문자열 형식
     format: 'mm/dd/yyyy',
     // The initial date
+    // 초기 날짜
     date: null,
     // The start view date
+    // 시작일
     startDate: null,
     // The end view date
+    // 종료일
     endDate: null,
     // The start view when initialized
+    // 초기화시 시작보기
     startView: 0,
     // 0 for days, 1 for months, 2 for years
     // The start day of the week
@@ -87,6 +99,7 @@
     // A class (CSS) for muted date item
     mutedClass: 'muted',
     // A class (CSS) for picked date item
+    //선택된 날짜 항목에 대한 클래스 (CSS)
     pickedClass: 'picked',
     // A class (CSS) for disabled date item
     disabledClass: 'disabled',
@@ -306,6 +319,7 @@
     toggle: function toggle() {
       if (this.shown) {
         this.hide();
+
       } else {
         this.show();
       }

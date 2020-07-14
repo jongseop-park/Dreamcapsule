@@ -14,9 +14,9 @@
 
 
 <select id="listPage" resultType="DailyDomain" parameterType="Criteria">
-    select  EMPL_NM , DUTY_ID ,  RANK_ID , ONW_TI , OFFW_TI ,  WORK_ST ,WORK_TI ,  REST_TI ,   WORK_PL , WORK_AD ,TOTAL_TI ,  TARDY_CT ,  ABTI_CT ,  REG_DT
+    select  EMPL_NM , DUTY_ID ,  RANK_ID , ONW_TI , OFFW_TI ,  WORK_ST ,WORK_TI ,  REST_TI ,   WORK_PL , WORK_AD ,TOTAL_TI ,  TARDY_CT ,  ABTI_CT , to_char(reg_Dt,'yyyy/mm/dd') as reg_dt
 from (
-select EMPL_NM ,  DUTY_ID ,  RANK_ID , ONW_TI ,  OFFW_TI ,  WORK_ST ,WORK_TI , REST_TI ,  WORK_PL ,  WORK_AD , TOTAL_TI , TARDY_CT ,  ABTI_CT ,  REG_DT ,
+select EMPL_NM ,  DUTY_ID ,  RANK_ID , ONW_TI ,  OFFW_TI ,  WORK_ST ,WORK_TI , REST_TI ,  WORK_PL ,  WORK_AD , TOTAL_TI , TARDY_CT ,  ABTI_CT ,reg_Dt ,
         row_number() over(order by empl_nm desc) as rnum
     from comm_tb
     )comm

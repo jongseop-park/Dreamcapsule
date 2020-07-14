@@ -26,13 +26,7 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
           crossorigin="anonymous">
     <link href="/static/css/datepicker/datepicker.css" rel="stylesheet">
-
-
-
-<%--    dd--%>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="/static/css/datepicker/gijgo.min.css" rel="stylesheet" type="text/css" />
 
 
 </head>
@@ -86,14 +80,14 @@
                             <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
 
 
-                                <div class="input-group-append" data-target="#datetimepicker1"
-                                     data-toggle="datetimepicker"
+                                <div class="input-group-append"
+
                                      style="margin-right: 30px">
                                     <div class="input-group-text"
                                          style="background-color: #ffffff00; border: 1px solid #ffffff00">
                                         <i class="fa fa-calendar"></i>
                                     </div>
-                                    <input type="text" class="form-control" data-toggle="datepicker"
+                                    <input type="text" class="form-control _text" id="datepicker"
                                            style="width: 120px">
                                 </div>
                             </div>
@@ -120,15 +114,6 @@
             </h2>
 
 
-                <style type="text/css">
-                    .pagination {
-                       display: none;
-                        text-align: center;
-                    }
-                    .pagination > li > a{
-                        float: none;
-                    }
-                </style>
 
 
             <table class="table table-bordered">
@@ -148,6 +133,7 @@
                     <th>지각</th>
                     <th>결근</th>
                     <th>등록 일시</th>
+
 
 
                 </tr>
@@ -176,7 +162,7 @@
 
             </table>
                 <div>
-                    <ul class="pagination">
+                    <ul class="pagination" style="justify-content: center">
                         <c:if test="${pageMaker.prev}">
                             <li><a href="daily${pageMaker.makeQuery(pageMaker.startPage - 1)}">이전</a></li>
                         </c:if>
@@ -192,7 +178,7 @@
                 </div>
         </div>
         </br></br></br></br></br>
-
+            <button class="gj-button-md" onclick=""id="datepicker">Get Value</button>
         <!-- Footer -->
         <%@include file="../include/footer.jsp" %>
         <!-- End of Footer -->
@@ -221,33 +207,47 @@
 
 <%--스크립트 라인 ( 데이트 피커 )--%>
 
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
-        crossorigin="anonymous"></script>
-<script src="/static/js/datepicker/datepicker.js"></script>
-
-
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="/static/js/datepicker/gijgo.js" type="text/javascript"></script>
 
 
 <script type="text/javascript">
 
 
+ $(document).ready(function () {
+     $('#datepicker').datepicker({
+         uiLibrary: 'bootstrap',
+     });
+ });
+
+ $("._text").on("change keyup paste", function() {
+     var currentVal = $(this).val();
+    console.log(currentVal);
+ });
+
+// $(function(){
+//     $("._datepicker").on("change keyup paste", function() {
+//         var date = $(this).val();
+//         console.log(date);
+//     });
+//
+// });
 
 
-    $(function () {
-        $('[data-toggle="datepicker"]').datepicker({
-            format:'yy/mm/dd',
-            language: 'ko',
-            autoHide: true,
-            zIndex: 2048,
-            days:[ "일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일" ],
-            daysShort:[ "일", "월", "화", "수", "목", "금", "토" ],
-            daysMin: [ "일", "월", "화", "수", "목", "금", "토" ],
-            months:[ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
-            monthsShort:[ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ]
-        });
-    });
+/*        //
+         close: function (e) {
+            var date = $('#datepicker').val();
+            console.log(date);
+        //    var date = new Date($("#datepicker").val());
+        //    alert(date.getFullYear());
+         }
+    });*/
+
+
+
+
+
+
+
+
 </script>

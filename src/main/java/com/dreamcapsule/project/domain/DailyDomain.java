@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.context.annotation.Configuration;
 
+import java.text.SimpleDateFormat;
 
 
 public class DailyDomain {
@@ -133,6 +134,6 @@ public class DailyDomain {
     }
 
     public void setRegDt(String regDt) {
-        this.regDt = regDt;
+        this.regDt =regDt;
     }
 }
