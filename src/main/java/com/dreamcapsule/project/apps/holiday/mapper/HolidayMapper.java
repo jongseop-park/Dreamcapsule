@@ -17,4 +17,6 @@ public interface HolidayMapper {
 
 /*    @Select("SELECT * FROM HOLIDAYTEST")*/
     public List<HolidayVO> findAll();
+
+    public List<HolidayVO> findByName(@Param("NAME") String NAME);
 }

@@ -27,7 +27,7 @@ public class HolidayController {
 
     @RequestMapping("/holiday_details")
     public String sub(Model model) {
-        List<HolidayVO> holidayDetails = holidayService.findBySEQ(1);
+        List<HolidayVO> holidayDetails = holidayService.findByName("최병현");
         model.addAttribute("holidayDetails", holidayDetails);
         return "holiday/holiday_details";
     }

@@ -23,4 +23,7 @@ public class HolidayServiceImpl implements HolidayService{
     public List<HolidayVO> findAll(){
         return holidayMapper.findAll();
     }
+
+    @Override
+    public List<HolidayVO> findByName(String name){ return holidayMapper.findByName(name);}
 }
