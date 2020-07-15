@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dreamcapsule.project.apps.management.position.mapper.PositionMapper">
+
+    <!--<select id="findAll" resultType="PositionVO">
+        SELECT
+            SEQ,
+            RANK,
+            MEMO,
+            TO_CHAR(REG_DT,'yyyy-MM-dd HH24:MI:SS') REG_DT,
+            DEL_YN
+        FROM POSITION_MNG_TB
+    </select>-->
+
+    <!--
+        상세 정보
+    -->
+    <select id="findByDetail" resultType="PositionVO" parameterType="PositionVO">
+        SELECT
+            SEQ,
+            RANK,
+            MEMO,
+            TO_CHAR(REG_DT,'yyyy-MM-dd HH24:MI:SS') REG_DT,
+            TO_CHAR(MOD_DT,'yyyy-MM-dd HH24:MI:SS') MOD_DT,
+            DEL_YN
+        FROM POSITION_MNG_TB
+        WHERE SEQ = #{seq}
+        AND DEL_YN = 'N'
+    </select>
+
+    <!-- 저장  -->
+    <insert id="insert" parameterType="PositionVO">
+        INSERT INTO POSITION_MNG_TB(SEQ, RANK, MEMO, REG_DT, DEL_YN)
+        VALUES(POSITION_MNG_SEQ.NEXTVAL, #{rank}, #{memo}, SYSDATE, 'N')
+    </insert>
+
+    <!-- 수정 -->
+
+
+    <!-- 삭제 -->
+    <delete id="delete" parameterType="PositionVO">
+        DELETE FROM POSITION_MNB_TB
+        WHERE SEQ = #{seq}
+    </delete>
+
+    <!-- 페이징 -->
+    <select id="page" resultType="PositionVO" parameterType="PositionVO">
+        SELECT
+            SEQ,
+            RANK,
+            MEMO,
+            TO_CHAR(REG_DT,'yyyy-MM-dd HH24:MI:SS') REG_DT,
+            TO_CHAR(MOD_DT,'yyyy-MM-dd HH24:MI:SS') MOD_DT,
+            DEL_YN
+        FROM (
+            SELECT
+                SEQ,
+                RANK,
+                MEMO,
+                REG_DT,
+                MOD_DT,
+                DEL_YN,
+                ROW_NUMBER() OVER(ORDER BY SEQ DESC) AS SORT_NUM
+            FROM POSITION_MNG_TB
+        ) POSITION_MNG
+        WHERE SORT_NUM BETWEEN #{rowStart} AND #{rowEnd}
+        ORDER BY SEQ DESC
+    </select>
+
+    <!-- 페이징 리스트 -->
+    <select id="listCnt" resultType="int">
+        SELECT
+            COUNT(SEQ)
+        FROM POSITION_MNG_TB
+        WHERE SEQ > 0 AND DEL_YN = 'N'
+    </select>
+
+</mapper>

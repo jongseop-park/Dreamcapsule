@@ -47,10 +47,14 @@
             <div class="container-fluid">
 
                 <!-- 트리 -->
-                <h5>홈 > 직급관리 > 추가</h5>
-                <!-- TODO 상세 페이지 기능구현 시 추가 -->
-                <%--<h5>홈 > 직급관리 > 상세</h5>--%>
-                <!-- TODO 상세 페이지 기능구현 시 추가 -->
+                <c:choose>
+                    <c:when test="${isUpdate eq false}">
+                        <h5>홈 > 직급관리 > 추가</h5>
+                    </c:when>
+                    <c:otherwise>
+                        <h5>홈 > 직급관리 > 상세</h5>
+                    </c:otherwise>
+                </c:choose>
                 <p class="mb-4"></p>
 
                 <!-- 변경할 뷰 -->
@@ -58,41 +62,57 @@
 
                     <!-- 테이블 상단 바 -->
                     <div class="card-header py-sm-1 ">
-                        <h2 class="m-0 font-weight-bold text-primary">직급 추가하기</h2>
-                        <!-- TODO 상세 페이지 기능구현 시 추가 -->
-                        <%--<h2 class="m-0 font-weight-bold text-primary">직급 관리하기</h2>--%>
-                        <!-- TODO 상세 페이지 기능구현 시 추가 -->
+                        <c:choose>
+                            <c:when test="${isUpdate eq false}">
+                                <h2 class="m-0 font-weight-bold text-primary">직급 추가하기</h2>
+                            </c:when>
+                            <c:otherwise>
+                                <h2 class="m-0 font-weight-bold text-primary">직급 관리하기</h2>
+                            </c:otherwise>
+                        </c:choose>
                         <!-- /테이블 상단 바 -->
+
                     </div>
 
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <form class="user">
-                                <div class="form-group" >
-                                    직급명<input type="text" class="form-control" id="_name" style="width: 80%; float: right;">
-                                </div>
-                                <div class="form-group" style="margin-top: 2%">
-                                    메모 <textarea class="text-area" id="_memo" style="width: 80%; line-height: 500%;float: right;"></textarea>
-                                </div>
+                    <%-- 추가 상세 내용 --%>
+                    <form id="form">
+                        <input type="hidden" value="${result.seq}" id="seq">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <form class="user">
+                                    <div class="form-group" >
+                                        직급명<input type="text" class="form-control" id="rank" style="width: 80%; float: right;" value="${result.rank}">
+                                    </div>
+                                    <div class="form-group" style="margin-top: 2%">
+                                        메모 <textarea class="text-area" id="memo" style="width: 80%; float: right; height: 200px;">${result.memo}</textarea>
+                                    </div>
 
-                            </form>
+                                </form>
+                            </div>
+                            <!-- 테이블 하단 바 -->
+                            <div>
+                                <c:choose>
+                                    <c:when test="${isUpdate eq false}">
+                                        <button class="btn btn-dark right" id="btnSave" type="button" style="float : right; margin-top: 2%"> <%-- onclick="location.href='/management/position/list'"--%>
+                                            저장
+                                        </button>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <!-- TODO 상세 페이지에서 추가 -->
+                                        <button class="btn btn-dark right " id="btnUpdate" type="button" style="float : right; margin-left: 20px; margin-top: 2%">
+                                            수정
+                                        </button>
+                                        <button class="btn btn-dark right " id="btnDelete" type="button" style="float : right; margin-top: 2%">
+                                            삭제
+                                        </button>
+                                        <!-- TODO 상세 페이지에서 추가 -->
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
+                            <!-- /테이블 하단 바 -->
                         </div>
-                        <!-- 테이블 하단 바 -->
-                        <div>
-                            <button class="btn btn-dark right" type="button" style="float : right; margin-top: 2%" onclick="location.href='/management/position/list'">
-                                저장
-                            </button>
-                            <%--        <!-- TODO 상세 페이지에서 추가 -->
-                                    <button class="btn btn-dark right" type="button" style="float : right; margin-left: 20px; margin-top: 2%" onclick="location.href='/management/job/list'">
-                                        수정
-                                    </button>
-                                    <button class="btn btn-dark right" type="button" style="float : right; margin-top: 2%" onclick="location.href='/management/job/list'">
-                                        취소
-                                    </button>
-                                    <!-- TODO 상세 페이지에서 추가 -->--%>
-                        </div>
-                        <!-- /테이블 하단 바 -->
-                    </div>
+                    </form>
+                    <%--/ 추가 상세 내용 --%>
                 </div>
                 <!--  /변경할 뷰 -->
 
@@ -123,7 +143,67 @@
 <!-- plugins_js -->
 <%@include file="/WEB-INF/views/include/plugins_js.jsp"%>
 <!-- /plugins_js -->
-
 </body>
-
 </html>
+
+<script type="text/javascript">
+$(function () {
+    /*
+    * var : 변수명 재선언 / 값 재할당 가능
+    * let : 변수명 재선언X / 값 재할당 가능
+    * const : 변수명 재선언X / 값 재할당 X (상수)
+    * */
+
+    const $form = $("#form"); // 입력 폼
+    let $seq = $form.find("#seq"); // 시퀀스
+    let $rank = $form.find("#rank"); // 직급명
+    let $memo = $form.find("#memo"); // 메모
+
+    const $btnSave = $form.find("#btnSave"); // 저장
+    const $btnUpdate = $form.find("#btnUpdate"); // 수정
+    const $btnDelete = $form.find("#btnDelete"); // 삭제
+
+    $btnSave.on("click",function () { // 추가
+        var object = {
+            "rank" : $rank.val(),
+            "memo" : $memo.val()
+        };
+
+        console.log(object.rank);
+        console.log(object.memo);
+
+        $.ajax({
+            url : "/management/position/save",
+            type : "POST",
+            contentType : "application/json",
+            data : JSON.stringify(object),
+            success : function () {
+                console.log("SUCCESS");
+                alert("정상적으로 등록되었습니다.");
+                history.back();
+                /*
+                * history.back() : 이전페이지로 이동
+                * history.go() : go(-1) 이전 페이지 , go(1) 다음 페이지 이동
+                * history.forward() : 다음페이지로 이동
+                * */
+            }, error : function(jqXhr){
+                alert("등록 실패");
+            }
+        });
+
+    });
+
+    $btnUpdate.on("click",function () { // 수정
+
+    });
+
+    $btnDelete.on("click",function () { // 삭제
+
+    });
+
+
+
+
+
+});
+</script>
