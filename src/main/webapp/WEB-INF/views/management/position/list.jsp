@@ -55,48 +55,56 @@
 
                     <!-- 테이블 상단 바 -->
                     <div class="card-header py-sm-1">
-                        <h2 class="m-0 font-weight-bold text-primary">직급관리
+                        <h2 class="m-0 font-weight-bold text-primary">직급관리</h2>
                     <!-- /테이블 상단 바 -->
-
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table style="text-align: center" class="table table-bordered" width="100%" cellspacing="0">
                                 <thead>
                                 <tr>
-                                    <th style="width: 20%">직급</th>
-                                    <th style="width: 80%">메모</th>
+                                    <th style="width: 30%">직급</th>
+                                    <th style="width: 70%">메모</th>
                                 </tr>
                                 </thead>
                                 <tfoot>
                                 <tbody>
+                                <!-- 리스트 내용 -->
+                                <c:forEach var="list" items="${result}" varStatus="status">
+                                    <input type="hidden" id="_seq" value="${list.seq}"/>
+                                    <c:if test="${empty list.seq}">
+                                        <tr>
+                                            <td>데이터가 존재하지 않습니다.</td>
+                                        </tr>
+                                    </c:if>
                                     <tr>
-                                        <td>수습사원</td>
-                                        <td>안녕하세요 사원입니다 수습</td>
+                                        <td><a href="/management/position/form?seq=${list.seq}">${list.rank}</a></td>
+                                        <td>${list.memo}</td>
                                     </tr>
-                                    <tr>
-                                        <td>수습사원</td>
-                                        <td>안녕하세요 사원입니다 수습</td>
-                                    </tr>
-                                    <tr>
-                                        <td>수습사원</td>
-                                        <td>안녕하세요 사원입니다 수습</td>
-                                    </tr>
-                                    <tr>
-                                        <td>수습사원</td>
-                                        <td>안녕하세요 사원입니다 수습</td>
-                                    </tr>
-                                    <tr>
-                                        <td>수습사원</td>
-                                        <td>안녕하세요 사원입니다 수습</td>
-                                    </tr>
+                                </c:forEach>
+                                <!--/ 리스트 내용 -->
                                 </tbody>
                             </table>
                             <!-- 테이블 하단 바 -->
                             <div>
-                            <button class="btn btn-dark right" type="button" style="float : right;" onclick="location.href='/management/position/form'">
-                                추가
-                            </button>
+                                <ul class="pagination" style="justify-content: center;">
+                                    <c:if test="${pageMaker.prev}">
+                                        <li><a href="/management/position/list?page=${pageMaker.startPage - 1}">◀</a></li>
+                                    </c:if>
+
+                                    <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
+                                        <li><a href="/management/position/list?page=${idx}">[${idx}]</a>　</li>
+                                    </c:forEach>
+
+                                    <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
+                                        <li><a href="/management/position/list?page=${pageMaker.endPage + 1}">▶</a></li>
+                                    </c:if>
+                                </ul>
+                            </div>
+                            <div style="margin-top: 5%;">
+                                <button class="btn btn-dark right" type="button" style="float : right;" onclick="location.href='/management/position/form'">
+                                    추가
+                                </button>
                             </div>
                             <!-- /테이블 하단 바 -->
                         </div>
