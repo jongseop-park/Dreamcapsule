@@ -47,7 +47,7 @@
             <div class="container-fluid">
 
                 <!-- 트리 -->
-                <h5>홈 > 직원관리</h5>
+                <h5>홈 > 장비관리</h5>
                 <p class="mb-4"></p>
 
                 <!-- 변경할 뷰 -->
@@ -55,16 +55,11 @@
 
                     <!-- 테이블 상단 바 -->
                     <div class="card-header py-sm-1">
-                        <h2 class="m-0 font-weight-bold text-primary">직원관리
-                            <div class="d-sm-flex align-items-center justify-content-between mb-1"
-                                 style="float: right; margin: 4px 0 0 10px">
-                                <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                        class="fas fa-download fa-sm text-white-50"></i> 엑셀 업로드</a>
-                            </div>
+                        <h2 class="m-0 font-weight-bold text-primary">장비관리
                              <%@ include file="/WEB-INF/views/include/excel_include.jsp"%>
                             <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" style="float: right">
                                 <div class="input-group" >
-                                    <input type="text" class="form-control bg-light border-1 small" placeholder="직원 검색"
+                                    <input type="text" class="form-control bg-light border-1 small" placeholder="장비명 검색"
                                            aria-label="Search" aria-describedby="basic-addon2">
                                     <div class="input-group-append">
                                         <button class="btn btn-primary" type="button">
@@ -82,41 +77,55 @@
                             <table style="text-align: center" class="table table-bordered" width="100%" cellspacing="0">
                                 <thead>
                                 <tr>
-                                    <th style="width: 20%">직원</th>
-                                    <th style="width: 20%">근무지</th>
-                                    <th style="width: 20%">직무</th>
-                                    <th style="width: 20%">직급</th>
-                                    <th style="width: 20%">권한</th>
+                                    <th style="width: 20%">장비명</th>
+                                    <th style="width: 10%">분류</th>
+                                    <th style="width: 20%">코드</th>
+                                    <th style="width: 30%">일련번호</th>
+                                    <th style="width: 20%">사용 근무지</th>
                                 </tr>
                                 </thead>
                                 <tfoot>
                                 <tbody>
                                     <tr>
-                                        <td>홍길동</td>
-                                        <td>본사</td>
-                                        <td>테크니컬 팀</td>
-                                        <td>사원</td>
-                                        <td>직원</td>
+                                        <td>블루투스 비콘 1</td>
+                                        <td>비콘</td>
+                                        <td>A001</td>
+                                        <td>12345678</td>
+                                        <td>현대카드</td>
                                     </tr>
                                     <tr>
-                                        <td>홍길동</td>
-                                        <td>본사</td>
-                                        <td>테크니컬 팀</td>
-                                        <td>사원</td>
-                                        <td>직원</td>
+                                        <td>블루투스 비콘 1</td>
+                                        <td>비콘</td>
+                                        <td>A001</td>
+                                        <td>12345678</td>
+                                        <td>현대카드</td>
                                     </tr>
                                     <tr>
-                                        <td>홍길동</td>
-                                        <td>본사</td>
-                                        <td>테크니컬 팀</td>
-                                        <td>사원</td>
-                                        <td>직원</td>
+                                        <td>블루투스 비콘 1</td>
+                                        <td>비콘</td>
+                                        <td>A001</td>
+                                        <td>12345678</td>
+                                        <td>현대카드</td>
+                                    </tr>
+                                    <tr>
+                                        <td>블루투스 비콘 1</td>
+                                        <td>비콘</td>
+                                        <td>A001</td>
+                                        <td>12345678</td>
+                                        <td>현대카드</td>
+                                    </tr>
+                                    <tr>
+                                        <td>블루투스 비콘 1</td>
+                                        <td>비콘</td>
+                                        <td>A001</td>
+                                        <td>12345678</td>
+                                        <td>현대카드</td>
                                     </tr>
                                 </tbody>
                             </table>
                             <!-- 테이블 하단 바 -->
                             <div>
-                            <button class="btn btn-dark right" type="button" style="float : right;" onclick="location.href='/management/employee/form'">
+                            <button class="btn btn-dark right" type="button" style="float : right;" onclick="location.href='/management/equipment/form'">
                                 추가
                             </button>
                             </div>

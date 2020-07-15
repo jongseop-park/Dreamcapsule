@@ -26,6 +26,8 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
           crossorigin="anonymous">
     <link href="/static/css/datepicker/datepicker.css" rel="stylesheet">
+    <link href="/static/css/datepicker/gijgo.min.css" rel="stylesheet" type="text/css" />
+
 
 </head>
 
@@ -68,6 +70,7 @@
 
 
 
+
             <h2>출/퇴근관리 Daily
                 <div style="float: right ; width:600px ">
 
@@ -77,14 +80,14 @@
                             <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
 
 
-                                <div class="input-group-append" data-target="#datetimepicker1"
-                                     data-toggle="datetimepicker"
+                                <div class="input-group-append"
+
                                      style="margin-right: 30px">
                                     <div class="input-group-text"
                                          style="background-color: #ffffff00; border: 1px solid #ffffff00">
                                         <i class="fa fa-calendar"></i>
                                     </div>
-                                    <input type="text" class="form-control" data-toggle="datepicker"
+                                    <input type="text" class="form-control _text" id="datepicker"
                                            style="width: 120px">
                                 </div>
                             </div>
@@ -109,14 +112,18 @@
 
                 </div>
             </h2>
+
+
+
+
             <table class="table table-bordered">
                 <thead>
                 <tr>
                     <th>직원</th>
                     <th>직무</th>
                     <th>직급</th>
-                    <th>출근시간</th>
-                    <th>퇴근시간</th>
+                    <th>출/퇴근 시간</th>
+
                     <th>근무상태</th>
                     <th>근무시간</th>
                     <th>휴게시간</th>
@@ -128,19 +135,20 @@
                     <th>등록 일시</th>
 
 
+
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="daily" items="${dailyList}">
+                <c:forEach var="daily" items="${daily}">
                     <tr>
                         <td>${daily.emplNm}</td>
-                        <td>${daily.dutyId}</td>
+                        <td>${daily.dutyId} 팀</td>
                         <td>${daily.rankId}</td>
-                        <td>${daily.onwTi}</td>
-                        <td>${daily.offwTi}</td>
+                        <td>${daily.onwTi} ~ ${daily.offwTi}</td>
+<%--                        <td>${daily.offwTi}</td>--%>
                         <td>${daily.workSt}</td>
-                        <td>${daily.workTi}</td>
-                        <td>${daily.restTi}</td>
+                        <td>${daily.workTi}시간</td>
+                        <td>${daily.restTi}시간</td>
                         <td>${daily.workPl}</td>
                         <td>${daily.workAd}</td>
                         <td>${daily.totalTi}</td>
@@ -153,9 +161,24 @@
                 </tbody>
 
             </table>
+                <div>
+                    <ul class="pagination" style="justify-content: center">
+                        <c:if test="${pageMaker.prev}">
+                            <li><a href="daily${pageMaker.makeQuery(pageMaker.startPage - 1)}">이전</a></li>
+                        </c:if>
+
+                        <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
+                            <li><a href="daily${pageMaker.makeQuery(idx)}">${idx}</a></li>
+                        </c:forEach>
+
+                        <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
+                            <li><a href="daily${pageMaker.makeQuery(pageMaker.endPage + 1)}">다음</a></li>
+                        </c:if>
+                    </ul>
+                </div>
         </div>
-
-
+        </br></br></br></br></br>
+            <button class="gj-button-md" onclick=""id="datepicker">Get Value</button>
         <!-- Footer -->
         <%@include file="../include/footer.jsp" %>
         <!-- End of Footer -->
@@ -184,27 +207,47 @@
 
 <%--스크립트 라인 ( 데이트 피커 )--%>
 
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
-        crossorigin="anonymous"></script>
-<script src="/static/js/datepicker/datepicker.js"></script>
-<script src="/static/js/datepicker/bootstrap-datepicker.ko.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="/static/js/datepicker/gijgo.js" type="text/javascript"></script>
+
+
 <script type="text/javascript">
 
 
+ $(document).ready(function () {
+     $('#datepicker').datepicker({
+         uiLibrary: 'bootstrap',
+     });
+ });
+
+ $("._text").on("change keyup paste", function() {
+     var currentVal = $(this).val();
+    console.log(currentVal);
+ });
+
+// $(function(){
+//     $("._datepicker").on("change keyup paste", function() {
+//         var date = $(this).val();
+//         console.log(date);
+//     });
+//
+// });
 
 
-    $(function () {
-        $('[data-toggle="datepicker"]').datepicker({
-            format:'yy/mm/dd',
-            language: 'ko',
-            autoHide: true,
-            zIndex: 2048,
-            days:[ "일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일" ],
-            daysShort:[ "일", "월", "화", "수", "목", "금", "토" ],
-            daysMin: [ "일", "월", "화", "수", "목", "금", "토" ],
-            months:[ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
-            monthsShort:[ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ]
-        });
-    });
+/*        //
+         close: function (e) {
+            var date = $('#datepicker').val();
+            console.log(date);
+        //    var date = new Date($("#datepicker").val());
+        //    alert(date.getFullYear());
+         }
+    });*/
+
+
+
+
+
+
+
+
 </script>

@@ -63,25 +63,15 @@
 
 
             <div class="container">
-                <h6><a href="/home"> 홈 </a>> 휴가관리</h6>
                 <div>
-                    <h2> 휴가관리</h2>
-                    <h6 align="right" >
-                        <select name="selectyear" id="selectyear" style="margin: 6px 0 0 30px; border: none; background-color: rgba(255,255,255,0.0)">
-                            <option value="2020">2020년</option>
-                            <option value="2019">2019년</option>
-                            <option value="2018">2018년</option>
-                            <option value="2017">2017년</option>
-                            <option value="2016">2016년</option>
-                        </select>
-                        <select name="selecttask" id="selecttask" style="margin: 6px 0 0 30px; background-color: rgba(255,255,255,0.0); border-radius: 5px 5px 5px 5px;">
-                            <option value="all">회사전체</option>
-                            <option value="Consulting">Consulting</option>
-                            <option value="Design">Design</option>
-                            <option value="Mobile">Mobile 개발</option>
-                        </select>
-                        <%@include file="/WEB-INF/views/include/excel_include.jsp"%>
-                    </h6>
+                    <a href="/home">홈</a> > 외근관리
+                    <h4>외근관리</h4>
+                    날짜 / 직원검색/ <%@include file="/WEB-INF/views/include/excel_include.jsp"%>
+                    <c:forEach var="outside" items="${outsidejobDate}">
+                        <script>
+                            document.write(${outside});
+                        </script>
+                    </c:forEach>
                 </div>
                 <div id="div_table">
                     <table class="table table-bordered">
@@ -90,48 +80,41 @@
                             <th>직원</th>
                             <th>직무</th>
                             <th>직급</th>
-                            <th>1월</th>
-                            <th>2월</th>
-                            <th>3월</th>
-                            <th>4월</th>
-                            <th>5월</th>
-                            <th>6월</th>
-                            <th>7월</th>
-                            <th>8월</th>
-                            <th>9월</th>
-                            <th>10월</th>
-                            <th>11월</th>
-                            <th>12월</th>
-                            <th>사용휴가</th>
+                            <th>외근일</th>
+                            <th>출/퇴근시간</th>
+                            <th>출근지</th>
+                            <th>퇴근지</th>
+                            <th>상태</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach var="holiday" items="${holidayList}">
+                        <c:forEach var="outside" items="${outsidejobList}">
                             <tr>
-                                <td>${holiday.name}</td>
-                                <td>${holiday.task} 팀</td>
-                                <td>${holiday.jobGrade}</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>${holiday.restHoliday} 일 / 15 일</td>
+                                <td>${outside.name}</td>
+                                <td>${outside.task}</td>
+                                <td>${outside.jobGrade}</td>
+                                <td>${outside.outsideDate}</td>
+                                <td>${outside.startTime} ~ ${outside.endTime}</td>
+                                <td>${outside.startPlace}</td>
+                                <td>${outside.endPlace}</td>
+                                <c:choose>
+                                    <c:when test="${outside.stateYsn eq 'Y'.charAt(0)}">
+                                        <td>승인</td>
+                                    </c:when>
+                                    <c:when test="${outside.stateYsn eq 'S'.charAt(0)}">
+                                        <td>대기중</td>
+                                    </c:when>
+                                    <c:when test="${outside.stateYsn eq 'N'.charAt(0)}">
+                                        <td>반려</td>
+                                    </c:when>
+                                </c:choose>
                             </tr>
                         </c:forEach>
                         </tbody>
                     </table>
                 </div>
+
             </div>
-
-
             <!-- Footer -->
             <%@include file="/WEB-INF/views/include/footer.jsp" %>
             <!-- End of Footer -->
@@ -148,7 +131,7 @@
     </a>
 
     <!-- Logout Modal-->
-<%@include file="/WEB-INF/views/include/logout_cmmn.jsp"%>
+    <%@include file="/WEB-INF/views/include/logout_cmmn.jsp"%>
 
     <!-- Bootstrap core JavaScript-->
     <%@include file="/WEB-INF/views/include/plugins_js.jsp" %>

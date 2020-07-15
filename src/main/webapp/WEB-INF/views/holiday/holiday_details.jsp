@@ -56,13 +56,14 @@
                     <div style='width: 100%;height: 30%; float:top;'>
                         <div style='width : 100%; height : 20%; float:top;'>
                             <a href="/home"> 홈 </a>> <a href="/holiday"> 휴가관리 </a>> 상세<br>
-                            휴가 관리하기
+                            <h3 style="margin-top: 10px; margin-bottom: 30px">휴가 관리하기</h3>
                         </div>
                         <div style='width : 30%; height : 80%; float:left; margin-top: 10px '>
-                            <img src="/resources/static/img/holiday_sample_img.png" width="100px" height="100px" alt="기본사진">
+                            <img src="/resources/static/img/holiday_sample_img.png" width="100px" height="100px"
+                                 alt="기본사진">
                         </div>
-                        <div style='width : 70%; height : 80%; float:right; margin-top: 10px'>
-                            <c:forEach var="holiday" items="${holidayDetails}">
+                        <div style='width : 70%; height : 80%; float:right; margin-top:10px; vertical-align: center'>
+                            <c:forEach var="holiday" items="${holidayDetails}" begin="1" end="1">
 
                                 <h5>${holiday.name}</h5>
                                 <form>
@@ -70,50 +71,64 @@
                                             ${holiday.task} 팀 | ${holiday.jobGrade}
                                     </div>
                                     <div style="width: 40%; float:right;">
-                                        <input type="button" value="추가">
+                                        <a href="/holiday_add"
+                                           class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">추가</a>
                                     </div>
                                 </form>
                             </c:forEach>
                         </div>
                     </div>
                     <div style='width: 100%;height: 70%; float: bottom;'>
-                        <div style=' border-style: solid; border-radius:10px 10px 10px 10px; width: 90%; height: 150px;'>
+                        <c:forEach var="holiday" items="${holidayDetails}">
+                            <div style=' border-style: solid; border-radius:10px 10px 10px 10px; width: 90%; height: 150px; margin-top: 20px'>
+                                <div style=' border-style: solid; border-radius: 30px 30px 30px 30px; width: 100px;text-align: center; float: right; margin: 10px'>
+                                    <c:set var="name">${holiday.holidayDate}</c:set>
 
-                            <c:forEach var="holiday" items="${holidayDetails}">
-                             <c:set var = "name">${holiday.holidayDate}</c:set>
-
-                                <c:choose>
-                                    <c:when test="${holiday.stateYsn eq 'Y'.charAt(0)}">
-                                        승인<br>
-                                    </c:when>
-                                    <c:when test="${holiday.stateYsn eq 'S'.charAt(0)}">
-                                        대기중<br>
-                                    </c:when>
-                                    <c:when test="${holiday.stateYsn eq 'N'.charAt(0)}">
-                                        반려<br>
-                                    </c:when>
-                                </c:choose>
-                                기간     ${holiday.holidayDate.substring(0,7)} ~ ${holiday.holidayDate.substring(holiday.holidayDate.length()-8,holiday.holidayDate.length())} | *일 <br>
-                                유형     ${holiday.holidayType}
-                            
-                        </div>
+                                    <c:choose>
+                                        <c:when test="${holiday.stateYsn eq 'Y'.charAt(0)}">
+                                            승인<br>
+                                        </c:when>
+                                        <c:when test="${holiday.stateYsn eq 'S'.charAt(0)}">
+                                            대기중<br>
+                                        </c:when>
+                                        <c:when test="${holiday.stateYsn eq 'N'.charAt(0)}">
+                                            반려<br>
+                                        </c:when>
+                                    </c:choose>
+                                </div>
+                                <br>
+                                <div style="vertical-align: middle; padding-left: 10px">
+                                    기간 ${holiday.holidayDate.substring(0,7)} ~ ${holiday.holidayDate.substring(holiday.holidayDate.length()-8,holiday.holidayDate.length())} | *일 <br><br>
+                                    유형 ${holiday.holidayType}
+                                </div>
+                            </div>
+                        </c:forEach>
                     </div>
                 </div>
-                <div style='width: 50%;height: 100%; float:right;'>
-                    
-                    휴가날짜 ${holiday.holidayDate} <br><br>
+
+
+                <c:forEach var="holiday" items="${holidayDetails}" begin="1" end="1">
+                <div style='width: 50%;height: 100%; float:right; padding-top: 50px;'>
+
+                    휴가날짜 ${holiday.holidayDate.substring(0,7)}
+                    ~ ${holiday.holidayDate.substring(holiday.holidayDate.length()-8,holiday.holidayDate.length())} <br><br>
                     차감휴가 일<br><br>
                     휴가유형 ${holiday.holidayType} <br><br>
                     메모 ${holiday.note}<br><br>
-                    신청날짜 ${holiday.applicationTime}<br><br>
-                    <form>
+                    신청날짜 ${holiday.applicationTime.year+1900} . ${holiday.applicationTime.month+1}
+                    . ${holiday.applicationTime.date} ${holiday.applicationTime.hours+1}
+                    : ${holiday.applicationTime.minutes}<br><br>
+                    <div style="float: left">
                         승인<input type="radio" value="승인" name="state">
+                    </div>
+                    <div style="margin-left: 300px">
                         반려<input type="radio" value="반려" name="state">
-                        <br><br>
-                        <input type="text" width = 100% height = 20%>
-                        <br><br>
-                        <input type="button" align="right" value="저장">
-                    </form>
+                    </div>
+                    <br><br>
+                    <textarea cols="65%" rows="5" placeholder="답변을 입력해주세요."></textarea>
+                    <br><br>
+                    <input type="button" value="저장" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
+                           style="float: right">
 
                     </c:forEach>
                 </div>

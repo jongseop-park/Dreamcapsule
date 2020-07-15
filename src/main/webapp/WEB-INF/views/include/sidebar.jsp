@@ -69,7 +69,7 @@
 
     <!-- 외근관리 -->
     <li class="nav-item">
-        <a class="nav-link" href="javascript:void(0)">
+        <a class="nav-link" href="/outside">
             <i class="fas fa-fw fa-table"></i>
             <span>외근관리</span></a>
     </li>
@@ -102,7 +102,7 @@
                 <a class="collapse-item" href="/management/position/list">직급</a>
                 <a class="collapse-item" href="/management/annual/list">연차</a>
                 <a class="collapse-item" href="/management/equipment/list">장비</a>
-                <a class="collapse-item" href="/management/option/list">의견</a>
+                <a class="collapse-item" href="/management/opinion/list">의견</a>
                 <a class="collapse-item" href="/management/company/list">업체</a>
 
             </div>

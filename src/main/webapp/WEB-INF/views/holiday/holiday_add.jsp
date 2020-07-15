@@ -51,24 +51,33 @@
 
             <div class="container">
                 <a href="/home"> 홈 </a>> <a href="/holiday"> 휴가관리 </a>> <a href="/holiday_details"> 상세 </a>> 추가<br>
-                휴가 추가하기<br>
-                <div>
-                    <img src="/resources/static/img/holiday_sample_img.png" width="100px" height="100px" alt="기본사진">
+
+                <h3 style="margin-top: 10px; margin-bottom: 10px">휴가 추가하기</h3>
+
+                <div style="margin-left: 10px; width: fit-content; height: 100px;">
+                    <div style="float: left">
+                        <img src="" width="100px" height="100px" alt="기본사진">
+                    </div>
                     <c:forEach var="holiday" items="${holidayDetails}">
-                    ${holiday.name}<br>
-                        ${holiday.task} 팀 | ${holiday.jobGrade}
+                    <div style=" padding-top: 20px; margin-left: 20px; float: right; height: 100%">
+                        <h5>${holiday.name}</h5>
+                            ${holiday.task} 팀 | ${holiday.jobGrade}
+                    </div>
                 </div>
 
-                <input type=date><br>
-                (선택된 날짜 표시) (사용하는 휴가) 일 / ${holiday.restHoliday} 일 전체휴가 15일
-                휴가유형 <select name="select_type" id="select_type">
-                <option value="regular_holiday">정기휴가</option>
-                <option value="morning_holiday">오전반차</option>
-                <option value="afternoon_holiday">오후반차</option>
-                <option value="reservist">예비군</option>
-            </select><br>
-                메모
-                <input type="text" size="50">
+                <div style="width: fit-content; height: fit-content; margin-left: 10px; margin-top: 20px">
+                    <input type="text" id="testDatepicker"/>2020년 00월 00일 ~ 2020년 00월 00일<br><br>
+                    (선택된 날짜 표시) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (사용하는 휴가) 일 / ${holiday.restHoliday} 일 전체휴가 15일<br><br>
+                    휴가유형 <select name="select_type" id="select_type" style="margin-left: 50px; background-color: rgba(255,255,255,0.0); border-radius: 5px 5px 5px 5px">
+                    <option value="regular_holiday">정기휴가</option>
+                    <option value="morning_holiday">오전반차</option>
+                    <option value="afternoon_holiday">오후반차</option>
+                    <option value="reservist">예비군</option>
+                </select><br><br>
+                    메모<br>
+                    <textarea cols="100%" rows="5" placeholder="메모를 입력해주세요." style="margin-top: 10px"></textarea><br><br>
+                    <input type="button" value="저장" style="float: right" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"/><br><br>
+                </div>
             </div>
             </c:forEach>
 
@@ -96,3 +105,15 @@
 
 </body>
 </html>
+
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
+
+<script>
+    $(function(){
+        $("#testDatepicker").datepicker({
+
+        });
+    });
+</script>

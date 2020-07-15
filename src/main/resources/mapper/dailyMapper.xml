@@ -4,14 +4,27 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.dreamcapsule.project.apps.daily.mapper.DailyMapper">
 
-<!--
-    <select id="findAll"  resultType="DailyDomain">
-        SELECT * FROM COMM_TB
-    </select>
 
-      <select id="findname" parameterType="String" resultType="DailyDomain">
-          SELECT * FROM COMM_TB WHERE EMPL_NM = #{empl_nm}
-      </select>
--->
+
+    <!--    모두 검색  -->
+    <select id="findAll" resultType="DailyDomain">
+ select EMPL_NM ,DUTY_ID ,RANK_ID , ONW_TI ,OFFW_TI ,WORK_ST ,WORK_TI ,REST_TI ,WORK_PL ,WORK_AD ,TOTAL_TI ,
+    TARDY_CT ,ABTI_CT ,to_char(REG_DT ,'yyyymmdd')from comm_tb </select>
+
+
+
+<select id="listPage" resultType="DailyDomain" parameterType="Criteria">
+    select  EMPL_NM , DUTY_ID ,  RANK_ID , ONW_TI , OFFW_TI ,  WORK_ST ,WORK_TI ,  REST_TI ,   WORK_PL , WORK_AD ,TOTAL_TI ,  TARDY_CT ,  ABTI_CT , to_char(reg_Dt,'yyyy/mm/dd') as reg_dt
+from (
+select EMPL_NM ,  DUTY_ID ,  RANK_ID , ONW_TI ,  OFFW_TI ,  WORK_ST ,WORK_TI , REST_TI ,  WORK_PL ,  WORK_AD , TOTAL_TI , TARDY_CT ,  ABTI_CT ,reg_Dt ,
+        row_number() over(order by empl_nm desc) as rnum
+    from comm_tb
+    )comm
+    where rnum between ${rowStart} and ${rowEnd}
+    order by empl_nm desc
+</select>
+    <select id="listCount" resultType="int">
+select count(*) from comm_tb
+	</select>
 
 </mapper>

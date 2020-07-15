@@ -90,6 +90,14 @@
                             <button class="btn btn-dark right" type="button" style="float : right; margin-top: 2%" onclick="location.href='/management/job/list'">
                                 저장
                             </button>
+                    <%--        <!-- TODO 상세 페이지에서 추가 -->
+                            <button class="btn btn-dark right" type="button" style="float : right; margin-left: 20px; margin-top: 2%" onclick="location.href='/management/job/list'">
+                                수정
+                            </button>
+                            <button class="btn btn-dark right" type="button" style="float : right; margin-top: 2%" onclick="location.href='/management/job/list'">
+                                취소
+                            </button>
+                            <!-- TODO 상세 페이지에서 추가 -->--%>
                         </div>
                         <!-- /테이블 하단 바 -->
                     </div>

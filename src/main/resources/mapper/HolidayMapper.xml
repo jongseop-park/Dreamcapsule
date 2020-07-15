@@ -12,4 +12,7 @@
         SELECT * FROM HOLIDAYTEST WHERE SEQ = #{SEQ}
     </select>
 
+    <select id="findByName" resultType="HolidayVO">
+        SELECT * FROM HOLIDAYTEST WHERE NAME = #{NAME}
+    </select>
 </mapper>
