@@ -10,8 +10,8 @@ public interface DailyService {
     public List<DailyDomain> findAll();
 
     public List<DailyDomain> listPage(Criteria cri) throws Exception;
-    public int listCount() throws Exception;
-
+    public int listCount(Criteria criteria) throws Exception;
+    public List<DailyDomain> searchName(Criteria cri) throws Exception;
 
 
 }

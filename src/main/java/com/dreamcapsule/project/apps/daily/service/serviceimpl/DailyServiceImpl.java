@@ -29,7 +29,12 @@ public class DailyServiceImpl implements DailyService {
     }
 
     @Override
-    public int listCount() throws Exception {
-        return dailyMapper.listCount();
+    public int listCount(Criteria cri) throws Exception {
+        return dailyMapper.listCount(cri);
+    }
+
+    @Override
+    public List<DailyDomain> searchName(Criteria cri) throws Exception {
+        return dailyMapper.listPage(cri);
     }
 }

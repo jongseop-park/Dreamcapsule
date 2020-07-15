@@ -18,7 +18,7 @@ public interface DailyMapper {
 //            "TARDY_CT ,ABTI_CT ,to_char(REG_DT ,'yyyymmdd')from comm_tb")
     public List<DailyDomain> findAll();
     public List<DailyDomain> listPage(Criteria cri) throws Exception;
-    public int listCount() throws Exception;
-
+    public int listCount(Criteria cri) throws Exception;
+    public List<DailyDomain> searchName(Criteria cri) throws Exception;
 
 }

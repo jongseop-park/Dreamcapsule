@@ -1,6 +1,5 @@
 package com.dreamcapsule.project.domain;
 
-import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 public class PageMaker {
@@ -61,13 +60,36 @@ public class PageMaker {
         next = endPage * cri.getPerPageNum() >= totalCount ? false : true;
     }
 
+
+//    public String makeQuery(int page, boolean needSearchType){
+//        UriComponentsBuilder uriComponentsBuilder=UriComponentsBuilder.newInstance()
+//                .queryParam("page",page)
+//                .queryParam("perPageNum",this.cri.getPerPageNum());
+//        if(this.cri.getSearchType()!=null){
+//            uriComponentsBuilder
+//                    .queryParam("searchType",this.cri.getSearchType())
+//                    .queryParam("keyword",this.cri.getKeyword());
+//        }
+//        return uriComponentsBuilder.build().encode().toString();
+//    }
+
+//
     public String makeQuery(int page) {
-        UriComponents uriComponents =
+        UriComponentsBuilder uriComponents =
                 UriComponentsBuilder.newInstance()
                         .queryParam("page", page)
-                        .queryParam("perPageNum", cri.getPerPageNum())
-                        .build();
+                        .queryParam("perPageNum", cri.getPerPageNum());
+        if(this.cri.getKeyword()!=null && this.cri.getRegDt() == null){
+            uriComponents
 
-        return uriComponents.toUriString();
+                    .queryParam("keyword",this.cri.getKeyword());
+        }else if(this.cri.getRegDt() !=null && this.cri.getKeyword()==null){
+            uriComponents
+
+                    .queryParam("regDt",this.cri.getRegDt());
+        }
+
+        return uriComponents.build().encode().toString();
     }
+
 }
