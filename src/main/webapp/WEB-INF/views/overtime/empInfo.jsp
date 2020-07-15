@@ -81,13 +81,22 @@
                 <h5><b>야근 관리하기</b></h5>
             </div>
             <div id="contents">
-            <form method="post" action="/updateInfo">
+            <form action="/updateInfo" method="POST" >
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+
+                <!-- 유지 -->
+                <input type="hidden" id="page" name="page" value="${scri.page}" readonly="readonly" />
+                <input type="hidden" id="keyword" name="keyword" value="${scri.keyword}" readonly="readonly" />
+                <input type="hidden" id="startDate" name="startDate" value="${scri.startDate}" readonly="readonly" />
+                <input type="hidden" id="endDate" name="endDate" value="${scri.endDate}" readonly="readonly" />
+                <!-- end -->
+
                 <input type="hidden" name="modifyDate" value="${empInfo.modifyDate}" />
                 <input type="hidden" name="sequence" value="${empInfo.sequence}" />
                 <table width="230" height="70">
                     <tr>
-                        <td rowspan="2"><img src="/img/overtime/testimage.png" width="60" height="60"></td>
+                        <td rowspan="2">
+                            <img src="/static/img/overtime/testimage.png" width="60" height="60"></td>
                         <td colspan="2"><b>${empInfo.empName}</b></td>
                     </tr>
                     <tr>
@@ -143,7 +152,6 @@
                 </table>
                 <textarea name="answer" cols="107" rows="4" value="answer" placeholder="답변을 입력해주세요.">${empInfo.answer}</textarea>
                 <input id="modifyButton" type="submit" value="수정"/>
-
                  </form>
             </div>
             <!-- /메인 내용 -->

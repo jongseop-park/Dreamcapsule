@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.dreamcapsule.project.apps.overtime.mapper.OvertimeMapper">
 
-    <select id="listPage" resultType="com.dreamcapsule.project.apps.overtime.domain.OvertimeVO"
+    <select id="listPage" resultType="com.dreamcapsule.project.domain.OvertimeVO"
             parameterType="com.dreamcapsule.project.apps.overtime.domain.Criteria">
   select sequence, registerDate, modifyDate, empName, empJob, empPosition, overtimeDate, overtimeTime, eatBoolean, status, contents, requestDate, answer
 from (
@@ -12,29 +12,15 @@ from (
  where rNum between #{rowStart} and #{rowEnd} order by sequence asc
  </select>
 
-    <select id="boardList" resultType="com.dreamcapsule.project.apps.overtime.domain.OvertimeDomain">
-        select * from board
-    </select>
-
-    <select id="findBno" parameterType="com.dreamcapsule.project.apps.overtime.domain.OvertimeDomain"
-            resultType="com.dreamcapsule.project.apps.overtime.domain.OvertimeDomain">
-        SELECT bno, contents, userName FROM BOARD where BNO = #{bno}
-    </select>
-
-    <select id="updateInfo" parameterType="com.dreamcapsule.project.apps.overtime.domain.OvertimeDomain"
-            resultType="com.dreamcapsule.project.apps.overtime.domain.OvertimeDomain">
-        UPDATE board set userName=#{userName}, contents=#{contents} where bno = #{bno}
-    </select>
-
-    <select id="empList" resultType="com.dreamcapsule.project.apps.overtime.domain.OvertimeVO">
+    <select id="empList" resultType="com.dreamcapsule.project.domain.OvertimeVO">
         SELECT * FROM OT_MNG_TB
     </select>
 
-    <select id="findInfo" parameterType="int" resultType="com.dreamcapsule.project.apps.overtime.domain.OvertimeVO">
+    <select id="findInfo" parameterType="int" resultType="com.dreamcapsule.project.domain.OvertimeVO">
         SELECT * from OT_MNG_TB where sequence = ${sequence}
     </select>
 
-    <select id="updateEmpInfo" parameterType="com.dreamcapsule.project.apps.overtime.domain.OvertimeVO">
+    <select id="updateEmpInfo" parameterType="com.dreamcapsule.project.domain.OvertimeVO">
         UPDATE OT_MNG_TB set modifyDate= substr(#{modifyDate}, 1,10) , answer=#{answer},status = #{status} where sequence = #{sequence}
     </select>
 
@@ -42,5 +28,21 @@ from (
         select count(*) as totalCount from OT_MNG_TB where sequence > 0
     </select>
 
+    <select id="search" parameterType="com.dreamcapsule.project.apps.overtime.domain.SearchCriteria"
+            resultType="com.dreamcapsule.project.domain.OvertimeVO">
 
+       select sequence, registerDate, modifyDate, empName, empJob, empPosition,
+       overtimeDate, overtimeTime, eatBoolean, status, contents, requestDate, answer
+from (
+ select sequence, registerDate, modifyDate, empName, empJob,
+ empPosition, overtimeDate, overtimeTime, eatBoolean, status, contents,
+  requestDate, answer ,row_number() over(order by sequence asc) as rNum
+  from OT_MNG_TB where empName like '%' || #{keyword} || '%' and (requestDate between to_date(#{startDate}) and to_date(#{endDate})))
+ where rNum between #{rowStart} and #{rowEnd} order by sequence asc
+    </select>
+
+    <select id="countSearch" resultType="int">
+        select count(sequence) from OT_MNG_TB where empName like '%' || #{keyword} || '%' and
+        (requestDate between to_date(#{startDate}) and to_date(#{endDate}))
+    </select>
 </mapper>

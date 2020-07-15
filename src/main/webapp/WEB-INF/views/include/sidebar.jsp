@@ -76,7 +76,7 @@
 
     <!-- 야근관리 -->
     <li class="nav-item">
-        <a class="nav-link" href="/overtimeListPage">
+        <a class="nav-link" href="/listSearch">
             <i class="fas fa-fw fa-table"></i>
             <span>야근관리</span></a>
     </li>

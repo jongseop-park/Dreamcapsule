@@ -75,6 +75,8 @@
 
             <!-- 메인 내용 -->
             <div class="container">
+                <%--<h3>${tempData}</h3>
+                --%>
                 <h6>홈 > 외근관리</h6>
 
                 <div id="top">
@@ -142,7 +144,13 @@
                 <%--<c:if test="${pageMaker.next && pageMaker.endPage > 0}">
                     &nbsp<a href="overtimeListPage?page=${pageMaker.endPage +1}">▶</a>&nbsp
                 </c:if>--%>
-                &nbsp&nbsp&nbsp<a href="overtimeListPage?page=${pageMaker.cri.page +1}">▶</a>
+                <c:if test="${pageMaker.endPage == pageMaker.cri.page}">
+                    &nbsp&nbsp&nbsp<a href="overtimeListPage?page=${pageMaker.endPage}">▶</a>
+                </c:if>
+                <c:if test="${pageMaker.endPage != pageMaker.cri.page}">
+                    &nbsp&nbsp&nbsp<a href="overtimeListPage?page=${pageMaker.cri.page + 1}">▶</a>
+                </c:if>
+
             </div>
             <!-- /메인 내용 -->
         </div>

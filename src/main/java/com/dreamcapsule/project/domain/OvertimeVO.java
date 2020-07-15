@@ -1,4 +1,4 @@
-package com.dreamcapsule.project.apps.overtime.domain;
+package com.dreamcapsule.project.domain;
 
 import oracle.sql.CHAR;
 

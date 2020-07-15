@@ -1,8 +1,8 @@
 package com.dreamcapsule.project.apps.overtime.service.serviceimpl;
 
 import com.dreamcapsule.project.apps.overtime.domain.Criteria;
-import com.dreamcapsule.project.apps.overtime.domain.OvertimeDomain;
-import com.dreamcapsule.project.apps.overtime.domain.OvertimeVO;
+import com.dreamcapsule.project.domain.OvertimeVO;
+import com.dreamcapsule.project.apps.overtime.domain.SearchCriteria;
 import com.dreamcapsule.project.apps.overtime.mapper.OvertimeMapper;
 import com.dreamcapsule.project.apps.overtime.service.OvertimeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,25 +15,6 @@ public class OvertimeServiceImpl implements OvertimeService {
     @Autowired
     OvertimeMapper overtimeMapper;
 
-    @Override
-    public List<OvertimeDomain> boardList() throws Exception {
-        return overtimeMapper.boardList();
-    }
-    @Override
-    public List<OvertimeDomain> findBno(int bno) throws Exception {
-        return overtimeMapper.findBno(bno);
-    }
-    @Override
-    public void updateInfo(OvertimeDomain overtimeDomain) throws Exception {
-        overtimeMapper.updateInfo(overtimeDomain);
-    }
-
-    /////
-
-    @Override
-    public List<OvertimeVO> empList() throws Exception {
-        return overtimeMapper.empList();
-    }
     @Override
     public OvertimeVO findEmp(int sequence) throws Exception {
         return overtimeMapper.findInfo(sequence);
@@ -52,5 +33,15 @@ public class OvertimeServiceImpl implements OvertimeService {
     @Override
     public List<OvertimeVO> listPage(Criteria cri) throws Exception {
         return overtimeMapper.listPage(cri);
+    }
+
+    @Override
+    public List<OvertimeVO> listSearch(SearchCriteria searchCriteria) throws Exception {
+        return overtimeMapper.search(searchCriteria);
+    }
+
+    @Override
+    public int countSearch(SearchCriteria searchCriteria) throws Exception {
+        return overtimeMapper.countSearch(searchCriteria);
     }
 }

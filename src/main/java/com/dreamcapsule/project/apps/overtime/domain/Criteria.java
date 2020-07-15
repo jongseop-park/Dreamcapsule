@@ -1,5 +1,8 @@
 package com.dreamcapsule.project.apps.overtime.domain;
 
+import com.dreamcapsule.project.apps.overtime.service.OvertimeService;
+import org.springframework.beans.factory.annotation.Autowired;
+
 public class Criteria
 {
     private int page;
@@ -23,7 +26,7 @@ public class Criteria
         this.page = page;
     }
 
-    public void setPerPageNum(int perPageNum)
+ /*   public void setPerPageNum(int perPageNum)
     {
         if (perPageNum <= 0 || perPageNum > 100)
         {
@@ -31,7 +34,7 @@ public class Criteria
             return;
         }
         this.perPageNum = perPageNum;
-    }
+    }*/
 
     public int getPage()
     {

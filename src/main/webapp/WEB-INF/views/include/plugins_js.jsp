@@ -19,3 +19,6 @@
 <!-- Page level plugins -->
 <script src="/static/vendor/datatables/jquery.dataTables.min.js"></script>
 <script src="/static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-1.7.2.js"></script>
+<script src="https://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
