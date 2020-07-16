@@ -14,6 +14,17 @@ public class PageMaker {
     private int endPage;
     private boolean prev;
     private boolean next;
+    private int totalPage;
+
+    public int getTotalPage() {
+        totalPage = totalCount/ displayPageNum;
+
+        if(totalCount > totalPage * displayPageNum)
+            totalPage++;
+
+        return totalPage;
+    }
+
 
     private int displayPageNum = 10;
 
@@ -37,6 +48,9 @@ public class PageMaker {
     }
 
     public int getEndPage() {
+        if(endPage > totalCount)
+            endPage = totalCount;
+
         return endPage;
     }
 
