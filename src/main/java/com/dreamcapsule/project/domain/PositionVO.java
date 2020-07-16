@@ -16,11 +16,11 @@ public class PositionVO extends Criteria{
     private String memo;
 
     /** 등록일자 */
-    private LocalDateTime regDt;
+    private LocalDateTime regDate;
 
     /** 수정일자 */
 
-    private LocalDateTime modDt;
+    private LocalDateTime modDate;
 
     /** 삭제여부 */
     private String delYn;
@@ -49,12 +49,20 @@ public class PositionVO extends Criteria{
         this.memo = memo;
     }
 
-    public LocalDateTime getRegDt() {
-        return regDt;
+    public LocalDateTime getRegDate() {
+        return regDate;
     }
 
-    public void setRegDt(LocalDateTime regDt) {
-        this.regDt = regDt;
+    public void setRegDate(LocalDateTime regDate) {
+        this.regDate = regDate;
+    }
+
+    public LocalDateTime getModDate() {
+        return modDate;
+    }
+
+    public void setModDate(LocalDateTime modDate) {
+        this.modDate = modDate;
     }
 
     public String getDelYn() {
@@ -63,13 +71,5 @@ public class PositionVO extends Criteria{
 
     public void setDelYn(String delYn) {
         this.delYn = delYn;
-    }
-
-    public LocalDateTime getModDt() {
-        return modDt;
-    }
-
-    public void setModDt(LocalDateTime modDt) {
-        this.modDt = modDt;
     }
 }

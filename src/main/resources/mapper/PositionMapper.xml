@@ -9,7 +9,7 @@
             SEQ,
             RANK,
             MEMO,
-            TO_CHAR(REG_DT,'yyyy-MM-dd HH24:MI:SS') REG_DT,
+            TO_CHAR(REG_DATE,'yyyy-MM-dd HH24:MI:SS') REG_DATE,
             DEL_YN
         FROM POSITION_MNG_TB
     </select>-->
@@ -22,8 +22,8 @@
             SEQ,
             RANK,
             MEMO,
-            TO_CHAR(REG_DT,'yyyy-MM-dd HH24:MI:SS') REG_DT,
-            TO_CHAR(MOD_DT,'yyyy-MM-dd HH24:MI:SS') MOD_DT,
+            TO_CHAR(REG_DATE,'yyyy-MM-dd HH24:MI:SS') REG_DATE,
+            TO_CHAR(MOD_DATE,'yyyy-MM-dd HH24:MI:SS') MOD_DATE,
             DEL_YN
         FROM POSITION_MNG_TB
         WHERE SEQ = #{seq}
@@ -32,7 +32,7 @@
 
     <!-- 저장  -->
     <insert id="insert" parameterType="PositionVO">
-        INSERT INTO POSITION_MNG_TB(SEQ, RANK, MEMO, REG_DT, DEL_YN)
+        INSERT INTO POSITION_MNG_TB(SEQ, RANK, MEMO, REG_DATE, DEL_YN)
         VALUES(POSITION_MNG_SEQ.NEXTVAL, #{rank}, #{memo}, SYSDATE, 'N')
     </insert>
 
@@ -51,16 +51,16 @@
             SEQ,
             RANK,
             MEMO,
-            TO_CHAR(REG_DT,'yyyy-MM-dd HH24:MI:SS') REG_DT,
-            TO_CHAR(MOD_DT,'yyyy-MM-dd HH24:MI:SS') MOD_DT,
+            TO_CHAR(REG_DATE,'yyyy-MM-dd HH24:MI:SS') REG_DATE,
+            TO_CHAR(MOD_DATE,'yyyy-MM-dd HH24:MI:SS') MOD_DATE,
             DEL_YN
         FROM (
             SELECT
                 SEQ,
                 RANK,
                 MEMO,
-                REG_DT,
-                MOD_DT,
+                REG_DATE,
+                MOD_DATE,
                 DEL_YN,
                 ROW_NUMBER() OVER(ORDER BY SEQ DESC) AS SORT_NUM
             FROM POSITION_MNG_TB
