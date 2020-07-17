@@ -81,7 +81,7 @@
                             <div class="table-responsive">
                                 <form class="user">
                                     <div class="form-group" >
-                                        직급명<input type="text" class="form-control" id="rank" style="width: 80%; float: right;" value="${result.rank}">
+                                        직급명*<input type="text" class="form-control" id="rank" style="width: 80%; float: right;" value="${result.rank}"/>
                                     </div>
                                     <div class="form-group" style="margin-top: 2%">
                                         메모 <textarea class="text-area" id="memo" style="width: 80%; float: right; height: 200px;">${result.memo}</textarea>
@@ -93,9 +93,7 @@
                             <div>
                                 <c:choose>
                                     <c:when test="${isUpdate eq false}">
-                                        <button class="btn btn-dark right" id="btnSave" type="button" style="float : right; margin-top: 2%"> <%-- onclick="location.href='/management/position/list'"--%>
-                                            저장
-                                        </button>
+                                        <input class="btn btn-dark right" id="btnSave" type="submit" style="float : right; margin-top: 2%" value="저장"/> <%-- onclick="location.href='/management/position/list'"--%>
                                     </c:when>
                                     <c:otherwise>
                                         <!-- TODO 상세 페이지에서 추가 -->
@@ -164,22 +162,54 @@ $(function () {
     const $btnDelete = $form.find("#btnDelete"); // 삭제
 
     $btnSave.on("click",function () { // 추가
+        console.log("클릭");
         var object = {
             "rank" : $rank.val(),
             "memo" : $memo.val()
         };
 
-        console.log(object.rank);
-        console.log(object.memo);
+        Save(object);
+    });
+
+    $btnUpdate.on("click",function () { // 수정
+        var object = {
+            "seq" : $seq.val(),
+            "rank" : $rank.val(),
+            "memo" : $memo.val()
+        };
+
+        Save(object);
+    });
+
+    $btnDelete.on("click",function () { // 삭제
+        var object = {
+            "seq" : $seq.val()
+        };
+
+        Delete(object);
+    });
+
+    function Save(data) {
+
+        if($rank.val() == ""){
+            alert("직급명은 필수입니다.");
+            return true;
+        }
+
 
         $.ajax({
             url : "/management/position/save",
             type : "POST",
             contentType : "application/json",
-            data : JSON.stringify(object),
+            /*async : false, /!* async true가 기본이며 기본적으로 비동기 방식으로 처리하지만 false로 동기방식 처리 *!/*/
+            data : JSON.stringify(data),
             success : function () {
-                console.log("SUCCESS");
-                alert("정상적으로 등록되었습니다.");
+                if(${isUpdate eq false}){
+                    alert("정상적으로 등록되었습니다.");
+                } else {
+                    alert("정상적으로 수정되었습니다.");
+                }
+
                 history.back();
                 /*
                 * history.back() : 이전페이지로 이동
@@ -187,21 +217,26 @@ $(function () {
                 * history.forward() : 다음페이지로 이동
                 * */
             }, error : function(jqXhr){
-                alert("등록 실패");
+                alert("작업이 실패했습니다.");
+            }
+        });
+    }
+
+    function Delete(data) {
+        $.ajax({
+            url : "/management/position/delete",
+            type : "POST",
+            contentType : "application/json",
+            data : JSON.stringify(data),
+            success : function () {
+                alert("정상적으로 삭제되었습니다.")
+                history.back();
+            }, error : function(jqXhr){
+                alert("작업이 실패했습니다.");
             }
         });
 
-    });
-
-    $btnUpdate.on("click",function () { // 수정
-
-    });
-
-    $btnDelete.on("click",function () { // 삭제
-
-    });
-
-
+    }
 
 
 

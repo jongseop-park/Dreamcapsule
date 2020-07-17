@@ -14,6 +14,13 @@
         FROM POSITION_MNG_TB
     </select>-->
 
+    <sql id="cmmnWhere">
+        AND SORT_NUM BETWEEN #{rowStart} AND #{rowEnd}
+    </sql>
+    
+    <sql id="cmmnOrder">
+        ORDER BY SEQ DESC
+    </sql>  
     <!--
         상세 정보
     -->
@@ -37,7 +44,26 @@
     </insert>
 
     <!-- 수정 -->
+    <update id="update" parameterType="PositionVO">
+        UPDATE
+            POSITION_MNG_TB
+        SET
+            RANK = #{rank},
+            MEMO = #{memo},
+            MOD_DATE = SYSDATE
+        WHERE
+            SEQ = #{seq}
+    </update>
 
+    <!-- 삭제 DEL_YN > Y -->
+    <update id="delUpdate" parameterType="PositionVO">
+        UPDATE
+            POSITION_MNG_TB
+        SET
+            DEL_YN = 'Y'
+        WHERE
+            SEQ = #{seq}
+    </update>
 
     <!-- 삭제 -->
     <delete id="delete" parameterType="PositionVO">
@@ -64,9 +90,12 @@
                 DEL_YN,
                 ROW_NUMBER() OVER(ORDER BY SEQ DESC) AS SORT_NUM
             FROM POSITION_MNG_TB
+            WHERE DEL_YN = 'N'
         ) POSITION_MNG
         WHERE SORT_NUM BETWEEN #{rowStart} AND #{rowEnd}
         ORDER BY SEQ DESC
+        <!--<include refid="cmmnWhere"/>
+        <include refid="cmmnOrder"/>-->
     </select>
 
     <!-- 페이징 리스트 -->

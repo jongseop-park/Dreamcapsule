@@ -69,7 +69,7 @@
                         <div class="table-responsive">
                             <form class="user">
                                 <div class="form-group" >
-                                    업체명<input type="text" class="form-control" id="_1" style="width: 80%; float: right;">
+                                    업체명<input type="text" class="form-control" id="cm" style="width: 80%; float: right;">
                                 </div>
                                 <div class="form-group" style="margin-top: 2%">
                                     직원수<input type="text" class="form-control" id="_2" style="width: 80%; float: right;">

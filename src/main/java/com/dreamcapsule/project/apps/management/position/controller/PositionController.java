@@ -7,13 +7,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.Position;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -63,15 +63,27 @@ public class PositionController { // 직급 관리
      * */
     @RequestMapping("/save")
     @ResponseBody
-    public PositionVO save(@RequestBody PositionVO conn){
+    public PositionVO save(@RequestBody PositionVO conn){ /* @PathVariable("id") String id  > Mapping {id} 중괄호에 명시된 값을 변수로 받음*/
 
-        log.info("############## SAVE 진입");
+        // 시퀀스 존재에 따라 insert, update 처리
         if(StringUtils.isEmpty(conn.getSeq())){
             positionService.insert(conn);
         }
         else {
-
+            positionService.update(conn);
         }
+        return conn;
+    }
+
+    /**
+     * 삭제 DEL_YN > Y
+     * @param conn
+     * */
+    @RequestMapping("/delete")
+    @ResponseBody
+    public PositionVO delete(@RequestBody PositionVO conn){
+
+        positionService.delUpdate(conn);
         return conn;
     }
 

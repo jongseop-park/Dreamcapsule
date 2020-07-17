@@ -28,6 +28,9 @@ public interface PositionMapper {
     /* 수정 */
     public void update(PositionVO conn);
 
+    /* 삭제 DEL_YN > Y */
+    public void delUpdate(PositionVO conn);
+
     /* 삭제 */
     public void delete(PositionVO conn);
 

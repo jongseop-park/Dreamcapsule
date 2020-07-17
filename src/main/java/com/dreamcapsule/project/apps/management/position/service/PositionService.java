@@ -16,5 +16,9 @@ public interface PositionService {
 
     public void insert(PositionVO conn);
 
+    public void update(PositionVO conn);
+
+    public void delUpdate(PositionVO conn);
+
     public void delete(PositionVO conn);
 }

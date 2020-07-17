@@ -64,7 +64,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // WebSecurit
                 .logoutSuccessUrl("/logout/result")
                 .invalidateHttpSession(true) // HTTP 세션을 초기화.
             .and() // 403 예외처리 핸들링
-                .exceptionHandling().accessDeniedPage("/denied");
+                .exceptionHandling().accessDeniedPage("/denied")
+            .and()
+                .csrf().disable() // Security 미사용
+        ;
     }
 /*    @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception{

@@ -6,6 +6,7 @@ import com.dreamcapsule.project.domain.PositionVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.Position;
 import java.util.List;
 
 @Service
@@ -42,6 +43,17 @@ public class PositionServiceImpl implements PositionService {
     public void insert(PositionVO conn){
         positionMapper.insert(conn);
     }
+
+    @Override
+    public void update(PositionVO conn) {
+        positionMapper.update(conn);
+    }
+
+    @Override
+    public void delUpdate(PositionVO conn){
+        positionMapper.delUpdate(conn);
+    }
+
 
     @Override
     public void delete(PositionVO conn){

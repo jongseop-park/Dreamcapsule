@@ -63,7 +63,7 @@
                             <table style="text-align: center" class="table table-bordered" width="100%" cellspacing="0">
                                 <thead>
                                 <tr>
-                                    <th style="width: 30%">직급</th>
+                                    <th style="width: 30%"><button id="sort" value="desc" style="border: none; background: none;">직급 ▼</button></th>
                                     <th style="width: 70%">메모</th>
                                 </tr>
                                 </thead>
@@ -143,3 +143,17 @@
 </body>
 
 </html>
+<script type="text/javascript">
+    $(function () {
+
+        $("#sort").on("click",function () {
+            let $sort = $("#sort");
+            $sort.text("1234");
+            switch ($sort.val()) {
+               case "desc" : $sort.text("직급 ▲"); $sort.val("asc"); break;
+               case "asc" : $sort.text("직급 ▼"); $sort.val("desc");
+            }
+        })
+
+    });
+</script>
