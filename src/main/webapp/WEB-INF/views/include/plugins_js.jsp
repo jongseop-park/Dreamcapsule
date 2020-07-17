@@ -22,3 +22,6 @@
 
 <script src="https://code.jquery.com/jquery-1.7.2.js"></script>
 <script src="https://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>

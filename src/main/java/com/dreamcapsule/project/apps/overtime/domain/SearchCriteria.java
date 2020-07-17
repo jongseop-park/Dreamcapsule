@@ -7,9 +7,30 @@ public class SearchCriteria  extends  Criteria{
      private String keyword = "";
      private String startDate = "";
      private String endDate = "";
-
+     private String order = "";
+     private String orderKeyword = "";
      private String tempStartDate;
      private String tempEndDate;
+
+    public String getOrderKeyword() {
+        if(orderKeyword.equals(""))
+            return "sequence";
+
+        return orderKeyword;
+    }
+
+    public void setOrderKeyword(String orderKeyword) {
+        this.orderKeyword = orderKeyword;
+    }
+
+    public String getOrder() {
+        return order;
+    }
+
+    public void setOrder(String order) {
+        this.order = order;
+    }
+
 
      public SearchCriteria() {
          setDate();

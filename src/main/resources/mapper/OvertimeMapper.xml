@@ -28,21 +28,40 @@ from (
         select count(*) as totalCount from OT_MNG_TB where sequence > 0
     </select>
 
+    <!--    <select id="search" parameterType="com.dreamcapsule.project.apps.overtime.domain.SearchCriteria"
+                resultType="com.dreamcapsule.project.domain.OvertimeVO">
+
+           select sequence, registerDate, modifyDate, empName, empJob, empPosition,
+           overtimeDate, overtimeTime, eatBoolean, status, contents, requestDate, answer
+    from (
+     select sequence, registerDate, modifyDate, empName, empJob,
+     empPosition, overtimeDate, overtimeTime, eatBoolean, status, contents,
+      requestDate, answer ,row_number() over(order by sequence asc) as rNum
+      from OT_MNG_TB where empName like '%' || #{keyword} || '%' and (requestDate between to_date(#{startDate}) and to_date(#{endDate})))
+     where rNum between #{rowStart} and #{rowEnd} order by sequence asc
+        </select>
+     -->
+        <select id="countSearch" resultType="int">
+            select count(sequence) from OT_MNG_TB where empName like '%' || #{keyword} || '%' and
+            (requestDate between to_date(#{startDate}) and to_date(#{endDate}))
+        </select>
+
+    <!--정렬-->
     <select id="search" parameterType="com.dreamcapsule.project.apps.overtime.domain.SearchCriteria"
             resultType="com.dreamcapsule.project.domain.OvertimeVO">
 
-       select sequence, registerDate, modifyDate, empName, empJob, empPosition,
-       overtimeDate, overtimeTime, eatBoolean, status, contents, requestDate, answer
-from (
- select sequence, registerDate, modifyDate, empName, empJob,
- empPosition, overtimeDate, overtimeTime, eatBoolean, status, contents,
-  requestDate, answer ,row_number() over(order by sequence asc) as rNum
-  from OT_MNG_TB where empName like '%' || #{keyword} || '%' and (requestDate between to_date(#{startDate}) and to_date(#{endDate})))
- where rNum between #{rowStart} and #{rowEnd} order by sequence asc
-    </select>
-
-    <select id="countSearch" resultType="int">
-        select count(sequence) from OT_MNG_TB where empName like '%' || #{keyword} || '%' and
-        (requestDate between to_date(#{startDate}) and to_date(#{endDate}))
+   SELECT sequence,registerdate,modifydate,empname,empjob,empposition,overtimedate,overtimetime,eatboolean,
+    status,contents,requestdate,answer
+FROM (SELECT
+    sequence, registerdate,modifydate,empname,empjob,empposition,overtimedate,overtimetime,eatboolean,
+    status,contents,requestdate,answer, row_number() over
+(ORDER BY ${orderKeyword} ${order}) as rnum
+FROM
+    ot_mng_tb
+WHERE
+    empname LIKE '%' || #{keyword} || '%'
+    AND (requestdate BETWEEN to_date(#{startDate}) AND to_date(#{endDate})))
+WHERE
+    rnum BETWEEN #{rowStart} AND #{rowEnd} order by ${orderKeyword} asc
     </select>
 </mapper>

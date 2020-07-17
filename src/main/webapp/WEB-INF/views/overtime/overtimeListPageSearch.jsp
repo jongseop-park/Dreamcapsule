@@ -21,10 +21,25 @@
     <link href="/static/css/sb-admin-2.min.css" rel="stylesheet">
 
     <!-- javascript -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-1.7.2.js"></script>
     <script src="https://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
     <script type="text/javascript">
+        $(document).ready( function () {
+            $('#myTable').DataTable({
+                /*"columnDefs": [{"orderable": false, "targets":3},{"orderable": false, "targets":4},
+                    {"orderable": false, "targets":5}],
+                */
+                paging:false
+                ,searching:false
+                ,info:false
+                ,ordering:false
+            });
+        } );
+
         $(function() {
             var startDate;
 
@@ -79,6 +94,54 @@
                 results = regex.exec(location.search);
             return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
         }
+        $(function() {
+            $("#myTable thead th").click(function() {
+               var orderKeyword = $(this).text();
+
+               if(orderKeyword == "직원" || orderKeyword == "직무" || orderKeyword == "직급" || orderKeyword == "상태") {
+
+                  switch(orderKeyword) {
+                   case '직원': orderKeyword="empName"; break;
+                   case '직무': orderKeyword="empJob"; break;
+                   case '직급': orderKeyword="empPosition"; break;
+                   case '상태': orderKeyword="status"; break;
+                  }
+
+                if(${scri.order.equals("asc")})
+                    var order = "desc";
+                else
+                    var order = "asc";
+
+                self.location = "/listSearch?"
+                    + "sequence=${searchData.sequence}"
+                    + "&keyword=${scri.keyword}"
+                    + "&page=${scri.page}"
+                    + "&startDate=${scri.startDate}"
+                    + "&endDate=${scri.endDate}"
+                    + "&order=" + order
+                    + "&orderKeyword=" + orderKeyword;
+               }
+            });
+        });
+/*
+        $(function() {
+            $("#empNamecol").click(function() {
+                if(${scri.order.equals("asc")})
+                    var order = "desc";
+                else
+                    var order = "asc";
+
+                self.location = "/listSearch?"
+                    + "sequence=${searchData.sequence}"
+                    + "&keyword=${scri.keyword}"
+                    + "&page=${scri.page}"
+                    + "&startDate=${scri.startDate}"
+                    + "&endDate=${scri.endDate}"
+                    + "&order=" + order;
+            });
+        });
+*/
+
     </script>
     <!-- end -->
 
@@ -87,7 +150,7 @@
         #pagediv {
             position:absolute;
             text-align: center;
-            bottom:20px;
+            bottom:100px;
             left:600px;
             right:400px;
         }
@@ -186,10 +249,11 @@
                     <%@include file="/WEB-INF/views/include/excel_include.jsp"%>
                 </div>
                 <div id="tableDiv">
-                <table class="table table-bordered">
+                <%--<table class="table table-bordered">--%>
+                <table id="myTable">
                 <thead>
                 <tr>
-                    <th>직원</th>
+                    <th id="empNamecol">직원</th>
                     <th>직무</th>
                     <th>직급</th>
                     <th>야근날짜</th>
@@ -214,14 +278,15 @@
             </table>
                 </div>
             <div id="pagediv">
-                <c:if test="${pageMaker.startPage == pageMaker.cri.page}">
-                    <a href="listSearch${pageMaker.makeSearch(pageMaker.cri.pageStart +1)}">◀</a>&nbsp&nbsp&nbsp
+               <%-- <c:if test="${pageMaker.startPage == pageMaker.cri.page}">
+                    <a href="listSearch${pageMaker.makeSearch(pageMaker.cri.pageStart)}">◀</a>&nbsp&nbsp&nbsp
                 </c:if>
                 <c:if test="${pageMaker.startPage != pageMaker.cri.page}">
                     <a href="listSearch${pageMaker.makeSearch(pageMaker.cri.page -1)}">◀</a>&nbsp&nbsp&nbsp
                 </c:if>
-
-                <c:forEach begin="${pageMaker.startPage}"  end="${pageMaker.endPage}" var="idx">
+--%>
+                   <a href="listSearch${pageMaker.makeSearch(pageMaker.cri.page -1)}">◀</a>&nbsp&nbsp&nbsp
+                   <c:forEach begin="${pageMaker.startPage}"  end="${pageMaker.endPage}" var="idx">
                     <c:choose>
                         <c:when test="${idx == pageMaker.cri.page}">
                             <b>&nbsp<a href="listSearch${pageMaker.makeSearch(idx)}">${idx}</a>&nbsp</b>
@@ -231,12 +296,11 @@
                         </c:otherwise>
                     </c:choose>
                 </c:forEach>
-
-                <c:if test="${pageMaker.endPage == pageMaker.cri.page}">
-                    &nbsp&nbsp&nbsp<a href="listSearch${pageMaker.makeSearch(pageMaker.endPage)}">▶</a>
-                </c:if>
-                <c:if test="${pageMaker.endPage != pageMaker.cri.page}">
+                <c:if test="${pageMaker.totalPage != pageMaker.cri.page}">
                     &nbsp&nbsp&nbsp<a href="listSearch${pageMaker.makeSearch(pageMaker.cri.page + 1)}">▶</a>
+                </c:if>
+                <c:if test="${pageMaker.totalPage == pageMaker.cri.page}">
+                    &nbsp&nbsp&nbsp<a href="listSearch${pageMaker.makeSearch(pageMaker.endPage)}">▶</a>
                 </c:if>
             </div>
             <!-- /메인 내용 -->
