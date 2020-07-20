@@ -40,7 +40,7 @@
     <!-- 저장  -->
     <insert id="insert" parameterType="PositionVO">
         INSERT INTO POSITION_MNG_TB(SEQ, RANK, MEMO, REG_DATE, DEL_YN)
-        VALUES(POSITION_MNG_SEQ.NEXTVAL, #{rank}, #{memo}, SYSDATE, 'N')
+        VALUES (POSITION_MNG_SEQ.NEXTVAL, #{rank}, #{memo}, SYSDATE, 'N')
     </insert>
 
     <!-- 수정 -->
@@ -48,6 +48,7 @@
         UPDATE
             POSITION_MNG_TB
         SET
+            SEQ = #{seq},
             RANK = #{rank},
             MEMO = #{memo},
             MOD_DATE = SYSDATE

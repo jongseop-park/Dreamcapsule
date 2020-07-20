@@ -96,14 +96,12 @@
                                         <input class="btn btn-dark right" id="btnSave" type="submit" style="float : right; margin-top: 2%" value="저장"/> <%-- onclick="location.href='/management/position/list'"--%>
                                     </c:when>
                                     <c:otherwise>
-                                        <!-- TODO 상세 페이지에서 추가 -->
                                         <button class="btn btn-dark right " id="btnUpdate" type="button" style="float : right; margin-left: 20px; margin-top: 2%">
                                             수정
                                         </button>
                                         <button class="btn btn-dark right " id="btnDelete" type="button" style="float : right; margin-top: 2%">
                                             삭제
                                         </button>
-                                        <!-- TODO 상세 페이지에서 추가 -->
                                     </c:otherwise>
                                 </c:choose>
                             </div>
@@ -162,7 +160,6 @@ $(function () {
     const $btnDelete = $form.find("#btnDelete"); // 삭제
 
     $btnSave.on("click",function () { // 추가
-        console.log("클릭");
         var object = {
             "rank" : $rank.val(),
             "memo" : $memo.val()

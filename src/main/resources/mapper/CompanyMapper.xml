@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dreamcapsule.project.apps.management.company.mapper.CompanyMapper">
+
+    <select id="page" resultType="CompanyVO" parameterType="CompanyVO">
+        SELECT
+            SEQ,
+            COMPANY_NM,
+            EMP_NUM,
+            ADDRESS,
+            CONTACT_NM,
+            TEL,
+            EMAIL,
+            MEMO,
+            TO_CHAR(REG_DATE,'yyyy.MM.dd') REG_DATE,
+            TO_CHAR(MOD_DATE,'yyyy.MM.dd') MOD_DATE,
+            DEL_YN
+        FROM (
+            SELECT
+                SEQ,
+                COMPANY_NM,
+                EMP_NUM,
+                ADDRESS,
+                CONTACT_NM,
+                TEL,
+                EMAIL,
+                MEMO,
+                REG_DATE,
+                MOD_DATE,
+                DEL_YN,
+                ROW_NUMBER() OVER(ORDER BY SEQ DESC) AS SORT_NUM
+            FROM COMPANY_MNG_TB
+            WHERE DEL_YN = 'N'
+            ) COMPANY_MNG
+            WHERE SORT_NUM BETWEEN #{rowStart} AND #{rowEnd}
+            ORDER BY SEQ DESC
+    </select>
+
+    <select id="listCnt" resultType="int">
+        SELECT
+            COUNT(SEQ)
+        FROM COMPANY_MNG_TB
+        WHERE SEQ > 0 AND DEL_YN = 'N'
+    </select>
+
+    <select id="findByDetail" resultType="CompanyVO" parameterType="CompanyVO">
+        SELECT
+            SEQ,
+            COMPANY_NM,
+            EMP_NUM,
+            ADDRESS,
+            CONTACT_NM,
+            TEL,
+            EMAIL,
+            MEMO,
+            TO_CHAR(REG_DATE,'yyyy.MM.dd') REG_DATE,
+            TO_CHAR(MOD_DATE,'yyyy.MM.dd') MOD_DATE,
+            DEL_YN
+        FROM COMPANY_MNG_TB
+        WHERE SEQ = #{seq}
+        AND DEL_YN = 'N'
+    </select>
+
+    <insert id="insert" parameterType="CompanyVO">
+        INSERT INTO COMPANY_MNG_TB(SEQ, COMPANY_NM, EMP_NUM, ADDRESS, CONTACT_NM, TEL, EMAIL, MEMO, REG_DATE, DEL_YN)
+        VALUES(COMPANY_MNG_SEQ.NEXTVAL, #{companyNm}, #{empNum}, #{address}, #{contactNm}, #{tel}, #{email}, #{memo}, SYSDATE, 'N')
+    </insert>
+
+    <update id="update" parameterType="CompanyVO">
+        UPDATE
+            COMPANY_MNG_TB
+        SET
+            SEQ = #{seq},
+            COMPANY_NM = #{companyNm},
+            EMP_NUM = #{empNum},
+            ADDRESS = #{address},
+            CONTACT_NM = #{contactNm},
+            TEL = #{tel},
+            EMAIL = #{email},
+            MEMO = #{memo},
+            MOD_DATE = SYSDATE
+        WHERE
+            SEQ = #{seq}
+    </update>
+
+    <update id="delUpdate" parameterType="CompanyVO">
+        UPDATE
+            COMPANY_MNG_TB
+        SET
+            DEL_YN = 'Y'
+        WHERE SEQ = #{seq}
+    </update>
+</mapper>

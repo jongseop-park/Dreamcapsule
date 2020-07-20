@@ -70,9 +70,10 @@
                                 <tfoot>
                                 <tbody>
                                 <!-- 리스트 내용 -->
+
                                 <c:forEach var="list" items="${result}" varStatus="status">
-                                    <input type="hidden" id="_seq" value="${list.seq}"/>
-                                    <c:if test="${empty list.seq}">
+                                    <input type="hidden" id="seq" value="${list.seq}"/>
+                                    <c:if test="${empty result}">
                                         <tr>
                                             <td>데이터가 존재하지 않습니다.</td>
                                         </tr>
