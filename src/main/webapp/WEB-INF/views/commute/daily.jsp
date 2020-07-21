@@ -109,11 +109,8 @@
 
                         <div class='col-md-3 col-xs-4' style="float: left; margin-left: 30px">
                             <div class="form-group">
-                                <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-
-
-                                    <div class="input-group-append" data-target="#datetimepicker1"
-                                         data-toggle="datetimepicker"
+                                <div class="input-group date" >
+                                    <div class="input-group-append"
                                          style="margin-right: 30px">
                                         <div class="input-group-text"
                                              style="background-color: #ffffff00; border: 1px solid #ffffff00">
@@ -151,7 +148,7 @@
                 <table class="table table-bordered">
                     <thead>
                     <tr>
-                        <th>직원</th>
+                        <th onclick="fff()">직원</th>
                         <th>직무</th>
                         <th>직급</th>
                         <th>출/퇴근 시간</th>
@@ -171,11 +168,26 @@
                          <td>   <a href="#"> ${daily.emplNm}</a></td>
                             <td>${daily.dutyId} 팀</td>
                             <td>${daily.rankId}</td>
-                            <td>${daily.onwTi} ~ ${daily.offwTi}</td>
+                            <td>${daily.commTi}</td>
                                 <%--                        <td>${daily.offwTi}</td>--%>
                             <td>${daily.workSt}</td>
-                            <td>${daily.workTi}시간</td>
-                            <td>${daily.restTi}시간</td>
+                            <c:choose>
+                                <c:when test="${daily.workTi ne 0}">
+                                    <td>${daily.workTi}시간</td>
+                                </c:when>
+                                <c:when test="${daily.workTi eq 0}">
+                                    <td>-</td>
+                                </c:when>
+                            </c:choose>
+                        <c:choose>
+                            <c:when test="${daily.restTi ne 0}">
+                                <td>${daily.restTi}시간</td>
+                            </c:when>
+                            <c:when test="${daily.restTi eq 0}">
+                                <td>-</td>
+                            </c:when>
+                        </c:choose>
+
                             <td>${daily.workPl}</td>
 
                         </tr>
@@ -319,6 +331,11 @@ function setSearchTypeSelect(){
             + "&keyword=" + encodeURIComponent(keywordVal);
         window.location.href = url;
     })
+}
+
+function fff() {
+
+alert(${daily.size()});
 }
 
 </script>

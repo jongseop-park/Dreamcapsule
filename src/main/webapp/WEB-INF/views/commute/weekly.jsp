@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html lang="en">
 
 <head>
@@ -20,29 +20,39 @@
           rel="stylesheet">
     <!-- Custom styles for this template-->
     <link href="/static/css/commute/sb-admin-comm.css" rel="stylesheet">
-<style>
-    .table-bordered th:nth-child(1){
-        width:5%;
-    }
-    .table-bordered th:nth-child(2){
-        width:9%;
-    }
-    .table-bordered th:nth-child(3){
-        width:5%;
-    }
-    .table-bordered th:nth-child(4){
-        width:7%;
-    }
-    .table-bordered th:nth-child(n+5):nth-child(-n+11){
-        width:7%;
-    }
-    .table-bordered th:nth-child(12) {
-        width:6%;
-    }
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
+          crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" media="screen"
+          href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css">
+    <style>
+        .table-bordered th:nth-child(1) {
+            width: 5%;
+        }
+
+        .table-bordered th:nth-child(2) {
+            width: 9%;
+        }
+
+        .table-bordered th:nth-child(3) {
+            width: 5%;
+        }
+
+        .table-bordered th:nth-child(4) {
+            width: 7%;
+        }
+
+        .table-bordered th:nth-child(n+5):nth-child(-n+11) {
+            width: 7%;
+        }
+
+        .table-bordered th:nth-child(12) {
+            width: 6%;
+        }
 
 
+    </style>
 
-</style>
 </head>
 
 <body id="page-top">
@@ -76,51 +86,45 @@
 
             <div class="container2">
 
-                <div class="container2">
-                    <a href="/home"> 홈 </a> >
-                    <a>출퇴근 관리 </a> >
-                    <a href="/daily">Daily</a> >
-                    <a>Detail</a>
-                    <div class="heighttdivspace"></div>
 
-                    <h2>출/퇴근관리 Weekly</h2>
+                <a href="/home"> 홈 </a> >
+                <a>출퇴근 관리 </a> >
+                <a href="/daily">Daily</a> >
+                <a>Detail</a>
+                <div class="heighttdivspace"></div>
 
-                    <div class="form-inline">
-                        <select>
-                            <option
-                        </select>
+                <h2>출/퇴근관리 Weekly</h2>
 
-                        <div style="float: right ; width:600px ">
+                <div style="float: right ; width:800px ">
 
 
-                            <div class='col-md-3 col-xs-4' style="float: left; margin-left: 30px">
-                                <div class="form-group">
-                                    <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                    <div class='col-md-3 col-xs-4' style="float: left; margin-left: 30px">
+                        <div class="form-group" style="margin-right: 300px">
+                            <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
 
 
-                                        <div class="input-group-append" data-target="#datetimepicker1"
-                                             data-toggle="datetimepicker"
-                                             style="margin-right: 30px">
-                                            <div class="input-group-text"
-                                                 style="background-color: #ffffff00; border: 1px solid #ffffff00">
-                                                <i class="fa fa-calendar"></i>
-                                            </div>
-                                            <input type="text" class="form-control _date" id="datepicker"
-                                                   style="width: 120px">
-                                        </div>
+                                <div class="input-group-append" data-target="#datetimepicker1"
+                                     data-toggle="datetimepicker"
+                                     style="margin-right: 30px">
+                                    <div class="input-group-text"
+                                         style="background-color: #ffffff00; border: 1px solid #ffffff00">
+                                        <i class="fa fa-calendar"></i>
                                     </div>
+                                    <input type="text" class="form-control _date" id="week-picker"
+                                           style="width: 200px">
                                 </div>
                             </div>
-
+                        </div>
+                    </div>
 
 
                     <%@include file="include/excel_include_commute.jsp" %>
 
                     <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"
-                          style="float: right ; padding-top: 1px" >
+                          style="float: right ; padding-top: 1px">
                         <div class="input-group">
                             <input type="text" class="form-control bg-light border-0 small" placeholder="직원 검색.."
-                                   id="keyword" name="keyword" value="${pageMaker.cri.keyword}"/>
+                                   id="keyword" name="keyword"/>
                             <div class="input-group-append">
                                 <button class="btn btn-primary" type="button" id="searchBtn">
                                     <i class="fas fa-search fa-sm"></i>
@@ -129,7 +133,6 @@
                         </div>
                     </form>
 
-                </div>
                 </div>
 
 
@@ -150,40 +153,115 @@
                         <th>근무시간</th>
                     </tr>
                     </thead>
+                    <tbody>
+
+                    <c:forEach var="weekly" items="${weekly}">
+
+                        <td><a href="#"> ${weekly.emplNm}</a></td>
+
+                        <td>${weekly.dutyId} 팀</td>
+                        <td>${weekly.rankId}</td>
+                        <td>${weekly.workPl}</td>
+                        <%--------------------------월-------------------------------------------------%>
+                            <c:forEach begin="0" end="6" step="1" varStatus="g">
+                            <c:choose>
+
+                                <c:when test="${fn:split(weekly.commTi,',')[g.index] ne null &&
+                                            fn:split(weekly.workSt,',' )[g.index] ne '정기휴가'}">
+                                    <td>${fn:split(weekly.commTi,',')[g.index]}</td>
+                                </c:when>
+
+                                <c:when test="${fn:split(weekly.commTi,',')[g.index] ne null &&
+                                            fn:split(weekly.workSt,',' )[g.index] eq '정기휴가'}">
+                                    <td>정기휴가</td>
+                                </c:when>
+                                <c:when test="${fn:split(weekly.commTi,',')[g.index] eq null &&
+                                            fn:split(weekly.workSt,',' )[g.index] eq null}">
+                                        <td>-</td>
+                                </c:when>
+                            </c:choose>
+                        </c:forEach>
+
+                        <td>${weekly.totalTi}</td>
+
+                        </tr>
+                    </c:forEach>
+
+                    </tbody>
+
                 </table>
+                <div>
+                    <ul class="pagination" style="justify-content: center">
+                        <%--                        <c:if test="${pageMaker.prev}">--%>
+                        <%--                            <li><a href="daily${pageMaker.makeQuery(pageMaker.startPage - 1)}">이전</a></li>--%>
+                        <%--                        </c:if>--%>
+                        <%--                            <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">--%>
+                        <%--                                <li id="page${idx}"><a href="daily${pageMaker.makeQuery(idx)}">${idx}</a></li>--%>
+                        <%--                            </c:forEach>--%>
+                        <%--                        <c:if test="${pageMaker.next && pageMaker.endPage > 0}">--%>
+                        <%--                            <li><a href="daily${pageMaker.makeQuery(pageMaker.endPage + 1)}">다음</a></li>--%>
+                        <%--                        </c:if>--%>
+                        <li><a href="weekly${pageMaker.makeQuery(pageMaker.startPage - 1)}">이전</a></li>
+                        <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
+                            <li id="page${idx}"><a href="weekly${pageMaker.makeQuery(idx)}">${idx}</a></li>
+                        </c:forEach>
+                        <li><a href="weekly${pageMaker.makeQuery(pageMaker.endPage + 1)}">다음</a></li>
 
-
-
-
-
-
-
-
-
-
-
-
-
-                        </br></br></br></br></br>
-                    <!-- Footer -->
-                    <%@include file="../include/footer.jsp" %>
-                    <!-- End of Footer -->
-
+                    </ul>
                 </div>
-                <!-- End of Content Wrapper -->
-
             </div>
-            <!-- End of Page Wrapper -->
 
-            <!-- Scroll to Top Button-->
-            <a class="scroll-to-top rounded" href="#page-top">
-                <i class="fas fa-angle-up"></i>
-            </a>
 
-            <!-- Logout Modal-->
-            <%@include file="/WEB-INF/views/include/logout_cmmn.jsp"%>
+            </br></br></br></br></br>
+            <!-- Footer -->
+            <%@include file="../include/footer.jsp" %>
+            <!-- End of Footer -->
 
-            <!-- Bootstrap core JavaScript-->
-            <%@include file="../include/plugins_js.jsp" %>
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <%@include file="/WEB-INF/views/include/logout_cmmn.jsp" %>
+
+    <!-- Bootstrap core JavaScript-->
+    <%@include file="../include/plugins_js.jsp" %>
 </body>
 </html>
+
+<%--<script src="/static/js/datepicker/jquery.js"></script>--%>
+<script src="/static/js/datepicker/jquery-ui.min.js" type="text/javascript"></script>
+
+<script src="/static/js/datepicker/jquery.ui.datepicker-ko.js" type="text/javascript"></script>
+
+
+<script type="text/javascript">
+    function setPerPageNumSelect() {
+        var perPageNum = "${pageMaker.cri.perPageNum}";
+        var $perPageSel = $('#perPageSel');
+        var thisPage = '${pageMaker.cri.page}';
+        $perPageSel.val(perPageNum).prop("selected", true);
+        //PerPageNum가 바뀌면 링크 이동
+        $perPageSel.on('change', function () {
+            //pageMarker.makeQuery 사용 못하는 이유: makeQuery는 page만을 매개변수로 받기에 변경된 perPageNum을 반영못함
+            window.location.href = "weekly?page=" + thisPage + "&perPageNum=" + $perPageSel.val();
+        })
+    }
+
+    $.ajax({
+        url: 'http://localhost:5000/weekly',
+        type: 'GET'
+    }).done((data, textStatus, jqXHR) => {
+        console.log('성공');
+        console.log(data);
+        console.log(textStatus);
+        console.log(jqXHR);
+    });
+</script>
