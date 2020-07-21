@@ -5,14 +5,42 @@
 <mapper namespace="com.dreamcapsule.project.apps.holiday.mapper.HolidayMapper">
 
     <select id="findAll" resultType="HolidayVO">
-        SELECT * FROM HOLIDAYTEST
+        SELECT * FROM HOLIDAY_INFO_TB ORDER BY ${VALUE} ${TYPE}
     </select>
 
-    <select id="findBySEQ" resultType="HolidayVO">
-        SELECT * FROM HOLIDAYTEST WHERE SEQ = #{SEQ}
+    <select id="findByInfoValue" resultType="HolidayVO">
+        SELECT * FROM HOLIDAY_INFO_TB WHERE SEQ = #{SEQ}
+    </select>
+    <select id="findByValue" resultType="HolidayVO">
+        SELECT * FROM HOLIDAY_TB WHERE USER_NUM = #{SEQ} AND HOLIDAY_YEAR = #{YEAR} AND HOLIDAY_MONTH = #{MONTH}
     </select>
 
     <select id="findByName" resultType="HolidayVO">
-        SELECT * FROM HOLIDAYTEST WHERE NAME = #{NAME}
+        SELECT * FROM HOLIDAY_TB WHERE NAME = #{NAME}
     </select>
+
+    <select id="findTask" resultType="HolidayVO">
+        SELECT DISTINCT TASK FROM HOLIDAY_INFO_TB
+    </select>
+
+    <select id="findYear" resultType="HolidayVO">
+        SELECT DISTINCT HOLIDAY_YEAR FROM HOLIDAY_TB ORDER BY HOLIDAY_YEAR DESC
+    </select>
+
+    <select id="findUse" resultType="HolidayVO">
+        SELECT SUM(USE_HOLIDAY) AS USE_HOLIDAY FROM HOLIDAY_TB WHERE USER_NUM = #{NUM} AND HOLIDAY_MONTH = #{MONTH} AND HOLIDAY_YEAR = #{YEAR}
+    </select>
+
+    <select id="findUseTask" resultType="HolidayVO">
+        SELECT SUM(USE_HOLIDAY) AS USE_HOLIDAY
+        FROM HOLIDAY_TB
+         WHERE USER_NUM = (SELECT seq from HOLIDAY_INFO_TB WHERE TASK = #{TASK})
+         AND HOLIDAY_MONTH = #{MONTH}
+         AND HOLIDAY_YEAR = #{YEAR}
+    </select>
+
+    <select id="findTaskMember" resultType="HolidayVO">
+        SELECT * FROM HOLIDAY_INFO_TB WHERE TASK = #{TASK}
+    </select>
+
 </mapper>

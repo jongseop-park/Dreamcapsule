@@ -46,6 +46,15 @@ public class HolidayVO {
     /** 잔여 휴가 일수 */
     private Long restHoliday;
 
+    /** 휴가 년도 */
+    private Long holidayYear;
+
+    private Long userNum;
+
+    private Long holidayMonth;
+
+    private Long useHoliday;
+
     public Long getSeq() {
         return seq;
     }
@@ -157,4 +166,20 @@ public class HolidayVO {
     public void setRestHoliday(Long restHoliday) {
         this.restHoliday = restHoliday;
     }
+
+    public Long getHolidayYear(){return holidayYear;}
+
+    public void setHolidayYear(Long holidayYear) {this.holidayYear = holidayYear; }
+
+    public Long getUserNum(){return userNum;}
+
+    public void setUserNum(Long userNum){this.userNum = userNum;}
+
+    public Long getHolidayMonth(){return holidayMonth;}
+
+    public void setHolidayMonth(Long holidayMonth) { this.holidayMonth = holidayMonth;}
+
+    public Long getUseHoliday(){return useHoliday;}
+
+    public void setUseHoliday(Long useHoliday){this.useHoliday = useHoliday;}
 }

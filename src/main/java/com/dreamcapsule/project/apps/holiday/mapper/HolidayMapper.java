@@ -12,11 +12,19 @@ import java.util.List;
 @Repository
 public interface HolidayMapper {
 
-/*    @Select("SELECT * FROM HOLIDAYTEST WHERE SEQ = #{SEQ}")*/
-    public List<HolidayVO> findBySEQ(@Param("SEQ") int SEQ);
+    public List<HolidayVO> findByValue(@Param("SEQ") int SEQ,@Param("YEAR") int year,@Param("MONTH") int month);
 
-/*    @Select("SELECT * FROM HOLIDAYTEST")*/
-    public List<HolidayVO> findAll();
+    public HolidayVO findByInfoValue(@Param("SEQ") int SEQ);
+
+    public List<HolidayVO> findAll(@Param("VALUE") String sortValue,@Param("TYPE")String sortType);
 
     public List<HolidayVO> findByName(@Param("NAME") String NAME);
+
+    public List<HolidayVO> findTask();
+
+    public List<HolidayVO> findYear();
+
+    public HolidayVO findUse(@Param("NUM") Long num, @Param("YEAR") Long year, @Param("MONTH") int month);
+
+    public List<HolidayVO> findTaskMember(@Param("TASK") String task);
 }

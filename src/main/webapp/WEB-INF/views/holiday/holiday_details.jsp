@@ -19,7 +19,11 @@
 
     <!-- Custom styles for this template-->
     <link href="/static/css/sb-admin-2.min.css" rel="stylesheet">
-
+    <script>
+        document.getElementById("div_1").addEventListener('click',function(event){
+            alert("dd");
+        });
+    </script>
 
 </head>
 <body id="page-top">
@@ -59,30 +63,28 @@
                             <h3 style="margin-top: 10px; margin-bottom: 30px">휴가 관리하기</h3>
                         </div>
                         <div style='width : 30%; height : 80%; float:left; margin-top: 10px '>
-                            <img src="/resources/static/img/holiday_sample_img.png" width="100px" height="100px"
+                            <img src="" width="100px" height="100px"
                                  alt="기본사진">
                         </div>
                         <div style='width : 70%; height : 80%; float:right; margin-top:10px; vertical-align: center'>
-                            <c:forEach var="holiday" items="${holidayDetails}" begin="1" end="1">
 
-                                <h5>${holiday.name}</h5>
+                                <h5>${holidayDetailsInfo.name}</h5>
                                 <form>
                                     <div style="width: 60%; float:left;">
-                                            ${holiday.task} 팀 | ${holiday.jobGrade}
+                                            ${holidayDetailsInfo.task} 팀 | ${holidayDetailsInfo.jobGrade}
                                     </div>
                                     <div style="width: 40%; float:right;">
                                         <a href="/holiday_add"
                                            class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">추가</a>
                                     </div>
                                 </form>
-                            </c:forEach>
                         </div>
                     </div>
-                    <div style='width: 100%;height: 70%; float: bottom;'>
-                        <c:forEach var="holiday" items="${holidayDetails}">
-                            <div style=' border-style: solid; border-radius:10px 10px 10px 10px; width: 90%; height: 150px; margin-top: 20px'>
+                    <div style='width: 100%;height: 70%; float: bottom;' id="selectHoliday">
+                        <c:forEach var="holiday" items="${holidayDetails}" varStatus="status">
+                            <div id="div_${status.count}" style=' border-style: solid; border-radius:10px 10px 10px 10px; width: 90%; height: 150px; margin-top: 20px'>
                                 <div style=' border-style: solid; border-radius: 30px 30px 30px 30px; width: 100px;text-align: center; float: right; margin: 10px'>
-                                    <c:set var="name">${holiday.holidayDate}</c:set>
+                                    <c:set var="name">${holiday.holidayDate} div_${status.count}</c:set>
 
                                     <c:choose>
                                         <c:when test="${holiday.stateYsn eq 'Y'.charAt(0)}">
@@ -98,7 +100,7 @@
                                 </div>
                                 <br>
                                 <div style="vertical-align: middle; padding-left: 10px">
-                                    기간 ${holiday.holidayDate.substring(0,7)} ~ ${holiday.holidayDate.substring(holiday.holidayDate.length()-8,holiday.holidayDate.length())} | *일 <br><br>
+                                    기간 ${holiday.holidayDate.substring(0,9)} ~ ${holiday.holidayDate.substring(holiday.holidayDate.length()-9,holiday.holidayDate.length())} | ${holiday.useHoliday}일 <br><br>
                                     유형 ${holiday.holidayType}
                                 </div>
                             </div>
@@ -106,18 +108,13 @@
                     </div>
                 </div>
 
-
-                <c:forEach var="holiday" items="${holidayDetails}" begin="1" end="1">
                 <div style='width: 50%;height: 100%; float:right; padding-top: 50px;'>
 
-                    휴가날짜 ${holiday.holidayDate.substring(0,7)}
-                    ~ ${holiday.holidayDate.substring(holiday.holidayDate.length()-8,holiday.holidayDate.length())} <br><br>
-                    차감휴가 일<br><br>
-                    휴가유형 ${holiday.holidayType} <br><br>
-                    메모 ${holiday.note}<br><br>
-                    신청날짜 ${holiday.applicationTime.year+1900} . ${holiday.applicationTime.month+1}
-                    . ${holiday.applicationTime.date} ${holiday.applicationTime.hours+1}
-                    : ${holiday.applicationTime.minutes}<br><br>
+                    휴가날짜 <span id="spanDate"></span> <br><br>
+                    차감휴가 <span id="spanUse"></span> 일<br><br>
+                    휴가유형 <span id="spanType"></span><br><br>
+                    메모 <span id="spanMemo"></span><br><br>
+                    신청날짜 <span id="spanApTime"></span><br><br>
                     <div style="float: left">
                         승인<input type="radio" value="승인" name="state">
                     </div>
@@ -125,12 +122,10 @@
                         반려<input type="radio" value="반려" name="state">
                     </div>
                     <br><br>
-                    <textarea cols="65%" rows="5" placeholder="답변을 입력해주세요."></textarea>
+                    <textarea cols="65%" rows="5" placeholder="답변을 입력 해 주세요."></textarea>
                     <br><br>
-                    <input type="button" value="저장" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
-                           style="float: right">
-
-                    </c:forEach>
+                    <input id='btn' type="button" value="저장" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
+                           style="float: right; ">
                 </div>
             </div>
 
@@ -158,3 +153,15 @@
 
 </body>
 </html>
+<script>
+
+    var y = new Array();
+    for(var x = 0; x < ${holidayDetails.size()}; x++) {
+        y = document.getElementById("div_" + (x+1);
+        $(y[x]).click(function () {
+            alert("클릭");
+        });
+    }
+</script>
+
+

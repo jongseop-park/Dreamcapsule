@@ -50,7 +50,7 @@
 
 
             <div class="container">
-                <a href="/home"> 홈 </a>> <a href="/holiday"> 휴가관리 </a>> <a href="/holiday_details"> 상세 </a>> 추가<br>
+ <%--           <a href="/home"> 홈 </a>> <a href="/holiday"> 휴가관리 </a>> <a href="/holiday_details"> 상세 </a>> 추가<br>
 
                 <h3 style="margin-top: 10px; margin-bottom: 10px">휴가 추가하기</h3>
 
@@ -79,7 +79,7 @@
                     <input type="button" value="저장" style="float: right" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"/><br><br>
                 </div>
             </div>
-            </c:forEach>
+            </c:forEach>--%>
 
             <!-- Footer -->
             <%@include file="/WEB-INF/views/include/footer.jsp" %>
