@@ -90,6 +90,8 @@ public class PageMaker {
                 .queryParam("keyword", encoding(((SearchCriteria)cri).getKeyword()))
                 .queryParam("startDate", ((SearchCriteria) cri).getStartDate())
                 .queryParam("endDate", ((SearchCriteria) cri).getEndDate())
+                .queryParam("order", ((SearchCriteria)cri).getOrder())
+                .queryParam("orderKeyword", ((SearchCriteria)cri).getOrderKeyword())
                 .build();
         return uriComponents.toUriString();
     }

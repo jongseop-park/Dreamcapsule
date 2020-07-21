@@ -1,7 +1,9 @@
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.Date" %>
 <%@ page import="java.text.DateFormat" %>
+<%@ page import="com.dreamcapsule.project.apps.overtime.domain.SearchCriteria" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="en">
 <head>
@@ -28,26 +30,58 @@
     <script src="https://code.jquery.com/jquery-1.7.2.js"></script>
     <script src="https://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
     <script type="text/javascript">
-        $(document).ready( function () {
+       /* $(document).ready( function () {
             $('#myTable').DataTable({
-                /*"columnDefs": [{"orderable": false, "targets":3},{"orderable": false, "targets":4},
-                    {"orderable": false, "targets":5}],
-                */
                 paging:false
                 ,searching:false
                 ,info:false
                 ,ordering:false
             });
-        } );
+        } );*/
+
+       function sortTest(keyword) {
+           var order= "asc";
+           var orderKeyword= keyword;
+
+           if(${scri.order.equals("asc")}) {
+               document.getElementById("dateSort").innerHTML = "▲";
+               document.getElementById("dateSort2").innerHTML = "▲";
+               order= "desc";
+           } else {
+               document.getElementById("dateSort").innerHTML = "▼";
+               document.getElementById("dateSort2").innerHTML = "▼";
+               order="asc"
+           }
+
+           $.ajax({
+               type: "GET",
+               url: "/listSearch?sequence=${searchData.sequence}" +
+                   "&keyword=${scri.keyword}" +
+                   "&page=${scri.page}" +
+                   "&startDate=${scri.startDate}" +
+                   "&endDate=${scri.endDate}" +
+                   "&order=" + order +
+                   "&orderKeyword=" + orderKeyword,
+               dataType: "html",
+               contentType: "json",
+               success: function (data) {
+                   $('#page-top').children().remove();
+                   $('#page-top').html(data);
+               },
+               error: function (jqXHR, textStatus, errorThrown) {
+                   //alert("에러");
+               },
+           });
+       }
 
         $(function() {
             var startDate;
 
             $(".startDatepicker").datepicker({
                 showOn: 'both'
-                ,buttonImage: 'https://jqueryui.com/resources/demos/datepicker/images/calendar.gif'
+                ,buttonImage: 'https://icons.iconarchive.com/icons/custom-icon-design/mono-business-2/32/calendar-icon.png'
                 ,buttonText: '날짜선택'
-                ,buttonImageOnly: false
+                ,buttonImageOnly: true
                 ,showMonthAfterYear: true
                 ,changeYear: true
                 ,changeMonth: true
@@ -66,26 +100,62 @@
                 return year + "-" + month + "-" + day;
             }
 
-            $(".endDatepicker").datepicker({
-                showOn: 'focus'
-                ,buttonImageOnly: false
-                ,showMonthAfterYear: true
-                ,changeYear: true
-                ,changeMonth: true
-                ,dateFormat: 'yy년 mm월 dd일'
-                ,monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] // 월의 한글 형식.
-                ,dayNamesMin: ['일','월','화','수','목','금','토'],
-                onSelect:function() {
-                    var endDate = $(".endDatepicker").val();
+            function applyDatepicker(elem) {
+                $(elem).datepicker({
+                    showOn: 'focus'
+                    ,buttonImageOnly: false
+                    ,showMonthAfterYear: true
+                    ,changeYear: true
+                    ,changeMonth: true
+                    ,dateFormat: 'yy년 mm월 dd일'
+                    ,monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] // 월의 한글 형식.
+                    ,dayNamesMin: ['일','월','화','수','목','금','토'],
+                    onSelect:function() {
+                        var endDate = $(".endDatepicker").val();
 
-                    if(startDate == null) {
-                        alert("시작일을 선택해주세요.");
-                    } else {
-                        endDate = getDateFormat(endDate);
-                        startDate=  getDateFormat(startDate);
-                        location.href="/listSearch?startDate=" + startDate + "&endDate=" + endDate + "&keyword=" + getParameter("keyword");
-                    }
-                }});
+                        if(startDate == null) {
+                            alert("시작일을 선택해주세요.");
+                        } else {
+                            endDate = getDateFormat(endDate);
+                            startDate=  getDateFormat(startDate);
+
+                            location.href="/listSearch?startDate=" + startDate + "&endDate=" + endDate + "&keyword=" + getParameter("keyword");
+
+/*                            $.ajax({
+                                type: "GET",
+                                url: "/listSearch?startDate=" + startDate +
+                                    "&endDate=" + endDate +
+                                    "&keyword=" + getParameter("keyword"),
+                                dataType: "html",
+                                contentType: "json",
+                                success: function (data) {
+                                    $('#page-top').children().remove();
+                                    $('#page-top').html(data);
+
+
+
+                                    $(document).on('changeDate',"#date1", function(){
+                                        alert('event fired');
+                                    });
+
+                                    $(".selectDt").removeClass('hasDatepicker').datepicker();
+
+                                    $(".startDatepicker").datepicker("destroy");
+                                    $(".endDatePicker").datepicker('remove');
+                                    applyDatepicker(".endDatepicker");
+
+                                },
+                                error: function (jqXHR, textStatus, errorThrown) {
+                                    //alert("에러");
+                                },
+                            });*/
+
+                        }
+                    }});
+            }
+            $(document).ready(function() {
+                applyDatepicker(".endDatepicker");
+            })
         });
 
         function getParameter(name) {
@@ -94,54 +164,23 @@
                 results = regex.exec(location.search);
             return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
         }
-        $(function() {
-            $("#myTable thead th").click(function() {
-               var orderKeyword = $(this).text();
 
-               if(orderKeyword == "직원" || orderKeyword == "직무" || orderKeyword == "직급" || orderKeyword == "상태") {
+        // 조회
+       $(function() {
+        $("#myTable tbody tr").click(function() {
+             var tr = $(this);
+             var td = tr.children();
 
-                  switch(orderKeyword) {
-                   case '직원': orderKeyword="empName"; break;
-                   case '직무': orderKeyword="empJob"; break;
-                   case '직급': orderKeyword="empPosition"; break;
-                   case '상태': orderKeyword="status"; break;
-                  }
-
-                if(${scri.order.equals("asc")})
-                    var order = "desc";
-                else
-                    var order = "asc";
-
-                self.location = "/listSearch?"
-                    + "sequence=${searchData.sequence}"
-                    + "&keyword=${scri.keyword}"
-                    + "&page=${scri.page}"
-                    + "&startDate=${scri.startDate}"
-                    + "&endDate=${scri.endDate}"
-                    + "&order=" + order
-                    + "&orderKeyword=" + orderKeyword;
-               }
-            });
+            self.location = "/readInfo?"
+                + "sequence=" + td.eq(0).text()
+                + "&keyword=${scri.keyword}"
+                + "&page=${scri.page}"
+                + "&startDate=${scri.startDate}"
+                + "&endDate=${scri.endDate}"
+                + "&order=" + getParameter("order")
+                + "&orderKeyword=" + getParameter("orderKeyword");
         });
-/*
-        $(function() {
-            $("#empNamecol").click(function() {
-                if(${scri.order.equals("asc")})
-                    var order = "desc";
-                else
-                    var order = "asc";
-
-                self.location = "/listSearch?"
-                    + "sequence=${searchData.sequence}"
-                    + "&keyword=${scri.keyword}"
-                    + "&page=${scri.page}"
-                    + "&startDate=${scri.startDate}"
-                    + "&endDate=${scri.endDate}"
-                    + "&order=" + order;
-            });
-        });
-*/
-
+     });
     </script>
     <!-- end -->
 
@@ -150,14 +189,9 @@
         #pagediv {
             position:absolute;
             text-align: center;
-            bottom:100px;
+            bottom:15%;
             left:600px;
             right:400px;
-        }
-
-        .table{
-            width:100%;
-            table-layout: fixed;
         }
 
         #top {
@@ -167,25 +201,55 @@
         #date1 {
             width: 150px;
             height: 30px;
-            margin: 4px 10px 0 25%;
+            margin: 4px 2px 0 19%;
+            border:1px solid #d1d3e2; background: none; border-radius: 3px;
         }
         #date2 {
             width: 150px;
             height: 30px;
-            margin: 4px 0 0 10px;
+            margin: 4px 2px 0 10px;
+            border:1px solid #d1d3e2; background: none; border-radius: 3px;
         }
 
         .ui-datepicker-trigger {
             position: absolute;
-            margin: 4px 0 0 310px;
+            margin: 4px 0 0 250px;
             height: 30px;
             width: 30px;
         }
 
         #tableDiv {
-            height:530px;
+            height:900px;
         }
 
+        #dateSort, #dateSort2 {
+            border:1px solid #d1d3e2;
+            background: none;
+            height: 30px;
+            margin: 4px 10px 0 0;
+            width: 30px;
+            color:#d1d3e2;
+            border-radius: 5px;
+        }
+
+        #empName, #empJob, #empPosition, #statussort {
+            border:1px solid #d1d3e2;
+            background: none;
+            height: 30px;
+            margin: 4px 10px 0 15px;
+            width: 30px;
+            border-radius: 5px;
+            color:#d1d3e2;
+        }
+
+        #myTable tbody{
+            color:#6e707e;
+        }
+
+        #myTable tbody tr:hover {
+            background-color:#4e73df;
+            color:#000000;
+        }
     </style>
     <!-- end -->
 
@@ -217,7 +281,8 @@
                 <div id="top">
                     <h5 id="title">야근관리</h5>
                     <%
-                       String startDate= request.getParameter("startDate");
+                        /// 날짜 변환 출력
+                       String startDate = request.getParameter("startDate");
                        String endDate = request.getParameter("endDate");
 
                        if(startDate != null && endDate != null) {
@@ -230,13 +295,43 @@
                            startDate = "";
                            endDate = "";
                        }
+
+                       //// 정렬
+                       String order = request.getParameter("order") == null? "" : request.getParameter("order");
+                       String orderKeyword = request.getParameter("orderKeyword") == null? "": request.getParameter("orderKeyword");
+
+                        String empName= "▼";
+                        String empJob= "▼";
+                        String empPosition= "▼";
+                        String status= "▼";
+                        String requestDate= "▼";
+
+                        if(order.equals("asc")) {
+                            switch (orderKeyword) {
+                                case "empName": empName="▼"; break;
+                                case "empJob": empJob="▼"; break;
+                                case "empPosition": empPosition="▼"; break;
+                                case "status": status="▼"; break;
+                                case "requestDate": requestDate="▼"; break;
+                            }
+                        } else {
+                            switch (orderKeyword) {
+                                case "empName": empName="▲"; break;
+                                case "empJob": empJob="▲"; break;
+                                case "empPosition": empPosition="▲"; break;
+                                case "status": status="▲"; break;
+                                case "requestDate": requestDate="▲"; break;
+                            }
+                        }
                     %>
-                    <input type="text" class="startDatepicker" id="date1" value="<%= startDate %>">
-                    ~ <input type="text" class="endDatepicker" id="date2" value="<%= endDate %>">
+                   <input type="text" class="startDatepicker" id="date1" value="<%= startDate  %>">
+                    <button id="dateSort" value="requestDate" onClick="sortTest(dateSort.value)" ><%= requestDate %></button> ~
+                    <input type="text" class="endDatepicker" id="date2" value="<%= endDate %>">
+                    <button id="dateSort2" value="requestDate" onClick="sortTest(dateSort2.value)"><%= requestDate %></button>
 
                     <form method="get" action="/listSearch" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
-                            <input type="text" name="keyword" value="${scri.keyword}" class="form-control bg-light border-0 small" placeholder="직원검색" aria-label="Search" aria-describedby="basic-addon2">
+                            <input type="text" name="keyword" value="${scri.keyword}" class="form-control bg-light border-1 small" placeholder="직원검색" aria-label="Search" aria-describedby="basic-addon2">
                             <input type="hidden" name="startDate" value="${scri.startDate}" />
                             <input type="hidden" name="endDate" value="${scri.endDate}" />
                             <div class="input-group-append">
@@ -249,23 +344,24 @@
                     <%@include file="/WEB-INF/views/include/excel_include.jsp"%>
                 </div>
                 <div id="tableDiv">
-                <%--<table class="table table-bordered">--%>
-                <table id="myTable">
+                <table id="myTable" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th id="empNamecol">직원</th>
-                    <th>직무</th>
-                    <th>직급</th>
+                    <th id="직원">직원<button id="empName" value="empName" onClick="sortTest(empName.value)"><%= empName %></button></th>
+                    <th id="직무">직무<button id="empJob" value="empJob" onClick="sortTest(empJob.value)"><%= empJob %></button></th>
+                    <th id="직급">직급<button id="empPosition" value="empPosition" onClick="sortTest(empPosition.value)"><%= empPosition %></button></th>
                     <th>야근날짜</th>
                     <th>야근시간</th>
                     <th>석식여부</th>
-                    <th>상태</th>
+                    <th id="상태">상태<button id="statussort" value="status" onClick="sortTest(statussort.value)"><%= status %></button></th>
                 </tr>
                 </thead>
                 <tbody>
                 <c:forEach var="searchData" items="${searchList}">
                     <tr>
-                        <td><a href="/readInfo?sequence=${searchData.sequence}&keyword=${scri.keyword}&page=${scri.page}&startDate=${scri.startDate}&endDate=${scri.endDate}">${searchData.empName}</a></td>
+                        <td style="display:none;">${searchData.sequence}</td>
+                        <td>
+                        <%--<a href="/readInfo?sequence=${searchData.sequence}&keyword=${scri.keyword}&page=${scri.page}&startDate=${scri.startDate}&endDate=${scri.endDate}">--%>${searchData.empName}<%--</a>--%></td>
                         <td>${searchData.empJob}</td>
                         <td>${searchData.empPosition}</td>
                         <td>${searchData.overtimeDate}</td>
@@ -278,13 +374,6 @@
             </table>
                 </div>
             <div id="pagediv">
-               <%-- <c:if test="${pageMaker.startPage == pageMaker.cri.page}">
-                    <a href="listSearch${pageMaker.makeSearch(pageMaker.cri.pageStart)}">◀</a>&nbsp&nbsp&nbsp
-                </c:if>
-                <c:if test="${pageMaker.startPage != pageMaker.cri.page}">
-                    <a href="listSearch${pageMaker.makeSearch(pageMaker.cri.page -1)}">◀</a>&nbsp&nbsp&nbsp
-                </c:if>
---%>
                    <a href="listSearch${pageMaker.makeSearch(pageMaker.cri.page -1)}">◀</a>&nbsp&nbsp&nbsp
                    <c:forEach begin="${pageMaker.startPage}"  end="${pageMaker.endPage}" var="idx">
                     <c:choose>
@@ -339,12 +428,8 @@
             </div>
         </div>
     </div>
-</div>
-
-<!-- plugins_js -->
+</div><!-- plugins_js -->
 <%@include file="../include/plugins_js.jsp"%>
 <!-- /plugins_js -->
-
 </body>
-
 </html>
