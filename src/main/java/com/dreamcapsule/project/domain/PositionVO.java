@@ -16,11 +16,10 @@ public class PositionVO extends Criteria{
     private String memo;
 
     /** 등록일자 */
-    private LocalDateTime regDate;
+    private String regDate;
 
     /** 수정일자 */
-
-    private LocalDateTime modDate;
+    private String modDate;
 
     /** 삭제여부 */
     private String delYn;
@@ -49,19 +48,19 @@ public class PositionVO extends Criteria{
         this.memo = memo;
     }
 
-    public LocalDateTime getRegDate() {
+    public String getRegDate() {
         return regDate;
     }
 
-    public void setRegDate(LocalDateTime regDate) {
+    public void setRegDate(String regDate) {
         this.regDate = regDate;
     }
 
-    public LocalDateTime getModDate() {
+    public String getModDate() {
         return modDate;
     }
 
-    public void setModDate(LocalDateTime modDate) {
+    public void setModDate(String modDate) {
         this.modDate = modDate;
     }
 

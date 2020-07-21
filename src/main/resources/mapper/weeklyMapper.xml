@@ -2,8 +2,60 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.dreamcapsule.project.apps.daily.mapper.WeeklyMapper">
+<mapper namespace="com.dreamcapsule.project.apps.weekly.mapper.WeeklyMapper">
+
+    <select id="nameSelect" resultType="WeeklyVO"  parameterType="Criteria">
+select empl_nm,duty_id,rank_id,comm_ti,work_st,total_ti,work_pl
+ from (select empl_nm ,duty_id,rank_id,comm_ti,work_st,row_number() over(order by empl_nm asc ) rnum,total_ti,work_pl
+        from(select empl_nm,duty_id,rank_id,listagg(comm_ti,',')WITHIN group(ORDER by reg_dt) as comm_ti,
+        listagg(work_st,',')WITHIN group(ORDER by reg_dt) as work_st ,total_ti,work_pl
+        from comm_tb where reg_dt between trunc(sysdate,'iw') and trunc(sysdate,'iw')+7  group by empl_nm,duty_id,rank_id,total_ti,work_pl)
+
+    )where rnum between ${rowStart} and ${rowEnd}
+    order by empl_nm asc
 
 
+-- SELECT
+--     empl_nm,
+--     duty_id,
+--     rank_id,
+--     listagg(work_st,',') WITHIN GROUP(ORDER BY empl_nm) work_st,
+--     work_pl,
+--     total_ti,
+--     LISTAGG(comm_ti, ',') WITHIN GROUP(ORDER BY empl_nm) comm_ti
+-- FROM
+--     (SELECT
+--             distinct empl_nm,
+--             duty_id,
+--             rank_id,
+--             work_st,
+--             work_pl,
+--             total_ti,
+--             comm_ti,
+--             reg_dt,
+--             ROW_NUMBER() OVER(  ORDER BY  reg_dt) rnum
+--         FROM
+--             comm_tb
+--         WHERE
+--             reg_dt BETWEEN trunc(sysdate, 'iw') AND trunc(sysdate, 'iw') + 7
+--     )
+--         where rnum between 1 and 10
+--
+--           group by empl_nm,duty_id,rank_id,work_pl,total_ti having order by reg_dt desc
+
+--                 select empl_nm,duty_id,rank_id,
+--                 listagg(work_st,',') WITHIN GROUP(ORDER BY REG_DT) work_st,
+--                 work_pl,total_ti
+--                 ,listagg(comm_ti,',') within group(order by reg_dt) comm_ti
+--                 from(select empl_nm,duty_id,rank_id,work_st,work_pl,total_ti,comm_ti,reg_dt
+--                 ,row_number() over(order by empl_nm desc) rnum
+--                 from comm_tb
+--                 where reg_dt BETWEEN trunc(sysdate,'iw') and trunc(sysdate,'iw')+7 )
+--                 where rnum between ${rowStart} and ${rowEnd}  group by empl_nm,duty_id,rank_id,work_pl,total_ti
+    </select>
+
+    <select id="listCount" resultType="int">
+           select count(DISTINCT empl_nm) from comm_tb where reg_dt between trunc(sysdate,'iw') and trunc(sysdate,'iw')+7
+    </select>
 
 </mapper>

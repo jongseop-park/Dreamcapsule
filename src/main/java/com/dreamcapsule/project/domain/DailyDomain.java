@@ -13,8 +13,7 @@ public class DailyDomain {
     private String emplNm;
     private String dutyId;
     private String rankId;
-    private String onwTi;
-    private String offwTi;
+    private String commTi;
     private String workSt;
     private int workTi;
     private int restTi;
@@ -49,20 +48,12 @@ public class DailyDomain {
         this.rankId = rankId;
     }
 
-    public String getOnwTi() {
-        return onwTi;
+    public String getCommTi() {
+        return commTi;
     }
 
-    public void setOnwTi(String onwTi) {
-        this.onwTi = onwTi;
-    }
-
-    public String getOffwTi() {
-        return offwTi;
-    }
-
-    public void setOffwTi(String offwTi) {
-        this.offwTi = offwTi;
+    public void setCommTi(String commTi) {
+        this.commTi = commTi;
     }
 
     public String getWorkSt() {

@@ -25,6 +25,11 @@ public class PositionController { // 직급 관리
     @Autowired
     public PositionService positionService;
 
+    /**
+     * 리스트 페이지
+     * @param conn
+     * @return
+     * */
     @RequestMapping("/list")
     public String list(PositionVO conn, Model model){
         List<PositionVO> result = positionService.page(conn);
@@ -38,7 +43,11 @@ public class PositionController { // 직급 관리
         return "management/position/list";
     }
 
-
+    /**
+     * 상세 페이지
+     * @param conn
+     * @return
+     * */
     @RequestMapping("/form")
     public String form(@ModelAttribute("conn") PositionVO conn,  Model model){
 

@@ -62,6 +62,6 @@ WHERE
     empname LIKE '%' || #{keyword} || '%'
     AND (requestdate BETWEEN to_date(#{startDate}) AND to_date(#{endDate})))
 WHERE
-    rnum BETWEEN #{rowStart} AND #{rowEnd} order by ${orderKeyword} asc
+    rnum BETWEEN #{rowStart} AND #{rowEnd} order by ${orderKeyword} ${order}
     </select>
 </mapper>
