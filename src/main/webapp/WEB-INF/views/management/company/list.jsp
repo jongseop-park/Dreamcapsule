@@ -91,34 +91,24 @@
                                 </thead>
                                 <tfoot>
                                 <tbody>
-                                    <tr>
-                                        <td>A업체</td>
-                                        <td>200 명</td>
-                                        <td>홍길동</td>
-                                        <td>010-0000-0000</td>
-                                        <td>2020.01.01</td>
-                                    </tr>
-                                    <tr>
-                                        <td>A업체</td>
-                                        <td>200 명</td>
-                                        <td>홍길동</td>
-                                        <td>010-0000-0000</td>
-                                        <td>2020.01.01</td>
-                                    </tr>
-                                    <tr>
-                                        <td>A업체</td>
-                                        <td>200 명</td>
-                                        <td>홍길동</td>
-                                        <td>010-0000-0000</td>
-                                        <td>2020.01.01</td>
-                                    </tr>
-                                    <tr>
-                                        <td>A업체</td>
-                                        <td>200 명</td>
-                                        <td>홍길동</td>
-                                        <td>010-0000-0000</td>
-                                        <td>2020.01.01</td>
-                                    </tr>
+                                <!-- 리스트 내용 -->
+
+                                    <c:forEach  var="list" items="${result}" varStatus="status">
+                                        <input type="hidden" id="seq" value="${list.seq}"/>
+                                        <c:if test="${empty list.seq}">
+                                            <tr>
+                                                <td>데이터가 존재하지 않습니다.</td>
+                                            </tr>
+                                        </c:if>
+                                        <tr>
+                                            <td><a href="/management/company/form?seq=${list.seq}">${list.companyNm}</a></td>
+                                            <td>${list.empNum}</td>
+                                            <td>${list.contactNm}</td>
+                                            <td>${list.tel}</td>
+                                            <td>${list.regDate}</td>
+                                        </tr>
+                                    </c:forEach>
+                                <!--/ 리스트 내용 -->
                                 </tbody>
                             </table>
                             <!-- 테이블 하단 바 -->
@@ -129,6 +119,19 @@
                             </div>
                             <!-- /테이블 하단 바 -->
                         </div>
+                        <ul class="pagination" style="justify-content: center;">
+                            <c:if test="${pageMaker.prev}">
+                                <li><a href="/management/company/list?page=${pageMaker.startPage - 1}">◀</a></li>
+                            </c:if>
+
+                            <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
+                                <li><a href="/management/company/list?page=${idx}">[${idx}]</a>　</li>
+                            </c:forEach>
+
+                            <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
+                                <li><a href="/management/company/list?page=${pageMaker.endPage + 1}">▶</a></li>
+                            </c:if>
+                        </ul>
                     </div>
                 </div>
                 <!--  /변경할 뷰 -->
