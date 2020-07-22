@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dreamcapsule.project.apps.report.mapper.ReportMapper">
+    <select id="reportList" resultType="com.dreamcapsule.project.domain.ReportVO">
+        SELECT * FROM REPORT_TB
+    </select>
+
+    <select id="countSearch" resultType="int">
+            select count(sequence) from REPORT_TB where empName like '%' || #{keyword} || '%'
+    </select>
+
+    <select id="listSearch" resultType="com.dreamcapsule.project.domain.ReportVO">
+         select sequence, registerDate, empName, TO_CHAR(hireDate, 'YYYY.MM.DD') as hireDate, workDate, workTime,
+         PAYVACATIONTIME, overtimeWorkTime, planOvertime, actualOvertime, vacationCount,
+         vacationTotal, lateCount, absentCount
+        from (select sequence, registerDate, empName, hireDate, workDate, workTime, PAYVACATIONTIME,
+         overtimeWorkTime, planOvertime, actualOvertime,
+          vacationCount, vacationTotal, lateCount, absentCount, row_number()
+            over (order by ${orderKeyword} ${order}) as rNum from REPORT_TB
+            where empname like '%' || #{keyword} || '%')
+            where rNum between ${rowStart} and ${rowEnd}
+            order by ${orderKeyword} ${order}
+            </select>
+</mapper>
