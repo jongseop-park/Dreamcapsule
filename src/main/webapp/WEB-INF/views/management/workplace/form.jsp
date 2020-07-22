@@ -92,20 +92,23 @@
                                 </div>
                                 <div class="form-group" style="margin-top: 2%">
                                     장비선택
-                                    <label style="margin-left: 15%">없음<input type="radio" style="margin-left: 10px" name="equipment" value="없음" ></label>
-                                    <label style="margin-left: 30px">비콘<input type="radio" style="margin-left: 10px" name="equipment" value="비콘" ></label>
-                                    <label style="margin-left: 30px">NFC<input type="radio" style="margin-left: 10px" name="equipment" value="NFC" ></label>
-
+                                    <label style="margin-left: 15%">없음<input type="radio" name="eqpt" style="margin-left: 10px" name="equipment" value="없음" checked="checked"></label>
+                                    <label style="margin-left: 30px">비콘<input type="radio" name="eqpt" style="margin-left: 10px" name="equipment" value="비콘" ></label>
+                                    <label style="margin-left: 30px">NFC<input type="radio" name="eqpt" style="margin-left: 10px" name="equipment" value="NFC" ></label>
                                 </div>
                                 <!-- TODO 상세 기능  -->
-                          <%--      <div class="form-group" style="margin-top: 2%">
-                                    사용장비 1<input type="text" class="form-control" id="_email" style="width: 60%; float: right; margin-right: 20%">
+                                <div class="form-group" style="margin-top: 1%;">
+                                    사용장비 1
+                                    <button style="float : right;">삭제</button>
+                                    <button style="float : right; margin-right: 1%;">추가</button>
+                                    <select name="workTime" class="form-control" style="width: 70%; float: right; margin-right: 1%;">
+                                        <option value="비콘1">비콘1</option>
+                                        <option value="비콘2">비콘2</option>
+                                        <option value="비콘3">비콘3</option>
+                                        <option value="비콘4">비콘4</option>
+                                        <option value="비콘5">비콘5</option>
+                                    </select>
                                 </div>
-                                <div class="form-group" style="margin-top: 2%">
-                                    <button style="float: right;">삭제</button>
-                                    <button style="float: right;">추가</button>
-                                    사용장비 2<input type="text" class="form-control" id="_tel" style="width: 60%;">
-                                </div>--%>
                                 <!-- TODO 상세 기능  -->
                             </form>
                         </div>
@@ -151,3 +154,12 @@
 </body>
 
 </html>
+<script type="text/javascript">
+    $(function () {
+        $eqpt = $("input[name=eqpt]"); // 장비선택 라디오 버튼
+
+
+
+    });
+
+</script>

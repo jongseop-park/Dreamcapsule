@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dreamcapsule.project.apps.management.equipment.mapper.EquipmentMapper">
+
+    <select id="page" resultType="EquipmentVO" parameterType="EquipmentVO">
+        SELECT
+            SEQ,
+            EQUIPMENT_NM,
+            CLSFC,
+            CODE,
+            SERIAL_NUM,
+            TO_CHAR(REG_DATE,'yyyy.MM.dd') REG_DATE,
+            TO_CHAR(MOD_DATE,'yyyy.MM.dd') MOD_DATE,
+            DEL_YN
+        FROM (
+            SELECT
+                SEQ,
+                EQUIPMENT_NM,
+                CLSFC,
+                CODE,
+                SERIAL_NUM,
+                REG_DATE,
+                MOD_DATE,
+                DEL_YN,
+                ROW_NUMBER() OVER(ORDER BY SEQ DESC) AS SORT_NUM
+            FROM EQUIPMENT_MNG_TB
+            WHERE DEL_YN = 'N'
+            ) EQUIPMENT_MNG
+            WHERE SORT_NUM BETWEEN #{rowStart} AND #{rowEnd}
+            ORDER BY SEQ DESC
+    </select>
+
+    <select id="listCnt" resultType="int">
+        SELECT
+            COUNT(SEQ)
+        FROM EQUIPMENT_MNG_TB
+        WHERE SEQ > 0 AND DEL_YN = 'N'
+    </select>
+
+    <select id="findByDetail" resultType="EquipmentVO" parameterType="EquipmentVO">
+        SELECT
+            SEQ,
+            EQUIPMENT_NM,
+            CLSFC,
+            CODE,
+            SERIAL_NUM,
+            TO_CHAR(REG_DATE,'yyyy.MM.dd') REG_DATE,
+            TO_CHAR(MOD_DATE,'yyyy.MM.dd') MOD_DATE,
+            DEL_YN
+        FROM EQUIPMENT_MNG_TB
+        WHERE SEQ = #{seq}
+        AND DEL_YN = 'N'
+    </select>
+
+    <insert id="insert" parameterType="EquipmentVO">
+        INSERT INTO EQUIPMENT_MNG_TB(SEQ, EQUIPMENT_NM, CLSFC, CODE, SERIAL_NUM, REG_DATE, DEL_YN)
+        VALUES(EQUIPMENT_MNG_SEQ.NEXTVAL, #{equipmentNm}, #{clsfc}, #{code}, #{serialNum}, SYSDATE, 'N')
+    </insert>
+
+    <update id="update" parameterType="EquipmentVO">
+        UPDATE
+            EQUIPMENT_MNG_TB
+        SET
+            SEQ = #{seq},
+            EQUIPMENT_NM = #{equipmentNm},
+            CLSFC = #{clsfc},
+            CODE = #{code},
+            SERIAL_NUM = #{serialNum},
+            MOD_DATE = SYSDATE
+        WHERE
+            SEQ = #{seq}
+    </update>
+
+    <update id="delUpdate" parameterType="EquipmentVO">
+        UPDATE
+            EQUIPMENT_MNG_TB
+        SET
+            DEL_YN = 'Y'
+        WHERE SEQ = #{seq}
+    </update>
+</mapper>

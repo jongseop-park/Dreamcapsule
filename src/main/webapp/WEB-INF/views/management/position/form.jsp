@@ -96,12 +96,8 @@
                                         <input class="btn btn-dark right" id="btnSave" type="submit" style="float : right; margin-top: 2%" value="저장"/> <%-- onclick="location.href='/management/position/list'"--%>
                                     </c:when>
                                     <c:otherwise>
-                                        <button class="btn btn-dark right " id="btnUpdate" type="button" style="float : right; margin-left: 20px; margin-top: 2%">
-                                            수정
-                                        </button>
-                                        <button class="btn btn-dark right " id="btnDelete" type="button" style="float : right; margin-top: 2%">
-                                            삭제
-                                        </button>
+                                        <input class="btn btn-dark right " id="btnUpdate" type="button" style="float : right; margin-left: 20px; margin-top: 2%" value="수정"/>
+                                        <input class="btn btn-dark right " id="btnDelete" type="button" style="float : right; margin-top: 2%" value="삭제"/>
                                     </c:otherwise>
                                 </c:choose>
                             </div>
@@ -188,11 +184,7 @@ $(function () {
 
     function Save(data) {
 
-        if($rank.val() == ""){
-            alert("직급명은 필수입니다.");
-            return true;
-        }
-
+        required(data);
 
         $.ajax({
             url : "/management/position/save",
@@ -233,6 +225,13 @@ $(function () {
             }
         });
 
+    }
+
+    function required(data) {
+        if($rank.val() == ""){
+            alert("직급명은 필수입니다.");
+            return false;
+        }
     }
 
 

@@ -97,11 +97,13 @@
                                         <input type="hidden" id="seq" value="${list.seq}"/>
                                         <c:if test="${empty list.seq}">
                                             <tr>
-                                                <td>데이터가 존재하지 않습니다.</td>
+                                                <td colspan="5">데이터가 존재하지 않습니다.</td>
                                             </tr>
                                         </c:if>
-                                        <tr>
-                                            <td><a href="/management/company/form?seq=${list.seq}">${list.companyNm}</a></td>
+                                        <tr style="cursor: pointer;" onclick="location.href='/management/company/form?seq=${list.seq}'"
+                                            onmouseover="window.status='/management/company/form?seq=${list.seq}'"
+                                            onmouseout="window.status='/management/company/form?seq=${list.seq}'">
+                                            <td>${list.companyNm}</td>
                                             <td>${list.empNum}</td>
                                             <td>${list.contactNm}</td>
                                             <td>${list.tel}</td>

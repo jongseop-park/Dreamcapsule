@@ -40,6 +40,10 @@ public class PositionController { // 직급 관리
         pageMaker.setTotalCount(positionService.listCnt());
         model.addAttribute("pageMaker", pageMaker);
 
+        log.info("==================================================================");
+        log.info("management/position/list");
+        log.info("==================================================================");
+
         return "management/position/list";
     }
 
@@ -57,6 +61,10 @@ public class PositionController { // 직급 관리
         } else { // 저장
             model.addAttribute("isUpdate",false);
         }
+
+        log.info("==================================================================");
+        log.info("management/position/form");
+        log.info("==================================================================");
 
         return "management/position/form";
     }
@@ -77,9 +85,18 @@ public class PositionController { // 직급 관리
         // 시퀀스 존재에 따라 insert, update 처리
         if(StringUtils.isEmpty(conn.getSeq())){
             positionService.insert(conn);
+            log.info("==================================================================");
+            log.info("management/position/save");
+            log.info("insert");
+            log.info("==================================================================");
+
         }
         else {
             positionService.update(conn);
+            log.info("==================================================================");
+            log.info("management/position/save");
+            log.info("update");
+            log.info("==================================================================");
         }
         return conn;
     }
@@ -93,6 +110,10 @@ public class PositionController { // 직급 관리
     public PositionVO delete(@RequestBody PositionVO conn){
 
         positionService.delUpdate(conn);
+        log.info("==================================================================");
+        log.info("management/position/delete");
+        log.info("==================================================================");
+
         return conn;
     }
 

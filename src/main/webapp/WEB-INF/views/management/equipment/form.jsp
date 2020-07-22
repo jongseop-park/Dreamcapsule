@@ -47,10 +47,14 @@
             <div class="container-fluid">
 
                 <!-- 트리 -->
-                <h5>홈 > 장비관리 > 추가</h5>
-                <!-- TODO 상세 페이지 기능구현 시 추가 -->
-                <%--<h5>홈 > 장비관리 > 상세</h5>--%>
-                <!-- TODO 상세 페이지 기능구현 시 추가 -->
+                <c:choose>
+                    <c:when test="${isUpdate eq false}">
+                        <h5>홈 > 장비관리 > 추가</h5>
+                    </c:when>
+                    <c:otherwise>
+                        <h5>홈 > 장비관리 > 상세</h5>
+                    </c:otherwise>
+                </c:choose>
                 <p class="mb-4"></p>
 
                 <!-- 변경할 뷰 -->
@@ -58,52 +62,54 @@
 
                     <!-- 테이블 상단 바 -->
                     <div class="card-header py-sm-1 ">
-                        <h2 class="m-0 font-weight-bold text-primary">장비 추가하기</h2>
-                        <!-- TODO 상세 페이지 기능구현 시 추가 -->
-                        <%--<h2 class="m-0 font-weight-bold text-primary">장비 관리하기</h2>--%>
-                        <!-- TODO 상세 페이지 기능구현 시 추가 -->
-                        <!-- /테이블 상단 바 -->
+                        <c:choose>
+                            <c:when test="${isUpdate eq false}">
+                                <h2 class="m-0 font-weight-bold text-primary">장비 추가하기</h2>
+                            </c:when>
+                            <c:otherwise>
+                                <h2 class="m-0 font-weight-bold text-primary">장비 관리하기</h2>
+                            </c:otherwise>
+                        </c:choose>
                     </div>
 
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <form class="user">
-                                <div class="form-group" >
-                                    장비명<input type="text" class="form-control" id="_name" style="width: 80%; float: right;">
-                                </div>
-                                <div class="form-group" style="margin-top: 2%">
-                                    분류
-                                    <select name="분류" class="form-control" style="width: 80%; float: right;">
-                                        <option value="비콘">비콘</option>
-                                        <option value="비콘1">비콘1</option>
-                                        <option value="비콘2">비콘2</option>
-                                        <option value="비콘3">비콘3</option>
-                                        <option value="비콘4">비콘4</option>
-                                    </select>
-                                </div>
-                                <div class="form-group" style="margin-top: 2%">
-                                    코드<input type="text" class="form-control" id="_position" style="width: 80%; float: right;">
-                                </div>
-                                <div class="form-group" style="margin-top: 2%">
-                                    일련번호<input type="text" class="form-control" id="_auth" style="width: 80%; float: right;">
-                                </div>
-                            </form>
-                        </div>
-                        <!-- 테이블 하단 바 -->
-                        <div>
-                            <button class="btn btn-dark right" type="button" style="float : right; margin-top: 2%" onclick="location.href='/management/equipment/list'">
-                                저장
-                            </button>
-                            <%--        <!-- TODO 상세 페이지에서 추가 -->
-                                    <button class="btn btn-dark right" type="button" style="float : right; margin-left: 20px; margin-top: 2%" onclick="location.href='/management/job/list'">
-                                        수정
-                                    </button>
-                                    <button class="btn btn-dark right" type="button" style="float : right; margin-top: 2%" onclick="location.href='/management/job/list'">
-                                        취소
-                                    </button>
-                                    <!-- TODO 상세 페이지에서 추가 -->--%>
-                        </div>
-                        <!-- /테이블 하단 바 -->
+                        <form id="form">
+                            <input type="hidden" id="seq" value="${result.seq}">
+                            <div class="table-responsive">
+                                <form class="user">
+                                    <div class="form-group" >
+                                        장비명<input type="text" class="form-control" id="equipmentNm" style="width: 80%; float: right;" value="${result.equipmentNm}">
+                                    </div>
+                                    <div class="form-group" style="margin-top: 2%">
+                                        분류
+                                        <select id="clsfc" class="form-control" style="width: 80%; float: right;" >
+                                            <option value="비콘" <c:if test="${result.clsfc eq '비콘'}">selected</c:if>>비콘</option>
+                                            <option value="NFC" <c:if test="${result.clsfc eq 'NFC'}">selected</c:if>>NFC</option>
+
+                                        </select>
+                                    </div>
+                                    <div class="form-group" style="margin-top: 2%">
+                                        코드<input type="text" class="form-control" id="code" style="width: 80%; float: right;" value="${result.code}">
+                                    </div>
+                                    <div class="form-group" style="margin-top: 2%">
+                                        일련번호<input type="text" class="form-control" id="serialNum" style="width: 80%; float: right;" value="${result.serialNum}">
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- 테이블 하단 바 -->
+                            <div>
+                                <c:choose>
+                                    <c:when test="${isUpdate eq false}">
+                                        <input class="btn btn-dark right" id="btnSave" type="button" style="float : right; margin-top: 2%" value="저장"/>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <input class="btn btn-dark right " id="btnUpdate" type="button" style="float : right; margin-left: 20px; margin-top: 2%" value="수정"/>
+                                        <input class="btn btn-dark right " id="btnDelete" type="button" style="float : right; margin-top: 2%" value="삭제"/>
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
+                            <!-- /테이블 하단 바 -->
+                        </form>
                     </div>
                 </div>
                 <!--  /변경할 뷰 -->
@@ -137,5 +143,100 @@
 <!-- /plugins_js -->
 
 </body>
-
 </html>
+<script type="text/javascript">
+
+    $(function () {
+
+        const $form = $("#form") // 입력 폼
+        let $seq = $form.find("#seq"); // 시퀀스
+        let $equipmentNm = $form.find("#equipmentNm"); // 장비명
+        let $clsfc = $form.find("#clsfc"); // 분류
+        let $code = $form.find("#code"); // 코드
+        let $serialNum = $form.find("#serialNum"); // 일련번호
+
+        const $btnSave = $form.find("#btnSave"); // 저장
+        const $btnUpdate = $form.find("#btnUpdate"); // 수정
+        const $btnDelete = $form.find("#btnDelete"); // 삭제
+
+
+
+        console.log($btnSave.val());
+
+        $("#btnSave").on("click",function () {
+            var object = {
+                "seq" : $seq.val(),
+                "equipmentNm" : $equipmentNm.val(),
+                "clsfc" : $clsfc.val(),
+                "code" : $code.val(),
+                "serialNum" : $serialNum.val()
+            };
+            Save(object);
+        });
+
+        $("#btnUpdate").on("click",function () {
+            var object = {
+                "seq" : $seq.val(),
+                "equipmentNm" : $equipmentNm.val(),
+                "clsfc" : $clsfc.val(),
+                "code" : $code.val(),
+                "serialNum" : $serialNum.val()
+            };
+            Save(object);
+        });
+
+        $("#btnDelete").on("click",function () {
+            var object = {
+                "seq" : $seq.val()
+            };
+            console.log(object);
+            Delete(object);
+        });
+
+        function Save(data) {
+
+            $.ajax({
+                url : "/management/equipment/save",
+                type : "POST",
+                contentType : "application/json",
+                /*async : false, /!* async true가 기본이며 기본적으로 비동기 방식으로 처리하지만 false로 동기방식 처리 *!/*/
+                data : JSON.stringify(data),
+                success : function () {
+                    if(${isUpdate eq false}){
+                        alert("정상적으로 등록되었습니다.");
+                    } else {
+                        alert("정상적으로 수정되었습니다.");
+                    }
+
+                    history.back();
+                    /*
+                    * history.back() : 이전페이지로 이동
+                    * history.go() : go(-1) 이전 페이지 , go(1) 다음 페이지 이동
+                    * history.forward() : 다음페이지로 이동
+                    * */
+                }, error : function(jqXhr){
+                    alert("작업이 실패했습니다.");
+                }
+            });
+        }
+
+        function Delete(data) {
+            $.ajax({
+                url : "/management/equipment/delete",
+                type : "POST",
+                contentType : "application/json",
+                data : JSON.stringify(data),
+                success : function () {
+                    alert("정상적으로 삭제되었습니다.")
+                    history.back();
+                }, error : function(jqXhr){
+                    alert("작업이 실패했습니다.");
+                }
+            });
+
+        }
+
+
+    });
+</script>
+

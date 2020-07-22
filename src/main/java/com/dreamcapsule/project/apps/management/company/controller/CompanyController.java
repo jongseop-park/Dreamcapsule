@@ -34,6 +34,9 @@ public class CompanyController { // 업체 관리
         pageMaker.setTotalCount(companyService.listCnt());
         model.addAttribute("pageMaker",pageMaker);
 
+        log.info("==================================================================");
+        log.info("management/company/list");
+        log.info("==================================================================");
         return "management/company/list";
     }
 
@@ -46,6 +49,10 @@ public class CompanyController { // 업체 관리
         } else {
             model.addAttribute("isUpdate",false);
         }
+
+        log.info("==================================================================");
+        log.info("management/company/form");
+        log.info("==================================================================");
        return "management/company/form";
     }
 
@@ -55,12 +62,18 @@ public class CompanyController { // 업체 관리
 
         if(StringUtils.isEmpty(conn.getSeq())){
             companyService.insert(conn);
-            log.info("추가");
+            log.info("==================================================================");
+            log.info("management/company/save");
+            log.info("management/company/insert");
+            log.info("==================================================================");
+
         } else {
             companyService.update(conn);
-            log.info("수정");
+            log.info("==================================================================");
+            log.info("management/company/save");
+            log.info("management/company/update");
+            log.info("==================================================================");
         }
-
         return conn;
     }
 
@@ -68,8 +81,12 @@ public class CompanyController { // 업체 관리
     @ResponseBody
     public CompanyVO delete(@RequestBody CompanyVO conn){
 
-        log.info(conn+"");
         companyService.delUpdate(conn);
+
+        log.info("==================================================================");
+        log.info("management/company/delete");
+        log.info("==================================================================");
+
         return conn;
     }
 }

@@ -109,12 +109,8 @@
                                         <input class="btn btn-dark right" id="btnSave" type="button" style="float : right; margin-top: 2%" value="저장"/> <%-- onclick="location.href='/management/position/list'"--%>
                                     </c:when>
                                     <c:otherwise>
-                                        <button class="btn btn-dark right " id="btnUpdate" type="button" style="float : right; margin-left: 20px; margin-top: 2%">
-                                            수정
-                                        </button>
-                                        <button class="btn btn-dark right " id="btnDelete" type="button" style="float : right; margin-top: 2%">
-                                            삭제
-                                        </button>
+                                        <input class="btn btn-dark right " id="btnUpdate" type="button" style="float : right; margin-left: 20px; margin-top: 2%" value="수정"/>
+                                        <input class="btn btn-dark right " id="btnDelete" type="button" style="float : right; margin-top: 2%" value="삭제"/>
                                     </c:otherwise>
                                 </c:choose>
                             </div>
@@ -256,5 +252,5 @@
         }
 
 
-    })
+    });
 </script>
