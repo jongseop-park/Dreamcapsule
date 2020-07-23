@@ -59,7 +59,7 @@
                                             <label class="custom-control-label" for="customCheck">계정 기억</label>
                                         </div>
                                     </div>
-                                    <a href="/home" class="btn btn-primary btn-user btn-block">
+                                    <a href="/main" class="btn btn-primary btn-user btn-block">
                                         로그인
                                     </a>
                             <%--        <hr>
