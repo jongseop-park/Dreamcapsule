@@ -251,8 +251,8 @@
 <%--스크립트 라인 ( 데이트 피커 )--%>
 
 <script src="https://code.jquery.com/jquery-3.4.1.js" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
-        crossorigin="anonymous"></script>
+<%--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"--%>
+<%--        crossorigin="anonymous"></script>--%>
 <script src="/static/js/datepicker/datepicker.js"></script>
 
 
@@ -340,9 +340,5 @@ function setSearchTypeSelect(){
     })
 }
 
-function fff() {
-
-alert(${daily.size()});
-}
 
 </script>

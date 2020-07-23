@@ -38,9 +38,6 @@
     <link href="/static/css/datepicker/datepicker.css" rel="stylesheet">
 
 
-    <style>
-        table.ui-datepicker-calendar { display:none; }
-    </style>
 
 
 </head>
@@ -259,8 +256,7 @@
 <%--<script src="/static/js/datepicker/jquery.js" type="text/javascript"></script>--%>
 
 <script src="https://code.jquery.com/jquery-3.4.1.js" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
-        crossorigin="anonymous"></script>
+
 <script src="/static/js/datepicker/datepicker.js"></script>
 
 <script type="text/javascript">
