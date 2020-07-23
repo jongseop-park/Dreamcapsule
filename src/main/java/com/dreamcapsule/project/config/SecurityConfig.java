@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // WebSecurit
                 // 페이지 권한 설정
                 .antMatchers("/admin/**").hasRole("ADMIN") // antMatchers 메서드로 특정 경로를 지정하여 permitAll(), hasRole() 메서드로의 역할에 따른 접근을 잡아줌. 권한을 의미.
                                                                       // ㄴ /admin으로 시작하는 경로는 ADMIN 롤을 가진 사용자만 접근 가능.
-                .antMatchers("/**").permitAll() // 모든 경로에 대해서는 권한없이 접근 가능.
+//                .antMatchers("/**").permitAll() // 모든 경로에 대해서는 권한없이 접근 가능.
             .and() // 로그인 설정
                 .formLogin() // form 기반으로 인증을 하도록 함. HttpSession을 이용. /login에 접근 시 Spring Security에서 제공하는 로그인 form을 사용할 수 있음.
                 .loginPage("/login") // 커스텀 로그인 폼을 사용하기 위한 메서드. 경로가 일치해야 함.
@@ -61,12 +61,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // WebSecurit
             .and() // 로그아웃 설정
                 .logout() // 로그아웃을 지원하는 메서드. WebSecurityConfigurerAdapter를 사용할 때 자동으로 적용. 기본적으로 /logout 접근 시 HTTP 세션을 제거함.
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout")) // 로그아웃의 기본 URL(/logout)이 아닌 다른 URL로 재정의.
-                .logoutSuccessUrl("/logout/result")
+                .logoutSuccessUrl("/login")
                 .invalidateHttpSession(true) // HTTP 세션을 초기화.
             .and() // 403 예외처리 핸들링
-                .exceptionHandling().accessDeniedPage("/denied")
+                .exceptionHandling().accessDeniedPage("/denied")/*
             .and()
-                .csrf().disable() // Security 미사용
+                .csrf().disable() // Security 미사용*/
         ;
     }
 /*    @Override
@@ -75,6 +75,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // WebSecurit
     }*/
 
 }
+
+// ==================================================================================================================
 
 /*      로그인 설정
 *      http.formLogin()

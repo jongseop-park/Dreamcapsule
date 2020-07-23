@@ -62,13 +62,13 @@
                                     <a href="/home" class="btn btn-primary btn-user btn-block">
                                         로그인
                                     </a>
-                                    <hr>
+                            <%--        <hr>
                                     <a href="index.html" class="btn btn-google btn-user btn-block">
                                         <i class="fab fa-google fa-fw"></i> 구글로 로그인
                                     </a>
                                     <a href="index.html" class="btn btn-facebook btn-user btn-block">
                                         <i class="fab fa-facebook-f fa-fw"></i> 페이스북으로 로그인
-                                    </a>
+                                    </a>--%>
                                 </form>
                                 <hr>
                                 <div class="text-center">
