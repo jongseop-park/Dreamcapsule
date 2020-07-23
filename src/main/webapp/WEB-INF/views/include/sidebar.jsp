@@ -55,7 +55,7 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="/daily">Daily</a>
                 <a class="collapse-item" href="/weekly">Weekly</a>/
-                <a class="collapse-item" href="#">Monthly</a>
+                <a class="collapse-item" href="/monthly">Monthly</a>
             </div>
         </div>
     </li>

@@ -1572,27 +1572,27 @@ div.widthdivspaec{
 .table-bordered td {
   border: 1px solid #e3e6f0;
 }
-.table-bordered th:nth-child(1){
-  width:8%;
-}
-.table-bordered th:nth-child(n+4):nth-child(-n+9){
-  width:7%;
-}
-.table-bordered th:nth-child(10) {
-  width:12%
-}
-.table-bordered th:nth-child(11){
-  width:9%;
-}
-.table-bordered th:nth-child(n+12):nth-child(-n+13){
-  width:4%;
-}
-.table-bordered th:nth-child(3){
-  width:5%;
-}
-.table-bordered th:nth-child(14){
-  width:200px;
-}
+/*.table-bordered th:nth-child(1){*/
+/*  width:8%;*/
+/*}*/
+/*.table-bordered th:nth-child(n+4):nth-child(-n+9){*/
+/*  width:7%;*/
+/*}*/
+/*.table-bordered th:nth-child(10) {*/
+/*  width:12%*/
+/*}*/
+/*.table-bordered th:nth-child(11){*/
+/*  width:9%;*/
+/*}*/
+/*.table-bordered th:nth-child(n+12):nth-child(-n+13){*/
+/*  width:4%;*/
+/*}*/
+/*.table-bordered th:nth-child(3){*/
+/*  width:5%;*/
+/*}*/
+/*.table-bordered th:nth-child(14){*/
+/*  width:200px;*/
+/*}*/
 
 .table-bordered thead th,
 .table-bordered thead td {

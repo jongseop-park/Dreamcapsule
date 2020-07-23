@@ -12,12 +12,29 @@ public class Criteria {
     private String regDt;
     private String keyword;
 //주간,월간 추출 위한 멤버-----------------------------------------------------------------------------------------
-
+private String startDate;
+private String endDate;
 //-------------------------------------------------------------------------------------------------------------
     public Criteria(){
         this.page=1;
         this.perPageNum =10;
 
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
     }
 
     public void setPage(int page){
@@ -83,24 +100,39 @@ public class Criteria {
         return "Criteria [page=" + page + ", perPageNum=" + perPageNum + ", rowStart=" + rowStart + ", rowEnd=" + rowEnd
                 + "]";
     }
-
-    public String makeQuery(int page){
-        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.newInstance()
-                .queryParam("page",page)
-                .queryParam("perPageNum", this.getPerPageNum());
-        if(keyword!=null && regDt == null){
-            uriComponentsBuilder
-
-                    .queryParam("keyword",this.keyword);
-        }else if(keyword==null && regDt != null){
-            uriComponentsBuilder
-
-                    .queryParam("regDt",this.regDt);
-        }
-        return uriComponentsBuilder.build().encode().toString();
-    }
-
-
+//
+//    public String makeQuery(int page){
+//        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.newInstance()
+//                .queryParam("page",page)
+//                .queryParam("perPageNum", this.getPerPageNum());
+//        if(keyword!=null && regDt == null){
+//            uriComponentsBuilder
+//
+//                    .queryParam("keyword",this.keyword);
+//        }else if(keyword==null && regDt != null){
+//            uriComponentsBuilder
+//
+//                    .queryParam("regDt",this.regDt);
+//        }
+//        return uriComponentsBuilder.build().encode().toString();
+//    }
+//
+//    public String weekmakeQuery(int page){
+//        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.newInstance()
+//                .queryParam("page",page)
+//                .queryParam("perPageNum", this.getPerPageNum());
+//        if(keyword!=null && regDt == null){
+//            uriComponentsBuilder
+//
+//                    .queryParam("keyword",this.keyword);
+//        }else if(keyword==null && regDt != null){
+//            uriComponentsBuilder
+//
+//                    .queryParam("regDt",this.regDt);
+//        }
+//        return uriComponentsBuilder.build().encode().toString();
+//    }
+//
 
 
 }

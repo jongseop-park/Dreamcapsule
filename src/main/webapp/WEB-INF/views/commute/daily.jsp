@@ -57,6 +57,10 @@
     .table-bordered th:nth-child(3){
         width:5%;
     }
+  .fix td{
+        height: 60px ;
+        vertical-align:middle;
+    }
 </style>
     <%--    dd--%>
 
@@ -117,7 +121,7 @@
                                             <i class="fa fa-calendar"></i>
                                         </div>
                                         <input type="text" class="form-control _date" id="datepicker"
-                                               style="width: 120px">
+                                               style="width: 120px" value="${pageMaker.cri.regDt}">
                                     </div>
                                 </div>
                             </div>
@@ -161,13 +165,13 @@
 
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="fix" >
 
                     <c:forEach var="daily" items="${daily}">
 
                          <td>   <a href="#"> ${daily.emplNm}</a></td>
-                            <td>${daily.dutyId} 팀</td>
-                            <td>${daily.rankId}</td>
+                        <td >${daily.dutyId} 팀</td>
+                        <td >${daily.rankId}</td>
                             <td>${daily.commTi}</td>
                                 <%--                        <td>${daily.offwTi}</td>--%>
                             <td>${daily.workSt}</td>
@@ -310,8 +314,10 @@ function setSearchTypeSelect(){
         // return;
 
         var url = "daily?page=1"
+
         + "&perPageNum=" + "${pageMaker.cri.perPageNum}"
         +"&regDt=" + encodeURIComponent(date);
+
         window.location.href = url;
     });
     //검색 버튼이 눌리면
@@ -327,8 +333,9 @@ function setSearchTypeSelect(){
         }
         var url = "daily?page=1"
             + "&perPageNum=" + "${pageMaker.cri.perPageNum}"
-
-            + "&keyword=" + encodeURIComponent(keywordVal);
+            + "&regDt="+ encodeURIComponent("${pageMaker.cri.regDt}")
+            + "&keyword=" + encodeURIComponent(keywordVal)
+        ;
         window.location.href = url;
     })
 }

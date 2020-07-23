@@ -20,8 +20,15 @@
                 <if test="keyword == null and regDt != null">
                 where to_date(reg_dt,'yy/mm/dd') = to_date(#{regDt},'yy/mm/dd')
                 </if>
+                <if test="keyword != null and regDt !=null">
+                    where to_date(reg_dt,'yy/mm/dd') = to_date(#{regDt},'yy/mm/dd') and seq>0 and empl_nm like  '%' || #{keyword} || '%'
+                </if>
     </sql>
-
+    <sql id="keywordserch">
+        <if test="keyword != null">
+            where seq>0 and empl_nm like  '%' || #{keyword} || '%'
+        </if>
+    </sql>
 
     <select id="listPage" resultType="DailyDomain" parameterType="Criteria">
     select  

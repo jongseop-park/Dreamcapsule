@@ -1571,6 +1571,7 @@ div.widthdivspaec{
 .table-bordered th,
 .table-bordered td {
   border: 1px solid #e3e6f0;
+
 }
 /*.table-bordered th:nth-child(1){*/
 /*  width:5%;*/

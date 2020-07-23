@@ -43,14 +43,18 @@
         }
 
         .table-bordered th:nth-child(n+5):nth-child(-n+11) {
-            width: 7%;
+            width: 5%;
+
         }
 
         .table-bordered th:nth-child(12) {
             width: 6%;
         }
 
-
+        .fix td{
+            height: 80px ;
+            vertical-align:middle;
+        }
     </style>
 
 </head>
@@ -111,7 +115,7 @@
                                         <i class="fa fa-calendar"></i>
                                     </div>
                                     <input type="text" class="form-control _date" id="week-picker"
-                                           style="width: 200px">
+                                           style="width: 200px" value="${pageMaker.cri.regDt}">
                                 </div>
                             </div>
                         </div>
@@ -124,7 +128,7 @@
                           style="float: right ; padding-top: 1px">
                         <div class="input-group">
                             <input type="text" class="form-control bg-light border-0 small" placeholder="직원 검색.."
-                                   id="keyword" name="keyword"/>
+                                   id="keyword" name="keyword" value="${pageMaker.cri.keyword}"/>
                             <div class="input-group-append">
                                 <button class="btn btn-primary" type="button" id="searchBtn">
                                     <i class="fas fa-search fa-sm"></i>
@@ -153,7 +157,7 @@
                         <th>근무시간</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="fix">
 
                     <c:forEach var="weekly" items="${weekly}">
 
@@ -201,11 +205,11 @@
                         <%--                        <c:if test="${pageMaker.next && pageMaker.endPage > 0}">--%>
                         <%--                            <li><a href="daily${pageMaker.makeQuery(pageMaker.endPage + 1)}">다음</a></li>--%>
                         <%--                        </c:if>--%>
-                        <li><a href="weekly${pageMaker.makeQuery(pageMaker.startPage - 1)}">이전</a></li>
+                        <li><a href="weekly${pageMaker.weekmakeQuery(pageMaker.startPage - 1)}">이전</a></li>
                         <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
-                            <li id="page${idx}"><a href="weekly${pageMaker.makeQuery(idx)}">${idx}</a></li>
+                            <li id="page${idx}"><a href="weekly${pageMaker.weekmakeQuery(idx)}">${idx}</a></li>
                         </c:forEach>
-                        <li><a href="weekly${pageMaker.makeQuery(pageMaker.endPage + 1)}">다음</a></li>
+                        <li><a href="weekly${pageMaker.weekmakeQuery(pageMaker.endPage + 1)}">다음</a></li>
 
                     </ul>
                 </div>
@@ -243,6 +247,14 @@
 
 
 <script type="text/javascript">
+
+    $(function(){
+        setPerPageNumSelect();
+        setSearchTypeSelect();
+        var thisPage = '${pageMaker.cri.page}';
+        $('#page'+thisPage).addClass('active');
+    })
+
     function setPerPageNumSelect() {
         var perPageNum = "${pageMaker.cri.perPageNum}";
         var $perPageSel = $('#perPageSel');
@@ -252,16 +264,74 @@
         $perPageSel.on('change', function () {
             //pageMarker.makeQuery 사용 못하는 이유: makeQuery는 page만을 매개변수로 받기에 변경된 perPageNum을 반영못함
             window.location.href = "weekly?page=" + thisPage + "&perPageNum=" + $perPageSel.val();
+            });
+    }
+
+
+    $('#week-picker').datepicker({
+        closeText: '닫기',
+        prevText: '이전달',
+        nextText: '다음달',
+        currentText: '오늘',
+        monthNames: ['1월(JAN)', '2월(FEB)', '3월(MAR)', '4월(APR)', '5월(MAY)', '6월(JUN)',
+            '7월(JUL)', '8월(AUG)', '9월(SEP)', '10월(OCT)', '11월(NOV)', '12월(DEC)'],
+        monthNamesShort: ['1월(JAN)', '2월(FEB)', '3월(MAR)', '4월(APR)', '5월(MAY)', '6월(JUN)',
+            '7월(JUL)', '8월(AUG)', '9월(SEP)', '10월(OCT)', '11월(NOV)', '12월(DEC)'],
+        dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+        dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+        dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+        weekHeader: 'Wk',
+        dateFormat: 'yy-mm-dd',
+        firstDay: 1,
+        isRTL: false,
+        showMonthAfterYear: false,
+        yearSuffix: '년',
+        selectWeek: true,
+        onSelect: function (dateText, inst) {
+            var date = $(this).datepicker('getDate');
+            startDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay() + 1);
+            endDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay() + 7);
+            var dateFormat = 'yy/mm/dd'
+            startDate = $.datepicker.formatDate(dateFormat, startDate, inst.settings);
+            endDate = $.datepicker.formatDate(dateFormat, endDate, inst.settings);
+
+            $('#week-picker').val(startDate + '~' + endDate);
+            console.log(startDate + '~' + endDate);
+            var url = "weekly?page=1"
+                + "&perPageNum=" + "${pageMaker.cri.perPageNum}"
+                +"&startDate=" + encodeURIComponent(startDate)
+                +"&endDate=" + encodeURIComponent(endDate);
+            window.location.href = url;
+            setTimeout("applyWeeklyHighlight()", 100);
+        },
+        beforeShow: function () {
+            setTimeout("applyWeeklyHighlight()", 100);
+        }
+
+    })
+
+    function setSearchTypeSelect(){
+
+
+        var $keyword = $('#keyword');
+
+        //검색 버튼이 눌리면
+        $('#searchBtn').on('click',function(){
+
+            var keywordVal = $keyword.val();
+
+            //검색어 입력 안했으면 검색창
+            if(!keywordVal){
+                alert("검색어를 입력하세요!");
+                $('#keyword').focus();
+                return;
+            }
+            var url = "weekly?page=1"
+                + "&perPageNum=" + "${pageMaker.cri.perPageNum}"
+
+                + "&keyword=" + encodeURIComponent(keywordVal);
+            window.location.href = url;
         })
     }
 
-    $.ajax({
-        url: 'http://localhost:5000/weekly',
-        type: 'GET'
-    }).done((data, textStatus, jqXHR) => {
-        console.log('성공');
-        console.log(data);
-        console.log(textStatus);
-        console.log(jqXHR);
-    });
 </script>

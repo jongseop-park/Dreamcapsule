@@ -78,15 +78,44 @@ public class PageMaker {
         UriComponentsBuilder uriComponents =
                 UriComponentsBuilder.newInstance()
                         .queryParam("page", page)
+                        .queryParam("perPageNum", cri.getPerPageNum())
+            .queryParam("keyword",this.cri.getKeyword())
+                        .queryParam("regDt",this.cri.getRegDt());
+//        if(this.cri.getKeyword()!=null && this.cri.getRegDt() == null){
+//            uriComponents
+//
+//                    .queryParam("keyword",this.cri.getKeyword());
+//        }else if(this.cri.getRegDt() !=null && this.cri.getKeyword()==null){
+//            uriComponents
+//
+//                    .queryParam("regDt",this.cri.getRegDt());
+//        }else if(this.cri.getRegDt() !=null && this.cri.getKeyword() != null){
+//            uriComponents
+//                    .queryParam("keyword",this.cri.getKeyword())
+//            .queryParam("regDt",this.cri.getRegDt());
+//        }
+
+        return uriComponents.build().encode().toString();
+    }
+
+
+    public String weekmakeQuery(int page) {
+        UriComponentsBuilder uriComponents =
+                UriComponentsBuilder.newInstance()
+                        .queryParam("page", page)
                         .queryParam("perPageNum", cri.getPerPageNum());
-        if(this.cri.getKeyword()!=null && this.cri.getRegDt() == null){
-            uriComponents
 
+
+        if(this.cri.getKeyword()!=null && (this.cri.getRegDt() == null && this.cri.getEndDate() == null) ){
+            uriComponents
                     .queryParam("keyword",this.cri.getKeyword());
-        }else if(this.cri.getRegDt() !=null && this.cri.getKeyword()==null){
-            uriComponents
+        }
 
-                    .queryParam("regDt",this.cri.getRegDt());
+
+        else if((this.cri.getRegDt() != null && this.cri.getEndDate() != null)  && this.cri.getKeyword()==null){
+            uriComponents
+                    .queryParam("startDate",this.cri.getStartDate())
+                    .queryParam("endDate",this.cri.getEndDate());
         }
 
         return uriComponents.build().encode().toString();
