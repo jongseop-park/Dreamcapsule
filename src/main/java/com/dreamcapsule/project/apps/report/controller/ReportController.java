@@ -30,7 +30,7 @@ public class ReportController {
         pageMaker.setTotalCount(reportService.countSearch(scri));
         model.addAttribute("pageMaker", pageMaker);
 
-        return "report/tempList";
+        return "report/list";
     }
 
 

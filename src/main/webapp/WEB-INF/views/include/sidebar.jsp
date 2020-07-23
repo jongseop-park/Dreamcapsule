@@ -83,7 +83,7 @@
 
     <!-- 리포트 -->
     <li class="nav-item">
-        <a class="nav-link" href="javascript:void(0)">
+        <a class="nav-link" href="/report">
             <i class="fas fa-fw fa-table"></i>
             <span>리포트</span></a>
     </li>

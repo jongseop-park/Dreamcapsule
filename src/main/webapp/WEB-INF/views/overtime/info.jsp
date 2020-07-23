@@ -8,9 +8,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="en">
-
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -26,19 +24,21 @@
     <!-- Custom styles for this template-->
     <link href="/static/css/sb-admin-2.min.css" rel="stylesheet">
 
+    <!-- css -->
     <style>
+        /*
         #infoTitle {
             margin-left: 10px;
-        }
-
+        }*/
+/*
         #contents {
             margin-left: 2%;
-        }
+        }*/
 
         #rtable {
             width: 100%;
             height:40%;
-            font-size:13px;
+            font-size:16px;
         }
 
         .table_th {
@@ -48,12 +48,12 @@
         #modifyButton {
             margin-top: 10px;
             width:120px;
-            height:30px;
-            right:25%;
-            margin-left: 60%;
+            height:35px;
+            right:480px;
+            margin-left: 55%;
         }
     </style>
-
+    <!-- end -->
 </head>
 
 <body id="page-top">
@@ -76,23 +76,21 @@
             <!-- End of Topbar -->
 
             <!-- 메인 내용 -->
-            <div id="infoTitle">
+            <div id="infoTitle" style="margin-left: 10px;">
             <h6>홈 > 야근관리 > 상세</h6>
                 <h5><b>야근 관리하기</b></h5>
             </div>
-            <div id="contents">
-            <form action="/updateInfo" method="POST" >
+            <div id="contents" style="margin-left:2%;">
+            <form action="/updateInfo" method="POST" name="modifyForm" id="modifyForm" >
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-
-                <!-- 유지 -->
                 <input type="hidden" id="page" name="page" value="${scri.page}" readonly="readonly" />
                 <input type="hidden" id="keyword" name="keyword" value="${scri.keyword}" readonly="readonly" />
                 <input type="hidden" id="startDate" name="startDate" value="${scri.startDate}" readonly="readonly" />
                 <input type="hidden" id="endDate" name="endDate" value="${scri.endDate}" readonly="readonly" />
-                <!-- end -->
-
-                <input type="hidden" name="modifyDate" value="${empInfo.modifyDate}" />
-                <input type="hidden" name="sequence" value="${empInfo.sequence}" />
+                <input type="hidden" id="order" name="order" value="${scri.order}" readonly="readonly" />
+                <input type="hidden" id="orderKeyword" name="orderKeyword" value="${scri.orderKeyword}" readonly="readonly" />
+                <input type="hidden" id="modifyDate" name="modifyDate" value="${empInfo.modifyDate}" />
+                <input type="hidden" id="sequence" name="sequence" value="${empInfo.sequence}" />
                 <table width="230" height="70">
                     <tr>
                         <td rowspan="2">
@@ -107,51 +105,45 @@
                 <br>
                 <table id="rtable">
                     <tr>
-                        <td class="table_th">상태</td>
-                        <td>${empInfo.status}</td>
-                    </tr>
-
-                    <tr>
-                        <td>날짜</td>
-                        <td>${empInfo.overtimeDate}</td>
+                        <td class="table_th">상태</td><td>${empInfo.status}</td>
                     </tr>
                     <tr>
-                        <td>시간</td>
-                        <td>${empInfo.overtimeTime}</td>
+                        <td>날짜</td><td>${empInfo.overtimeDate}</td></tr>
+                    <tr>
+                        <td>시간</td><td>${empInfo.overtimeTime}</td>
                     </tr>
                     <tr>
-                        <td>석식</td>
-                        <td>${empInfo.eatBoolean}</td>
+                        <td>석식</td><td>${empInfo.eatBoolean}</td>
                     </tr>
                     <tr>
-                        <td>메모</td>
-                        <td>${empInfo.contents}</td>
+                        <td>메모</td><td>${empInfo.contents}</td>
                     </tr>
                     <tr>
-                        <td>신청날짜</td>
-                        <td>${empInfo.requestDate}</td>
+                        <td>신청날짜</td><td>${empInfo.requestDate}</td>
                     </tr>
                     <tr>
                         <c:if test="${empInfo.status}">
                         </c:if>
                         <c:choose>
                             <c:when test="${empInfo.status eq '승인'}">
-                                <td>승인&nbsp&nbsp<input type="radio" name="status" value="승인" checked="checked"></td>
-                                <td>반려&nbsp&nbsp<input type="radio" name="status" value="반려"></td>
+                                <td>승인&nbsp&nbsp<input type="radio"  name="status" value="승인" checked="checked"></td>
+                                <td>반려&nbsp&nbsp<input type="radio"  name="status" value="반려"></td>
                             </c:when>
                             <c:when test="${empInfo.status eq '반려'}">
-                                <td>승인&nbsp&nbsp<input type="radio" name="status" value="승인" ></td>
-                                <td>반려&nbsp&nbsp<input type="radio" name="status" value="반려" checked="checked"></td>
+                                <td>승인&nbsp&nbsp<input type="radio"  name="status" value="승인" ></td>
+                                <td>반려&nbsp&nbsp<input type="radio"  name="status" value="반려" checked="checked"></td>
                             </c:when>
                             <c:otherwise>
-                                <td>승인&nbsp&nbsp<input type="radio" name="status" value="승인"></td>
-                                <td>반려&nbsp&nbsp<input type="radio" name="status" value="반려"></td>
+                                <td>승인&nbsp&nbsp<input type="radio"  name="status" value="승인"></td>
+                                <td>반려&nbsp&nbsp<input type="radio"  name="status" value="반려"></td>
                             </c:otherwise>
                         </c:choose>
                     </tr>
                 </table>
-                <textarea name="answer" cols="107" rows="4" value="answer" placeholder="답변을 입력해주세요.">${empInfo.answer}</textarea>
-                <input id="modifyButton" type="submit" value="수정"/>
+                <textarea class="form-control" id="answer" name="answer"
+                          rows="3" style="width:800px; resize:none;" value="answer" placeholder="답변을 입력해주세요." >${empInfo.answer}</textarea>
+                <input id="modifyButton" name="modifyButton" type="button" class="btn bt
+                n-light btn-outline-primary" value="수정" style="margin-left:700px;" <%--onclick="check()"--%>/>
                  </form>
             </div>
             <!-- /메인 내용 -->
@@ -196,8 +188,59 @@
 <!-- plugins_js -->
 <%@include file="../include/plugins_js.jsp"%>
 <!-- /plugins_js -->
-
-</body>
-
+</body
 </html>
+<script type="text/javascript">
+    /*
+    function check() {
+        var modifyForm = document.modifyForm;
+
+        if(modifyForm.answer.value == "") {
+            alert("상태를 선택해주세요.");
+            return modifyForm.answer.focus();
+        }
+        if(modifyForm.status.value == "") {
+            alert("상태를 선택해주세요.");
+            return modifyForm.status.focus();
+        }
+        return modifyForm.submit();
+    }*/
+
+    const $form = $("#modifyForm");
+    let $status = $form.find("#status");
+    let $answer = $form.find("#answer");
+    const $btnUpdate = $form.find("#modifyButton");
+
+    $btnUpdate.on("click", function() {
+        let status;
+
+        if(document.getElementsByName("status")[0].checked)
+            status = "승인";
+        else
+            status = "반려";
+
+        var object = {
+            "sequence" : document.getElementById("sequence").value,
+            "answer" : document.getElementById("answer").value,
+            "status" : status
+        }
+
+        if($status.val() == "" || $answer.val() == "") {
+            alert("상태를 선택해주세요.");
+        } else {
+            $.ajax({
+                url: "/update",
+                type: "POST",
+                data: JSON.stringify(object),
+                contentType:"application/json",
+                success:function() {
+                    alert("정상적으로 등록되었습니다.");
+                    history.back();
+                }, error:function(jqXhr) {
+                    alert("작업이 실패했습니다.");
+                }
+            });
+        }
+    });
+</script>
 

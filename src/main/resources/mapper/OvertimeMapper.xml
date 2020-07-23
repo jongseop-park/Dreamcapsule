@@ -4,30 +4,22 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.dreamcapsule.project.apps.overtime.mapper.OvertimeMapper">
 
-    <select id="listPage" resultType="com.dreamcapsule.project.domain.OvertimeVO"
-            parameterType="com.dreamcapsule.project.apps.overtime.domain.Criteria">
-  select sequence, registerDate, modifyDate, empName, empJob, empPosition, overtimeDate, overtimeTime, eatBoolean, status, contents, requestDate, answer
-from (
- select sequence, registerDate, modifyDate, empName, empJob, empPosition, overtimeDate, overtimeTime, eatBoolean, status, contents, requestDate, answer ,row_number() over(order by sequence asc) as rNum from OT_MNG_TB) mb
- where rNum between #{rowStart} and #{rowEnd} order by sequence asc
+    <!--    <select id="listPage" resultType="com.dreamcapsule.project.domain.OvertimeVO"
+                parameterType="com.dreamcapsule.project.apps.overtime.domain.Criteria">
+      select sequence, registerDate, modifyDate, empName, empJob, empPosition, overtimeDate, overtimeTime, eatBoolean, status, contents, requestDate, answer
+    from (
+     select sequence, registerDate, modifyDate, empName, empJob, empPosition, overtimeDate, overtimeTime, eatBoolean, status, contents, requestDate, answer ,row_number() over(order by sequence asc) as rNum from OT_MNG_TB) mb
+     where rNum between #{rowStart} and #{rowEnd} order by sequence asc
+     </select>-->
+
+    <!--    <select id="empList" resultType="com.dreamcapsule.project.domain.OvertimeVO">
+            SELECT * FROM OT_MNG_TB
+        </select>-->
+
+    <!--<select id="listCount" resultType="int">
+     select count(*) as totalCount from OT_MNG_TB where sequence > 0
  </select>
-
-    <select id="empList" resultType="com.dreamcapsule.project.domain.OvertimeVO">
-        SELECT * FROM OT_MNG_TB
-    </select>
-
-    <select id="findInfo" parameterType="int" resultType="com.dreamcapsule.project.domain.OvertimeVO">
-        SELECT * from OT_MNG_TB where sequence = ${sequence}
-    </select>
-
-    <select id="updateEmpInfo" parameterType="com.dreamcapsule.project.domain.OvertimeVO">
-        UPDATE OT_MNG_TB set modifyDate= substr(#{modifyDate}, 1,10) , answer=#{answer},status = #{status} where sequence = #{sequence}
-    </select>
-
-    <select id="listCount" resultType="int">
-        select count(*) as totalCount from OT_MNG_TB where sequence > 0
-    </select>
-
+-->
     <!--    <select id="search" parameterType="com.dreamcapsule.project.apps.overtime.domain.SearchCriteria"
                 resultType="com.dreamcapsule.project.domain.OvertimeVO">
 
@@ -41,17 +33,31 @@ from (
      where rNum between #{rowStart} and #{rowEnd} order by sequence asc
         </select>
      -->
-        <select id="countSearch" resultType="int">
+
+    <select id="findInfo" parameterType="int" resultType="com.dreamcapsule.project.domain.OvertimeVO">
+        SELECT sequence,registerdate,modifydate,empname,empjob,empposition,overtimedate,overtimetime,eatboolean,
+    status,contents,to_char(requestdate, 'yyyy.MM.dd (DY) hh:mm') as requestdate,answer from OT_MNG_TB where sequence = ${sequence}
+    </select>
+
+    <select id="updateEmpInfo" parameterType="com.dreamcapsule.project.domain.OvertimeVO">
+        UPDATE OT_MNG_TB
+        set
+        modifyDate=SYSDATE ,
+         answer=#{answer},
+         status=#{status} where sequence = #{sequence}
+    </select>
+
+    <select id="countSearch" resultType="int">
             select count(sequence) from OT_MNG_TB where empName like '%' || #{keyword} || '%' and
             (requestDate between to_date(#{startDate}) and to_date(#{endDate}))
-        </select>
+    </select>
 
-    <!--정렬-->
+    <!-- -->
     <select id="search" parameterType="com.dreamcapsule.project.apps.overtime.domain.SearchCriteria"
             resultType="com.dreamcapsule.project.domain.OvertimeVO">
 
    SELECT sequence,registerdate,modifydate,empname,empjob,empposition,overtimedate,overtimetime,eatboolean,
-    status,contents,requestdate,answer
+    status,contents,to_char(requestdate, 'yyyy.MM.dd (DY) hh:mm') as requestdate,answer
 FROM (SELECT
     sequence, registerdate,modifydate,empname,empjob,empposition,overtimedate,overtimetime,eatboolean,
     status,contents,requestdate,answer, row_number() over

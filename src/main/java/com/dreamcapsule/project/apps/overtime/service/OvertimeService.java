@@ -8,12 +8,10 @@ import java.util.List;
 
 public interface OvertimeService {
     public OvertimeVO findEmp(int sequence) throws Exception;
+
     public void updateEmpInfo(OvertimeVO overtimeVO) throws Exception;
 
-    public int listCount() throws Exception;
-    public List<OvertimeVO> listPage(Criteria cri) throws Exception;
-
     public List<OvertimeVO> listSearch(SearchCriteria searchCriteria) throws Exception;
-    public int countSearch(SearchCriteria searchCriteria) throws Exception;
 
+    public int countSearch(SearchCriteria searchCriteria) throws Exception;
 }

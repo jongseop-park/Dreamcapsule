@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.dreamcapsule.project.apps.report.mapper.ReportMapper">
     <select id="reportList" resultType="com.dreamcapsule.project.domain.ReportVO">
-        SELECT * FROM REPORT_TB
+        SELECT * FROM REPORT_TB order by sequence
     </select>
 
     <select id="countSearch" resultType="int">

@@ -12,18 +12,17 @@ import java.util.List;
 @Mapper
 @Repository
 public interface OvertimeMapper {
-    public void updateEmpInfo(OvertimeVO overtimeVO);
 
-    public List<OvertimeVO> empList() throws Exception;
-
+    /* 정보 조회 */
     public OvertimeVO findInfo(@Param("sequence") int sequence);
 
-    public int listCount();
+    /* 정보 수정 */
+    public void updateEmpInfo(OvertimeVO overtimeVO);
 
-    public List<OvertimeVO> listPage(Criteria cri) throws Exception;
-
+    /* 검색 */
     public List<OvertimeVO> search(SearchCriteria searchCriteria) throws Exception;
 
+    /* 검색 결과 개수 */
     public int countSearch(SearchCriteria searchCriteria) throws Exception;
 
 }

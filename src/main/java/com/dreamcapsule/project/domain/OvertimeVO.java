@@ -4,19 +4,43 @@ import oracle.sql.CHAR;
 
 public class OvertimeVO {
 
-
+    /** 시퀀스 */
     private int sequence;
+
+    /** 생성일자 */
     private String registerDate;
+
+    /** 수정일자 */
     private String modifyDate;
+
+    /** 직원 */
     private String empName;
+
+    /** 직무 */
     private String empJob;
+
+    /** 직급 */
     private String empPosition;
+
+    /** 야근날짜 */
     private String overtimeDate;
+
+    /** 야근시간 */
     private String overtimeTime;
+
+    /** 석식여부 */
     private String eatBoolean;
+
+    /** 상태 */
     private String status;
+
+    /** 메모 */
     private String contents;
+
+    /** 신청날짜 */
     private String requestDate;
+
+    /** 답변 */
     private String answer;
 
 

@@ -7,36 +7,18 @@ import com.dreamcapsule.project.domain.OvertimeVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
-import java.util.Map;
 
+
+// 야근관리
 @Controller
 public class OvertimeController {
 
     @Autowired
     OvertimeService overtimeService;
-
-    @RequestMapping(value = "/overtimeListPage", method = RequestMethod.GET)
-    public String listPage(Criteria cri, Model model, @RequestParam(value="tempData", defaultValue = "defaultValue") String tempData
-     ) throws Exception {
-        List<OvertimeVO> list = overtimeService.listPage(cri);
-        model.addAttribute("list", list);
-
-        PageMaker pageMaker = new PageMaker();
-        pageMaker.setCri(cri);
-        pageMaker.setTotalCount(overtimeService.listCount());
-        model.addAttribute("pageMaker", pageMaker);
-
-        return "overtime/overtimeListPage";
-    }
-
-    ////
 
     @RequestMapping(value = "readInfo", method= RequestMethod.GET)
     public String printInfo(@RequestParam int sequence, Model model,
@@ -45,7 +27,7 @@ public class OvertimeController {
         model.addAttribute("empInfo", overtimeVO);
         model.addAttribute("scri", scri);
 
-        return "overtime/empInfo";
+        return "overtime/info";
     }
 
     @RequestMapping(value="updateInfo", method=RequestMethod.POST)
@@ -72,6 +54,13 @@ public class OvertimeController {
         pageMaker.setTotalCount(overtimeService.countSearch(scri));
         model.addAttribute("pageMaker", pageMaker);
 
-        return "overtime/overtimeListPageSearch";
+        return "overtime/list";
+    }
+
+    @RequestMapping("/update")
+    @ResponseBody
+    public OvertimeVO update(@RequestBody OvertimeVO conn) throws Exception {
+        overtimeService.updateEmpInfo(conn);
+        return conn;
     }
 }

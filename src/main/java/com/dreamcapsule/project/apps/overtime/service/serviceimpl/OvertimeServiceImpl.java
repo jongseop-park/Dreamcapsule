@@ -15,33 +15,30 @@ public class OvertimeServiceImpl implements OvertimeService {
     @Autowired
     OvertimeMapper overtimeMapper;
 
+    /* 정보 조회*/
     @Override
     public OvertimeVO findEmp(int sequence) throws Exception {
         return overtimeMapper.findInfo(sequence);
     }
 
+    /* 수정 */
     @Override
     public void updateEmpInfo(OvertimeVO overtimeVO) throws Exception {
         overtimeMapper.updateEmpInfo(overtimeVO);
     }
 
-    @Override
-    public int listCount() throws Exception {
-        return overtimeMapper.listCount();
-    }
-
-    @Override
-    public List<OvertimeVO> listPage(Criteria cri) throws Exception {
-        return overtimeMapper.listPage(cri);
-    }
-
+    /* 검색 */
     @Override
     public List<OvertimeVO> listSearch(SearchCriteria searchCriteria) throws Exception {
         return overtimeMapper.search(searchCriteria);
     }
 
+    /* 검색 결과 개수 */
     @Override
     public int countSearch(SearchCriteria searchCriteria) throws Exception {
         return overtimeMapper.countSearch(searchCriteria);
     }
+
+
+
 }

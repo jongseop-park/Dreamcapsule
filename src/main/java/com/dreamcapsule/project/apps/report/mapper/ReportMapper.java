@@ -11,7 +11,12 @@ import java.util.List;
 @Mapper
 @Repository
 public interface ReportMapper {
+    /* 목록 */
     public List<ReportVO> reportList() throws Exception;
+
+    /* 검색 결과 개수 */
     public int countSearch(SearchCriteria searchCriteria) throws Exception;
+
+    /* 검색 */
     public List<ReportVO> listSearch(SearchCriteria searchCriteria) throws Exception;
 }
