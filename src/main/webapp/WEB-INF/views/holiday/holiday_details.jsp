@@ -63,8 +63,7 @@
                             <h3 style="margin-top: 10px; margin-bottom: 30px">휴가 관리하기</h3>
                         </div>
                         <div style='width : 30%; height : 80%; float:left; margin-top: 10px '>
-                            <img src="" width="100px" height="100px"
-                                 alt="기본사진">
+                            <img src="/static/img/holiday/holiday_sample_img.png" width="100px" height="100px" alt="기본사진">
                         </div>
                         <div style='width : 70%; height : 80%; float:right; margin-top:10px; vertical-align: center'>
 
@@ -82,13 +81,13 @@
                     </div>
                     <div style='width: 100%;height: 70%; float: bottom;' id="selectHoliday">
                         <c:forEach var="holiday" items="${holidayDetails}" varStatus="status">
-                            <div id="div_${status.count}" style=' border-style: solid; border-radius:10px 10px 10px 10px; width: 90%; height: 150px; margin-top: 20px'>
-                                <div style=' border-style: solid; border-radius: 30px 30px 30px 30px; width: 100px;text-align: center; float: right; margin: 10px'>
+                            <div id="${status.count}" style=' border-style: solid; border-radius:10px 10px 10px 10px; width: 90%; height: 150px; margin-top: 20px'>
+                                <div id="state_${status.count}"style=' border-style: solid; border-radius: 30px 30px 30px 30px; width: 100px;text-align: center; float: right; margin: 10px'>
                                     <c:set var="name">${holiday.holidayDate} div_${status.count}</c:set>
 
                                     <c:choose>
                                         <c:when test="${holiday.stateYsn eq 'Y'.charAt(0)}">
-                                            승인<br>
+                                            <span style="color: #4e73df">승인</span><br>
                                         </c:when>
                                         <c:when test="${holiday.stateYsn eq 'S'.charAt(0)}">
                                             대기중<br>
@@ -110,11 +109,12 @@
 
                 <div style='width: 50%;height: 100%; float:right; padding-top: 50px;'>
 
-                    휴가날짜 <span id="spanDate"></span> <br><br>
-                    차감휴가 <span id="spanUse"></span> 일<br><br>
-                    휴가유형 <span id="spanType"></span><br><br>
-                    메모 <span id="spanMemo"></span><br><br>
-                    신청날짜 <span id="spanApTime"></span><br><br>
+                    휴가 날짜 &emsp;<span id="spanDate"></span> <br><br>
+                    차감 휴가 &emsp;<span id="spanUse">*</span> 일<br><br>
+                    휴가 유형 &emsp;<span id="spanType"></span><br><br>
+                    메모 &emsp;&emsp;&emsp;<span id="spanMemo"></span><br><br>
+                    신청 날짜 &emsp;<span id="spanApTime"></span><br><br>
+                    <form id="detailsUpdate" method="post">
                     <div style="float: left">
                         승인<input type="radio" value="승인" name="state">
                     </div>
@@ -122,10 +122,14 @@
                         반려<input type="radio" value="반려" name="state">
                     </div>
                     <br><br>
-                    <textarea cols="65%" rows="5" placeholder="답변을 입력 해 주세요."></textarea>
+                    <textarea id="spanReply" cols="65%" rows="5" placeholder="답변을 입력 해 주세요."></textarea>
                     <br><br>
-                    <input id='btn' type="button" value="저장" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
-                           style="float: right; ">
+                        <input type="hidden" id="seq">
+                        <input type="hidden" id="spanReplyChange">
+                        <input type="hidden" id="year">
+                        <input type="hidden" id="month">
+                    <input id='saveBtn' type="button" value="저장" class="btn btn-sm btn-primary shadow-sm" style="float: right; display: none"/>
+                    </form>
                 </div>
             </div>
 
@@ -146,22 +150,51 @@
     </a>
 
     <!-- Logout Modal-->
-<%@include file="/WEB-INF/views/include/logout_cmmn.jsp"%>
+    <%@include file="/WEB-INF/views/include/logout_cmmn.jsp"%>
 
     <!-- Bootstrap core JavaScript-->
     <%@include file="/WEB-INF/views/include/plugins_js.jsp" %>
 
 </body>
 </html>
+
 <script>
-
-    var y = new Array();
-    for(var x = 0; x < ${holidayDetails.size()}; x++) {
-        y = document.getElementById("div_" + (x+1);
-        $(y[x]).click(function () {
-            alert("클릭");
+    var y = new Array(${holidayDetails.size()});
+    $('#seq').val('${holidayDetails.get(0).userNum}');
+    $('#year').val('${holidayDetails.get(0).holidayYear}');
+    $('#month').val('${holidayDetails.get(0).holidayMonth}');
+    <c:forEach begin="1" end="${holidayDetails.size()}" varStatus="status">
+        $('#${status.count}').click(function () {
+            document.getElementById("spanDate").innerHTML = '${holidayDetails.get(status.count-1).holidayDate}';
+            document.getElementById("spanUse").innerHTML = '${holidayDetails.get(status.count-1).useHoliday}';
+            document.getElementById("spanType").innerHTML = '${holidayDetails.get(status.count-1).holidayType}';
+            document.getElementById("spanMemo").innerHTML = '${holidayDetails.get(status.count-1).note}';
+            document.getElementById("spanApTime").innerHTML = '${holidayDetails.get(status.count-1).applicationTime}';
+            <c:set var="stateYsn" value="${holidayDetails.get(status.count-1).stateYsn}"/>
+            if(${stateYsn eq 'Y'.charAt(0)} || ${stateYsn eq 'N'.charAt(0)}){
+                if(${stateYsn eq 'Y'.charAt(0)}) {
+                    $("input[type=radio][value='승인']").prop("checked",true);
+                }else{
+                    $("input[type=radio][value='반려']").prop("checked",true);
+                }
+                $('#spanReply').val("${holidayDetails.get(status.count-1).reply}");
+                $('#saveBtn').css('display','inline');
+                $('#saveBtn').val('수정');
+            }else{
+                $("input[type=radio]").prop("checked",false);
+                $('#spanReply').val("");
+                $('#saveBtn').css('display','inline');
+                $('#saveBtn').val('저장');
+            }
         });
-    }
+
+        if(${holidayDetails.get(status.count-1).stateYsn eq 'Y'.charAt(0)}){
+            $('#state_${status.count}').css('border','solid #4e73df');
+        }
+    </c:forEach>
+
+    $('#saveBtn').click(function () {
+        $('#spanReplyChange').val($('#spanReply').val());
+        $('#detailsUpdate').attr('action','/holiday_update').submit();
+    });
 </script>
-
-

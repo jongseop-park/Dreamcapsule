@@ -26,7 +26,7 @@ public class HolidayVO {
     private String note;
 
     /** 신청날짜 */
-    private Date applicationTime;
+    private String applicationTime;
 
     /** 휴가 승인 여부 */
     private char stateYsn;
@@ -111,11 +111,11 @@ public class HolidayVO {
         this.note = note;
     }
 
-    public Date getApplicationTime() {
+    public String getApplicationTime() {
         return applicationTime;
     }
 
-    public void setApplicationTime(Date applicationTime) {
+    public void setApplicationTime(String applicationTime) {
         this.applicationTime = applicationTime;
     }
 

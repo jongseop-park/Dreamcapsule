@@ -12,7 +12,16 @@
         SELECT * FROM HOLIDAY_INFO_TB WHERE SEQ = #{SEQ}
     </select>
     <select id="findByValue" resultType="HolidayVO">
-        SELECT * FROM HOLIDAY_TB WHERE USER_NUM = #{SEQ} AND HOLIDAY_YEAR = #{YEAR} AND HOLIDAY_MONTH = #{MONTH}
+        SELECT USER_NUM,
+            HOLIDAY_YEAR,
+            HOLIDAY_DATE,
+            HOLIDAY_TYPE,
+            HOLIDAY_DATE,
+            NOTE,
+            TO_CHAR(APPLICATION_TIME,'YYYY.MM.DD (dy) HH24:MI') AS APPLICATION_TIME,
+            STATE_YSN,
+            USE_HOLIDAY,
+            REPLY FROM HOLIDAY_TB WHERE USER_NUM = #{SEQ} AND HOLIDAY_YEAR = #{YEAR} AND HOLIDAY_MONTH = #{MONTH}
     </select>
 
     <select id="findByName" resultType="HolidayVO">
@@ -43,4 +52,7 @@
         SELECT * FROM HOLIDAY_INFO_TB WHERE TASK = #{TASK}
     </select>
 
+    <update id="detailsUpdate">
+        UPDATE HOLIDAY_TB SET STATE_YSN=${STATE}, REPLY = ${REPLY}, MOD_DT = SYSDATE WHERE SEQ = ${SEQ}
+    </update>
 </mapper>
