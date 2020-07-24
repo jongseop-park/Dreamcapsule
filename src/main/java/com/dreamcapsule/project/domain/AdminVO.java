@@ -5,9 +5,6 @@ import java.util.List;
 
 public class AdminVO {
 
-    /** 시퀀스 */
-    private Integer seq;
-
     /** 관리자 아이디 */
     private String adminId;
 
@@ -41,100 +38,4 @@ public class AdminVO {
     /** 권한 테이블 */
     private List<AuthorityVO>  authList;
 
-
-    public Integer getSeq() {
-        return seq;
-    }
-
-    public void setSeq(Integer seq) {
-        this.seq = seq;
-    }
-
-    public String getAdminId() {
-        return adminId;
-    }
-
-    public void setAdminId(String adminId) {
-        this.adminId = adminId;
-    }
-
-    public String getAdminPw() {
-        return adminPw;
-    }
-
-    public void setAdminPw(String adminPw) {
-        this.adminPw = adminPw;
-    }
-
-    public String getAdminNm() {
-        return adminNm;
-    }
-
-    public void setAdminNm(String adminNm) {
-        this.adminNm = adminNm;
-    }
-
-    public String getAdminEmail() {
-        return adminEmail;
-    }
-
-    public void setAdminEmail(String adminEmail) {
-        this.adminEmail = adminEmail;
-    }
-
-    public String getAdminTel() {
-        return adminTel;
-    }
-
-    public void setAdminTel(String adminTel) {
-        this.adminTel = adminTel;
-    }
-
-    public Integer getFailCnt() {
-        return failCnt;
-    }
-
-    public void setFailCnt(Integer failCnt) {
-        this.failCnt = failCnt;
-    }
-
-    public LocalDateTime getLastLoginDt() {
-        return lastLoginDt;
-    }
-
-    public void setLastLoginDt(LocalDateTime lastLoginDt) {
-        this.lastLoginDt = lastLoginDt;
-    }
-
-    public LocalDateTime getRegDt() {
-        return regDt;
-    }
-
-    public void setRegDt(LocalDateTime regDt) {
-        this.regDt = regDt;
-    }
-
-    public LocalDateTime getModDt() {
-        return modDt;
-    }
-
-    public void setModDt(LocalDateTime modDt) {
-        this.modDt = modDt;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public List<AuthorityVO> getAuthList() {
-        return authList;
-    }
-
-    public void setAuthList(List<AuthorityVO> authList) {
-        this.authList = authList;
-    }
 }
