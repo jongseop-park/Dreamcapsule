@@ -44,39 +44,19 @@
 
     if (order.equals("asc")) {
         switch (orderKeyword) {
-            case "empName":
-                empName = "▲";
-                break;
-            case "empJob":
-                empJob = "▲";
-                break;
-            case "empPosition":
-                empPosition = "▲";
-                break;
-            case "status":
-                status = "▲";
-                break;
-            case "requestDate":
-                requestDate = "▲";
-                break;
+            case "empName": empName = "▲";break;
+            case "empJob": empJob = "▲";break;
+            case "empPosition": empPosition = "▲";break;
+            case "status": status = "▲";break;
+            case "requestDate": requestDate = "▲";break;
         }
     } else {
         switch (orderKeyword) {
-            case "empName":
-                empName = "▼";
-                break;
-            case "empJob":
-                empJob = "▼";
-                break;
-            case "empPosition":
-                empPosition = "▼";
-                break;
-            case "status":
-                status = "▼";
-                break;
-            case "requestDate":
-                requestDate = "▼";
-                break;
+            case "empName": empName = "▼";break;
+            case "empJob": empJob = "▼";break;
+            case "empPosition": empPosition = "▼";break;
+            case "status": status = "▼";break;
+            case "requestDate": requestDate = "▼";break;
         }
     }
 %>
@@ -107,78 +87,11 @@
     <script src="https://code.jquery.com/jquery-1.7.2.js"></script>
     <script src="https://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
     <script type="text/javascript">
-        /* $(document).ready( function () {
-             $('#myTable').DataTable({
-                 paging:false
-                 ,searching:false
-                 ,info:false
-                 ,ordering:false
-             });
-         } );*/
-
-        function sortTest(keyword) {
-            var order = "asc";
-            var orderKeyword = keyword;
-
-            if (${scri.order.equals("asc")}) {
-                document.getElementById("dateSort").innerHTML = "▼";
-                document.getElementById("dateSort2").innerHTML = "▼";
-                order = "desc";
-            } else {
-                document.getElementById("dateSort").innerHTML = "▲";
-                document.getElementById("dateSort2").innerHTML = "▲";
-                order = "asc"
-            }
-
-            $.ajax({
-                type: "GET",
-                url: "/listSearch?sequence=${searchData.sequence}" +
-                    "&keyword=${scri.keyword}" +
-                    "&page=${scri.page}" +
-                    "&startDate=${scri.startDate}" +
-                    "&endDate=${scri.endDate}" +
-                    "&order=" + order +
-                    "&orderKeyword=" + orderKeyword,
-                dataType: "html",
-                contentType: "json",
-                success: function (data) {
-                    $('#page-top').children().remove();
-                    $('#page-top').html(data);
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    //alert("에러");
-                },
-            });
-        }
-
         $(function () {
             var startDate;
-            $(".startDatepicker").datepicker({
-                showOn: 'both',
-                buttonImage: 'https://icons.iconarchive.com/icons/custom-icon-design/mono-business-2/32/calendar-icon.png',
-                buttonText: '날짜선택',
-                buttonImageOnly: true,
-                showMonthAfterYear: true,
-                changeYear: true,
-                changeMonth: true,
-                dateFormat: 'yy년 mm월 dd일',
-                monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'], // 월의 한글 형식.,
-                dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
-                onSelect: function () {
-                    startDate = $(".startDatepicker").val();
-                }
-            });
 
-            function getDateFormat(date) {
-                var year = date.substr(0, 4);
-                var month = date.substr(6, 2);
-                var day = date.substr(10, 2);
-
-                return year + "-" + month + "-" + day;
-            }
-
-            function applyDatepicker(elem) {
-                $(elem).datepicker({
+            $(document).on('focus', '.endDatepicker', function () {
+                $(this).datepicker({
                     showOn: 'focus'
                     , buttonImageOnly: false
                     , showMonthAfterYear: true
@@ -192,23 +105,77 @@
 
                         if (startDate == null) {
                             alert("시작일을 선택해주세요.");
+                            document.getElementById("date1").value= "";
+                            document.getElementById("date2").value = "";
                         } else {
                             endDate = getDateFormat(endDate);
                             startDate = getDateFormat(startDate);
 
-                            location.href = "/listSearch?startDate="
+                            location.href = "/overtime?startDate="
                                 + startDate + "&endDate="
                                 + endDate + "&keyword="
                                 + getParameter("keyword");
                         }
                     }
+                })
+            });
+
+            $(document).on('focus', '.startDatepicker', function () {
+                $(this).datepicker({
+                    buttonImageOnly: false,
+                    showMonthAfterYear: true,
+                    changeYear: true,
+                    changeMonth: true,
+                    dateFormat: 'yy년 mm월 dd일',
+                    monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월'
+                        , '7월', '8월', '9월', '10월', '11월', '12월'], // 월의 한글 형식.,
+                    dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+                    onSelect: function () {
+                        startDate = $(".startDatepicker").val();
+                    }
                 });
+            });
+
+            function getDateFormat(date) {
+                var year = date.substr(0, 4);
+                var month = date.substr(6, 2);
+                var day = date.substr(10, 2);
+
+                return year + "-" + month + "-" + day;
+            }
+        });
+
+        /* 정렬 */
+        function sortTest(keyword) {
+            var order = "asc";
+            var orderKeyword = keyword;
+
+            if (${scri.order.equals("asc")}) {
+                order = "desc";
+            } else {
+                order = "asc"
             }
 
-            $(document).ready(function () {
-                applyDatepicker(".endDatepicker");
-            })
-        });
+            $.ajax({
+                type: "GET",
+                url: "/overtime?sequence=${searchData.sequence}" +
+                    "&keyword=${scri.keyword}" +
+                    "&page=${scri.page}" +
+                    "&startDate=${scri.startDate}" +
+                    "&endDate=${scri.endDate}" +
+                    "&order=" + order +
+                    "&orderKeyword=" + orderKeyword,
+                dataType: "html",
+                contentType: "json",
+                success: function (data) {
+                    $('#page-top').children().remove();
+                    $('#page-top').html(data);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert("에러가 발생했습니다.");
+                },
+            });
+        }
 
         function getParameter(name) {
             name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -219,7 +186,7 @@
 
         // 조회
         $(function () {
-            $("#myTable tbody tr").click(function () {
+            $(document).on('click', '#myTable tbody tr', function () {
                 var tr = $(this);
                 var td = tr.children();
 
@@ -252,7 +219,7 @@
         #date1 {
             width: 150px;
             height: 30px;
-            margin: 4px 2px 0 210px;
+            margin: 4px 2px 0 2px;
             border: 1px solid #d1d3e2;
             background: none;
             border-radius: 3px;
@@ -265,13 +232,6 @@
             border: 1px solid #d1d3e2;
             background: none;
             border-radius: 3px;
-        }
-
-        .ui-datepicker-trigger {
-            position: absolute;
-            margin: 4px 0 0 170px;
-            height: 30px;
-            width: 30px;
         }
 
         #dateSort, #dateSort2 {
@@ -333,6 +293,7 @@
                 <div id="top">
                     <h5 id="title">야근관리</h5>
                     <div style="display:flex; float: right">
+                    <img style="height: 30px; width: 30px; margin: 4px 2px 0 150px;" src="https://icons.iconarchive.com/icons/custom-icon-design/mono-business-2/32/calendar-icon.png">
                     <input type="text" class="startDatepicker" id="date1" value="<%= startDate  %>">
                     <button id="dateSort" value="requestDate" onClick="sortTest(dateSort.value)"><%= requestDate %>
                     </button>~<input type="text" class="endDatepicker" id="date2" value="<%= endDate %>">
@@ -341,8 +302,8 @@
                     </div>
 
                     <!-- 검색 -->
-                    <form method="get" action="/listSearch"
-                          class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                    <form method="get" action="/overtime"
+                          class="d-none d-sm-inline-block form-inline mr-0 ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
                             <input type="text" name="keyword" value="${scri.keyword}"
                                    class="form-control bg-light border-1 small" placeholder="직원검색" aria-label="Search"
@@ -356,7 +317,12 @@
                             </div>
                         </div>
                     </form>
-                    <%@include file="/WEB-INF/views/include/excel_include.jsp" %>
+                    <div class="d-sm-flex align-items-center justify-content-between mb-1"
+                         style="float: right; margin: 4px 0 0 10px">
+
+                        <a href="/download/overtime" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                class="fas fa-download fa-sm text-white-50"></i> 엑셀 다운로드</a>
+                    </div>
                 </div>
                 <div class="card-body" id="tableDiv">
                     <div class="table-responsive">
@@ -405,22 +371,22 @@
                 </div>
                 <!-- 페이지 -->
                 <div id="pagediv">
-                    <a href="listSearch${pageMaker.makeSearch(pageMaker.cri.page -1)}">◀</a>&nbsp&nbsp&nbsp
+                    <a href="overtime${pageMaker.makeSearch(pageMaker.cri.page -1)}">◀</a>&nbsp&nbsp&nbsp
                     <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
                         <c:choose>
                             <c:when test="${idx == pageMaker.cri.page}">
-                                <b>&nbsp<a href="listSearch${pageMaker.makeSearch(idx)}">${idx}</a>&nbsp</b>
+                                <b>&nbsp<a href="overtime${pageMaker.makeSearch(idx)}">${idx}</a>&nbsp</b>
                             </c:when>
                             <c:otherwise>
-                                &nbsp<a href="listSearch${pageMaker.makeSearch(idx)}">${idx}</a>&nbsp
+                                &nbsp<a href="overtime${pageMaker.makeSearch(idx)}">${idx}</a>&nbsp
                             </c:otherwise>
                         </c:choose>
                     </c:forEach>
                     <c:if test="${pageMaker.totalPage != pageMaker.cri.page}">
-                        &nbsp&nbsp&nbsp<a href="listSearch${pageMaker.makeSearch(pageMaker.cri.page + 1)}">▶</a>
+                        &nbsp&nbsp&nbsp<a href="overtime${pageMaker.makeSearch(pageMaker.cri.page + 1)}">▶</a>
                     </c:if>
                     <c:if test="${pageMaker.totalPage == pageMaker.cri.page}">
-                        &nbsp&nbsp&nbsp<a href="listSearch${pageMaker.makeSearch(pageMaker.endPage)}">▶</a>
+                        &nbsp&nbsp&nbsp<a href="overtime${pageMaker.makeSearch(pageMaker.endPage)}">▶</a>
                     </c:if>
                 </div>
                 <!-- /메인 내용 -->

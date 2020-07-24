@@ -39,6 +39,9 @@ public class OvertimeServiceImpl implements OvertimeService {
         return overtimeMapper.countSearch(searchCriteria);
     }
 
-
-
+    /* 목록 */
+    @Override
+    public List<OvertimeVO> overtimeList() throws Exception {
+        return overtimeMapper.overtimeList();
+    }
 }

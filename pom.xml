@@ -20,6 +20,12 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.17</version>
+        </dependency>
+
         <!-- Ajax Stringify -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -155,8 +161,6 @@
             </exclusions>
         </dependency>
     </dependencies>
-
-
 
 
     <build>

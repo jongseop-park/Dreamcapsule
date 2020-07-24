@@ -26,15 +26,6 @@
 
     <!-- css -->
     <style>
-        /*
-        #infoTitle {
-            margin-left: 10px;
-        }*/
-/*
-        #contents {
-            margin-left: 2%;
-        }*/
-
         #rtable {
             width: 100%;
             height:40%;
@@ -69,7 +60,7 @@
     <div id="content-wrapper" class="d-flex flex-column">
 
         <!-- Main Content -->
-        <div id="content">
+        <div id="content" class="container-fluid">
 
             <!-- Topbar -->
             <%@include file="/WEB-INF/views/include/topbar.jsp"%>
@@ -79,9 +70,9 @@
             <div id="infoTitle" style="margin-left: 10px;">
             <h6>홈 > 야근관리 > 상세</h6>
                 <h5><b>야근 관리하기</b></h5>
-            </div>
+            </div >
             <div id="contents" style="margin-left:2%;">
-            <form action="/updateInfo" method="POST" name="modifyForm" id="modifyForm" >
+            <form action="/updateInfo" method="POST" name="modifyForm" id="modifyForm"  >
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                 <input type="hidden" id="page" name="page" value="${scri.page}" readonly="readonly" />
                 <input type="hidden" id="keyword" name="keyword" value="${scri.keyword}" readonly="readonly" />
@@ -141,9 +132,9 @@
                     </tr>
                 </table>
                 <textarea class="form-control" id="answer" name="answer"
-                          rows="3" style="width:800px; resize:none;" value="answer" placeholder="답변을 입력해주세요." >${empInfo.answer}</textarea>
+                          rows="3" style="width:70%; resize:none;" value="answer" placeholder="답변을 입력해주세요." >${empInfo.answer}</textarea>
                 <input id="modifyButton" name="modifyButton" type="button" class="btn bt
-                n-light btn-outline-primary" value="수정" style="margin-left:700px;" <%--onclick="check()"--%>/>
+                n-light btn-outline-primary" value="수정" <%--onclick="check()"--%>/>
                  </form>
             </div>
             <!-- /메인 내용 -->
@@ -191,20 +182,12 @@
 </body
 </html>
 <script type="text/javascript">
-    /*
-    function check() {
-        var modifyForm = document.modifyForm;
-
-        if(modifyForm.answer.value == "") {
-            alert("상태를 선택해주세요.");
-            return modifyForm.answer.focus();
-        }
-        if(modifyForm.status.value == "") {
-            alert("상태를 선택해주세요.");
-            return modifyForm.status.focus();
-        }
-        return modifyForm.submit();
-    }*/
+    function getParameter(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
 
     const $form = $("#modifyForm");
     let $status = $form.find("#status");
@@ -222,7 +205,7 @@
         var object = {
             "sequence" : document.getElementById("sequence").value,
             "answer" : document.getElementById("answer").value,
-            "status" : status
+            "status" : status,
         }
 
         if($status.val() == "" || $answer.val() == "") {
@@ -235,7 +218,11 @@
                 contentType:"application/json",
                 success:function() {
                     alert("정상적으로 등록되었습니다.");
-                    history.back();
+                    location.href="/overtime?"
+                        + "keyword=" + getParameter("keyword")
+                        + "&page=" + getParameter("page")
+                        + "&startDate=" + getParameter("startDate")
+                        + "&endDate=" + getParameter("endDate")
                 }, error:function(jqXhr) {
                     alert("작업이 실패했습니다.");
                 }

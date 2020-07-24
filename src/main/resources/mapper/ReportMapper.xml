@@ -4,7 +4,9 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.dreamcapsule.project.apps.report.mapper.ReportMapper">
     <select id="reportList" resultType="com.dreamcapsule.project.domain.ReportVO">
-        SELECT * FROM REPORT_TB order by sequence
+        SELECT empName, to_char(hireDate, 'YYYY-MM-DD') as hireDate, workdate, worktime, payvacationtime, overtimeworktime,
+         planovertime, actualovertime, vacationcount, vacationtotal, latecount,
+         absentcount FROM REPORT_TB order by sequence
     </select>
 
     <select id="countSearch" resultType="int">
@@ -20,7 +22,7 @@
           vacationCount, vacationTotal, lateCount, absentCount, row_number()
             over (order by ${orderKeyword} ${order}) as rNum from REPORT_TB
             where empname like '%' || #{keyword} || '%')
-            where rNum between ${rowStart} and ${rowEnd}
+            where rNum between ${rowStart} and ${rowEnd} and (registerDate BETWEEN #{startDate} AND #{endDate})
             order by ${orderKeyword} ${order}
             </select>
 </mapper>

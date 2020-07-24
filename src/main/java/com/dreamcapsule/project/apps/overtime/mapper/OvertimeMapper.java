@@ -25,4 +25,7 @@ public interface OvertimeMapper {
     /* 검색 결과 개수 */
     public int countSearch(SearchCriteria searchCriteria) throws Exception;
 
+    /* 목록 */
+    public List<OvertimeVO> overtimeList() throws Exception;
+
 }

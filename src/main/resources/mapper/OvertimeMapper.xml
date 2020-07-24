@@ -12,9 +12,9 @@
      where rNum between #{rowStart} and #{rowEnd} order by sequence asc
      </select>-->
 
-    <!--    <select id="empList" resultType="com.dreamcapsule.project.domain.OvertimeVO">
-            SELECT * FROM OT_MNG_TB
-        </select>-->
+     <select id="overtimeList" resultType="com.dreamcapsule.project.domain.OvertimeVO">
+            SELECT * FROM OT_MNG_TB order by sequence
+        </select>
 
     <!--<select id="listCount" resultType="int">
      select count(*) as totalCount from OT_MNG_TB where sequence > 0

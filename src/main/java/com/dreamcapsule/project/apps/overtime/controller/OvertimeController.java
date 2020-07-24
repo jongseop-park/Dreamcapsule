@@ -40,10 +40,10 @@ public class OvertimeController {
         rttr.addAttribute("startDate", scri.getStartDate());
         rttr.addAttribute("endDate", scri.getEndDate());
 
-        return "redirect:listSearch";
+        return "redirect:overtime";
     }
 
-    @RequestMapping(value= "/listSearch" , method = RequestMethod.GET)
+    @RequestMapping(value= "/overtime" , method = RequestMethod.GET)
     public String listSearch(@ModelAttribute("scri")SearchCriteria scri, Model model) throws Exception {
         List<OvertimeVO> searchList = overtimeService.listSearch(scri);
         model.addAttribute("searchList", searchList);
@@ -62,5 +62,13 @@ public class OvertimeController {
     public OvertimeVO update(@RequestBody OvertimeVO conn) throws Exception {
         overtimeService.updateEmpInfo(conn);
         return conn;
+    }
+
+    @GetMapping(path="/download/overtime", produces="application/vnd.ms-excel")
+    public String downloadExcel(Model model) throws Exception {
+        List<OvertimeVO> overtimeVOList = overtimeService.overtimeList();
+        model.addAttribute("overtimeVOList", overtimeVOList);
+
+        return "overtimeXls";
     }
 }

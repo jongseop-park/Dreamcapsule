@@ -76,26 +76,27 @@
             var order = "asc";
             var orderKeyword = keyword;
 
-            if (${scri.order.equals("asc")}) {/*
-                document.getElementById("dateSort").innerHTML = "▲";
-                document.getElementById("dateSort2").innerHTML = "▲";*/
+            if (${scri.order.equals("asc")}) {
                 order = "desc";
-            } else {/*
-                document.getElementById("dateSort").innerHTML = "▼";
-                document.getElementById("dateSort2").innerHTML = "▼";*/
+            } else {
                 order = "asc"
             }
 
-            location.href= "/report?&keyword=${scri.keyword}" +
-            "&page=${scri.page}" +
-            "&startDate=${scri.startDate}" +
-            "&endDate=${scri.endDate}" +
-            "&order=" + order +
-            "&orderKeyword=" + orderKeyword;
+            location.href= "/report?&keyword=${scri.keyword}" + "&page=${scri.page}" +
+            "&startDate=${scri.startDate}" + "&endDate=${scri.endDate}" +
+            "&order=" + order + "&orderKeyword=" + orderKeyword;
             }
 
         // Datepicker
         $(function () {
+            function getDateFormat(date) {
+                var year = date.substr(0, 4);
+                var month = date.substr(6, 2);
+                var day = date.substr(10, 2);
+
+                return year + "-" + month + "-" + day;
+            }
+
             var startDate;
 
             $(".startDatepicker").datepicker({
@@ -114,43 +115,30 @@
                 }
             });
 
-            function getDateFormat(date) {
-                var year = date.substr(0, 4);
-                var month = date.substr(6, 2);
-                var day = date.substr(10, 2);
+            $(".endDatepicker").datepicker({
+                showOn: 'focus'
+                , buttonImageOnly: false
+                , showMonthAfterYear: true
+                , changeYear: true
+                , changeMonth: true
+                , dateFormat: 'yy년 mm월 dd일'
+                , monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'] // 월의 한글 형식.
+                , dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+                onSelect: function () {
+                    var endDate = $(".endDatepicker").val();
 
-                return year + "-" + month + "-" + day;
-            }
-
-            function applyDatepicker(elem) {
-                $(elem).datepicker({
-                    showOn: 'focus'
-                    , buttonImageOnly: false
-                    , showMonthAfterYear: true
-                    , changeYear: true
-                    , changeMonth: true
-                    , dateFormat: 'yy년 mm월 dd일'
-                    , monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'] // 월의 한글 형식.
-                    , dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
-                    onSelect: function () {
-                        var endDate = $(".endDatepicker").val();
-
-                        if (startDate == null) {
-                            alert("시작일을 선택해주세요.");
-                            document.getElementById("date1").value= "";
-                            document.getElementById("date2").value = "";
-
-                        } else {
-                            endDate = getDateFormat(endDate);
-                            startDate = getDateFormat(startDate);
-                            location.href = "/report?startDate=" + startDate + "&endDate=" + endDate + "&keyword=" + getParameter("keyword");
-                        }
+                    if (startDate == null) {
+                        alert("시작일을 선택해주세요.");
+                        document.getElementById("date1").value= "";
+                        document.getElementById("date2").value = "";
+                    } else {
+                        endDate = getDateFormat(endDate);
+                        startDate = getDateFormat(startDate);
+                        location.href = "/report?startDate=" + startDate + "&endDate="
+                            + endDate + "&keyword=" + getParameter("keyword");
                     }
-                });
-            }$(document).ready(function () {
-                applyDatepicker(".endDatepicker");
-            })
-            applyDatepicker(".startDatepicker");
+                }
+            });
         });
 
         function getParameter(name) {
@@ -162,12 +150,18 @@
 
         $(function() {
         $("#searchBtn").click(function() {
-            var innerText = document.getElementById("searchText").value;
-            self.location = "/report?&keyword=" + innerText
-                + "&page=${scri.page}"
-                + "&startDate=${scri.startDate}"
-                + "&endDate=${scri.endDate}";
-        });});
+            search_check();
+        });
+
+    });
+
+    function search_check() {
+      var innerText = document.getElementById("searchText").value;
+        self.location = "/report?keyword=" + innerText
+            + "&page=${scri.page}"
+            + "&startDate=${scri.startDate}"
+            + "&endDate=${scri.endDate}";
+    }
     </script>
     <!-- end -->
 
@@ -254,11 +248,17 @@
                             <div class="d-sm-flex align-items-center justify-content-between mb-1"
                                  style="float: right; margin: 4px 0 0 10px">
                             </div>
-                            <%@ include file="/WEB-INF/views/include/excel_include.jsp"%>
-                            <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" style="float: right">
+                            <div class="d-sm-flex align-items-center justify-content-between mb-1"
+                                 style="float: right; margin: 4px 0 0 10px">
+
+                                <a href="/download/report" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                        class="fas fa-download fa-sm text-white-50"></i> 엑셀 다운로드</a>
+                            </div>
+                            <form onsubmit="return false" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" style="float: right">
                                 <div class="input-group" >
                                     <input type="text" class="form-control bg-light border-1 small" placeholder="직원 검색"
-                                           aria-label="Search" aria-describedby="basic-addon2" id="searchText">
+                                           aria-label="Search" aria-describedby="basic-addon2" id="searchText"
+                                           onKeyDown="javascript:if(event.keyCode == 13) search_check();" value="${scri.keyword}">
                                     <div class="input-group-append">
                                         <button class="btn btn-primary" id="searchBtn" type="button">
                                             <i class="fas fa-search fa-sm"></i>
@@ -266,7 +266,6 @@
                                     </div>
                                 </div>
                             </form>
-
                             <div style="display:flex; float: right"><h6>
                                 <input type="text" class="startDatepicker" id="date1" value="<%= startDate  %>">
                                 <button id="dateSort" value="registerDate" onclick="sortTest(dateSort.value)"><%= registerDate %></button> ~
@@ -274,13 +273,10 @@
                                 <button id="dateSort2" value="registerDate" onclick="sortTest(dateSort.value)"><%= registerDate %></button>
                             </h6></div>
                         </h2>
-
                         <!-- /테이블 상단 바 -->
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-
-
                             <table style="text-align: center" class="table table-bordered" width="100%" cellspacing="0">
                                 <thead>
                                 <th rowspan="2">직원<button id="empName" value="empName" onclick="sortTest(empName.value)"><%= empName %></button></th>
@@ -370,7 +366,6 @@
 
 <!-- Logout Modal-->
 <%@include file="/WEB-INF/views/include/logout_cmmn.jsp"%>
-
 
 <!-- plugins_js -->
 <%@include file="/WEB-INF/views/include/plugins_js.jsp"%>
