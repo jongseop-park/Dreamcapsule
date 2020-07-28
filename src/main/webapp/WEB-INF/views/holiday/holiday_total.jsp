@@ -194,7 +194,7 @@
         $("#holidayTable thead th").on("click",function () {
             var keyword = $(this).attr('id');
             var sort;
-            alert(keyword);
+
             if(keyword == "직원" || keyword == "직무" || keyword == "직급"){
 
                 switch(keyword){

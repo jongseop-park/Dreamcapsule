@@ -196,11 +196,6 @@
     </c:forEach>
 
     $('#saveBtn').click(function () {
-        var reply = $('#spanReply').val();
-        if($('input:radio[name=state]').is(':checked') && !(reply.equals(""))){
-            $('#detailsUpdate').attr('action', '/holiday_update').submit();
-        }else {
-            alert("상태를 선택해주세요.");
-        }
+        $('#detailsUpdate').attr('action', '/holiday_update').submit();
     });
 </script>
