@@ -73,7 +73,7 @@
                                             ${holidayDetailsInfo.task} 팀 | ${holidayDetailsInfo.jobGrade}
                                     </div>
                                     <div style="width: 40%; float:right;">
-                                        <a href="/holiday_add"
+                                        <a href="/holiday_add?seq=${holidayDetailsInfo.seq}&year=${holidayDetails.get(0).holidayYear}"
                                            class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">추가</a>
                                     </div>
                                 </form>
@@ -122,12 +122,12 @@
                         반려<input type="radio" value="반려" name="state">
                     </div>
                     <br><br>
-                    <textarea id="spanReply" cols="65%" rows="5" placeholder="답변을 입력 해 주세요."></textarea>
+                    <textarea id="spanReply" name="spanReply"cols="65%" rows="5" placeholder="답변을 입력 해 주세요."></textarea>
                     <br><br>
-                        <input type="hidden" id="seq">
-                        <input type="hidden" id="spanReplyChange">
-                        <input type="hidden" id="year">
-                        <input type="hidden" id="month">
+                        <input type="hidden" id="seq" name="seq">
+                        <input type="hidden" id="userNum" name="userNum">
+                        <input type="hidden" id="year" name="year">
+                        <input type="hidden" id="month" name="month">
                     <input id='saveBtn' type="button" value="저장" class="btn btn-sm btn-primary shadow-sm" style="float: right; display: none"/>
                     </form>
                 </div>
@@ -160,7 +160,7 @@
 
 <script>
     var y = new Array(${holidayDetails.size()});
-    $('#seq').val('${holidayDetails.get(0).userNum}');
+    $('#userNum').val('${holidayDetails.get(0).userNum}');
     $('#year').val('${holidayDetails.get(0).holidayYear}');
     $('#month').val('${holidayDetails.get(0).holidayMonth}');
     <c:forEach begin="1" end="${holidayDetails.size()}" varStatus="status">
@@ -170,6 +170,8 @@
             document.getElementById("spanType").innerHTML = '${holidayDetails.get(status.count-1).holidayType}';
             document.getElementById("spanMemo").innerHTML = '${holidayDetails.get(status.count-1).note}';
             document.getElementById("spanApTime").innerHTML = '${holidayDetails.get(status.count-1).applicationTime}';
+            $('#seq').val('${holidayDetails.get(status.count-1).seq}');
+
             <c:set var="stateYsn" value="${holidayDetails.get(status.count-1).stateYsn}"/>
             if(${stateYsn eq 'Y'.charAt(0)} || ${stateYsn eq 'N'.charAt(0)}){
                 if(${stateYsn eq 'Y'.charAt(0)}) {
@@ -194,7 +196,11 @@
     </c:forEach>
 
     $('#saveBtn').click(function () {
-        $('#spanReplyChange').val($('#spanReply').val());
-        $('#detailsUpdate').attr('action','/holiday_update').submit();
+        var reply = $('#spanReply').val();
+        if($('input:radio[name=state]').is(':checked') && !(reply.equals(""))){
+            $('#detailsUpdate').attr('action', '/holiday_update').submit();
+        }else {
+            alert("상태를 선택해주세요.");
+        }
     });
 </script>

@@ -95,9 +95,9 @@
                     <table class="table table-bordered" id="holidayTable">
                         <thead>
                         <tr>
-                            <th>직원</th>
-                            <th>직무</th>
-                            <th>직급</th>
+                            <th id="직원">직원 ▼</th>
+                            <th id="직무">직무 ▼</th>
+                            <th id="직급">직급 ▼</th>
                             <th>1월</th>
                             <th>2월</th>
                             <th>3월</th>
@@ -192,9 +192,9 @@
 
     $(function () {
         $("#holidayTable thead th").on("click",function () {
-            var keyword = $(this).text();
+            var keyword = $(this).attr('id');
             var sort;
-
+            alert(keyword);
             if(keyword == "직원" || keyword == "직무" || keyword == "직급"){
 
                 switch(keyword){

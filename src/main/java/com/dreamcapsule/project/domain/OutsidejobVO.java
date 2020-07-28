@@ -52,6 +52,14 @@ public class OutsidejobVO {
     /** 수정 일시 */
     private Date modDt;
 
+    /** info seq */
+    private Long userNum;
+
+    /** 외근 달 */
+    private String month;
+
+    /** 외근 일수 */
+    private Long day;
     public Long getSeq(){return seq;}
 
     public void setSeq(Long seq){this.seq = seq;}
@@ -115,4 +123,16 @@ public class OutsidejobVO {
     public Date getModDt(){return modDt;}
 
     public void setModDt(Date modDt){this.modDt = modDt;}
+
+    public Long getUserNum(){return userNum;}
+
+    public void setUserNum(Long userNum){this.userNum = userNum;}
+
+    public String getMonth(){return  month;}
+
+    public void setMonth(String month){this.month = month;}
+
+    public Long getDay(){return day;}
+
+    public void setDay(Long day){this.day = day;}
 }

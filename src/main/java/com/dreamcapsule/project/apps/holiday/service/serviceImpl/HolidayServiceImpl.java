@@ -41,4 +41,12 @@ public class HolidayServiceImpl implements HolidayService{
     @Override
     public List<HolidayVO> findTaskMember(String task){return holidayMapper.findTaskMember(task);}
 
+    @Override
+    public void detailsUpdate(int seq,char state,String reply){holidayMapper.detailsUpdate(seq,state,reply);}
+
+    @Override
+    public int findUseYear(int seq,int year){return holidayMapper.findUseYear(seq,year);}
+
+    @Override
+    public void holidayInsert(int userNum,String holidayType,String holidayYear,String holidayMonth,String holidayDate,String note,String useHoliday){holidayMapper.holidayInsert(userNum,holidayType,holidayYear,holidayMonth,holidayDate,note,useHoliday);}
 }

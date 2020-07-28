@@ -22,9 +22,11 @@
     <style>
         td{
             white-space: nowrap;
+            text-align: center;
         }
         th{
             white-space: nowrap;
+            text-align: center;
         }
         #div_table{
             width: 100%;
@@ -64,14 +66,23 @@
 
             <div class="container">
                 <div>
-                    <a href="/home">홈</a> > 외근관리
-                    <h4>외근관리</h4>
-                    날짜 / 직원검색/ <%@include file="/WEB-INF/views/include/excel_include.jsp"%>
-                    <c:forEach var="outside" items="${outsidejobDate}">
-                        <script>
-                            document.write(${outside});
-                        </script>
-                    </c:forEach>
+                    <p><a href="/home">홈</a> > 외근관리</p>
+                    <h4 style="display: inline">외근관리</h4>
+                    <form method="get" action="/overtime" class="d-none d-sm-inline-block form-inline mr-0 ml-md-3 my-2 my-md-0 mw-100 navbar-search" style="float: right">
+                        <div class="input-group">
+                            <div class="input-group">
+                                <input type="text" name="keyword" value="" class="form-control bg-light border-1 small" placeholder="직원검색" aria-label="Search" aria-describedby="basic-addon2">
+                                <input type="hidden" name="startDate" value=""/>
+                                <input type="hidden" name="endDate" value=""/>
+                                <div class="input-group-append">
+                                  <button class="btn btn-primary" type="submit">
+                                      <i class="fas fa-search fa-sm"></i>
+                                  </button>
+                                </div>
+                            </div>
+                            <%@include file="/WEB-INF/views/include/excel_include.jsp"%>
+                        </div>
+                    </form>
                 </div>
                 <div id="div_table">
                     <table class="table table-bordered">
@@ -88,12 +99,12 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach var="outside" items="${outsidejobList}">
+                        <c:forEach var="outside" items="${outsideJobList}" varStatus="status">
                             <tr>
-                                <td>${outside.name}</td>
-                                <td>${outside.task}</td>
-                                <td>${outside.jobGrade}</td>
-                                <td>${outside.outsideDate}</td>
+                                <td id="name_${status.count}"></td>
+                                <td id="task_${status.count}"></td>
+                                <td id="grade_${status.count}"></td>
+                                <td>${outside.month} (총 ${outside.day}일)</td>
                                 <td>${outside.startTime} ~ ${outside.endTime}</td>
                                 <td>${outside.startPlace}</td>
                                 <td>${outside.endPlace}</td>
@@ -138,3 +149,16 @@
 
 </body>
 </html>
+
+<script>
+    <c:forEach begin="1" end="${outsideJobList.size()}" varStatus="listStatus">
+        <c:forEach begin="1" end="${outsideJobInfo.size()}" varStatus="infoStatus">
+            if(${outsideJobList.get(listStatus.count-1).userNum eq outsideJobInfo.get(infoStatus.count-1).seq}){
+                document.getElementById("name_${listStatus.count}").innerHTML = "${outsideJobInfo.get(infoStatus.count-1).name}";
+                document.getElementById("task_${listStatus.count}").innerHTML = "${outsideJobInfo.get(infoStatus.count-1).task}";
+                document.getElementById("grade_${listStatus.count}").innerHTML = "${outsideJobInfo.get(infoStatus.count-1).jobGrade}";
+            }
+        </c:forEach>
+    </c:forEach>
+
+</script>

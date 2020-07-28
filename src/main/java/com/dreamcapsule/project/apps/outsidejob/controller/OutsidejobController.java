@@ -19,9 +19,11 @@ public class OutsidejobController {
 
     @RequestMapping("/outside")
     public String home(Model model){
-        List<OutsidejobVO> outsidejobList = outsidejobService.findAll();
-        model.addAttribute("outsidejobList", outsidejobList);
-        model.addAttribute("outsidejobDate",outsidejobList.get(0).getOutsideDate());
+        List<OutsidejobVO> outsideJobList = outsidejobService.findAll();
+        List<OutsidejobVO> outsideJobInfo = outsidejobService.findInfo();
+
+        model.addAttribute("outsideJobList", outsideJobList);
+        model.addAttribute("outsideJobInfo",outsideJobInfo);
 
         return "outsidejob/outsidejob_total";
     }

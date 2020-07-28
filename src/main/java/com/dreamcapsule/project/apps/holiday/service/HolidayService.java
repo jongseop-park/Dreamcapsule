@@ -14,5 +14,7 @@ public interface HolidayService {
     public List<HolidayVO> findYear();
     public HolidayVO findUse(Long num,Long year,int month);
     public List<HolidayVO> findTaskMember(String task);
-
+    public void detailsUpdate(int seq,char state,String reply);
+    public int findUseYear(int seq,int year);
+    public void holidayInsert(int userNum,String holidayType,String holidayYear,String holidayMonth,String holidayDate,String note,String useHoliday);
 }

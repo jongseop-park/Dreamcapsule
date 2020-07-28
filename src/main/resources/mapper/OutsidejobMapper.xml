@@ -7,4 +7,8 @@
     <select id="findAll" resultType="OutsidejobVO">
         SELECT * FROM OUTSIDEJOB_TB
     </select>
+
+    <select id="findInfo" resultType="OutsidejobVO">
+        SELECT SEQ,NAME,TASK,JOB_GRADE FROM HOLIDAY_INFO_TB
+    </select>
 </mapper>

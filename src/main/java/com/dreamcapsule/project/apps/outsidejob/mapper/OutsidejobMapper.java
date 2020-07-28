@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface OutsidejobMapper {
     public List<OutsidejobVO> findAll();
+    public List<OutsidejobVO> findInfo();
 }

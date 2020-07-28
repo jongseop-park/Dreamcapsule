@@ -15,4 +15,7 @@ public class OutsidejobServiceImpl implements OutsidejobService {
 
     @Override
     public List<OutsidejobVO> findAll(){return outsidejobMapper.findAll();}
+
+    @Override
+    public List<OutsidejobVO> findInfo(){return outsidejobMapper.findInfo();}
 }

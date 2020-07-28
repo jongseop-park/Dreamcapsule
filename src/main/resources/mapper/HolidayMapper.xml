@@ -12,9 +12,10 @@
         SELECT * FROM HOLIDAY_INFO_TB WHERE SEQ = #{SEQ}
     </select>
     <select id="findByValue" resultType="HolidayVO">
-        SELECT USER_NUM,
+        SELECT SEQ,
+            USER_NUM,
             HOLIDAY_YEAR,
-            HOLIDAY_DATE,
+            HOLIDAY_MONTH,
             HOLIDAY_TYPE,
             HOLIDAY_DATE,
             NOTE,
@@ -40,6 +41,10 @@
         SELECT SUM(USE_HOLIDAY) AS USE_HOLIDAY FROM HOLIDAY_TB WHERE USER_NUM = #{NUM} AND HOLIDAY_MONTH = #{MONTH} AND HOLIDAY_YEAR = #{YEAR}
     </select>
 
+    <select id="findUseYear" resultType="int">
+        SELECT SUM(USE_HOLIDAY) AS USE_HOLIDAY FROM HOLIDAY_TB WHERE USER_NUM = #{SEQ} AND HOLIDAY_YEAR = #{YEAR}
+    </select>
+
     <select id="findUseTask" resultType="HolidayVO">
         SELECT SUM(USE_HOLIDAY) AS USE_HOLIDAY
         FROM HOLIDAY_TB
@@ -53,6 +58,12 @@
     </select>
 
     <update id="detailsUpdate">
-        UPDATE HOLIDAY_TB SET STATE_YSN=${STATE}, REPLY = ${REPLY}, MOD_DT = SYSDATE WHERE SEQ = ${SEQ}
+        UPDATE HOLIDAY_TB SET STATE_YSN=#{STATE}, REPLY = #{REPLY}, MOD_DT = SYSDATE WHERE SEQ = #{SEQ}
     </update>
+
+    <insert id="holidayInsert">
+        INSERT INTO
+        HOLIDAY_TB(SEQ,USER_NUM,HOLIDAY_TYPE,HOLIDAY_YEAR,HOLIDAY_MONTH,HOLIDAY_DATE,NOTE,USE_HOLIDAY)
+         VALUES(HOLIDAY_SEQ.NEXTVAL,#{USER_NUM},#{HOLIDAY_TYPE},#{HOLIDAY_YEAR},#{HOLIDAY_MONTH},#{HOLIDAY_DATE},#{NOTE},#{USE_HOLIDAY})
+    </insert>
 </mapper>

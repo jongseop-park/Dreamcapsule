@@ -1,20 +1,17 @@
 package com.dreamcapsule.project.apps.holiday.controller;
 
 import com.dreamcapsule.project.apps.holiday.service.HolidayService;
-import com.dreamcapsule.project.domain.HolidayDetailsVO;
 import com.dreamcapsule.project.domain.HolidayVO;
+import com.dreamcapsule.project.domain.OvertimeVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
+import javax.swing.text.View;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("")
@@ -89,11 +86,29 @@ public class HolidayController {
     }
 
     @RequestMapping("/holiday_add")
-    public String add(Model model) {
-/*
-        List<HolidayVO> holidayDetails = holidayService.findBySEQ(1);
-        model.addAttribute("holidayDetails", holidayDetails);*/
+    public String add(Model model,@RequestParam("seq") int seq,@RequestParam("year") int year) {
+        HolidayVO holidayDetails = holidayService.findByInfoValue(seq);
+        int useHoliday = holidayService.findUseYear(seq,year);
+
+        model.addAttribute("holidayDetails", holidayDetails);
+        model.addAttribute("useHoliday",useHoliday);
+        model.addAttribute("year",year);
         return "holiday/holiday_add";
+    }
+
+    @RequestMapping("/holiday_insert")
+    public String holidayInsert(HttpServletRequest request){
+        int userNum = Integer.parseInt(request.getParameter("userNum"));
+        String holidayType = request.getParameter("select_type");
+        String holidayYear = request.getParameter("year");
+        String holidayMonth = request.getParameter("month");
+        String holidayDate = request.getParameter("holidayDate");
+        String note = request.getParameter("note");
+        String useHoliday = request.getParameter("useHoliday");
+
+        holidayService.holidayInsert(userNum,holidayType,holidayYear,holidayMonth,holidayDate,note,useHoliday);
+
+        return "redirect:holiday_details?seq=" + userNum + "&year=" + holidayYear + "&month=" + holidayMonth;
     }
 
     @RequestMapping("/holiday_update")
@@ -105,8 +120,16 @@ public class HolidayController {
         }else{
             state = 'N';
         }
+        int seq = Integer.parseInt(request.getParameter("seq"));
+        String year = request.getParameter("year");
+        String month = request.getParameter("month");
+        String userNum = request.getParameter("userNum");
+        String reply = request.getParameter("spanReply");
 
-        return "redirect: /holiday_details?seq=" + request.getParameter("seq") + "&year=" + request.getParameter("year") + "&month=" + request.getParameter("month");
+        holidayService.detailsUpdate(seq,state,reply);
+
+        return "redirect:holiday_details?seq=" + userNum + "&year=" + year + "&month=" + month;
     }
+
 
 }
