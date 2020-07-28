@@ -99,7 +99,7 @@
                 <a class="collapse-item" href="/management/employee/list">직원</a>
                 <a class="collapse-item" href="/management/job/list">직무</a>
                 <a class="collapse-item" href="/management/workplace/list">근무지</a>
-                <a class="collapse-item" href="/admin/management/position/list">직급</a>
+                <a class="collapse-item" href="/management/position/list">직급</a>
                 <a class="collapse-item" href="/management/annual/list">연차</a>
                 <a class="collapse-item" href="/management/equipment/list">장비</a>
                 <a class="collapse-item" href="/management/opinion/list">의견</a>

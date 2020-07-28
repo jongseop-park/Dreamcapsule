@@ -7,17 +7,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.Position;
-import java.util.HashMap;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin/management/position")
+@RequestMapping("/management/position")
 public class PositionController { // 직급 관리
 
     private static final Logger log = LoggerFactory.getLogger(PositionController.class);
