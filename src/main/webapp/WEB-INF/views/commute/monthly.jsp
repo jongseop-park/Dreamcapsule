@@ -98,7 +98,7 @@
                                         <i class="fa fa-calendar"></i>
                                     </div>
                                     <input type="text" class="form-control _date" id="monthpicker"
-                                           style="width: 200px">
+                                           style="width: 200px" value="${fn:substring(cri.regDt,0,7)}">
                                 </div>
                             </div>
                         </div>
@@ -167,33 +167,48 @@
                                 ${monthlyData.emplNm}
                         </td>
                                 <%-----------------문자열 ',' 기준으로 분할------------%>
+                                <%-----------------regindex 등록된 월의 날짜만 담은 배열------------%>
+                                <%-----------------work 날짜의 기준으로 오름차순으로 정렬된 근무상태 배열------------%>
+                                <%-----------------commTi 날짜의 기준으로 오름차순으로 정렬된 출퇴근시간의 배열------------%>
                                 <c:set var="regindex" value="${fn:split(monthlyData.monthlyday,',')}"/>
                                 <c:set var="work" value="${fn:split(monthlyData.workSt,',' )}"/>
                                 <c:set var="commTi" value="${fn:split(monthlyData.commTi,',' )}"/>
                                 <%--------------날짜를 매칭하기 위한 변수 check----------------------------%>
-                                <c:set var="check"></c:set>
-                                <c:set var="valueindex"></c:set>
+                                <c:set var="check"></c:set><%--조건에 맞는지 안맞는지를 담을 변수 --%>
+                                <c:set var="valueindex"></c:set><%--배열의 인덱스를 담을 변수--%>
+
+                        <%-- 매월 1일 부터 월의 마지막 일 까지 반복한다. 30일이 마지막이면 30회 31일이 마지막이면 31회
+                        lastNum 변수는 DB를 통해 마지막 날짜를 가져온다.--%>
                         <c:forEach begin="1" end="${lastNum}" step="1" varStatus="n">
-
-
+                                        <%--check 를 통해 값이 있는지 없는지를 판단한다.--%>
                                          <c:set var="check" value="-"></c:set>
                                             <%--반복 종료를 위한 변수--%>
                                          <c:set var="f" value="false"/>
 
-
+                                         <%--SPLIT을 통해 분할시킨 문자열 배열의 길이 만큼 반복하고
+                                             정수로 파싱한 문자를 통해 상위 반복문의 상태와 비교하여
+                                             같은 값이 있을 경우 check 변수에 값을 저장하고 f 변수를
+                                             통해 해당 반복문을 빠져나간다.--%>
                                          <c:forEach begin="0" end="${fn:length(regindex)}" step="1" varStatus="g">
                                                 <%-- 문자열로 인식된 값을 정수로 파싱 --%>
                                                 <fmt:formatNumber value="${regindex[g.index]}" var="gg"/>
                                            <%-- 날짜 확인후 값을 저장 --%>
-                                            <c:if test="${n.index != gg} ">
-                                                <c:set var="check" value="-"></c:set>
-                                            </c:if>
-                                            <c:if test="${n.index == gg}">
-                                                <c:set var="check" value="${regindex[g.index]}"></c:set>
-                                                <c:set var="valueindex" value="${g.index}"></c:set>
-                                                <c:set var="f" value="true"/>
+                                        <c:if test="${f eq false}"><%--f가 true인 경우 반복을 무의미 시킨다.--%>
 
-                                            </c:if>
+                                                <%-- 상위 반복문의 상태와 정수형으로 파싱 시킨 배열의 값이 false일 경우 check 변수의
+                                                     값을 '-' 로 저장하여 실제 테이블에 값을 노출시킬때 사용한다.--%>
+                                                <c:if test="${n.index != gg} ">
+                                                        <c:set var="check" value="-"></c:set>
+                                                </c:if>
+                                                <%-- 값이 일치할 경우 check 변수에 다른 값을 넣고 valueindex 변수에
+                                                     해당 인덱스를 저장한다. --%>
+                                                <c:if test="${n.index == gg}">
+                                                        <c:set var="check" value="${regindex[g.index]}"></c:set>
+                                                        <c:set var="valueindex" value="${g.index}"></c:set>
+                                                        <c:set var="f" value="true"/>
+                                                 </c:if>
+
+                                         </c:if><%-- f 조건문 끝--%>
                                            <%-------------------------------------------%>
                                          </c:forEach>
 
@@ -202,7 +217,7 @@
                                     <td style="height: 80px ;vertical-align:middle;"></td>
                                 </c:when>
                                 <c:when test="${check != '-'}">
-                                            <c:choose>
+                                        <c:choose>
                                                 <c:when test="${work[valueindex] == '정상근무'}">
                                                     <td style="height: 80px; vertical-align:middle;">
                                                             ${commTi[valueindex]}
@@ -213,9 +228,7 @@
                                                             ${work[valueindex]}
                                                     </td>
                                                 </c:when>
-
-
-                                            </c:choose>
+                                        </c:choose>
                                 </c:when>
                             </c:choose>
                         </c:forEach>
@@ -295,7 +308,7 @@
 
         var url = "monthly"
 
-            +"?regDt=" + encodeURIComponent(date);
+            +"?regDt=" + encodeURIComponent(date+"/01");
 
         window.location.href = url;
     });

@@ -5,11 +5,11 @@
 <mapper namespace="com.dreamcapsule.project.apps.weekly.mapper.WeeklyMapper">
 
     <select id="nameSelect" resultType="WeeklyVO" parameterType="Criteria">
-        select empl_nm,duty_id,rank_id,comm_ti,work_st,total_ti,work_pl
-        from (select empl_nm ,duty_id,rank_id,comm_ti,work_st,row_number() over(order by empl_nm asc )
+        select empl_nm,duty_id,rank_id,weekdate,comm_ti,work_st,total_ti,work_pl
+        from (select empl_nm ,duty_id,rank_id,weekdate,comm_ti,work_st,row_number() over(order by ${worderKeyword} ${orderMethod} )
         rnum,total_ti,work_pl
-        from(select empl_nm,duty_id,rank_id,listagg(comm_ti,',')WITHIN group(ORDER by reg_dt) as comm_ti,
-        listagg(work_st,',')WITHIN group(ORDER by reg_dt) as work_st ,sum(work_ti) as total_ti,work_pl
+        from(select empl_nm,duty_id,rank_id,listagg(to_char(reg_dt,'dy'),',')within group(ORDER by reg_dt)as weekdate,listagg(ONW_TI ||'~'||OFFW_TI ,',')WITHIN group(ORDER by reg_dt) as comm_ti,
+        listagg(work_st,',')WITHIN group(ORDER by reg_dt) as work_st ,sum(ROUND(((TO_DATE(OFFW_TI,'HH24:MI')-TO_DATE(ONW_TI,'HH24:MI'))*24))-REST_TI) as total_ti,work_pl
         from comm_tb <include refid="searchCondition"></include> group by empl_nm,duty_id,rank_id,work_pl)
 
         )where rnum between ${rowStart} and ${rowEnd}
@@ -28,13 +28,14 @@
 
         <if test="keyword == null and startDate != null">
             where to_date(reg_dt,'yy/mm/dd') between to_date(#{startDate},'yy/mm/dd') and
-            to_date(#{startDate},'yy/mm/dd')
+            to_date(#{endDate},'yy/mm/dd')
         </if>
-        <if test="keyword == null and startDate == null">
-            where reg_dt between trunc(sysdate,'iw') and trunc(sysdate,'iw')+7
-        </if>
-        <if test="keyword != null and startDate == null">
-            where reg_dt between trunc(sysdate,'iw') and trunc(sysdate,'iw')+7 and empl_nm like '%' || #{keyword} || '%'
+<!--        <if test="keyword == null and startDate == null">-->
+<!--            where reg_dt between trunc(sysdate,'iw') and trunc(sysdate,'iw')+7-->
+<!--        </if>-->
+        <if test="keyword != null and startDate != null">
+            where to_date(reg_dt,'yy/mm/dd') between to_date(#{startDate},'yy/mm/dd') and
+            to_date(#{endDate},'yy/mm/dd') and empl_nm like '%' || #{keyword} || '%'
         </if>
     </sql>
 

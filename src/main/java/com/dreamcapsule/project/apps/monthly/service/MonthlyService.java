@@ -8,8 +8,8 @@ import java.util.List;
 
 public interface MonthlyService {
 
-    public List<MonthlyVO> mounthday ();
+    public List<MonthlyVO> mounthday (Criteria cri);
     public List<MonthlyVO> monthlyData(Criteria cri);
-    public int lastdayNum();
+    public int lastdayNum(Criteria cri);
     public List<MonthlyVO> dutyFind();
 }

@@ -5,35 +5,35 @@
 <mapper namespace="com.dreamcapsule.project.apps.monthly.mapper.MonthlyMapper">
 
     <select id="mounthday" resultType="MonthlyVO" parameterType="Criteria">
-        select to_number(to_char(trunc(sysdate,'mm') + rownum -1 , 'dd')) as day,
-        to_char(trunc(sysdate,'mm') + rownum -1 , 'dy') as dy from all_objects where <![CDATA[rownum <= to_number(to_char(last_day(sysdate),'dd'))]]>
+        select to_number(to_char(trunc(to_date(#{regDt},'yy/mm/dd'),'mm') + rownum -1 , 'dd')) as day,
+        to_char(trunc(to_date(#{regDt},'yy/mm/dd'),'mm') + rownum -1 , 'dy') as dy from all_objects where <![CDATA[rownum <= to_number(to_char(last_day(#{regDt}),'dd'))]]>
 
 
     </select>
 
-    <select id="monthlyData" resultType="MonthlyVO">
+    <select id="monthlyData" resultType="MonthlyVO" >
 
-select empl_nm,LISTAGG(to_number(to_Char(REG_DT,'dd')),',')WITHIN GROUP(ORDER BY REG_DT) as monthlyday,listagg(work_st,',')within group(order by reg_dt) work_st, listagg(comm_ti,',')within group(order by reg_Dt) COMM_TI from
-comm_tb where <include refid="searchCondition"></include>  <include refid="keywordserch"></include> GROUP BY EMPL_NM
+select empl_nm,LISTAGG(to_number(to_Char(REG_DT,'dd')),',')WITHIN GROUP(ORDER BY REG_DT) as monthlyday,listagg(work_st,',')within group(order by reg_dt) work_st, listagg(ONW_TI ||'~'||OFFW_TI ,',')within group(order by reg_Dt) as COMM_TI from
+comm_tb where        TO_dATE(REG_DT,'YY/MM/DD') BETWEEN TRUNC(TO_DATE(#{regDt},'YY/MM/DD'),'MM') AND  LAST_dAY(TO_dATE(#{regDt},'YY/MM/DD'))  <include refid="keywordserch"></include> GROUP BY EMPL_NM
 
     </select>
 
-    <select id="lastdayNum" resultType="int">
+    <select id="lastdayNum" resultType="int" parameterType="Criteria">
 
-        select to_number(to_char(last_day(sysdate),'dd')) from dual
+        select to_number(to_char(last_day(to_date(#{regDt},'yy/mm/dd')),'dd')) from dual
     </select>
 
 
-    <sql id="searchCondition">
-
-        <if test="regDt != null">
-            TO_dATE(REG_DT,'YY/MM/DD') BETWEEN TRUNC(TO_DATE(#{regDt},'YY/MM'),'MM') AND  LAST_dAY(TO_dATE(#{regDt},'YY/MM'))
-        </if>
-        <if test="regDt == null">
-            TO_dATE(REG_DT,'YY/MM/DD') BETWEEN TO_DATE(TRUNC(SYSDATE,'MM'),'YY/MM/DD') AND  TO_DATE(LAST_dAY(SYSDATE),'YY/MM/DD')
-        </if>
-    </sql>
+<!--    <sql id="searchCondition">-->
+<!--        <if test="regDt != null">-->
+<!--            TO_dATE(REG_DT,'YY/MM/DD') BETWEEN TRUNC(TO_DATE(#{regDt},'YY/MM/DD'),'MM') AND  LAST_dAY(TO_dATE(#{regDt},'YY/MM/DD'))-->
+<!--        </if>-->
+<!--        <if test="regDt == null">-->
+<!--            TO_dATE(REG_DT,'YY/MM/DD') BETWEEN TO_DATE(TRUNC(SYSDATE,'MM'),'YY/MM/DD') AND  TO_DATE(LAST_dAY(SYSDATE),'YY/MM/DD')-->
+<!--        </if>-->
+<!--    </sql>-->
     <sql id="keywordserch">
+
 
         <if test="keyword != null">
             and duty_id = #{keyword}

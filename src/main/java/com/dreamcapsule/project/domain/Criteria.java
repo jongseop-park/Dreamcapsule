@@ -2,6 +2,11 @@ package com.dreamcapsule.project.domain;
 
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 public class Criteria {
 //페이징 처리를 위한 멤버------------------------------------------------------------------------------------------
     private int page;
@@ -9,16 +14,62 @@ public class Criteria {
     private int rowStart;
     private int rowEnd;
 //검색 기능을 위한 멤버--------------------------------------------------------------------------------------------
+
     private String regDt;
     private String keyword;
 //주간,월간 추출 위한 멤버-----------------------------------------------------------------------------------------
-private String startDate;
-private String endDate;
+    private String startDate;
+    private String endDate;
+//정렬을 위한 멤버-----------------------------------------------------------------------------------------------
+    private String orderKeyword="reg_dt"; //sql문 row_number() 안에 기본 정열이 들어가야 하므로
+    private String worderKeyword="empl_nm";
+    private String orderMethod="asc";     //초기화
 //-------------------------------------------------------------------------------------------------------------
     public Criteria(){
         this.page=1;
         this.perPageNum =10;
+            SimpleDateFormat sformat = new SimpleDateFormat("yyyy/MM/dd");
 
+            Calendar cal = Calendar.getInstance();
+            Date today=new Date();
+            cal.setTime(today); //현재 날짜
+            regDt = sformat.format(cal.getTime());
+//            regDt= cal.get(Calendar.YEAR) +"/" + (cal.get(Calendar.MONTH) +1) +"/"+cal.get(Calendar.DAY_OF_MONTH);
+//            regDt=sformat.format(d);
+
+
+            //일주일을 월~일로 가정하여 월요일추출
+            cal.add(Calendar.DAY_OF_MONTH,(2-cal.get(Calendar.DAY_OF_WEEK)));
+            startDate = sformat.format(cal.getTime());
+            //일요일 추출
+            cal.add(Calendar.DAY_OF_MONTH,(8-cal.get(Calendar.DAY_OF_WEEK)));
+            endDate = sformat.format(cal.getTime());
+
+
+    }
+
+    public String getWorderKeyword() {
+        return worderKeyword;
+    }
+
+    public void setWorderKeyword(String worderKeyword) {
+        this.worderKeyword = worderKeyword;
+    }
+
+    public String getOrderKeyword() {
+        return orderKeyword;
+    }
+
+    public void setOrderKeyword(String orderKeyword) {
+        this.orderKeyword = orderKeyword;
+    }
+
+    public String getOrderMethod() {
+        return orderMethod;
+    }
+
+    public void setOrderMethod(String orderMethod) {
+        this.orderMethod = orderMethod;
     }
 
     public String getStartDate() {

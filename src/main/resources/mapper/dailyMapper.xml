@@ -7,52 +7,126 @@
 
     <!--    모두 검색  -->
     <select id="findAll" resultType="DailyDomain">
-    select EMPL_NM ,DUTY_ID ,RANK_ID ,comm_ti ,WORK_ST ,WORK_TI ,REST_TI ,WORK_PL ,WORK_AD ,TOTAL_TI ,
-    TARDY_CT ,ABTI_CT ,to_char(REG_DT ,'yyyymmdd')
-    from comm_tb 
+        SELECT
+            empl_nm,
+            duty_id,
+            rank_id,
+            comm_ti,
+            work_st,
+            work_ti,
+            rest_ti,
+            work_pl,
+            work_ad,
+            total_ti,
+            tardy_ct,
+            abti_ct,
+            to_char(reg_dt, 'yyyymmdd')
+        FROM
+            comm_tb
     </select>
 
     <sql id="searchCondition">
 
-                <if test="keyword != null and regDt == null">
-                where seq>0 and empl_nm like  '%' || #{keyword} || '%'
-                </if>
-                <if test="keyword == null and regDt != null">
-                where to_date(reg_dt,'yy/mm/dd') = to_date(#{regDt},'yy/mm/dd')
-                </if>
-                <if test="keyword != null and regDt !=null">
-                    where to_date(reg_dt,'yy/mm/dd') = to_date(#{regDt},'yy/mm/dd') and seq>0 and empl_nm like  '%' || #{keyword} || '%'
-                </if>
+        <if test="keyword != null and regDt == null">
+            where
+            seq>0 and empl_nm
+            like '%' || #{keyword} || '%'
+        </if>
+
+        <if test="keyword == null and regDt != null">
+            where
+            to_date(reg_dt,'yy/mm/dd') = to_date(#{regDt},'yy/mm/dd')
+        </if>
+
+        <if test="keyword != null and regDt !=null">
+            where
+            to_date(reg_dt,'yy/mm/dd') = to_date(#{regDt},'yy/mm/dd')
+            and seq>0
+            and empl_nm like '%' || #{keyword} || '%'
+        </if>
+
+        <if test="keyword == null and regDt == null">
+            where
+            to_date(reg_dt,'yy/mm/dd') = to_date(sysdate,'yy/mm/dd')
+        </if>
+
     </sql>
+
+
     <sql id="keywordserch">
         <if test="keyword != null">
-            where seq>0 and empl_nm like  '%' || #{keyword} || '%'
+            where
+            seq>0
+            and empl_nm
+            like '%' || #{keyword} || '%'
         </if>
     </sql>
 
+
+    <!--==========================데이터 테이블 위에 출력================================-->
     <select id="listPage" resultType="DailyDomain" parameterType="Criteria">
-    select  
-    EMPL_NM , DUTY_ID ,  RANK_ID , comm_ti,  WORK_ST ,WORK_TI ,  REST_TI ,   WORK_PL ,
-    to_char(reg_Dt,'yyyy/mm/dd') as reg_dt
-    from (
-    select 
-    EMPL_NM ,  DUTY_ID ,  RANK_ID , comm_ti ,  WORK_ST ,WORK_TI , REST_TI ,  WORK_PL  ,reg_Dt ,
-        row_number() over(order by reg_dt desc) as rnum
-    from comm_tb
-    <include refid="searchCondition"></include>)comm
-    where rnum between ${rowStart} and ${rowEnd}
-    order by reg_dt desc
+        SELECT
+        empl_nm,
+        duty_id,
+        rank_id,
+        comm_ti,
+        work_st,
+        work_ti,
+        rest_ti,
+        work_pl,
+        to_char(reg_dt, 'yyyy/mm/dd') AS reg_dt
+        FROM ( SELECT
+        empl_nm,
+        duty_id,
+        rank_id,
+        onw_ti
+        || '~'
+        || offw_ti AS comm_ti,
+        work_st,
+        round(((to_date(offw_ti, 'HH24:MI') - to_date(onw_ti, 'HH24:MI')) * 24)) - rest_ti AS work_ti,
+        rest_ti,
+        work_pl,
+        reg_dt,
+        ROW_NUMBER() OVER(ORDER BY ${orderKeyword} ${orderMethod} ) AS rnum
+        FROM
+        comm_tb
+        <include refid="searchCondition"></include>)comm
+        where rnum between ${rowStart} and ${rowEnd} order by  ${orderKeyword} ${orderMethod}
     </select>
 
-    
+    <!--==========================페이징을 위한 총 개수================================-->
     <select id="listCount" resultType="int">
-    select count(*) from comm_tb <include refid="searchCondition"></include>
-	</select>
-    
-    <select id="searchName" resultType="DailyDomain" parameterType="Criteria">
-        select * from comm_tb
-
+        select count(*) from comm_tb
+        <include refid="searchCondition"></include>
     </select>
 
 
+    <!--==========================디테일 페이지에 입력될 데이터 추출================================-->
+    <select id="detailSearch" resultType="DailyDomain" parameterType="Criteria">
+        SELECT
+            empl_nm,
+            duty_id,
+            rank_id,
+            work_pl,
+            work_ad,
+            round(((to_date(offw_ti, 'HH24:MI') - to_date(onw_ti, 'HH24:MI')) * 24)) - rest_ti AS work_ti,
+            rest_ti,
+            to_char(reg_dt, 'yyyy/mm/dd') AS reg_dt
+        FROM
+            comm_tb where empl_nm = #{keyword} and to_date(reg_dt,'yy/mm/dd') = to_date(#{regDt},'yy/mm/dd' )
+    </select>
+
+    <!--==========================Daily 정보 업데이트================================-->
+    <select id="detailUpdate" parameterType="DailyDomain">
+        update comm_tb
+        set
+            onw_ti = #{startTime},
+            offw_ti = #{endTime}
+        where
+            empl_nm = #{emplNm} and
+            to_date(reg_dt,'yy/mm/dd') = to_Date(#{regDt},'yy/mm/dd')
+    </select>
+
+
+    <!--===========================================================================================================-->
 </mapper>

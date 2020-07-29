@@ -13,8 +13,20 @@ import java.util.List;
 @Service
 
 public class DailyServiceImpl implements DailyService {
+
     @Autowired
     DailyMapper dailyMapper;
+
+
+    @Override
+    public void detailUpdate(DailyDomain dailyDomain) {
+        dailyMapper.detailUpdate(dailyDomain);
+    }
+
+    @Override
+    public List<DailyDomain> detailSearch(Criteria cri) throws Exception {
+        return dailyMapper.detailSearch(cri);
+    }
 
     @Override
     public List<DailyDomain> findAll() {
@@ -33,8 +45,5 @@ public class DailyServiceImpl implements DailyService {
         return dailyMapper.listCount(cri);
     }
 
-    @Override
-    public List<DailyDomain> searchName(Criteria cri) throws Exception {
-        return dailyMapper.listPage(cri);
-    }
+
 }

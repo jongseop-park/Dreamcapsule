@@ -3,12 +3,13 @@ package com.dreamcapsule.project.apps.daily.controller;
 
 import com.dreamcapsule.project.domain.Criteria;
 import com.dreamcapsule.project.apps.daily.service.DailyService;
+import com.dreamcapsule.project.domain.DailyDomain;
 import com.dreamcapsule.project.domain.PageMaker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 
@@ -20,8 +21,9 @@ public class DailyController {
     @Autowired
     DailyService dailyService;
 
-    @RequestMapping(value = "/daily", method = RequestMethod.GET)
-    public String list(Model model, Criteria cri) throws Exception{
+        @RequestMapping(value = "/daily", method = RequestMethod.GET)
+
+        public String list(Model model, Criteria cri) throws Exception{
 
         model.addAttribute("daily", dailyService.listPage(cri));
 
@@ -33,17 +35,22 @@ public class DailyController {
         return "/commute/daily";
 
     }
+        @RequestMapping(value = "/dailyDetail", method = RequestMethod.GET)
+        public String dailyDetail(Model model, Criteria cri) throws Exception{
 
+                model.addAttribute("detail",dailyService.detailSearch(cri));
 
-//
-//    @RequestMapping("/daily")
-//    public ModelAndView readTest(){
-//        List<DailyDomain> dailyList = dailyService.findAll();
-//        ModelAndView nextPage = new ModelAndView("/commute/daily");
-//        nextPage.addObject("dailyList",dailyList);
-//
-//       // Log.log(dailyList.get(0).getDutyId());
-//        return nextPage;
-//    }
+            return "commute/daily_detail";
+        }
+
+        @RequestMapping(value = "/detailUpdate", method = RequestMethod.POST)
+        @ResponseBody
+        public DailyDomain detailUpdate(@RequestBody DailyDomain dailyDomain) throws Exception{
+
+            dailyService.detailUpdate(dailyDomain);
+
+        return dailyDomain;
+        }
+
 
 }

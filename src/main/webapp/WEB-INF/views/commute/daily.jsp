@@ -22,13 +22,17 @@
     <link href="/static/css/commute/sb-admin-comm.css" rel="stylesheet">
     <%-- 기본 여기까지--%>
 
-
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
+    <link href="/static/css/datepicker/bootstrap.min.css" rel="stylesheet"
           crossorigin="anonymous">
+<%--    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"--%>
+<%--          crossorigin="anonymous">--%>
     <link href="/static/css/datepicker/datepicker.css" rel="stylesheet">
 
 
 <style>
+    ._rtable tbody tr:hover{
+        background-color: #0f6848;
+    }
     .table-bordered th:nth-child(1){
         width:5%;
     }
@@ -61,6 +65,14 @@
         height: 60px ;
         vertical-align:middle;
     }
+    .sortbtn{
+        border: 0px ;
+        background-color: rgba(0,0,0,0);
+        color: skyblue;
+        padding: 5px;
+
+    }
+
 </style>
     <%--    dd--%>
 
@@ -148,15 +160,19 @@
 
 
 
-
-                <table class="table table-bordered">
+                <table class="table table-bordered _rtable">
                     <thead>
                     <tr>
-                        <th onclick="fff()">직원</th>
-                        <th>직무</th>
-                        <th>직급</th>
+                        <th>직원
+                        <button value="empl_nm" id="emplNm" class="sortbtn" onclick="sort(emplNm.value)"></button></th>
+                        <th>직무
+                        <button value="duty_id" id="dutyId" class="sortbtn" onclick="sort(dutyId.value)"></button></th></th>
+                        <th>직급
+                        <button value="rank_id" id="rankId" class="sortbtn" onclick="sort(rankId.value)"></button></th></th>
                         <th>출/퇴근 시간</th>
-                        <th>근무상태</th>
+                        <th>근무상태
+                            <button value="work_st" id="workSt" class="sortbtn" onclick="sort(workSt.value)"></button></th></th>
+                        </th>
                         <th>근무시간</th>
                         <th>휴게시간</th>
                         <th>근무지</th>
@@ -168,8 +184,8 @@
                     <tbody class="fix" >
 
                     <c:forEach var="daily" items="${daily}">
-
-                         <td>   <a href="#"> ${daily.emplNm}</a></td>
+                        <tr>
+                         <td>${daily.emplNm}</td>
                         <td >${daily.dutyId} 팀</td>
                         <td >${daily.rankId}</td>
                             <td>${daily.commTi}</td>
@@ -200,6 +216,12 @@
                     </tbody>
 
                 </table>
+                <c:if test="${daily.size()<1}">
+                    <div style="width: 100%;">
+                    <span style="text-align: center">데이터가 없습니다.</span>
+                    </div>
+                </c:if>
+
                 <div>
                     <ul class="pagination" style="justify-content: center">
 <%--                        <c:if test="${pageMaker.prev}">--%>
@@ -215,8 +237,9 @@
                         <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
                             <li id="page${idx}"><a href="daily${pageMaker.makeQuery(idx)}">${idx}</a></li>
                         </c:forEach>
+                            <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
                             <li><a href="daily${pageMaker.makeQuery(pageMaker.endPage + 1)}">다음</a></li>
-
+                            </c:if>
                     </ul>
                 </div>
             </div>
@@ -249,53 +272,76 @@
 </html>
 
 <%--스크립트 라인 ( 데이트 피커 )--%>
-
 <script src="https://code.jquery.com/jquery-3.4.1.js" crossorigin="anonymous"></script>
-<%--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"--%>
-<%--        crossorigin="anonymous"></script>--%>
 <script src="/static/js/datepicker/datepicker.js"></script>
-
-
-
+<script src="/static/js/commute/table-click.js"></script>
+<%--데이트 피커 사용 ( 한글변환)----------------------------------------------------------------------------------------%>
+<script src="/static/js/commute/ko-datepicker.js"></script>
+<%------------------------------------------------------------------------------------------------------------------%>
 
 
 <script type="text/javascript">
 
-//현재 페이지 파란색으로 활성화-------------------------------------------------------------------------------------------
-$(function(){
+//함수 호출-----------------------------------------------------------------------------------------------------------
+$(document).ready(function(){
+    var btnarray = new Array();
+        btnarray[0]="emplNm";
+        btnarray[1]="dutyId";
+        btnarray[2]="rankId";
+        btnarray[3]="workSt";
+
+        for(var i = 0;i<btnarray.length;i++){
+            console.log(document.getElementById(btnarray[i]).value);
+            if(document.getElementById(btnarray[i]).value == "${pageMaker.cri.orderKeyword}"){
+                if("${pageMaker.cri.orderMethod}"=="asc"){
+
+                    document.getElementById(btnarray[i]).innerText = "▲";
+                }else{
+                    document.getElementById(btnarray[i]).innerText = "▼";
+                }
+
+            }else {
+                document.getElementById(btnarray[i]).innerText = "▲";
+            }
+
+        }
     setPerPageNumSelect();
     setSearchTypeSelect();
+    changeColor();
     var thisPage = '${pageMaker.cri.page}';
     $('#page'+thisPage).addClass('active');
 })
+function sort(orderkeyword) {
 
-//데이트 피커 사용 ( 한글변환)--------------------------------------------------------------------------------------------
-    $(function () {
+     var order; //정렬 기준(오름차순,내림차순)을 담을 변수
+            var e = window.event,              //클릭한 해당 버튼의 ID 값을 추출
+            btn = e.target || e.srcElement;    //클릭한 해당 버튼의 ID 값을 추출
+        // document.getElementById(btn.id).innerText = "▼";
+        var intext = document.getElementById(btn.id).innerText;
 
-        $('#datepicker').datepicker({
-            format:'yyyy/mm/dd',
-            language: 'ko',
-            autoHide: true,
-            zIndex: 2048,
-            days:[ "일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일" ],
-            daysShort:[ "일", "월", "화", "수", "목", "금", "토" ],
-            daysMin: [ "일", "월", "화", "수", "목", "금", "토" ],
-            months:[ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
-            monthsShort:[ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
-            weekStart: 1,
-            template: '<div class="datepicker-container">' + '<div class="datepicker-panel" data-view="years picker">' + '<ul>' + '<li data-view="years prev">&lsaquo;</li>' + '<li data-view="years current"></li>' + '<li data-view="years next">&rsaquo;</li>' + '</ul>' + '<ul data-view="years"></ul>' + '</div>' + '<div class="datepicker-panel" data-view="months picker">' + '<ul>' + '<li data-view="year prev">&lsaquo;</li>' + '<li data-view="year current"></li>' + '<li data-view="year next">&rsaquo;</li>' + '</ul>' + '<ul data-view="months"></ul>' + '</div>' + '<div class="datepicker-panel" data-view="days picker">' + '<ul>' + '<li data-view="month prev">&lsaquo;</li>' + '<li data-view="month current"></li>' + '<li data-view="month next">&rsaquo;</li>' + '</ul>' + '<ul data-view="week"></ul>' + '<ul data-view="days"></ul>' + '</div>' + '</div>'
-        });
+      if("${pageMaker.cri.orderMethod}"=="asc"){
+          order = "desc";
+      }else{
+          order = "asc";
+      }
 
-    });
-//-------------------------------------------------------------------------------------------------------------------
+        self.location = "/daily?page=1" +
+            "&keyword=${pageMaker.cri.keyword}" +
+            "&regDt=${pageMaker.cri.regDt}"+
+            "&orderKeyword="+orderkeyword +
+            "&orderMethod="+order;
 
-//Input 값 변경 감지 --------------------------------------------------------------------------------------------------
+        
+}
 
-//-------------------------------------------------------------------------------------------------------------------
+
+//현재 페이지 파란색으로 활성화-------------------------------------------------------------------------------------------
 function setPerPageNumSelect(){
     var perPageNum = "${pageMaker.cri.perPageNum}";
     var $perPageSel = $('#perPageSel');
     var thisPage = '${pageMaker.cri.page}';
+
+
     $perPageSel.val(perPageNum).prop("selected",true);
     //PerPageNum가 바뀌면 링크 이동
     $perPageSel.on('change',function() {
@@ -303,21 +349,19 @@ function setPerPageNumSelect(){
         window.location.href = "daily?page=" + thisPage + "&perPageNum=" + $perPageSel.val();
     })
 }
+
+//직원 이름 검색과 날짜 선택에 대한 페이지 이동 함수 ------------------------------------------------------------------------
 function setSearchTypeSelect(){
-
-
     var $keyword = $('#keyword');
 
     $('._date').change(function(){
         var date = $(this).val(); //날짜 추출
         // $('#regDt').focus();
         // return;
-
         var url = "daily?page=1"
-
         + "&perPageNum=" + "${pageMaker.cri.perPageNum}"
-        +"&regDt=" + encodeURIComponent(date);
-
+        +"&regDt=" + encodeURIComponent(date)
+        +"&keyword=" + "${pageMaker.cri.keyword}";
         window.location.href = url;
     });
     //검색 버튼이 눌리면
@@ -339,6 +383,20 @@ function setSearchTypeSelect(){
         window.location.href = url;
     })
 }
+$(function () {
+    $("._rtable tbody tr").click(function () {
 
+        var td = $(this).children();
+        var array = new Array();
+        td.each(function(i){
+            array.push(td.eq(i).text());
+        })
+
+        console.log(array);
+         self.location = "/dailyDetail?"
+        +"&keyword=" + array[0]
+        + "&regDt=" + $('._date').val();
+    });
+});
 
 </script>

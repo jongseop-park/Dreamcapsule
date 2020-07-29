@@ -26,6 +26,14 @@
     <link rel="stylesheet" type="text/css" media="screen"
           href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css">
     <style>
+        .sortbtn {
+            border: 1px solid skyblue;
+            background-color: rgba(0, 0, 0, 0);
+            color: skyblue;
+            padding: 5px;
+
+        }
+
         .table-bordered th:nth-child(1) {
             width: 5%;
         }
@@ -51,9 +59,9 @@
             width: 6%;
         }
 
-        .fix td{
-            height: 80px ;
-            vertical-align:middle;
+        .fix td {
+            height: 80px;
+            vertical-align: middle;
         }
     </style>
 
@@ -115,7 +123,8 @@
                                         <i class="fa fa-calendar"></i>
                                     </div>
                                     <input type="text" class="form-control _date" id="week-picker"
-                                           style="width: 200px" value="${pageMaker.cri.regDt}">
+                                           style="width: 200px"
+                                           value="${pageMaker.cri.startDate} ~ ${pageMaker.cri.endDate}">
                                 </div>
                             </div>
                         </div>
@@ -143,10 +152,18 @@
                 <table class="table table-bordered">
                     <thead>
                     <tr>
-                        <th>직원</th>
-                        <th>직무</th>
-                        <th>직급</th>
-                        <th>근무지</th>
+                        <th>직원
+                            <button value="empl_nm" id="emplNm" class="sortbtn" onclick="sort(emplNm.value)"></button>
+                        </th>
+                        <th>직무
+                            <button value="duty_id" id="dutyId" class="sortbtn" onclick="sort(dutyId.value)"></button>
+                        </th>
+                        <th>직급
+                            <button value="rank_id" id="rankId" class="sortbtn" onclick="sort(rankId.value)"></button>
+                        </th>
+                        <th>근무지
+                            <button value="work_pl" id="workPl" class="sortbtn" onclick="sort(workPl.value)"></button>
+                        </th>
                         <th>월</th>
                         <th>화</th>
                         <th>수</th>
@@ -154,7 +171,7 @@
                         <th>금</th>
                         <th>토</th>
                         <th>일</th>
-                        <th>근무시간</th>
+                        <th>(주) 근무시간</th>
                     </tr>
                     </thead>
                     <tbody class="fix">
@@ -166,27 +183,49 @@
                         <td>${weekly.dutyId} 팀</td>
                         <td>${weekly.rankId}</td>
                         <td>${weekly.workPl}</td>
-                        <%--------------------------월-------------------------------------------------%>
-                            <c:forEach begin="0" end="6" step="1" varStatus="g">
+
+                        <c:set var="array">월,화,수,목,금,토,일</c:set>
+                        <c:set var="wDate" value="${fn:split(weekly.weekDate,',')}"></c:set>
+                        <c:set var="comData" value="${fn:split(weekly.commTi,',')}"></c:set>
+                        <c:set var="workData" value="${fn:split(weekly.workSt,',' )}"></c:set>
+                        <c:set var="check"></c:set>
+                        <c:set var="valueindex"></c:set>
+                        <c:forEach var="array" items="${array}" varStatus="idx">
+
+                            <c:set var="f" value="false"/>
+
+                            <c:forEach begin="0" end="${fn:length(wDate)}" step="1" varStatus="g">
+                                <c:if test="${f eq false}">
+                                    <c:if test="${wDate[g.index] != array}">
+                                        <c:set var="check" value="-"></c:set>
+                                    </c:if>
+                                    <c:if test="${wDate[g.index] == array}">
+
+                                        <c:set var="check" value="${wdate[g.index]}"></c:set>
+                                        <c:set var="valueindex" value="${g.index}"></c:set>
+                                        <c:set var="f" value="true"/>
+                                    </c:if>
+                                </c:if>
+                            </c:forEach>
+
                             <c:choose>
-
-                                <c:when test="${fn:split(weekly.commTi,',')[g.index] ne null &&
-                                            fn:split(weekly.workSt,',' )[g.index] ne '정기휴가'}">
-                                    <td>${fn:split(weekly.commTi,',')[g.index]}</td>
+                                <c:when test="${check == '-'}">
+                                    <td>-</td>
                                 </c:when>
-
-                                <c:when test="${fn:split(weekly.commTi,',')[g.index] ne null &&
-                                            fn:split(weekly.workSt,',' )[g.index] eq '정기휴가'}">
-                                    <td>정기휴가</td>
-                                </c:when>
-                                <c:when test="${fn:split(weekly.commTi,',')[g.index] eq null &&
-                                            fn:split(weekly.workSt,',' )[g.index] eq null}">
-                                        <td>-</td>
+                                <c:when test="${check != '-'}">
+                                    <c:choose>
+                                        <c:when test="${workData[valueindex] == '정상근무' || workData[valueindex] == '지각'}">
+                                            <td>${comData[valueindex]}</td>
+                                        </c:when>
+                                        <c:when test="${workData[valueindex] != '정상근무' && workData[valueindex] != '지각'}">
+                                            <td>${work[valueindex]}</td>
+                                        </c:when>
+                                    </c:choose>
                                 </c:when>
                             </c:choose>
-                        </c:forEach>
 
-                        <td>${weekly.totalTi}</td>
+                        </c:forEach>
+                        <td>${weekly.totalTi} 시간</td>
 
                         </tr>
                     </c:forEach>
@@ -209,7 +248,9 @@
                         <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
                             <li id="page${idx}"><a href="weekly${pageMaker.weekmakeQuery(idx)}">${idx}</a></li>
                         </c:forEach>
-                        <li><a href="weekly${pageMaker.weekmakeQuery(pageMaker.endPage + 1)}">다음</a></li>
+                        <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
+                            <li><a href="weekly${pageMaker.weekmakeQuery(pageMaker.endPage + 1)}">다음</a></li>
+                        </c:if>
 
                     </ul>
                 </div>
@@ -248,12 +289,58 @@
 
 <script type="text/javascript">
 
-    $(function(){
+    $(function () {
+        var btnarray = new Array();
+        btnarray[0]="emplNm";
+        btnarray[1]="dutyId";
+        btnarray[2]="rankId";
+        btnarray[3]="workPl";
+
+        for(var i = 0;i<btnarray.length;i++){
+            console.log(document.getElementById(btnarray[i]).value);
+            if(document.getElementById(btnarray[i]).value == "${pageMaker.cri.worderKeyword}"){
+                if("${pageMaker.cri.orderMethod}"=="asc"){
+
+                    document.getElementById(btnarray[i]).innerText = "▲";
+                }else{
+                    document.getElementById(btnarray[i]).innerText = "▼";
+                }
+
+            }else {
+                document.getElementById(btnarray[i]).innerText = "▲";
+            }
+
+        }
         setPerPageNumSelect();
         setSearchTypeSelect();
         var thisPage = '${pageMaker.cri.page}';
-        $('#page'+thisPage).addClass('active');
+        $('#page' + thisPage).addClass('active');
     })
+
+    function sort(orderkeyword) {
+
+        var order; //정렬 기준(오름차순,내림차순)을 담을 변수
+        var e = window.event,              //클릭한 해당 버튼의 ID 값을 추출
+            btn = e.target || e.srcElement;    //클릭한 해당 버튼의 ID 값을 추출
+        // document.getElementById(btn.id).innerText = "▼";
+        var intext = document.getElementById(btn.id).innerText;
+
+        if ("${pageMaker.cri.orderMethod}" == "asc") {
+            order = "desc";
+        } else {
+            order = "asc";
+        }
+
+        self.location = "/weekly?page=1" +
+            "&keyword="+"${pageMaker.cri.keyword}" +
+            "&startDate="+"${pageMaker.cri.startDate}" +
+            "&endDate="+"${pageMaker.cri.endDate}" +
+            "&worderKeyword="+orderkeyword+
+            "&orderMethod=" + order;
+
+
+    }
+
 
     function setPerPageNumSelect() {
         var perPageNum = "${pageMaker.cri.perPageNum}";
@@ -264,7 +351,7 @@
         $perPageSel.on('change', function () {
             //pageMarker.makeQuery 사용 못하는 이유: makeQuery는 page만을 매개변수로 받기에 변경된 perPageNum을 반영못함
             window.location.href = "weekly?page=" + thisPage + "&perPageNum=" + $perPageSel.val();
-            });
+        });
     }
 
 
@@ -299,8 +386,8 @@
             console.log(startDate + '~' + endDate);
             var url = "weekly?page=1"
                 + "&perPageNum=" + "${pageMaker.cri.perPageNum}"
-                +"&startDate=" + encodeURIComponent(startDate)
-                +"&endDate=" + encodeURIComponent(endDate);
+                + "&startDate=" + encodeURIComponent(startDate)
+                + "&endDate=" + encodeURIComponent(endDate);
             window.location.href = url;
             setTimeout("applyWeeklyHighlight()", 100);
         },
@@ -310,25 +397,26 @@
 
     })
 
-    function setSearchTypeSelect(){
+    function setSearchTypeSelect() {
 
 
         var $keyword = $('#keyword');
 
         //검색 버튼이 눌리면
-        $('#searchBtn').on('click',function(){
+        $('#searchBtn').on('click', function () {
 
             var keywordVal = $keyword.val();
 
             //검색어 입력 안했으면 검색창
-            if(!keywordVal){
+            if (!keywordVal) {
                 alert("검색어를 입력하세요!");
                 $('#keyword').focus();
                 return;
             }
             var url = "weekly?page=1"
                 + "&perPageNum=" + "${pageMaker.cri.perPageNum}"
-
+                + "&startDate=" + "${pageMaker.cri.startDate}"
+                + "&endDate=" + "${pageMaker.cri.endDate}"
                 + "&keyword=" + encodeURIComponent(keywordVal);
             window.location.href = url;
         })

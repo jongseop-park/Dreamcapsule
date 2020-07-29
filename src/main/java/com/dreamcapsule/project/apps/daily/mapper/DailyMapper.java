@@ -19,6 +19,8 @@ public interface DailyMapper {
     public List<DailyDomain> findAll();
     public List<DailyDomain> listPage(Criteria cri) throws Exception;
     public int listCount(Criteria cri) throws Exception;
-    public List<DailyDomain> searchName(Criteria cri) throws Exception;
+
+    public List<DailyDomain> detailSearch(Criteria cri) throws Exception;
+    public void detailUpdate(DailyDomain dailyDomain);
 
 }

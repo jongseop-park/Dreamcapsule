@@ -17,8 +17,8 @@ public class MonthlyServiceImpl implements MonthlyService {
 
 
     @Override
-    public List<MonthlyVO> mounthday() {
-        return monthlyMapper.mounthday();
+    public List<MonthlyVO> mounthday(Criteria cri) {
+        return monthlyMapper.mounthday(cri);
     }
 
     @Override
@@ -27,8 +27,8 @@ public class MonthlyServiceImpl implements MonthlyService {
     }
 
     @Override
-    public int lastdayNum() {
-        return monthlyMapper.lastdayNum();
+    public int lastdayNum(Criteria cri) {
+        return monthlyMapper.lastdayNum(cri);
     }
 
     @Override
