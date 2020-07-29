@@ -132,7 +132,7 @@
 
             $.ajax({
                 type: "GET",
-                url: "/listSearch?sequence=${searchData.sequence}" +
+                url: "/overtime?sequence=${searchData.sequence}" +
                     "&keyword=${scri.keyword}" +
                     "&page=${scri.page}" +
                     "&startDate=${scri.startDate}" +
