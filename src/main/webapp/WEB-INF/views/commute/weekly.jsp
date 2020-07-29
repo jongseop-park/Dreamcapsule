@@ -27,7 +27,7 @@
           href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css">
     <style>
         .sortbtn {
-            border: 1px solid skyblue;
+            border: 0px;
             background-color: rgba(0, 0, 0, 0);
             color: skyblue;
             padding: 5px;
@@ -233,6 +233,11 @@
                     </tbody>
 
                 </table>
+                <c:if test="${weekly.size()<1}">
+                    <div style="width: 100%;">
+                        <span style="text-align: center">데이터가 없습니다.</span>
+                    </div>
+                </c:if>
                 <div>
                     <ul class="pagination" style="justify-content: center">
                         <%--                        <c:if test="${pageMaker.prev}">--%>
