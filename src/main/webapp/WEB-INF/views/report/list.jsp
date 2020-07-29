@@ -33,15 +33,15 @@
 
     if(order.equals("asc")) {
         switch (orderKeyword) {
-            case "empName": empName="▲"; break;
-            case "hireDate": hireDate="▲"; break;
-            case "registerDate": registerDate="▲"; break;
+            case "emp_nm": empName="▲"; break;
+            case "hire_dt": hireDate="▲"; break;
+            case "reg_dt": registerDate="▲"; break;
         }
     } else {
         switch (orderKeyword) {
-            case "empName": empName="▼"; break;
-            case "hireDate": hireDate="▼"; break;
-            case "registerDate": registerDate="▼"; break;
+            case "emp_nm": empName="▼"; break;
+            case "hire_dt": hireDate="▼"; break;
+            case "reg_dt": registerDate="▼"; break;
         }
     }
 %>
@@ -268,19 +268,20 @@
                             </form>
                             <div style="display:flex; float: right"><h6>
                                 <input type="text" class="startDatepicker" id="date1" value="<%= startDate  %>">
-                                <button id="dateSort" value="registerDate" onclick="sortTest(dateSort.value)"><%= registerDate %></button> ~
+                                <button id="dateSort" value="reg_dt" onclick="sortTest(dateSort.value)"><%= registerDate %></button> ~
                                 <input type="text" class="endDatepicker" id="date2" value="<%= endDate %>">
-                                <button id="dateSort2" value="registerDate" onclick="sortTest(dateSort.value)"><%= registerDate %></button>
+                                <button id="dateSort2" value="reg_dt" onclick="sortTest(dateSort.value)"><%= registerDate %></button>
                             </h6></div>
                         </h2>
                         <!-- /테이블 상단 바 -->
+
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table style="text-align: center" class="table table-bordered" width="100%" cellspacing="0">
                                 <thead>
-                                <th rowspan="2">직원<button id="empName" value="empName" onclick="sortTest(empName.value)"><%= empName %></button></th>
-                                <th rowspan="2">입사일<button id="hireDate" value="hireDate" onclick="sortTest(hireDate.value)"><%= hireDate %></button></th>
+                                <th rowspan="2">직원<button id="empName" value="emp_nm" onclick="sortTest(empName.value)"><%= empName %></button></th>
+                                <th rowspan="2">입사일<button id="hireDate" value="hire_dt" onclick="sortTest(hireDate.value)"><%= hireDate %></button></th>
                                 <th rowspan="2">실제근로일수</th>
                                 <th rowspan="2">실제근로시간</th>
                                 <th rowspan="2">유급휴가시간</th>

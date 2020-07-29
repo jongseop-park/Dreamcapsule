@@ -3,24 +3,22 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.dreamcapsule.project.apps.overtime.mapper.OvertimeMapper">
-
-    <!--    <select id="listPage" resultType="com.dreamcapsule.project.domain.OvertimeVO"
+    <!--
+    <select id="listPage" resultType="com.dreamcapsule.project.domain.OvertimeVO"
                 parameterType="com.dreamcapsule.project.apps.overtime.domain.Criteria">
       select sequence, registerDate, modifyDate, empName, empJob, empPosition, overtimeDate, overtimeTime, eatBoolean, status, contents, requestDate, answer
     from (
      select sequence, registerDate, modifyDate, empName, empJob, empPosition, overtimeDate, overtimeTime, eatBoolean, status, contents, requestDate, answer ,row_number() over(order by sequence asc) as rNum from OT_MNG_TB) mb
      where rNum between #{rowStart} and #{rowEnd} order by sequence asc
-     </select>-->
-
-     <select id="overtimeList" resultType="com.dreamcapsule.project.domain.OvertimeVO">
-            SELECT * FROM OT_MNG_TB order by sequence
-        </select>
-
-    <!--<select id="listCount" resultType="int">
-     select count(*) as totalCount from OT_MNG_TB where sequence > 0
- </select>
--->
-    <!--    <select id="search" parameterType="com.dreamcapsule.project.apps.overtime.domain.SearchCriteria"
+     </select>
+     -->
+    <!--
+    <select id="listCount" resultType="int">
+    select count(*) as totalCount from OT_MNG_TB where sequence > 0
+    </select>
+    -->
+    <!--
+    <select id="search" parameterType="com.dreamcapsule.project.apps.overtime.domain.SearchCriteria"
                 resultType="com.dreamcapsule.project.domain.OvertimeVO">
 
            select sequence, registerDate, modifyDate, empName, empJob, empPosition,
@@ -33,6 +31,10 @@
      where rNum between #{rowStart} and #{rowEnd} order by sequence asc
         </select>
      -->
+
+     <select id="overtimeList" resultType="com.dreamcapsule.project.domain.OvertimeVO">
+            SELECT * FROM OT_MNG_TB order by sequence
+        </select>
 
     <select id="findInfo" parameterType="int" resultType="com.dreamcapsule.project.domain.OvertimeVO">
         SELECT sequence,registerdate,modifydate,empname,empjob,empposition,overtimedate,overtimetime,eatboolean,
@@ -52,7 +54,6 @@
             (requestDate between to_date(#{startDate}) and to_date(#{endDate}))
     </select>
 
-    <!-- -->
     <select id="search" parameterType="com.dreamcapsule.project.apps.overtime.domain.SearchCriteria"
             resultType="com.dreamcapsule.project.domain.OvertimeVO">
 

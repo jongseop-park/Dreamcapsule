@@ -3,26 +3,48 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.dreamcapsule.project.apps.report.mapper.ReportMapper">
-    <select id="reportList" resultType="com.dreamcapsule.project.domain.ReportVO">
-        SELECT empName, to_char(hireDate, 'YYYY-MM-DD') as hireDate, workdate, worktime, payvacationtime, overtimeworktime,
-         planovertime, actualovertime, vacationcount, vacationtotal, latecount,
-         absentcount FROM REPORT_TB order by sequence
+    <resultMap type="ReportVO" id="ReportMap">
+        <id property="sequence" column="SEQ" />
+        <result property="registerDate" column="REG_DT" />
+        <result property="empName" column="EMP_NM" />
+        <result property="hireDate" column="HIRE_DT" />
+        <result property="workDate" column="WORK_DT" />
+        <result property="workTime" column="WORK_TM" />
+        <result property="payVacationTime" column="PAY_VAC_TM" />
+        <result property="overtimeWorkTime" column="OT_WORK_TM" />
+        <result property="planOvertime" column="PL_OT_TM" />
+        <result property="actualOvertime" column="AC_OT_TM" />
+        <result property="vacationCount" column="VC_COUNT" />
+        <result property="vacationTotal" column="VC_TOTAL" />
+        <result property="lateCount" column="LATE_COUNT" />
+        <result property="absentCount" column="AB_COUNT" />
+    </resultMap>
+
+    <select id="reportList" resultType="com.dreamcapsule.project.domain.ReportVO" resultMap="ReportMap">
+         SELECT EMP_NM, to_char(HIRE_DT, 'YYYY-MM-DD') as
+         HIRE_DT, WORK_DT, WORK_TM, PAY_VAC_TM, OT_WORK_TM, PL_OT_TM
+         , AC_OT_TM, VC_COUNT, VC_TOTAL, LATE_COUNT, AB_COUNT from REPORT_TB order by SEQ
     </select>
 
     <select id="countSearch" resultType="int">
-            select count(sequence) from REPORT_TB where empName like '%' || #{keyword} || '%'
+            select
+            count(SEQ)
+            from REPORT_TB
+            where EMP_NM like '%' || #{keyword} || '%' and
+            (REG_DT between TO_DATE(#{startDate}) and TO_DATE(#{endDate}))
     </select>
 
-    <select id="listSearch" resultType="com.dreamcapsule.project.domain.ReportVO">
-         select sequence, registerDate, empName, TO_CHAR(hireDate, 'YYYY.MM.DD') as hireDate, workDate, workTime,
-         PAYVACATIONTIME, overtimeWorkTime, planOvertime, actualOvertime, vacationCount,
-         vacationTotal, lateCount, absentCount
-        from (select sequence, registerDate, empName, hireDate, workDate, workTime, PAYVACATIONTIME,
-         overtimeWorkTime, planOvertime, actualOvertime,
-          vacationCount, vacationTotal, lateCount, absentCount, row_number()
-            over (order by ${orderKeyword} ${order}) as rNum from REPORT_TB
-            where empname like '%' || #{keyword} || '%')
-            where rNum between ${rowStart} and ${rowEnd} and (registerDate BETWEEN #{startDate} AND #{endDate})
-            order by ${orderKeyword} ${order}
+    <select id="listSearch" resultType="com.dreamcapsule.project.domain.ReportVO" resultMap="ReportMap">
+        SELECT SEQ, REG_DT, EMP_NM, to_char(HIRE_DT, 'YYYY-MM-DD') as HIRE_DT, WORK_DT,
+            WORK_TM, PAY_VAC_TM, OT_WORK_TM, PL_OT_TM, AC_OT_TM,
+            VC_COUNT, VC_TOTAL, LATE_COUNT, AB_COUNT
+            from (SELECT SEQ, REG_DT, EMP_NM, HIRE_DT, WORK_DT,
+             WORK_TM, PAY_VAC_TM, OT_WORK_TM,
+             PL_OT_TM, AC_OT_TM, VC_COUNT,
+             VC_TOTAL, LATE_COUNT, AB_COUNT, row_number() over
+             (order by SEQ ${order}) as rNum from REPORT_TB
+             where EMP_NM like '%' || #{keyword} || '%'
+             and (REG_DT BETWEEN to_date(#{startDate}) AND to_date(#{endDate})))
+             where rNum between ${rowStart} and ${rowEnd} order by ${orderKeyword} ${order}
             </select>
 </mapper>
