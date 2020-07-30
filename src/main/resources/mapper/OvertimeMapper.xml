@@ -3,72 +3,72 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.dreamcapsule.project.apps.overtime.mapper.OvertimeMapper">
-    <!--
-    <select id="listPage" resultType="com.dreamcapsule.project.domain.OvertimeVO"
-                parameterType="com.dreamcapsule.project.apps.overtime.domain.Criteria">
-      select sequence, registerDate, modifyDate, empName, empJob, empPosition, overtimeDate, overtimeTime, eatBoolean, status, contents, requestDate, answer
-    from (
-     select sequence, registerDate, modifyDate, empName, empJob, empPosition, overtimeDate, overtimeTime, eatBoolean, status, contents, requestDate, answer ,row_number() over(order by sequence asc) as rNum from OT_MNG_TB) mb
-     where rNum between #{rowStart} and #{rowEnd} order by sequence asc
-     </select>
-     -->
-    <!--
-    <select id="listCount" resultType="int">
-    select count(*) as totalCount from OT_MNG_TB where sequence > 0
-    </select>
-    -->
-    <!--
-    <select id="search" parameterType="com.dreamcapsule.project.apps.overtime.domain.SearchCriteria"
-                resultType="com.dreamcapsule.project.domain.OvertimeVO">
-
-           select sequence, registerDate, modifyDate, empName, empJob, empPosition,
-           overtimeDate, overtimeTime, eatBoolean, status, contents, requestDate, answer
-    from (
-     select sequence, registerDate, modifyDate, empName, empJob,
-     empPosition, overtimeDate, overtimeTime, eatBoolean, status, contents,
-      requestDate, answer ,row_number() over(order by sequence asc) as rNum
-      from OT_MNG_TB where empName like '%' || #{keyword} || '%' and (requestDate between to_date(#{startDate}) and to_date(#{endDate})))
-     where rNum between #{rowStart} and #{rowEnd} order by sequence asc
-        </select>
-     -->
-
      <select id="overtimeList" resultType="com.dreamcapsule.project.domain.OvertimeVO">
-            SELECT * FROM OT_MNG_TB order by sequence
-        </select>
+    SELECT
+        *
+    FROM
+        ot_mng_tb
+    ORDER BY
+        seq
+    </select>
 
     <select id="findInfo" parameterType="int" resultType="com.dreamcapsule.project.domain.OvertimeVO">
-        SELECT sequence,registerdate,modifydate,empname,empjob,empposition,overtimedate,overtimetime,eatboolean,
-    status,contents,to_char(requestdate, 'yyyy.MM.dd (DY) hh:mm') as requestdate,answer from OT_MNG_TB where sequence = ${sequence}
+    SELECT seq, reg_Dt, mod_Dt, emp_Nm, emp_Job,
+    emp_Pos, ot_Dt, ot_Tm, eat_Yn, status, content, to_char(req_Dt, 'yyyy.MM.dd (DY) hh:mm')
+    AS req_Dt, ans FROM OT_MNG_TB WHERE seq = ${sequence}
+
     </select>
 
     <select id="updateEmpInfo" parameterType="com.dreamcapsule.project.domain.OvertimeVO">
-        UPDATE OT_MNG_TB
-        set
-        modifyDate=SYSDATE ,
-         answer=#{answer},
-         status=#{status} where sequence = #{sequence}
+
+         UPDATE OT_MNG_TB
+         SET mod_Dt=SYSDATE, ans=#{ans}, status=#{status}
+         WHERE seq=#{seq}
     </select>
 
     <select id="countSearch" resultType="int">
-            select count(sequence) from OT_MNG_TB where empName like '%' || #{keyword} || '%' and
-            (requestDate between to_date(#{startDate}) and to_date(#{endDate}))
+
+            select count(seq) from OT_MNG_TB
+            where emp_Nm like '%' || #{keyword} || '%'
+            and (req_Dt between to_date(#{startDate}) and to_date(#{endDate}))
     </select>
 
     <select id="search" parameterType="com.dreamcapsule.project.apps.overtime.domain.SearchCriteria"
             resultType="com.dreamcapsule.project.domain.OvertimeVO">
+SELECT
+    seq,
+    reg_dt,
+    mod_dt,
+    emp_nm,
+    emp_job,
+    emp_pos,
+    ot_dt,
+    ot_tm,
+    eat_yn,
+    status,
+    content,
+    to_char(req_dt, 'yyyy.MM.dd (DY) hh:mm') AS req_dt,
+    ans
+FROM ( SELECT
+    seq,
+    reg_dt,
+    mod_dt,
+    emp_nm,
+    emp_job,
+    emp_pos,
+    ot_dt,
+    ot_tm,
+    eat_yn,
+    status,
+    content,
+    req_dt,
+    ans,
+    row_number() over
+(
+ORDER BY
+    ${orderKeyword} ${order}) as rnum FROM OT_MNG_TB WHERE emp_Nm LIKE '%' || #{keyword} || '%'
+AND (req_Dt BETWEEN to_date(#{startDate}) AND to_date(#{endDate}))) WHERE rnum BETWEEN #{rowStart}
+AND #{rowEnd} order by ${orderKeyword} ${order}
 
-   SELECT sequence,registerdate,modifydate,empname,empjob,empposition,overtimedate,overtimetime,eatboolean,
-    status,contents,to_char(requestdate, 'yyyy.MM.dd (DY) hh:mm') as requestdate,answer
-FROM (SELECT
-    sequence, registerdate,modifydate,empname,empjob,empposition,overtimedate,overtimetime,eatboolean,
-    status,contents,requestdate,answer, row_number() over
-(ORDER BY ${orderKeyword} ${order}) as rnum
-FROM
-    ot_mng_tb
-WHERE
-    empname LIKE '%' || #{keyword} || '%'
-    AND (requestdate BETWEEN to_date(#{startDate}) AND to_date(#{endDate})))
-WHERE
-    rnum BETWEEN #{rowStart} AND #{rowEnd} order by ${orderKeyword} ${order}
     </select>
 </mapper>

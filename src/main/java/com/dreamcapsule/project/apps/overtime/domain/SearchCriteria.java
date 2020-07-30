@@ -3,18 +3,18 @@ package com.dreamcapsule.project.apps.overtime.domain;
 import java.util.Calendar;
 import java.util.Date;
 
-public class SearchCriteria  extends  Criteria{
-     private String keyword = "";
-     private String startDate = "";
-     private String endDate = "";
-     private String order = "";
-     private String orderKeyword = "";
-     private String tempStartDate;
-     private String tempEndDate;
+public class SearchCriteria extends Criteria {
+    private String keyword = "";
+    private String startDate = "";
+    private String endDate = "";
+    private String order = "";
+    private String orderKeyword = "";
+    private String tempStartDate;
+    private String tempEndDate;
 
     public String getOrderKeyword() {
-        if(orderKeyword.equals(""))
-            return "sequence";
+        if (orderKeyword.equals(""))
+            return "seq";
 
         return orderKeyword;
     }
@@ -32,9 +32,9 @@ public class SearchCriteria  extends  Criteria{
     }
 
 
-     public SearchCriteria() {
-         setDate();
-     }
+    public SearchCriteria() {
+        setDate();
+    }
 
     public String getKeyword() {
         return keyword;
@@ -45,7 +45,7 @@ public class SearchCriteria  extends  Criteria{
     }
 
     public String getStartDate() {
-         if(startDate.equals(""))
+        if (startDate.equals(""))
             return tempStartDate;
 
         return startDate;
@@ -56,8 +56,8 @@ public class SearchCriteria  extends  Criteria{
     }
 
     public String getEndDate() {
-         if(endDate.equals(""))
-             return tempEndDate;
+        if (endDate.equals(""))
+            return tempEndDate;
         return endDate;
     }
 

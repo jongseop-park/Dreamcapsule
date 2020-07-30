@@ -38,9 +38,9 @@ public class OvertimeXlsView extends AbstractXlsView {
             Row row = sheet.createRow(i);
             OvertimeVO overtimeVO = ((List<OvertimeVO>)map.get("overtimeVOList")).get(i-1);
 
-            Object[] values= { overtimeVO.getEmpName(), overtimeVO.getEmpJob(),
-                    overtimeVO.getEmpPosition(), overtimeVO.getOvertimeDate(),
-                    overtimeVO.getOvertimeTime(), overtimeVO.getEatBoolean(),
+            Object[] values= { overtimeVO.getEmpNm(), overtimeVO.getEmpJob(),
+                    overtimeVO.getEmpPos(), overtimeVO.getOtDt(),
+                    overtimeVO.getOtTm(), overtimeVO.getEatYn(),
                     overtimeVO.getStatus()
             };
 

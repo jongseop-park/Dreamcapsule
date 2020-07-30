@@ -80,17 +80,17 @@
                 <input type="hidden" id="endDate" name="endDate" value="${scri.endDate}" readonly="readonly" />
                 <input type="hidden" id="order" name="order" value="${scri.order}" readonly="readonly" />
                 <input type="hidden" id="orderKeyword" name="orderKeyword" value="${scri.orderKeyword}" readonly="readonly" />
-                <input type="hidden" id="modifyDate" name="modifyDate" value="${empInfo.modifyDate}" />
-                <input type="hidden" id="sequence" name="sequence" value="${empInfo.sequence}" />
+                <input type="hidden" id="modDt" name="modifyDate" value="${empInfo.modDt}" />
+                <input type="hidden" id="sequence" name="sequence" value="${empInfo.seq}" />
                 <table width="230" height="70">
                     <tr>
                         <td rowspan="2">
                             <img src="/static/img/overtime/testimage.png" width="60" height="60"></td>
-                        <td colspan="2"><b>${empInfo.empName}</b></td>
+                        <td colspan="2"><b>${empInfo.empNm}</b></td>
                     </tr>
                     <tr>
                         <td>${empInfo.empJob} |</td>
-                        <td>${empInfo.empPosition}</td>
+                        <td>${empInfo.empPos}</td>
                     </tr>
                 </table>
                 <br>
@@ -99,18 +99,18 @@
                         <td class="table_th">상태</td><td>${empInfo.status}</td>
                     </tr>
                     <tr>
-                        <td>날짜</td><td>${empInfo.overtimeDate}</td></tr>
+                        <td>날짜</td><td>${empInfo.otDt}</td></tr>
                     <tr>
-                        <td>시간</td><td>${empInfo.overtimeTime}</td>
+                        <td>시간</td><td>${empInfo.otTm}</td>
                     </tr>
                     <tr>
-                        <td>석식</td><td>${empInfo.eatBoolean}</td>
+                        <td>석식</td><td>${empInfo.eatYn}</td>
                     </tr>
                     <tr>
-                        <td>메모</td><td>${empInfo.contents}</td>
+                        <td>메모</td><td>${empInfo.content}</td>
                     </tr>
                     <tr>
-                        <td>신청날짜</td><td>${empInfo.requestDate}</td>
+                        <td>신청날짜</td><td>${empInfo.reqDt}</td>
                     </tr>
                     <tr>
                         <c:if test="${empInfo.status}">
@@ -132,7 +132,7 @@
                     </tr>
                 </table>
                 <textarea class="form-control" id="answer" name="answer"
-                          rows="3" style="width:70%; resize:none;" value="answer" placeholder="답변을 입력해주세요." >${empInfo.answer}</textarea>
+                          rows="3" style="width:70%; resize:none;" value="answer" placeholder="답변을 입력해주세요." >${empInfo.ans}</textarea>
                 <input id="modifyButton" name="modifyButton" type="button" class="btn bt
                 n-light btn-outline-primary" value="수정" <%--onclick="check()"--%>/>
                  </form>
@@ -199,16 +199,18 @@
 
         if(document.getElementsByName("status")[0].checked)
             status = "승인";
-        else
+        else if(document.getElementsByName("status")[1].checked)
             status = "반려";
+        else
+            status = "대기중";
 
         var object = {
-            "sequence" : document.getElementById("sequence").value,
-            "answer" : document.getElementById("answer").value,
+            "seq" : $('#sequence').val(),
+            "ans" : $('#answer').val(),
             "status" : status,
         }
 
-        if($status.val() == "" || $answer.val() == "") {
+        if(status == "대기중"  || $answer.val() == "") {
             alert("상태를 선택해주세요.");
         } else {
             $.ajax({

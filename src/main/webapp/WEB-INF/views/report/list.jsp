@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    /// 날짜 변환 출력
+    /* 날짜 변환 */
     String startDate = request.getParameter("startDate");
     String endDate = request.getParameter("endDate");
 
@@ -23,7 +23,7 @@
         endDate = year + "년 " + String.format("%02d", month) + "월 " + String.format("%02d일", dayOfMonth);
     }
 
-    //// 정렬
+    /* 정렬 */
     String order = request.getParameter("order") == null? "" : request.getParameter("order");
     String orderKeyword = request.getParameter("orderKeyword") == null? "": request.getParameter("orderKeyword");
 
@@ -71,8 +71,7 @@
 
     <!-- java script -->
     <script type="text/javascript">
-        // 정렬
-        function sortTest(keyword) {
+        function sort(keyword) {
             var order = "asc";
             var orderKeyword = keyword;
 
@@ -82,12 +81,15 @@
                 order = "asc"
             }
 
-            location.href= "/report?&keyword=${scri.keyword}" + "&page=${scri.page}" +
-            "&startDate=${scri.startDate}" + "&endDate=${scri.endDate}" +
-            "&order=" + order + "&orderKeyword=" + orderKeyword;
-            }
+            location.href= "/report?&keyword=${scri.keyword}"
+                + "&page=${scri.page}"
+                + "&startDate=${scri.startDate}"
+                + "&endDate=${scri.endDate}"
+                + "&order=" + order
+                + "&orderKeyword=" + orderKeyword;
+        }
 
-        // Datepicker
+        /* 캘린더 */
         $(function () {
             function getDateFormat(date) {
                 var year = date.substr(0, 4);
@@ -104,6 +106,7 @@
                 buttonImage: 'https://icons.iconarchive.com/icons/custom-icon-design/mono-business-2/32/calendar-icon.png',
                 buttonText: '날짜선택',
                 buttonImageOnly: true,
+                maxDate: new Date(),
                 showMonthAfterYear: true,
                 changeYear: true,
                 changeMonth: true,
@@ -119,6 +122,7 @@
                 showOn: 'focus'
                 , buttonImageOnly: false
                 , showMonthAfterYear: true
+                , maxDate: new Date()
                 , changeYear: true
                 , changeMonth: true
                 , dateFormat: 'yy년 mm월 dd일'
@@ -129,8 +133,8 @@
 
                     if (startDate == null) {
                         alert("시작일을 선택해주세요.");
-                        document.getElementById("date1").value= "";
-                        document.getElementById("date2").value = "";
+                        $('#date1').val("");
+                        $('#date2').val("");
                     } else {
                         endDate = getDateFormat(endDate);
                         startDate = getDateFormat(startDate);
@@ -150,13 +154,13 @@
 
         $(function() {
         $("#searchBtn").click(function() {
-            search_check();
+            searchCheck();
         });
 
     });
 
-    function search_check() {
-      var innerText = document.getElementById("searchText").value;
+    function searchCheck() {
+      var innerText = $('#searchText').val();
         self.location = "/report?keyword=" + innerText
             + "&page=${scri.page}"
             + "&startDate=${scri.startDate}"
@@ -258,7 +262,7 @@
                                 <div class="input-group" >
                                     <input type="text" class="form-control bg-light border-1 small" placeholder="직원 검색"
                                            aria-label="Search" aria-describedby="basic-addon2" id="searchText"
-                                           onKeyDown="javascript:if(event.keyCode == 13) search_check();" value="${scri.keyword}">
+                                           onKeyDown="javascript:if(event.keyCode == 13) searchCheck();" value="${scri.keyword}">
                                     <div class="input-group-append">
                                         <button class="btn btn-primary" id="searchBtn" type="button">
                                             <i class="fas fa-search fa-sm"></i>
@@ -268,9 +272,9 @@
                             </form>
                             <div style="display:flex; float: right"><h6>
                                 <input type="text" class="startDatepicker" id="date1" value="<%= startDate  %>">
-                                <button id="dateSort" value="reg_dt" onclick="sortTest(dateSort.value)"><%= registerDate %></button> ~
+                                <button id="dateSort" value="reg_dt" onclick="sort(dateSort.value)"><%= registerDate %></button> ~
                                 <input type="text" class="endDatepicker" id="date2" value="<%= endDate %>">
-                                <button id="dateSort2" value="reg_dt" onclick="sortTest(dateSort.value)"><%= registerDate %></button>
+                                <button id="dateSort2" value="reg_dt" onclick="sort(dateSort.value)"><%= registerDate %></button>
                             </h6></div>
                         </h2>
                         <!-- /테이블 상단 바 -->
@@ -280,8 +284,8 @@
                         <div class="table-responsive">
                             <table style="text-align: center" class="table table-bordered" width="100%" cellspacing="0">
                                 <thead>
-                                <th rowspan="2">직원<button id="empName" value="emp_nm" onclick="sortTest(empName.value)"><%= empName %></button></th>
-                                <th rowspan="2">입사일<button id="hireDate" value="hire_dt" onclick="sortTest(hireDate.value)"><%= hireDate %></button></th>
+                                <th rowspan="2">직원<button id="empName" value="emp_nm" onclick="sort(empName.value)"><%= empName %></button></th>
+                                <th rowspan="2">입사일<button id="hireDate" value="hire_dt" onclick="sort(hireDate.value)"><%= hireDate %></button></th>
                                 <th rowspan="2">실제근로일수</th>
                                 <th rowspan="2">실제근로시간</th>
                                 <th rowspan="2">유급휴가시간</th>
@@ -323,7 +327,12 @@
                             <!-- /테이블 하단 바 -->
                         </div>
                         <ul class="pagination" style="justify-content: center;">
-                            <a href="report${pageMaker.makeSearch(pageMaker.cri.page -1)}">◀</a>&nbsp&nbsp&nbsp
+                            <c:if test="${reportVOList.size() == 0}">
+                                등록된 내용이 없습니다.
+                            </c:if>
+                            <c:if test="${pageMaker.totalPage != 0}">
+                                <a href="report${pageMaker.makeSearch(pageMaker.cri.page -1)}">◀</a>&nbsp&nbsp&nbsp
+                            </c:if>
                             <c:forEach begin="${pageMaker.startPage}"  end="${pageMaker.endPage}" var="idx">
                                 <c:choose>
                                     <c:when test="${idx == pageMaker.cri.page}">
@@ -334,10 +343,10 @@
                                     </c:otherwise>
                                 </c:choose>
                             </c:forEach>
-                            <c:if test="${pageMaker.totalPage != pageMaker.cri.page}">
+                            <c:if test="${pageMaker.totalPage != pageMaker.cri.page && pageMaker.totalPage != 0}">
                                 &nbsp&nbsp&nbsp<a href="report${pageMaker.makeSearch(pageMaker.cri.page + 1)}">▶</a>
                             </c:if>
-                            <c:if test="${pageMaker.totalPage == pageMaker.cri.page}">
+                            <c:if test="${pageMaker.totalPage == pageMaker.cri.page && pageMaker.totalPage != 0}">
                                 &nbsp&nbsp&nbsp<a href="report${pageMaker.makeSearch(pageMaker.endPage)}">▶</a>
                             </c:if>
                         </ul>

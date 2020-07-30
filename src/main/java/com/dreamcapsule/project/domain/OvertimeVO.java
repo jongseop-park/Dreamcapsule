@@ -5,75 +5,74 @@ import oracle.sql.CHAR;
 public class OvertimeVO {
 
     /** 시퀀스 */
-    private int sequence;
+    private int seq;
 
     /** 생성일자 */
-    private String registerDate;
+    private String regDt;
 
     /** 수정일자 */
-    private String modifyDate;
+    private String modDt;
 
     /** 직원 */
-    private String empName;
+    private String empNm;
 
     /** 직무 */
     private String empJob;
 
     /** 직급 */
-    private String empPosition;
+    private String empPos;
 
     /** 야근날짜 */
-    private String overtimeDate;
+    private String otDt;
 
     /** 야근시간 */
-    private String overtimeTime;
+    private String otTm;
 
     /** 석식여부 */
-    private String eatBoolean;
+    private String eatYn;
 
     /** 상태 */
     private String status;
 
     /** 메모 */
-    private String contents;
+    private String content;
 
     /** 신청날짜 */
-    private String requestDate;
+    private String reqDt;
 
     /** 답변 */
-    private String answer;
+    private String ans;
 
-
-    public int getSequence() {
-        return sequence;
+    public int getSeq() {
+        return seq;
     }
 
-    public void setSequence(int sequence) {
-        this.sequence = sequence;
+    public void setSeq(int seq) {
+        this.seq = seq;
     }
 
-    public String getRegisterDate() {
-        return registerDate;
+    public String getRegDt() {
+        return regDt;
     }
 
-    public void setRegisterDate(String registerDate) {
-        this.registerDate = registerDate;
+    public void setRegDt(String regDt) {
+        this.regDt = regDt;
     }
 
-    public String getModifyDate() {
-        return modifyDate;
+    public String getModDt() {
+        return modDt;
     }
 
-    public void setModifyDate(String modifyDate) {
-        this.modifyDate = modifyDate;
+    public void setModDt(String modDt) {
+        this.modDt = modDt;
     }
 
-    public String getEmpName() {
-        return empName;
+    public String getEmpNm() {
+        return empNm;
     }
 
-    public void setEmpName(String empName) {
-        this.empName = empName;
+    public void setEmpNm(String empNm) {
+        this.empNm = empNm;
     }
 
     public String getEmpJob() {
@@ -84,36 +83,36 @@ public class OvertimeVO {
         this.empJob = empJob;
     }
 
-    public String getEmpPosition() {
-        return empPosition;
+    public String getEmpPos() {
+        return empPos;
     }
 
-    public void setEmpPosition(String empPosition) {
-        this.empPosition = empPosition;
+    public void setEmpPos(String empPos) {
+        this.empPos = empPos;
     }
 
-    public String getOvertimeDate() {
-        return overtimeDate;
+    public String getOtDt() {
+        return otDt;
     }
 
-    public void setOvertimeDate(String overtimeDate) {
-        this.overtimeDate = overtimeDate;
+    public void setOtDt(String otDt) {
+        this.otDt = otDt;
     }
 
-    public String getOvertimeTime() {
-        return overtimeTime;
+    public String getOtTm() {
+        return otTm;
     }
 
-    public void setOvertimeTime(String overtimeTime) {
-        this.overtimeTime = overtimeTime;
+    public void setOtTm(String otTm) {
+        this.otTm = otTm;
     }
 
-    public String getEatBoolean() {
-        return eatBoolean;
+    public String getEatYn() {
+        return eatYn;
     }
 
-    public void setEatBoolean(String eatBoolean) {
-        this.eatBoolean = eatBoolean;
+    public void setEatYn(String eatYn) {
+        this.eatYn = eatYn;
     }
 
     public String getStatus() {
@@ -124,27 +123,27 @@ public class OvertimeVO {
         this.status = status;
     }
 
-    public String getContents() {
-        return contents;
+    public String getContent() {
+        return content;
     }
 
-    public void setContents(String contents) {
-        this.contents = contents;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public String getRequestDate() {
-        return requestDate;
+    public String getReqDt() {
+        return reqDt;
     }
 
-    public void setRequestDate(String requestDate) {
-        this.requestDate = requestDate;
+    public void setReqDt(String reqDt) {
+        this.reqDt = reqDt;
     }
 
-    public String getAnswer() {
-        return answer;
+    public String getAns() {
+        return ans;
     }
 
-    public void setAnswer(String answer) {
-        this.answer = answer;
+    public void setAns(String ans) {
+        this.ans = ans;
     }
 }

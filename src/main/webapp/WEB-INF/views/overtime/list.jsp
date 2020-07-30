@@ -20,9 +20,6 @@
     } else {
         SimpleDateFormat source = new SimpleDateFormat("yyyy년 MM월 dd일");
 
-      /*  startDate = "";
-        endDate = "";*/
-
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH) + 1;
@@ -44,39 +41,19 @@
 
     if (order.equals("asc")) {
         switch (orderKeyword) {
-            case "empName":
-                empName = "▲";
-                break;
-            case "empJob":
-                empJob = "▲";
-                break;
-            case "empPosition":
-                empPosition = "▲";
-                break;
-            case "status":
-                status = "▲";
-                break;
-            case "requestDate":
-                requestDate = "▲";
-                break;
+            case "emp_Nm": empName = "▲";break;
+            case "emp_Job": empJob = "▲";break;
+            case "emp_Pos": empPosition = "▲";break;
+            case "status": status = "▲";break;
+            case "req_Dt": requestDate = "▲";break;
         }
     } else {
         switch (orderKeyword) {
-            case "empName":
-                empName = "▼";
-                break;
-            case "empJob":
-                empJob = "▼";
-                break;
-            case "empPosition":
-                empPosition = "▼";
-                break;
-            case "status":
-                status = "▼";
-                break;
-            case "requestDate":
-                requestDate = "▼";
-                break;
+            case "emp_Nm": empName = "▼"; break;
+            case "emp_Job": empJob = "▼"; break;
+            case "emp_Pos": empPosition = "▼"; break;
+            case "status": status = "▼"; break;
+            case "req_Dt": requestDate = "▼"; break;
         }
     }
 %>
@@ -107,79 +84,14 @@
     <script src="https://code.jquery.com/jquery-1.7.2.js"></script>
     <script src="https://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
     <script type="text/javascript">
-        /* $(document).ready( function () {
-             $('#myTable').DataTable({
-                 paging:false
-                 ,searching:false
-                 ,info:false
-                 ,ordering:false
-             });
-         } );*/
-
-        function sortTest(keyword) {
-            var order = "asc";
-            var orderKeyword = keyword;
-
-            if (${scri.order.equals("asc")}) {
-                document.getElementById("dateSort").innerHTML = "▼";
-                document.getElementById("dateSort2").innerHTML = "▼";
-                order = "desc";
-            } else {
-                document.getElementById("dateSort").innerHTML = "▲";
-                document.getElementById("dateSort2").innerHTML = "▲";
-                order = "asc"
-            }
-
-            $.ajax({
-                type: "GET",
-                url: "/overtime?sequence=${searchData.sequence}" +
-                    "&keyword=${scri.keyword}" +
-                    "&page=${scri.page}" +
-                    "&startDate=${scri.startDate}" +
-                    "&endDate=${scri.endDate}" +
-                    "&order=" + order +
-                    "&orderKeyword=" + orderKeyword,
-                dataType: "html",
-                contentType: "json",
-                success: function (data) {
-                    $('#page-top').children().remove();
-                    $('#page-top').html(data);
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    //alert("에러");
-                },
-            });
-        }
-
+        // 캘린더
         $(function () {
             var startDate;
-            $(".startDatepicker").datepicker({
-                showOn: 'both',
-                buttonImage: 'https://icons.iconarchive.com/icons/custom-icon-design/mono-business-2/32/calendar-icon.png',
-                buttonText: '날짜선택',
-                buttonImageOnly: true,
-                showMonthAfterYear: true,
-                changeYear: true,
-                changeMonth: true,
-                dateFormat: 'yy년 mm월 dd일',
-                monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'], // 월의 한글 형식.,
-                dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
-                onSelect: function () {
-                    startDate = $(".startDatepicker").val();
-                }
-            });
 
-            function getDateFormat(date) {
-                var year = date.substr(0, 4);
-                var month = date.substr(6, 2);
-                var day = date.substr(10, 2);
-
-                return year + "-" + month + "-" + day;
-            }
-
-            function applyDatepicker(elem) {
-                $(elem).datepicker({
+            $(document).on('focus', '.endDatepicker', function () {
+                $(this).datepicker({
                     showOn: 'focus'
+                    , maxDate: new Date()
                     , buttonImageOnly: false
                     , showMonthAfterYear: true
                     , changeYear: true
@@ -196,19 +108,40 @@
                             endDate = getDateFormat(endDate);
                             startDate = getDateFormat(startDate);
 
-                            location.href = "/listSearch?startDate="
+                            location.href = "/overtime?startDate="
                                 + startDate + "&endDate="
                                 + endDate + "&keyword="
                                 + getParameter("keyword");
                         }
                     }
-                });
-            }
+                })
+            });
 
-            $(document).ready(function () {
-                applyDatepicker(".endDatepicker");
-            })
+            $(document).on('focus', '.startDatepicker', function () {
+                $(this).datepicker({
+                    buttonImageOnly: false,
+                    showMonthAfterYear: true,
+                    changeYear: true,
+                    changeMonth: true,
+                    maxDate: new Date(),
+                    dateFormat: 'yy년 mm월 dd일',
+                    monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월'
+                        , '7월', '8월', '9월', '10월', '11월', '12월'], // 월의 한글 형식.,
+                    dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+                    onSelect: function () {
+                        startDate = $(".startDatepicker").val();
+                    }
+                });
+            });
         });
+
+        function getDateFormat(date) {
+            var year = date.substr(0, 4);
+            var month = date.substr(6, 2);
+            var day = date.substr(10, 2);
+
+            return year + "-" + month + "-" + day;
+        }
 
         function getParameter(name) {
             name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -217,9 +150,40 @@
             return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
         }
 
+        function sort(keyword) {
+            var order = "asc";
+            var orderKeyword = keyword;
+
+            if (${scri.order.equals("asc")}) {;
+                order = "desc";
+            } else {
+                order = "asc"
+            }
+
+            $.ajax({
+                type: "GET",
+                url: "/overtime?sequence=${searchData.seq}" +
+                    "&keyword=${scri.keyword}" +
+                    "&page=${scri.page}" +
+                    "&startDate=${scri.startDate}" +
+                    "&endDate=${scri.endDate}" +
+                    "&order=" + order +
+                    "&orderKeyword=" + orderKeyword,
+                dataType: "html",
+                contentType: "json",
+                success: function (data) {
+                    $('#page-top').children().remove();
+                    $('#page-top').html(data);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert("에러가 발생했습니다.");
+                },
+            });
+        }
+
         // 조회
         $(function () {
-            $("#myTable tbody tr").click(function () {
+            $(document).on('click', '#myTable tbody tr', function () {
                 var tr = $(this);
                 var td = tr.children();
 
@@ -245,14 +209,10 @@
             right: 400px;
         }
 
-        #top {
-            display: flex;
-        }
-
         #date1 {
             width: 150px;
             height: 30px;
-            margin: 4px 2px 0 210px;
+            margin: 4px 2px 0 5px;
             border: 1px solid #d1d3e2;
             background: none;
             border-radius: 3px;
@@ -265,13 +225,6 @@
             border: 1px solid #d1d3e2;
             background: none;
             border-radius: 3px;
-        }
-
-        .ui-datepicker-trigger {
-            position: absolute;
-            margin: 4px 0 0 170px;
-            height: 30px;
-            width: 30px;
         }
 
         #dateSort, #dateSort2 {
@@ -292,10 +245,6 @@
             width: 30px;
             border-radius: 5px;
             color: #d1d3e2;
-        }
-
-        #myTable tbody {
-            color: #6e707e;
         }
 
         #myTable tbody tr:hover {
@@ -330,19 +279,21 @@
             <div class="container">
                 <h6>홈 > 야근관리</h6>
 
-                <div id="top">
+                <div id="top" style="display: flex;">
                     <h5 id="title">야근관리</h5>
                     <div style="display:flex; float: right">
+                    <img style="height: 30px; width: 30px; margin: 4px 2px 0 150px;"
+                            src="https://icons.iconarchive.com/icons/custom-icon-design/mono-business-2/32/calendar-icon.png">
                     <input type="text" class="startDatepicker" id="date1" value="<%= startDate  %>">
-                    <button id="dateSort" value="requestDate" onClick="sortTest(dateSort.value)"><%= requestDate %>
+                    <button id="dateSort" value="req_Dt" onClick="sort(dateSort.value)"><%= requestDate %>
                     </button>~<input type="text" class="endDatepicker" id="date2" value="<%= endDate %>">
-                    <button id="dateSort2" value="requestDate" onClick="sortTest(dateSort2.value)"><%= requestDate %>
+                    <button id="dateSort2" value="req_Dt" onClick="sort(dateSort2.value)"><%= requestDate %>
                     </button>
                     </div>
 
                     <!-- 검색 -->
-                    <form method="get" action="/listSearch"
-                          class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                    <form method="get" action="/overtime"
+                          class="d-none d-sm-inline-block form-inline mr-0 ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
                             <input type="text" name="keyword" value="${scri.keyword}"
                                    class="form-control bg-light border-1 small" placeholder="직원검색" aria-label="Search"
@@ -356,7 +307,12 @@
                             </div>
                         </div>
                     </form>
-                    <%@include file="/WEB-INF/views/include/excel_include.jsp" %>
+                    <div class="d-sm-flex align-items-center justify-content-between mb-1"
+                         style="float: right; margin: 4px 0 0 10px">
+
+                        <a href="/download/overtime" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                class="fas fa-download fa-sm text-white-50"></i> 엑셀 다운로드</a>
+                    </div>
                 </div>
                 <div class="card-body" id="tableDiv">
                     <div class="table-responsive">
@@ -364,16 +320,16 @@
                             <thead>
                             <tr>
                                 <th id="직원">직원
-                                    <button id="empName" value="empName" onClick="sortTest(empName.value)"><%= empName %>
+                                    <button id="empName" value="emp_Nm" onClick="sort(empName.value)"><%= empName %>
                                     </button>
                                 </th>
                                 <th id="직무">직무
-                                    <button id="empJob" value="empJob" onClick="sortTest(empJob.value)"><%= empJob %>
+                                    <button id="empJob" value="emp_Job" onClick="sort(empJob.value)"><%= empJob %>
                                     </button>
                                 </th>
                                 <th id="직급">직급
-                                    <button id="empPosition" value="empPosition"
-                                            onClick="sortTest(empPosition.value)"><%= empPosition %>
+                                    <button id="empPosition" value="emp_Pos"
+                                            onClick="sort(empPosition.value)"><%= empPosition %>
                                     </button>
                                 </th>
                                 <th>야근날짜</th>
@@ -381,46 +337,56 @@
                                 <th>석식여부</th>
                                 <th id="상태">상태
                                     <button id="statussort" value="status"
-                                            onClick="sortTest(statussort.value)"><%= status %>
+                                            onClick="sort(statussort.value)"><%= status %>
                                     </button>
                                 </th>
                             </tr>
                             </thead>
-                            <tbody>
+                            <tbody style="color:#6e707e">
+
+
                             <c:forEach var="searchData" items="${searchList}">
                                 <tr>
-                                    <td style="display:none;">${searchData.sequence}</td>
-                                    <td>${searchData.empName}</td>
+                                    <td style="display:none;">${searchData.seq}</td>
+                                    <td>${searchData.empNm}</td>
                                     <td>${searchData.empJob}</td>
-                                    <td>${searchData.empPosition}</td>
-                                    <td>${searchData.overtimeDate}</td>
-                                    <td>${searchData.overtimeTime}</td>
-                                    <td>${searchData.eatBoolean}</td>
+                                    <td>${searchData.empPos}</td>
+                                    <td>${searchData.otDt}</td>
+                                    <td>${searchData.otTm}</td>
+                                    <td>${searchData.eatYn}</td>
                                     <td>${searchData.status}</td>
                                 </tr>
                             </c:forEach>
+
                             </tbody>
                         </table>
+
                     </div>
                 </div>
                 <!-- 페이지 -->
+
+                <c:if test="${searchList.size() == 0}">
+                    <div style="text-align:center;">등록된 내용이 없습니다. </div>
+                </c:if>
                 <div id="pagediv">
-                    <a href="listSearch${pageMaker.makeSearch(pageMaker.cri.page -1)}">◀</a>&nbsp&nbsp&nbsp
+                    <c:if test="${pageMaker.totalPage != 0}">
+                    <a href="overtime${pageMaker.makeSearch(pageMaker.cri.page -1)}">◀</a>&nbsp&nbsp&nbsp
+                    </c:if>
                     <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
                         <c:choose>
                             <c:when test="${idx == pageMaker.cri.page}">
-                                <b>&nbsp<a href="listSearch${pageMaker.makeSearch(idx)}">${idx}</a>&nbsp</b>
+                                <b>&nbsp<a href="overtime${pageMaker.makeSearch(idx)}">${idx}</a>&nbsp</b>
                             </c:when>
                             <c:otherwise>
-                                &nbsp<a href="listSearch${pageMaker.makeSearch(idx)}">${idx}</a>&nbsp
+                                &nbsp<a href="overtime${pageMaker.makeSearch(idx)}">${idx}</a>&nbsp
                             </c:otherwise>
                         </c:choose>
                     </c:forEach>
-                    <c:if test="${pageMaker.totalPage != pageMaker.cri.page}">
-                        &nbsp&nbsp&nbsp<a href="listSearch${pageMaker.makeSearch(pageMaker.cri.page + 1)}">▶</a>
+                    <c:if test="${pageMaker.totalPage != pageMaker.cri.page && pageMaker.totalPage != 0}">
+                        &nbsp&nbsp&nbsp<a href="overtime${pageMaker.makeSearch(pageMaker.cri.page + 1)}">▶</a>
                     </c:if>
-                    <c:if test="${pageMaker.totalPage == pageMaker.cri.page}">
-                        &nbsp&nbsp&nbsp<a href="listSearch${pageMaker.makeSearch(pageMaker.endPage)}">▶</a>
+                    <c:if test="${pageMaker.totalPage == pageMaker.cri.page && pageMaker.totalPage != 0}">
+                        &nbsp&nbsp&nbsp<a href="overtime${pageMaker.makeSearch(pageMaker.endPage)}">▶</a>
                     </c:if>
                 </div>
                 <!-- /메인 내용 -->
@@ -453,7 +419,7 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="/pages/login">Logout</a>
+                    <a class="btn btn-primary" href="/login">Logout</a>
                 </div>
             </div>
         </div>
