@@ -4,11 +4,62 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.dreamcapsule.project.apps.outsidejob.mapper.OutsidejobMapper">
 
+    <select id="findAllPage" resultType="OutsidejobVO">
+        select
+        SEQ,NAME,TASK,JOB_GRADE,OUTSIDE_DATE,START_TIME,END_TIME,START_PLACE,END_PLACE,STATE_YSN, APPLICATION_TIME,NOTE,REPLY,REG_DT,MOD_DT,MONTH,DAY
+        from
+        (select OSJ.SEQ,INFO.NAME,INFO.TASK,INFO.JOB_GRADE,OSJ.OUTSIDE_DATE,OSJ.START_TIME,OSJ.END_TIME,OSJ.START_PLACE,OSJ.END_PLACE,OSJ.STATE_YSN,OSJ.APPLICATION_TIME,OSJ.NOTE,OSJ.REPLY,OSJ.REG_DT,OSJ.MOD_DT,OSJ.MONTH,OSJ.DAY,row_number() over(order by
+        <choose>
+            <when test= 'sortKeyword.equals("STATE_YSN")'>
+                OSJ.${sortKeyword}
+            </when>
+            <otherwise>
+                INFO.${sortKeyword}
+            </otherwise>
+        </choose> ${sort})
+        as rNum from HOLIDAY_INFO_TB INFO,OUTSIDEJOB_TB OSJ where INFO.SEQ = OSJ.USER_NUM AND <include refid="search"></include>) outside where rNum between #{rowStart} and #{rowEnd} order by ${sortKeyword} ${sort}
+    </select>
+
     <select id="findAll" resultType="OutsidejobVO">
-        SELECT * FROM OUTSIDEJOB_TB
+        select * from OUTSIDEJOB_TB
     </select>
 
     <select id="findInfo" resultType="OutsidejobVO">
         SELECT SEQ,NAME,TASK,JOB_GRADE FROM HOLIDAY_INFO_TB
     </select>
+
+    <select id="listCount" resultType="int">
+        <![CDATA[SELECT COUNT(SEQ) FROM OUTSIDEJOB_TB WHERE SEQ > 0]]>
+    </select>
+
+    <select id="countSearch" resultType="int">
+        SELECT COUNT(SEQ) FROM OUTSIDEJOB_TB OSJ WHERE <include refid="search"></include> AND SEQ > 0
+    </select>
+
+    <select id="findListSeq" resultType="OutsidejobVO">
+        SELECT SEQ,
+            USER_NUM,
+            OUTSIDE_DATE,
+            START_TIME,
+            END_TIME,
+            START_PLACE,
+            END_PLACE,
+            STATE_YSN,
+            TO_CHAR(APPLICATION_TIME,'YYYY.MM.DD (dy) HH24:MI') AS APPLICATION_TIME,
+            NOTE,
+            REG_DT,
+            REPLY FROM OUTSIDEJOB_TB WHERE SEQ = ${SEQ}
+    </select>
+
+    <select id="findInfoSeq" resultType="OutsidejobVO">
+        SELECT SEQ,NAME,TASK,JOB_GRADE FROM HOLIDAY_INFO_TB WHERE SEQ = ${USER_NUM}
+    </select>
+
+    <update id="detailsUpdate">
+        UPDATE OUTSIDEJOB_TB SET STATE_YSN=#{STATE}, REPLY = #{REPLY}, MOD_DT = SYSDATE WHERE SEQ = #{SEQ}
+    </update>
+
+    <sql id="search">
+         OSJ.USER_NUM in (SELECT DISTINCT SEQ from HOLIDAY_INFO_TB where NAME LIKE '%' || #{keyword} || '%')
+    </sql>
 </mapper>
