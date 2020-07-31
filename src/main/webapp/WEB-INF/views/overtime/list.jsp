@@ -267,44 +267,54 @@
             <!-- 메인 내용 -->
             <div class="container">
                 <h5 style="margin-left: 20px">홈 > 야근관리</h5>
-                <div id="top" style="display: flex;">
-                    <h4 id="title" style="margin:0 320px 0 20px;">야근관리</h4>
-                    <div style="display:flex; float: right">
-                        <img style="height: 30px; width: 30px; margin: 4px 2px 0 150px;"
-                             src="https://icons.iconarchive.com/icons/custom-icon-design/mono-business-2/32/calendar-icon.png">
-                        <input type="text" class="startDatepicker" id="date1" value="<%= startDate  %>">
-                        <button id="dateSort" value="req_Dt" onClick="sort(dateSort.value)"><%= btnValues[4] %>
-                        </button>
-                        ~<input type="text" class="endDatepicker" id="date2" value="<%= endDate %>">
-                        <button id="dateSort2" value="req_Dt" onClick="sort(dateSort2.value)"><%= btnValues[4] %>
-                        </button>
-                    </div>
+                <h4 id="title" style="margin:20px 320px 0 20px;">야근관리</h4>
+                <div id="top" style=" width: 100%; padding-right: 20px" >
 
-                    <!-- 검색 -->
-                    <form method="get" action="/overtime"
-                          class="d-none d-sm-inline-block form-inline mr-0 ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" name="keyword" value="${scri.keyword}"
-                                   class="form-control bg-light border-1 small" placeholder="직원검색" aria-label="Search"
-                                   aria-describedby="basic-addon2">
-                            <input type="hidden" name="startDate" value="${scri.startDate}"/>
-                            <input type="hidden" name="endDate" value="${scri.endDate}"/>
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="submit">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
+
+
+
+                    <div style="display:flex;  float: right">
+
+
+                            <img style="height: 30px; width: 30px; margin: 4px 2px 0 150px;"
+                                 src="https://icons.iconarchive.com/icons/custom-icon-design/mono-business-2/32/calendar-icon.png">
+                            <input type="text" class="startDatepicker" id="date1" value="<%= startDate  %>">
+                            <button id="dateSort" value="req_Dt" onClick="sort(dateSort.value)"><%= btnValues[4] %>
+                            </button>
+                            ~<input type="text" class="endDatepicker" id="date2" value="<%= endDate %>">
+                            <button id="dateSort2" value="req_Dt" onClick="sort(dateSort2.value)"><%= btnValues[4] %>
+                            </button>
+
+
+
+
+                        <!-- 검색 -->
+                        <form method="get" action="/overtime"
+                              class="d-none d-sm-inline-block form-inline mr-0 ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                            <div class="input-group">
+                                <input type="text" name="keyword" value="${scri.keyword}"
+                                       class="form-control bg-light border-1 small" placeholder="직원검색" aria-label="Search"
+                                       aria-describedby="basic-addon2">
+                                <input type="hidden" name="startDate" value="${scri.startDate}"/>
+                                <input type="hidden" name="endDate" value="${scri.endDate}"/>
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="submit">
+                                        <i class="fas fa-search fa-sm"></i>
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                    </form>
-                    <div class="d-sm-flex align-items-center justify-content-between mb-1"
-                         style="float: right; margin: 4px 0 0 10px">
+                        </form>
+                        <div class="d-sm-flex align-items-center justify-content-between mb-1"
+                             style="float: right; margin: 4px 0 0 10px">
 
-                        <%--<a href="/download/overtime"--%>
-                        <a href="/overtimeExcel"
-                           class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> 엑셀 다운로드</a>
-                    </div>
+                            <%--<a href="/download/overtime"--%>
+                            <a href="/overtimeExcel"
+                               class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                    class="fas fa-download fa-sm text-white-50"></i> 엑셀 다운로드</a>
+                        </div>
+                      </div>
                 </div>
+                </br></br>
                 <div class="card-body" id="tableDiv">
                     <div class="table-responsive">
                         <table id="myTable" class="table table-bordered table-hover">
