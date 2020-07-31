@@ -127,8 +127,34 @@
             to_date(reg_dt,'yy/mm/dd') = to_Date(#{regDt},'yy/mm/dd')
     </select>
     <!--==========================엑셀 다운로드 할 모든 데이터================================-->
-    <select id="dailyAllList" resultType="DailyDomain">
-        select * from comm_tb order by reg_Dt asc
+    <select id="dailyAllList" resultType="DailyDomain" parameterType="Criteria">
+        SELECT
+        empl_nm,
+        duty_id,
+        rank_id,
+        comm_ti,
+        work_st,
+        work_ti,
+        rest_ti,
+        work_pl,
+        to_char(reg_dt, 'yyyy/mm/dd') AS reg_dt
+        FROM ( SELECT
+        empl_nm,
+        duty_id,
+        rank_id,
+        onw_ti
+        || '~'
+        || offw_ti AS comm_ti,
+        work_st,
+        round(((to_date(offw_ti, 'HH24:MI') - to_date(onw_ti, 'HH24:MI')) * 24)) - rest_ti AS work_ti,
+        rest_ti,
+        work_pl,
+        reg_dt,
+        ROW_NUMBER() OVER(ORDER BY ${orderKeyword} ${orderMethod} ) AS rnum
+        FROM
+        comm_tb
+        <include refid="searchCondition"></include>)comm
+
     </select>
     <!--===========================================================================================================-->
 

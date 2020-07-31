@@ -55,9 +55,10 @@ public class DailyController {
         }
 
         @GetMapping(path = "/download/dailyList", produces = "application/vnd.ms-excel")
-        public String excelDownload(Model model) throws Exception{
-            List<DailyDomain> dailylist=dailyService.dailyAllList();
+        public String excelDownload(Model model,Criteria cri) throws Exception{
+            List<DailyDomain> dailylist=dailyService.dailyAllList(cri);
             model.addAttribute("dailyXlsList",dailylist);
+            model.addAttribute("dailyDay",cri.getRegDt());
             return "dailyXls";
         }
 

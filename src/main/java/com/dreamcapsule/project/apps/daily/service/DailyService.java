@@ -12,6 +12,6 @@ public interface DailyService {
     public List<DailyDomain> listPage(Criteria cri) throws Exception;
     public int listCount(Criteria criteria) throws Exception;
     public List<DailyDomain> detailSearch(Criteria cri) throws Exception;
-    public List<DailyDomain> dailyAllList();
+    public List<DailyDomain> dailyAllList(Criteria cri);
     public void detailUpdate(DailyDomain dailyDomain);
 }

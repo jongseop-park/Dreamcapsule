@@ -142,7 +142,7 @@
                         <div class="d-sm-flex align-items-center justify-content-between mb-1"
                              style="float: right; margin: 4px 0 0 10px">
 
-                            <a href="/download/dailyList" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                            <a href="/download/dailyList?regDt=${pageMaker.cri.regDt}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                     class="fas fa-download fa-sm text-white-50"></i> 엑셀 다운로드</a>
                         </div>
 

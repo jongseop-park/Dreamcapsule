@@ -20,8 +20,9 @@ public class DailyXlsView extends AbstractXlsView {
             , HttpServletRequest httpServletRequest
             , HttpServletResponse httpServletResponse
             ) throws Exception {
+        String regDt=(String)map.get("dailyDay");
         httpServletResponse.setHeader(
-            "Content-Disposition","attachment; filename=\"daily.xls\"");
+            "Content-Disposition","attachment; filename=\"daily"+"_"+regDt+".xls\"");
         Sheet sheet = workbook.createSheet("daily_sheet");
         Row row=sheet.createRow(0);
         
