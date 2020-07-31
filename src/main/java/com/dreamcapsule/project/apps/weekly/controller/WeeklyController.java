@@ -46,6 +46,8 @@ public class WeeklyController {
     public String excelDownload(Model model, Criteria cri) throws Exception{
         List<WeeklyVO> weeklyXls=weeklyService.weeklyXlsDown(cri);
         model.addAttribute("weeklyXls",weeklyXls);
+        model.addAttribute("startDate",cri.getStartDate());
+        model.addAttribute("endDate",cri.getEndDate());
         return "WeeklyXls";
     }
 

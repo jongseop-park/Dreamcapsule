@@ -22,9 +22,12 @@ public class WeeklyXlsView extends AbstractXlsView {
             , HttpServletRequest httpServletRequest
             , HttpServletResponse httpServletResponse
             ) throws Exception {
+        String startDate=(String)map.get("startDate");
+        String endDate=(String)map.get("endDate");
+
         httpServletResponse.setHeader(
-                "Content-Disposition","attachment; filename=\"weekly.xls\"");
-        Sheet sheet = workbook.createSheet("daily_sheet");
+                "Content-Disposition","attachment; filename=\"weekly"+startDate+"--"+endDate+".xls\"");
+        Sheet sheet = workbook.createSheet("weekly_sheet");
         Row row=sheet.createRow(0);
 
         Cell cell;

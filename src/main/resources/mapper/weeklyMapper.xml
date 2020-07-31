@@ -48,7 +48,7 @@
             select empl_nm,duty_id,rank_id,weekdate,comm_ti,work_st,total_ti,work_pl
             from (
             select empl_nm ,duty_id,rank_id,weekdate,comm_ti,work_st,
-            row_number() over(order by ${worderKeyword} ${orderMethod} )
+            row_number() over(order by empl_nm asc )
             rnum,total_ti,work_pl
             from(
             select empl_nm,duty_id,rank_id,
@@ -56,8 +56,8 @@
             listagg(ONW_TI ||'~'||OFFW_TI ,',')WITHIN group(ORDER by reg_dt) as comm_ti,
             listagg(work_st,',')WITHIN group(ORDER by reg_dt) as work_st ,
             sum(ROUND(((TO_DATE(OFFW_TI,'HH24:MI')-TO_DATE(ONW_TI,'HH24:MI'))*24))-REST_TI) as total_ti,work_pl
-            from comm_tb <include refid="searchCondition"></include> group by empl_nm,duty_id,rank_id,work_pl)
-            )where rnum between 2 and ${rowEnd}
-            order by  ${worderKeyword} ${orderMethod}
+            from comm_tb    where to_date(reg_dt,'yy/mm/dd') between to_date(#{startDate},'yy/mm/dd') and
+            to_date(#{endDate},'yy/mm/dd') group by empl_nm,duty_id,rank_id,work_pl)
+            )
         </select>
 </mapper>

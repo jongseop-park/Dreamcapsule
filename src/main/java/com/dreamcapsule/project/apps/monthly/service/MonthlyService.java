@@ -12,4 +12,5 @@ public interface MonthlyService {
     public List<MonthlyVO> monthlyData(Criteria cri);
     public int lastdayNum(Criteria cri);
     public List<MonthlyVO> dutyFind();
+
 }
