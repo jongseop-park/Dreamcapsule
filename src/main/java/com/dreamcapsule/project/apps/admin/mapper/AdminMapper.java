@@ -8,5 +8,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AdminMapper {
 
-    public AdminVO read(String id);
+
+    public AdminVO findById(String username);
+
+    public void save(AdminVO adminVO);
+
+    public void saveRole();
 }

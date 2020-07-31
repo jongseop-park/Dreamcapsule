@@ -3,24 +3,24 @@ package com.dreamcapsule.project.domain;
 public class AuthorityVO {
 
     /** 아이디 */
-    private String authId;
+    private String username;
 
     /** 권한 */
-    private String auth;
+    private String authorityNm;
 
-    public String getAuthId() {
-        return authId;
+    public String getUsername() {
+        return username;
     }
 
-    public void setAuthId(String authId) {
-        this.authId = authId;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getAuth() {
-        return auth;
+    public String getAuthorityNm() {
+        return authorityNm;
     }
 
-    public void setAuth(String auth) {
-        this.auth = auth;
+    public void setAuthorityNm(String authorityNm) {
+        this.authorityNm = authorityNm;
     }
 }

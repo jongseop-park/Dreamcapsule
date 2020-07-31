@@ -1,5 +1,6 @@
 package com.dreamcapsule.project.config;
 
+import com.dreamcapsule.project.apps.admin.service.CustomUserDetailsService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -32,8 +33,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // WebSecurit
     * cookie
    * */
 
-/*    @Autowired
-    AdminService adminService;*/
+    @Autowired
+    public CustomUserDetailsService customUserDetailsService;
 
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -43,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // WebSecurit
     @Override
     public void configure(WebSecurity web) throws Exception{ // WebSecurity는 FilterChainProxy를 생성하는 필터.
         // static 디렉터리의 하위 파일 목록은 인증 무시 ( = 항상 통과 )
-        web.ignoring().antMatchers("/css/**","/js/**","/lib/**","/img/**","/scss/**","/vendor/**"); // 이 경로의 파일들은 Spring Security가 무시하도록 설정.
+        web.ignoring().antMatchers("/static/**"); // 이 경로의 파일들은 Spring Security가 무시하도록 설정.
     }
 
     @Override
@@ -52,12 +53,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // WebSecurit
                 // 페이지 권한 설정
                 .antMatchers("/admin/**").hasRole("ADMIN") // 괄호의 권한을 가진 유저만 접근가능, ROLE_가 붙어서 적용 됨. 즉, 테이블에 ROLE_권한명 으로 저장해야 함.
                                                                       // ㄴ /admin으로 시작하는 경로는 ADMIN 롤을 가진 사용자만 접근 가능.
+                .antMatchers("/register").permitAll()
+                .antMatchers("/forget-password").permitAll()
 //                .antMatchers("/**").permitAll() // 모든 경로에 대해서는 권한없이 접근 가능.
             .and() // 로그인 설정
                 .formLogin() // 하위에 내가 직접 구현한 로그인 폼, 로그인 성공시 이동 경로 설정 가능. , 로그인 폼의 아이디,패스워드는 username, password로 맞춰야 함
                 .loginPage("/login") // 커스텀 로그인 폼을 사용하기 위한 메서드. 경로가 일치해야 함.
-                .loginProcessingUrl("/action") // 로그인form의  action과 일치시켜주어야 함.
-                .defaultSuccessUrl("/main") // 로그인이 성공했을 때 이동되는 페이지. 컨트롤러에서 매핑이 되어있어야 함.
+                /*.loginProcessingUrl("/loginProcess") // 로그인form의  action과 일치시켜주어야 함.*/
+                .defaultSuccessUrl("/admin/main") // 로그인이 성공했을 때 이동되는 페이지. 컨트롤러에서 매핑이 되어있어야 함.
                 .permitAll()
             .and() // 로그아웃 설정
                 .logout() // 로그아웃을 지원하는 메서드. WebSecurityConfigurerAdapter를 사용할 때 자동으로 적용. 기본적으로 /logout 접근 시 HTTP 세션을 제거함.
@@ -70,10 +73,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // WebSecurit
                 .csrf().disable() // Security 미사용
         ;
     }
-/*    @Override
+    @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception{
-        auth.userDetailsService(adminService).passwordEncoder(passwordEncoder());
-    }*/
+        auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
+    }
 
 }
 

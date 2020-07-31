@@ -2,7 +2,7 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/main">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/admin/main">
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-laugh-wink"></i>
         </div>
@@ -14,7 +14,7 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
-        <a class="nav-link" href="/main">
+        <a class="nav-link" href="/admin/main">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Main</span></a>
     </li>
@@ -103,8 +103,7 @@
                 <a class="collapse-item" href="/management/annual/list">연차</a>
                 <a class="collapse-item" href="/management/equipment/list">장비</a>
                 <a class="collapse-item" href="/management/opinion/list">의견</a>
-                <a class="collapse-item" href="/management/company/list">업체</a>
-
+                <a class="collapse-item" href="/admin/management/company/list">업체</a>
             </div>
         </div>
     </li>

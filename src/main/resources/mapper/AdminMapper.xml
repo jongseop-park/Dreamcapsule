@@ -4,9 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.dreamcapsule.project.apps.admin.mapper.AdminMapper">
 
-    <resultMap type="AdminVO" id="AdminMap">
+   <!-- <resultMap type="AdminVO" id="AdminMap">
         <id property="adminId" column="ADMIN_ID"/>
-        <result property="seq" column="SEQ"/>
         <result property="adminPw" column="ADMIN_PW"/>
         <result property="adminNm" column="ADMIN_NM"/>
         <result property="regDt" column="REG_DT"/>
@@ -15,13 +14,7 @@
         <collection property="authList" column="AuthMap"/>
     </resultMap>
 
-    <resultMap type="AuthorityVO" id="AuthorityMap">
-        <id property="seq" column="SEQ"/>
-        <result property="authId" column="AUTH_ID"/>
-        <result property="auth" column="AUTH"/>
-    </resultMap>
-
-    <select id="read" resultMap="AdminMap">
+    <select id="findByUserName" resultMap="AdminMap" parameterType="String">
         SELECT
             A.SEQ,
             A.ADMIN_ID,
@@ -36,6 +29,21 @@
         FROM ADMIN_TB A LEFT OUTER JOIN AUTHORITY_TB B
         ON A.ADMIN_ID = B.AUTH_ID
         WHERE A.ADMIN_ID = #{adminId};
+    </select>-->
+    
+    <select id="findById" parameterType="String" resultType="AdminVO">
+        SELECT * FROM ADMIN
+        WHERE ADMIN_ID = #{username}
     </select>
+
+    <insert id="save" parameterType="AdminVO">
+        INSERT INTO ADMIN(ADMIN_ID, ADMIN_PW, ADMIN_NM, ADMIN_EMAIL, ADMIN_TEL, FAIL_CNT, LAST_LOGIN_DT, ROLE)
+        VALUES (#{adminId}, #{adminPw}, #{adminNm}, #{adminEmail}, #{adminTel}, 0, SYSDATE, 'ROLE_ADMIN')
+    </insert>
+
+    <insert id="saveRole" parameterType="AuthorityVO">
+        INSERT INTO AUTHORITY(ADMIN_ID, AUTHORITY_NM)
+        VALUES (#{adminId}, #{authorityNm})
+    </insert>
 
 </mapper>
