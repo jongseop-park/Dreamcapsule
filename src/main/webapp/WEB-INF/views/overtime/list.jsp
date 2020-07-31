@@ -33,28 +33,17 @@
     String order = request.getParameter("order") == null ? "" : request.getParameter("order");
     String orderKeyword = request.getParameter("orderKeyword") == null ? "" : request.getParameter("orderKeyword");
 
-    String empName = "▲";
-    String empJob = "▲";
-    String empPosition = "▲";
-    String status = "▲";
-    String requestDate = "▲";
+    String btnNames[] = {"emp_Nm", "emp_Job", "emp_Pos", "status", "req_Dt"};
+    String btnValues[] = {"▼", "▼", "▼", "▼", "▼"};
 
     if (order.equals("asc")) {
-        switch (orderKeyword) {
-            case "emp_Nm": empName = "▲";break;
-            case "emp_Job": empJob = "▲";break;
-            case "emp_Pos": empPosition = "▲";break;
-            case "status": status = "▲";break;
-            case "req_Dt": requestDate = "▲";break;
-        }
+        for (int i = 0; i < btnNames.length; i++)
+            if (btnNames[i].equals(orderKeyword))
+                btnValues[i] = "▲";
     } else {
-        switch (orderKeyword) {
-            case "emp_Nm": empName = "▼"; break;
-            case "emp_Job": empJob = "▼"; break;
-            case "emp_Pos": empPosition = "▼"; break;
-            case "status": status = "▼"; break;
-            case "req_Dt": requestDate = "▼"; break;
-        }
+        for (int i = 0; i < btnNames.length; i++)
+            if (btnNames[i].equals(orderKeyword))
+                btnValues[i] = "▼";
     }
 %>
 <html lang="en">
@@ -73,7 +62,7 @@
           rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="/static/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="/static/css/commute/sb-admin-comm.css" rel="stylesheet">
 
     <!-- javascript -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
@@ -90,15 +79,15 @@
 
             $(document).on('focus', '.endDatepicker', function () {
                 $(this).datepicker({
-                    showOn: 'focus'
-                    , maxDate: new Date()
-                    , buttonImageOnly: false
-                    , showMonthAfterYear: true
-                    , changeYear: true
-                    , changeMonth: true
-                    , dateFormat: 'yy년 mm월 dd일'
-                    , monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'] // 월의 한글 형식.
-                    , dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+                    maxDate: new Date(),
+                    buttonImageOnly: false,
+                    showMonthAfterYear: true,
+                    changeYear: true,
+                    changeMonth: true,
+                    dateFormat: 'yy년 mm월 dd일',
+                    monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월'
+                        , '7월', '8월', '9월', '10월', '11월', '12월'], // 월의 한글 형식.,
+                    dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
                     onSelect: function () {
                         var endDate = $(".endDatepicker").val();
 
@@ -119,11 +108,11 @@
 
             $(document).on('focus', '.startDatepicker', function () {
                 $(this).datepicker({
+                    maxDate: new Date(),
                     buttonImageOnly: false,
                     showMonthAfterYear: true,
                     changeYear: true,
                     changeMonth: true,
-                    maxDate: new Date(),
                     dateFormat: 'yy년 mm월 dd일',
                     monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월'
                         , '7월', '8월', '9월', '10월', '11월', '12월'], // 월의 한글 형식.,
@@ -154,7 +143,7 @@
             var order = "asc";
             var orderKeyword = keyword;
 
-            if (${scri.order.equals("asc")}) {;
+            if (${scri.order.equals("asc")}) {
                 order = "desc";
             } else {
                 order = "asc"
@@ -277,18 +266,18 @@
 
             <!-- 메인 내용 -->
             <div class="container">
-                <h6>홈 > 야근관리</h6>
-
+                <h5 style="margin-left: 20px">홈 > 야근관리</h5>
                 <div id="top" style="display: flex;">
-                    <h5 id="title">야근관리</h5>
+                    <h4 id="title" style="margin:0 320px 0 20px;">야근관리</h4>
                     <div style="display:flex; float: right">
-                    <img style="height: 30px; width: 30px; margin: 4px 2px 0 150px;"
-                            src="https://icons.iconarchive.com/icons/custom-icon-design/mono-business-2/32/calendar-icon.png">
-                    <input type="text" class="startDatepicker" id="date1" value="<%= startDate  %>">
-                    <button id="dateSort" value="req_Dt" onClick="sort(dateSort.value)"><%= requestDate %>
-                    </button>~<input type="text" class="endDatepicker" id="date2" value="<%= endDate %>">
-                    <button id="dateSort2" value="req_Dt" onClick="sort(dateSort2.value)"><%= requestDate %>
-                    </button>
+                        <img style="height: 30px; width: 30px; margin: 4px 2px 0 150px;"
+                             src="https://icons.iconarchive.com/icons/custom-icon-design/mono-business-2/32/calendar-icon.png">
+                        <input type="text" class="startDatepicker" id="date1" value="<%= startDate  %>">
+                        <button id="dateSort" value="req_Dt" onClick="sort(dateSort.value)"><%= btnValues[4] %>
+                        </button>
+                        ~<input type="text" class="endDatepicker" id="date2" value="<%= endDate %>">
+                        <button id="dateSort2" value="req_Dt" onClick="sort(dateSort2.value)"><%= btnValues[4] %>
+                        </button>
                     </div>
 
                     <!-- 검색 -->
@@ -310,7 +299,9 @@
                     <div class="d-sm-flex align-items-center justify-content-between mb-1"
                          style="float: right; margin: 4px 0 0 10px">
 
-                        <a href="/download/overtime" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                        <%--<a href="/download/overtime"--%>
+                        <a href="/overtimeExcel"
+                           class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> 엑셀 다운로드</a>
                     </div>
                 </div>
@@ -320,16 +311,17 @@
                             <thead>
                             <tr>
                                 <th id="직원">직원
-                                    <button id="empName" value="emp_Nm" onClick="sort(empName.value)"><%= empName %>
+                                    <button id="empName" value="emp_Nm"
+                                            onClick="sort(empName.value)"><%= btnValues[0] %>
                                     </button>
                                 </th>
                                 <th id="직무">직무
-                                    <button id="empJob" value="emp_Job" onClick="sort(empJob.value)"><%= empJob %>
+                                    <button id="empJob" value="emp_Job" onClick="sort(empJob.value)"><%= btnValues[1] %>
                                     </button>
                                 </th>
                                 <th id="직급">직급
                                     <button id="empPosition" value="emp_Pos"
-                                            onClick="sort(empPosition.value)"><%= empPosition %>
+                                            onClick="sort(empPosition.value)"><%= btnValues[2] %>
                                     </button>
                                 </th>
                                 <th>야근날짜</th>
@@ -337,7 +329,7 @@
                                 <th>석식여부</th>
                                 <th id="상태">상태
                                     <button id="statussort" value="status"
-                                            onClick="sort(statussort.value)"><%= status %>
+                                            onClick="sort(statussort.value)"><%= btnValues[3] %>
                                     </button>
                                 </th>
                             </tr>
@@ -366,11 +358,11 @@
                 <!-- 페이지 -->
 
                 <c:if test="${searchList.size() == 0}">
-                    <div style="text-align:center;">등록된 내용이 없습니다. </div>
+                    <div style="text-align:center;">등록된 내용이 없습니다.</div>
                 </c:if>
                 <div id="pagediv">
                     <c:if test="${pageMaker.totalPage != 0}">
-                    <a href="overtime${pageMaker.makeSearch(pageMaker.cri.page -1)}">◀</a>&nbsp&nbsp&nbsp
+                        <a href="overtime${pageMaker.makeSearch(pageMaker.cri.page -1)}">◀</a>&nbsp&nbsp&nbsp
                     </c:if>
                     <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
                         <c:choose>

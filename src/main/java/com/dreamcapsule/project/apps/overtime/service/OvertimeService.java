@@ -16,4 +16,6 @@ public interface OvertimeService {
     public int countSearch(SearchCriteria searchCriteria) throws Exception;
 
     public List<OvertimeVO> overtimeList() throws Exception;
+
+    public List<OvertimeVO> overtimeExcel(SearchCriteria searchCriteria) throws Exception;
 }

@@ -28,4 +28,6 @@ public interface OvertimeMapper {
     /* 목록 */
     public List<OvertimeVO> overtimeList() throws Exception;
 
+    /* 엑셀 */
+    public List<OvertimeVO> overtimeExcel(SearchCriteria searchCriteria) throws Exception;
 }

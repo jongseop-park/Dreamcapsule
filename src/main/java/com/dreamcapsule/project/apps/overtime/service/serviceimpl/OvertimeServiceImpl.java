@@ -44,4 +44,10 @@ public class OvertimeServiceImpl implements OvertimeService {
     public List<OvertimeVO> overtimeList() throws Exception {
         return overtimeMapper.overtimeList();
     }
+
+    /* 엑셀 */
+    @Override
+    public List<OvertimeVO> overtimeExcel(SearchCriteria searchCriteria) throws Exception {
+        return overtimeMapper.overtimeExcel(searchCriteria);
+    }
 }

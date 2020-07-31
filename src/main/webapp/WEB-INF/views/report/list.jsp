@@ -255,7 +255,7 @@
                             <div class="d-sm-flex align-items-center justify-content-between mb-1"
                                  style="float: right; margin: 4px 0 0 10px">
 
-                                <a href="/download/report" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                <a href="/reportExcel" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                         class="fas fa-download fa-sm text-white-50"></i> 엑셀 다운로드</a>
                             </div>
                             <form onsubmit="return false" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" style="float: right">

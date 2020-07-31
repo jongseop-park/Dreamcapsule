@@ -23,28 +23,6 @@
 
     <!-- Custom styles for this template-->
     <link href="/static/css/sb-admin-2.min.css" rel="stylesheet">
-
-    <!-- css -->
-    <style>
-        #rtable {
-            width: 100%;
-            height:40%;
-            font-size:16px;
-        }
-
-        .table_th {
-            width:250px;
-        }
-
-        #modifyButton {
-            margin-top: 10px;
-            width:120px;
-            height:35px;
-            right:480px;
-            margin-left: 55%;
-        }
-    </style>
-    <!-- end -->
 </head>
 
 <body id="page-top">
@@ -94,9 +72,9 @@
                     </tr>
                 </table>
                 <br>
-                <table id="rtable">
+                <table id="rtable" style=" width: 100%; height:40%; font-size:16px;">
                     <tr>
-                        <td class="table_th">상태</td><td>${empInfo.status}</td>
+                        <td class="table_th" style="width:250px;">상태</td><td>${empInfo.status}</td>
                     </tr>
                     <tr>
                         <td>날짜</td><td>${empInfo.otDt}</td></tr>
@@ -134,7 +112,8 @@
                 <textarea class="form-control" id="answer" name="answer"
                           rows="3" style="width:70%; resize:none;" value="answer" placeholder="답변을 입력해주세요." >${empInfo.ans}</textarea>
                 <input id="modifyButton" name="modifyButton" type="button" class="btn bt
-                n-light btn-outline-primary" value="수정" <%--onclick="check()"--%>/>
+                n-light btn-outline-primary" value="수정" style=" margin-top: 10px; width:120px;
+                height:35px; right:480px; margin-left: 55%;"<%--onclick="check()"--%>/>
                  </form>
             </div>
             <!-- /메인 내용 -->
