@@ -6,14 +6,19 @@
 
     <select id="nameSelect" resultType="WeeklyVO" parameterType="Criteria">
         select empl_nm,duty_id,rank_id,weekdate,comm_ti,work_st,total_ti,work_pl
-        from (select empl_nm ,duty_id,rank_id,weekdate,comm_ti,work_st,row_number() over(order by ${worderKeyword} ${orderMethod} )
+        from (
+        select empl_nm ,duty_id,rank_id,weekdate,comm_ti,work_st,
+        row_number() over(order by ${worderKeyword} ${orderMethod} )
         rnum,total_ti,work_pl
-        from(select empl_nm,duty_id,rank_id,listagg(to_char(reg_dt,'dy'),',')within group(ORDER by reg_dt)as weekdate,listagg(ONW_TI ||'~'||OFFW_TI ,',')WITHIN group(ORDER by reg_dt) as comm_ti,
-        listagg(work_st,',')WITHIN group(ORDER by reg_dt) as work_st ,sum(ROUND(((TO_DATE(OFFW_TI,'HH24:MI')-TO_DATE(ONW_TI,'HH24:MI'))*24))-REST_TI) as total_ti,work_pl
+        from(
+        select empl_nm,duty_id,rank_id,
+        listagg(to_char(reg_dt,'dy'),',')within group(ORDER by reg_dt)as weekdate,
+        listagg(ONW_TI ||'~'||OFFW_TI ,',')WITHIN group(ORDER by reg_dt) as comm_ti,
+        listagg(work_st,',')WITHIN group(ORDER by reg_dt) as work_st ,
+        sum(ROUND(((TO_DATE(OFFW_TI,'HH24:MI')-TO_DATE(ONW_TI,'HH24:MI'))*24))-REST_TI) as total_ti,work_pl
         from comm_tb <include refid="searchCondition"></include> group by empl_nm,duty_id,rank_id,work_pl)
-
         )where rnum between ${rowStart} and ${rowEnd}
-        order by empl_nm desc
+        order by  ${worderKeyword} ${orderMethod}
 
 
     </select>
@@ -39,5 +44,20 @@
         </if>
     </sql>
 
-
+        <select id="weeklyXlsDown" parameterType="Criteria" resultType="WeeklyVO">
+            select empl_nm,duty_id,rank_id,weekdate,comm_ti,work_st,total_ti,work_pl
+            from (
+            select empl_nm ,duty_id,rank_id,weekdate,comm_ti,work_st,
+            row_number() over(order by ${worderKeyword} ${orderMethod} )
+            rnum,total_ti,work_pl
+            from(
+            select empl_nm,duty_id,rank_id,
+            listagg(to_char(reg_dt,'dy'),',')within group(ORDER by reg_dt)as weekdate,
+            listagg(ONW_TI ||'~'||OFFW_TI ,',')WITHIN group(ORDER by reg_dt) as comm_ti,
+            listagg(work_st,',')WITHIN group(ORDER by reg_dt) as work_st ,
+            sum(ROUND(((TO_DATE(OFFW_TI,'HH24:MI')-TO_DATE(ONW_TI,'HH24:MI'))*24))-REST_TI) as total_ti,work_pl
+            from comm_tb <include refid="searchCondition"></include> group by empl_nm,duty_id,rank_id,work_pl)
+            )where rnum between 2 and ${rowEnd}
+            order by  ${worderKeyword} ${orderMethod}
+        </select>
 </mapper>

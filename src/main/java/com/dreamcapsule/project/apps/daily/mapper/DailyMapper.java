@@ -22,5 +22,6 @@ public interface DailyMapper {
 
     public List<DailyDomain> detailSearch(Criteria cri) throws Exception;
     public void detailUpdate(DailyDomain dailyDomain);
+    public List<DailyDomain> dailyAllList();
 
 }

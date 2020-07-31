@@ -36,10 +36,30 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
           crossorigin="anonymous">
     <link href="/static/css/datepicker/datepicker.css" rel="stylesheet">
+    <style>
+    .satCell{
+    width: 120px;
+    position: sticky;
+    top: 0;
+    background-color: #2e59d9;
+    color: #ffffff;
+    }
 
+    .sunCell{
+    width: 120px;
+    position: sticky;
+    top: 0;
+    background-color: #cd0a0a ;
+    color: #ffffff;
+    }
 
+    .baseCell{
+    width: 120px;
+    position: sticky;
+    top: 0;
+    }
 
-
+    </style>
 </head>
 
 <body id="page-top">
@@ -76,13 +96,12 @@
 
                 <a href="/home"> 홈 </a> >
                 <a>출퇴근 관리 </a> >
-                <a href="/daily">Daily</a> >
-                <a>Detail</a>
+                <a href="/monthly">Monthly</a>
                 <div class="heighttdivspace"></div>
 
                 <h2>출/퇴근관리 Monthly</h2>
 
-                <div style="float: right ; width:800px ">
+                <div style="float: right ; width:600px ">
 
 
                     <div class='col-md-3 col-xs-4' style="float: left; margin-left: 30px">
@@ -98,7 +117,7 @@
                                         <i class="fa fa-calendar"></i>
                                     </div>
                                     <input type="text" class="form-control _date" id="monthpicker"
-                                           style="width: 200px" value="${fn:substring(cri.regDt,0,7)}">
+                                           style="width: 130px; text-align: center" value="${fn:substring(cri.regDt,0,7)}">
                                 </div>
                             </div>
                         </div>
@@ -138,17 +157,17 @@
                             <c:forEach var="monthlyday" items="${monthlyday}">
                                 <c:choose>
                                     <c:when test="${monthlyday.dy == '토'}">
-                                        <th style="width: 100px; background-color: #2e59d9; color: #ffffff">
+                                        <th class="satCell">
                                                 ${monthlyday.day}(${monthlyday.dy})
                                         </th>
                                     </c:when>
                                     <c:when test="${monthlyday.dy == '일'}">
-                                        <th style="width: 100px; background-color: #cd0a0a ; color: #ffffff">
+                                        <th class="sunCell">
                                                 ${monthlyday.day}(${monthlyday.dy})
                                         </th>
                                     </c:when>
                                     <c:when test="${monthlyday.dy != '토' && monthlyday.dy != '일'}">
-                                        <th style="width: 100px;">
+                                        <th class="baseCell">
                                                 ${monthlyday.day}(${monthlyday.dy})
                                         </th>
                                     </c:when>
@@ -159,9 +178,9 @@
                         </tr>
                         </thead>
                         <tbody>
-
+                               <%-- 해당월의 마지막 날짜를 구하기 위한 구문 --%>
                                <c:set var="lastNum" value="${lastdayNum}"/>
-
+                    <%-- 데이터리스트를 가져온다. --%>
                     <c:forEach var="monthlyData" items="${monthlyData}">
                         <td style="height: 80px ;vertical-align:middle;">
                                 ${monthlyData.emplNm}
@@ -237,6 +256,11 @@
                         </tbody>
 
                     </table>
+                    <c:if test="${monthlyData.size()<1}">
+                        <div style="width: 100%; text-align: center; font-size: 30px">
+                            <span>데이터가 없습니다.</span>
+                        </div>
+                    </c:if>
                 </div>
                 <%-----------------------------------------------------------------------------------------%>
             </div>

@@ -11,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+
 @Controller
 
 public class DailyController {
@@ -50,6 +52,13 @@ public class DailyController {
             dailyService.detailUpdate(dailyDomain);
 
         return dailyDomain;
+        }
+
+        @GetMapping(path = "/download/dailyList", produces = "application/vnd.ms-excel")
+        public String excelDownload(Model model) throws Exception{
+            List<DailyDomain> dailylist=dailyService.dailyAllList();
+            model.addAttribute("dailyXlsList",dailylist);
+            return "dailyXls";
         }
 
 

@@ -25,7 +25,24 @@ public class DailyDomain {
     private String regDt;
     private String startTime;
     private String endTime;
+    private String onwTi;
+    private String offwTi;
 
+    public String getOnwTi() {
+        return onwTi;
+    }
+
+    public void setOnwTi(String onwTi) {
+        this.onwTi = onwTi;
+    }
+
+    public String getOffwTi() {
+        return offwTi;
+    }
+
+    public void setOffwTi(String offwTi) {
+        this.offwTi = offwTi;
+    }
 
     public String getStartTime() {
         return startTime;

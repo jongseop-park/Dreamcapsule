@@ -13,6 +13,7 @@
 
     <title>SB Admin 2 - Dashboard</title>
 
+
     <%-- 기본 --%>
     <!-- Custom fonts for this template-->
     <link href="/static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -101,8 +102,7 @@
 
                 <a href="/home"> 홈 </a> >
                 <a>출퇴근 관리 </a> >
-                <a href="/daily">Daily</a> >
-                <a>Detail</a>
+                <a href="/weekly">Weekly</a>
                 <div class="heighttdivspace"></div>
 
                 <h2>출/퇴근관리 Weekly</h2>
@@ -123,7 +123,7 @@
                                         <i class="fa fa-calendar"></i>
                                     </div>
                                     <input type="text" class="form-control _date" id="week-picker"
-                                           style="width: 200px"
+                                           style="width: 250px; text-align: center"
                                            value="${pageMaker.cri.startDate} ~ ${pageMaker.cri.endDate}">
                                 </div>
                             </div>
@@ -131,7 +131,12 @@
                     </div>
 
 
-                    <%@include file="include/excel_include_commute.jsp" %>
+                    <div class="d-sm-flex align-items-center justify-content-between mb-1"
+                         style="float: right; margin: 4px 0 0 10px">
+
+                        <a href="/download/weeklydown" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                class="fas fa-download fa-sm text-white-50"></i> 엑셀 다운로드</a>
+                    </div>
 
                     <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"
                           style="float: right ; padding-top: 1px">
@@ -149,7 +154,7 @@
                 </div>
 
 
-                <table class="table table-bordered">
+                <table class="table table-bordered" id="tblExport">
                     <thead>
                     <tr>
                         <th>직원
@@ -178,7 +183,7 @@
 
                     <c:forEach var="weekly" items="${weekly}">
 
-                        <td><a href="#"> ${weekly.emplNm}</a></td>
+                        <td>${weekly.emplNm}</td>
 
                         <td>${weekly.dutyId} 팀</td>
                         <td>${weekly.rankId}</td>
@@ -234,8 +239,8 @@
 
                 </table>
                 <c:if test="${weekly.size()<1}">
-                    <div style="width: 100%;">
-                        <span style="text-align: center">데이터가 없습니다.</span>
+                    <div style="width: 100%;text-align: center; font-size: 30px">
+                        <span>데이터가 없습니다.</span>
                     </div>
                 </c:if>
                 <div>
@@ -283,35 +288,59 @@
 
     <!-- Bootstrap core JavaScript-->
     <%@include file="../include/plugins_js.jsp" %>
+
+
+<%--    --%>
+<%--    <script type="text/javascript">$(document).ready(function () {--%>
+<%--        $("#btnExport").click(function () {--%>
+<%--     --%>
+<%--            --%>
+<%--            var uri =--%>
+<%--                $("#tblExport").load("weekly?page=3&perPageNum=10&orderKeyword=reg_dt&orderMethod=asc#tblExport").excelexportjs({--%>
+<%--                containerid: "tblExport",--%>
+<%--                datatype: 'table',--%>
+<%--                returnUri:true--%>
+<%--            });--%>
+<%--            $(this).attr('download','ExportToExcel.xls').attr('href',uri).attr('target','_blank');--%>
+<%--        });--%>
+<%--    });</script>--%>
+
+
 </body>
 </html>
 
 <%--<script src="/static/js/datepicker/jquery.js"></script>--%>
+<!-----------------------데이트피커 (달력)------------------->
+<%--<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>--%>
+
+
 <script src="/static/js/datepicker/jquery-ui.min.js" type="text/javascript"></script>
-
 <script src="/static/js/datepicker/jquery.ui.datepicker-ko.js" type="text/javascript"></script>
+<!-----------------------excel다운로드------------------->
 
-
+<script src="/static/js/excel/jquery.techbytarun.excelexportjs.js"></script>
+<!--------------------------------------------------------------->
 <script type="text/javascript">
+
 
     $(function () {
         var btnarray = new Array();
-        btnarray[0]="emplNm";
-        btnarray[1]="dutyId";
-        btnarray[2]="rankId";
-        btnarray[3]="workPl";
+        btnarray[0] = "emplNm";
+        btnarray[1] = "dutyId";
+        btnarray[2] = "rankId";
+        btnarray[3] = "workPl";
 
-        for(var i = 0;i<btnarray.length;i++){
+        for (var i = 0; i < btnarray.length; i++) {
             console.log(document.getElementById(btnarray[i]).value);
-            if(document.getElementById(btnarray[i]).value == "${pageMaker.cri.worderKeyword}"){
-                if("${pageMaker.cri.orderMethod}"=="asc"){
+            if (document.getElementById(btnarray[i]).value == "${pageMaker.cri.worderKeyword}") {
+                if ("${pageMaker.cri.orderMethod}" == "asc") {
 
                     document.getElementById(btnarray[i]).innerText = "▲";
-                }else{
+                } else {
                     document.getElementById(btnarray[i]).innerText = "▼";
                 }
 
-            }else {
+            } else {
                 document.getElementById(btnarray[i]).innerText = "▲";
             }
 
@@ -320,6 +349,8 @@
         setSearchTypeSelect();
         var thisPage = '${pageMaker.cri.page}';
         $('#page' + thisPage).addClass('active');
+
+
     })
 
     function sort(orderkeyword) {
@@ -337,10 +368,10 @@
         }
 
         self.location = "/weekly?page=1" +
-            "&keyword="+"${pageMaker.cri.keyword}" +
-            "&startDate="+"${pageMaker.cri.startDate}" +
-            "&endDate="+"${pageMaker.cri.endDate}" +
-            "&worderKeyword="+orderkeyword+
+            "&keyword=" + "${pageMaker.cri.keyword}" +
+            "&startDate=" + "${pageMaker.cri.startDate}" +
+            "&endDate=" + "${pageMaker.cri.endDate}" +
+            "&worderKeyword=" + orderkeyword +
             "&orderMethod=" + order;
 
 
@@ -426,5 +457,6 @@
             window.location.href = url;
         })
     }
+
 
 </script>

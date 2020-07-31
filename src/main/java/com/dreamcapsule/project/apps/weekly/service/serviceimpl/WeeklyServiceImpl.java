@@ -23,7 +23,11 @@ public class WeeklyServiceImpl implements WeeklyService {
         return weeklyMapper.listCount(cri);
     }
 
-//    @Override
+    @Override
+    public List<WeeklyVO> weeklyXlsDown(Criteria cri) throws Exception {
+        return weeklyMapper.weeklyXlsDown(cri);
+    }
+    //    @Override
 //    public List<WeeklyVO> calNameFind(Criteria cri) throws Exception {
 //        return weeklyMapper.calNameFind(cri);
 //    }

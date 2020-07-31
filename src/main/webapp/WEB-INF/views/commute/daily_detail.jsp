@@ -70,7 +70,7 @@
                     <a href="/home">홈 </a> >
                     <a>출퇴근 관리 </a> >
                     <a href="/daily">Daily</a> >
-                    <a>Detail</a>
+                    <a>상세정보</a>
 
                     <div class="heighttdivspace"></div>
 

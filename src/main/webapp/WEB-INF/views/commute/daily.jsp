@@ -110,7 +110,7 @@
 
             <div class="container2">
                 <a href="/home"> 홈 </a> >
-                <a href="/home">출퇴근 관리 </a> >
+                <a>출퇴근 관리 </a> >
                 <a href="/daily">Daily</a>
                 <div class="heighttdivspace"></div>
 
@@ -139,8 +139,12 @@
                             </div>
                         </div>
 
+                        <div class="d-sm-flex align-items-center justify-content-between mb-1"
+                             style="float: right; margin: 4px 0 0 10px">
 
-                        <%@include file="include/excel_include_commute.jsp" %>
+                            <a href="/download/dailyList" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                    class="fas fa-download fa-sm text-white-50"></i> 엑셀 다운로드</a>
+                        </div>
 
                         <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"
                               style="float: right ; padding-top: 1px" >
@@ -217,8 +221,8 @@
 
                 </table>
                 <c:if test="${daily.size()<1}">
-                    <div style="width: 100%;">
-                    <span style="text-align: center">데이터가 없습니다.</span>
+                    <div style="width: 100%;text-align: center; font-size: 30px">
+                    <span>데이터가 없습니다.</span>
                     </div>
                 </c:if>
 

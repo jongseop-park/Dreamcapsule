@@ -13,7 +13,7 @@ import java.util.List;
 public interface WeeklyMapper {
 
     public List<WeeklyVO> nameSelect(Criteria cri)  throws Exception;
-
+    public List<WeeklyVO> weeklyXlsDown(Criteria cri) throws Exception;
     public int listCount(Criteria cri) throws Exception;
 //    public List<WeeklyVO> calNameFind(Criteria cri) throws Exception;
 }

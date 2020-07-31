@@ -126,7 +126,10 @@
             empl_nm = #{emplNm} and
             to_date(reg_dt,'yy/mm/dd') = to_Date(#{regDt},'yy/mm/dd')
     </select>
-
-
+    <!--==========================엑셀 다운로드 할 모든 데이터================================-->
+    <select id="dailyAllList" resultType="DailyDomain">
+        select * from comm_tb order by reg_Dt asc
+    </select>
     <!--===========================================================================================================-->
+
 </mapper>

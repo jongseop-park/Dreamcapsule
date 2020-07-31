@@ -45,5 +45,8 @@ public class DailyServiceImpl implements DailyService {
         return dailyMapper.listCount(cri);
     }
 
-
+    @Override
+    public List<DailyDomain> dailyAllList() {
+        return dailyMapper.dailyAllList();
+    }
 }
