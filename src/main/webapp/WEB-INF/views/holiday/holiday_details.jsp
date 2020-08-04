@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>52TIME ADMIN</title>
+    <title>Holiday_details</title>
 
     <!-- Custom fonts for this template-->
     <link href="/static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -196,14 +196,6 @@
     </c:forEach>
 
     $('#saveBtn').click(function () {
-        if((document.getElementById("spanReply").value.length == 0) || !($('input:radio[name=state]').is(':checked'))){
-            if((document.getElementById("spanReply").value.length == 0)) {
-                alert("답변을 입력하세요.");
-            }else{
-                alert("상태를 선택해주세요.");
-            }
-        }else{
-            $('#detailsUpdate').attr('action', '/holiday_update').submit();
-        }
+        $('#detailsUpdate').attr('action', '/holiday_update').submit();
     });
 </script>

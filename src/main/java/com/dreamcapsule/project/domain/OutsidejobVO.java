@@ -2,7 +2,7 @@ package com.dreamcapsule.project.domain;
 
 import java.util.Date;
 
-public class OutsidejobVO extends OutsideJobCriteria {
+public class OutsidejobVO {
 
     /** 시퀀스 */
     private Long seq;
@@ -35,7 +35,7 @@ public class OutsidejobVO extends OutsideJobCriteria {
     private char stateYsn;
 
     /** 신청 날짜 */
-    private String applicationTime;
+    private Date applicationTime;
 
     /** 메모 */
     private String note;
@@ -60,7 +60,6 @@ public class OutsidejobVO extends OutsideJobCriteria {
 
     /** 외근 일수 */
     private Long day;
-
     public Long getSeq(){return seq;}
 
     public void setSeq(Long seq){this.seq = seq;}
@@ -101,9 +100,9 @@ public class OutsidejobVO extends OutsideJobCriteria {
 
     public void setStateYsn(char stateYsn){this.stateYsn = stateYsn;}
 
-    public String getApplicationTime(){return applicationTime;}
+    public Date getApplicationTime(){return applicationTime;}
 
-    public void setApplicationTime(String applicationTime){this.applicationTime = applicationTime;}
+    public void setApplicationTime(Date applicationTime){this.applicationTime = applicationTime;}
 
     public String getNote(){return note;}
 

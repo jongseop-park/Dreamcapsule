@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>52TIME ADMIN</title>
+    <title>Holiday_total</title>
 
     <!-- Custom fonts for this template-->
     <link href="/static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -79,26 +79,25 @@
                         <i class="fa fa-calendar"></i>
                         <select id="selectYears" onchange="location.replace(this.value)" style="border: none;">
                             <c:forEach var="yearList" items="${holidayYear}" varStatus="yearListStatus">
-                                <option value="/holiday?year=${yearList.holidayYear}&task=${cri.task}">${yearList.holidayYear}</option>
+                                <option value="/holiday?year=${yearList.holidayYear}&selectIndexYear=${yearListStatus.count-1}&task=${selectTask}&selectIndexTask=${selectIndexTask}">${yearList.holidayYear}</option>
                             </c:forEach>
                         </select>
                         <select id="selectTasks" onchange="location.replace(this.value)">
                             <option value="/holiday">회사 전체</option>
                             <c:forEach var="taskList" items="${holidayTask}" varStatus="taskListStatus">
-                                <option value="/holiday?year= ${cri.year}&task=${taskList.task}">${taskList.task}</option>
+                                <option value="/holiday?year= ${selectYear}&selectIndexYear=${selectIndexYear}&task=${taskList.task}&selectIndexTask=${taskListStatus.count}">${taskList.task}</option>
                             </c:forEach>
                         </select>
-                        <a href="/holidayExcelDown.do" id="download" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> 엑셀 다운로드</a>
+                        <span id="click"><%@include file="/WEB-INF/views/include/excel_include.jsp"%></span>
                     </h6>
                 </div>
                 <div id="div_table">
                     <table class="table table-bordered" id="holidayTable">
                         <thead>
                         <tr>
-                            <th id="NAME">직원 ▼</th>
-                            <th id="TASK">직무 ▼</th>
-                            <th id="JOB_GRADE">직급 ▼</th>
+                            <th id="직원">직원 ▼</th>
+                            <th id="직무">직무 ▼</th>
+                            <th id="직급">직급 ▼</th>
                             <th>1월</th>
                             <th>2월</th>
                             <th>3월</th>
@@ -132,7 +131,7 @@
                                 <td id="10_${status.count}"></td>
                                 <td id="11_${status.count}"></td>
                                 <td id="12_${status.count}"></td>
-                                <td id="useHoliday_${status.count}">${useDay[status.count-1]} 일 / ${holiday.restHoliday} 일</td>
+                                <td id="useHoliday_${status.count}">${useDay[status.count-1]} 일 / 15 일</td>
                             </tr>
                         </c:forEach>
                         </tbody>
@@ -175,7 +174,7 @@
 
     <c:choose>
     <c:when test="${holidayUse[x-1][y-1] ne '-'}">
-    document.getElementById("${status.count}_${xStatus.count}").innerHTML = "<a href='/holiday_details?seq=${holidayList.get(x-1).seq}&year=${cri.year}&month=${y}'>${holidayUse[x-1][y-1]}</a>";
+    document.getElementById("${status.count}_${xStatus.count}").innerHTML = "<a href='/holiday_details?seq=${holidayList.get(x-1).seq}&year=${selectYear}&month=${y}'>${holidayUse[x-1][y-1]}</a>";
     </c:when>
     <c:otherwise>
     document.getElementById("${status.count}_${xStatus.count}").innerHTML = "${holidayUse[x-1][y-1]}";
@@ -187,54 +186,36 @@
     <c:set var="x" value="${x+1}"/>
     </c:forEach>
 
-    $('#selectTasks option:contains(' + ${cri.task.toString()} + ')').attr("selected","selected");
+    document.getElementById("selectYears").selectedIndex = ${selectIndexYear};
+    document.getElementById("selectTasks").selectedIndex = ${selectIndexTask};
 
-    if(${cri.year eq 1}){
-        $('#selectYears option:contains(' + ${holidayYear.get(0).holidayYear} + ')').attr("selected","selected");
-    }else{
-        $('#selectYears option:contains(' + ${cri.year.toString()} + ')').attr("selected","selected");
-    }
 
     $(function () {
-        if(${cri.sortingType.equals("ASC")}){
-            $('#NAME').val('직원 ▼');
-            $('#TASK').val('직무 ▼');
-            $('#JOB_GRADE').val('직급 ▼');
-        }else{
-            switch('${cri.sortingValue}'){
-                case "NAME" :
-                    document.getElementById("NAME").innerHTML = "직원 ▲";
-                    $('#TASK').text('직무 ▼');
-                    $('#JOB_GRADE').text('직급 ▼');
-                    break;
-                case "TASK" :
-                    $('#NAME').text('직원 ▼');
-                    $('#TASK').text('직무 ▲');
-                    $('#JOB_GRADE').text('직급 ▼');
-                    break;
-                case "JOB_GRADE" :
-                    $('#NAME').text('직원 ▼');
-                    $('#TASK').text('직무 ▼');
-                    $('#JOB_GRADE').text('직급 ▲');
-                    break;
-            }
-        }
         $("#holidayTable thead th").on("click",function () {
             var keyword = $(this).attr('id');
             var sort;
 
-            if(keyword == "NAME" || keyword == "TASK" || keyword == "JOB_GRADE"){
+            if(keyword == "직원" || keyword == "직무" || keyword == "직급"){
 
-                if(${cri.sortingType.equals("ASC")}){
+                switch(keyword){
+                    case '직원' :
+                        keyword = "NAME";
+                        break;
+                    case '직무' :
+                        keyword = "TASK";
+                        break;
+                    case '직급' :
+                        keyword = "JOB_GRADE"
+                        break;
+                }
+
+                if(${sorting_type.equals("ASC")}){
                     sort = "DESC";
                 }else{
                     sort = "ASC";
                 }
-                self.location = "/holiday?year=${cri.year}&task=${cri.task}&sortingValue="+ keyword +"&sortingType="+sort;
-                $('#download').attr("href","/holidayExcelDown.do?year=${cri.year}&task=${cri.task}&sortingValue="+ keyword +"&sortingType="+sort);
+                self.location = "/holiday?year=${selectYear}&selectIndexYear=${selectIndexYear}&task=${selectTask}&selectIndexTask=${selectIndexTask}&sortingValue="+ keyword +"&sortingType="+sort;
            }
         });
-
-        $('#download').attr("href","/holidayExcelDown.do?year=${cri.year}&task=${cri.task}");
     });
 </script>

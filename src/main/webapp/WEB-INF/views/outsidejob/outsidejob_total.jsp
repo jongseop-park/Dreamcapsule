@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>52TIME ADMIN</title>
+    <title>Holiday_total</title>
 
     <!-- Custom fonts for this template-->
     <link href="/static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -20,12 +20,6 @@
     <link href="/static/css/sb-admin-2.min.css" rel="stylesheet">
 
     <style>
-        #pagediv {
-            text-align: center;
-            bottom: 15%;
-            left: 600px;
-            right: 400px;
-        }
         td{
             white-space: nowrap;
             text-align: center;
@@ -37,18 +31,6 @@
         #div_table{
             width: 100%;
             overflow: auto;
-        }
-        li {
-            list-style: none;
-            float: left;
-            padding: 6px;
-        }
-        .date{
-            width: 150px;
-            height: 30px;
-            margin: 4px 2px 0 5px;
-            border: none;
-            background-color: rgba(255,255,255,0.0);
         }
     </style>
 
@@ -86,48 +68,42 @@
                 <div>
                     <p><a href="/home">홈</a> > 외근관리</p>
                     <h4 style="display: inline">외근관리</h4>
-                    <form id="searchForm" role="form" method="get" class="d-none d-sm-inline-block form-inline mr-0 ml-md-3 my-2 my-md-0 mw-100 navbar-search" style="float: right">
+                    <form method="get" action="/overtime" class="d-none d-sm-inline-block form-inline mr-0 ml-md-3 my-2 my-md-0 mw-100 navbar-search" style="float: right">
                         <div class="input-group">
-                            <img style="height: 30px; width: 30px; margin: 4px 2px 0 150px;"
-                                 src="https://icons.iconarchive.com/icons/custom-icon-design/mono-business-2/32/calendar-icon.png">&nbsp;&nbsp;
-                            <input class="date" type="text" id="startDatePicker" name="startDatePicker" readonly/>&nbsp;&nbsp;<span style="margin-top: 8px;">~</span>&nbsp;&nbsp;<input class="date" type="text" id="endDatePicker" name="endDatePicker" readonly/>&nbsp;&nbsp;
                             <div class="input-group">
-                                <input type="text" name="keyword" id="keywordInput" value="" class="form-control bg-light border-1 small" placeholder="직원검색" aria-label="Search" aria-describedby="basic-addon2">
+                                <input type="text" name="keyword" value="" class="form-control bg-light border-1 small" placeholder="직원검색" aria-label="Search" aria-describedby="basic-addon2">
                                 <input type="hidden" name="startDate" value=""/>
                                 <input type="hidden" name="endDate" value=""/>
                                 <div class="input-group-append">
-                                  <button class="btn btn-primary" type="button" id="searchNameBtn">
-                                      <i class="fas fa-search fa-sm" ></i>
+                                  <button class="btn btn-primary" type="submit">
+                                      <i class="fas fa-search fa-sm"></i>
                                   </button>
                                 </div>
                             </div>
-                            &nbsp;&nbsp;<a href="/outsideExcelDown.do" id="download" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                    class="fas fa-download fa-sm text-white-50"></i> 엑셀 다운로드</a>
+                            <%@include file="/WEB-INF/views/include/excel_include.jsp"%>
                         </div>
                     </form>
                 </div>
-                <br>
                 <div id="div_table">
-                    <table class="table table-bordered" id="mainTable">
+                    <table class="table table-bordered">
                         <thead>
                         <tr>
-                            <th id="NAME">직원 〓</th>
-                            <th id="TASK">직무 〓</th>
-                            <th id="JOB_GRADE">직급 〓</th>
+                            <th>직원</th>
+                            <th>직무</th>
+                            <th>직급</th>
                             <th>외근일</th>
                             <th>출/퇴근시간</th>
                             <th>출근지</th>
                             <th>퇴근지</th>
-                            <th id="STATE_YSN">상태 〓</th>
+                            <th>상태</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach var="outside" items="${searchList}" varStatus="status">
+                        <c:forEach var="outside" items="${outsideJobList}" varStatus="status">
                             <tr>
-                                <td style="display: none">${outside.seq}</td>
-                                <td id="name_${status.count}">${outside.name}</td>
-                                <td id="task_${status.count}">${outside.task}</td>
-                                <td id="grade_${status.count}">${outside.jobGrade}</td>
+                                <td id="name_${status.count}"></td>
+                                <td id="task_${status.count}"></td>
+                                <td id="grade_${status.count}"></td>
                                 <td>${outside.month} (총 ${outside.day}일)</td>
                                 <td>${outside.startTime} ~ ${outside.endTime}</td>
                                 <td>${outside.startPlace}</td>
@@ -147,26 +123,13 @@
                         </c:forEach>
                         </tbody>
                     </table>
-                    <div id="pagediv">
-                        <ul>
-                            <c:if test="${pageMaker.prev}">
-                                <li><a href="outside${pageMaker.makeSearch(pageMaker.startPage - 1)}">이전</a></li>
-                            </c:if>
-
-                            <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
-                                <li><a href="outside${pageMaker.makeSearch(idx)}">${idx}</a></li>
-                            </c:forEach>
-
-                            <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
-                                <li><a href="outside${pageMaker.makeSearch(pageMaker.endPage + 1)}">다음</a></li>
-                            </c:if>
-                        </ul>
-                    </div>
                 </div>
+
             </div>
             <!-- Footer -->
             <%@include file="/WEB-INF/views/include/footer.jsp" %>
             <!-- End of Footer -->
+
         </div>
         <!-- End of Content Wrapper -->
 
@@ -187,88 +150,15 @@
 </body>
 </html>
 
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
-
 <script>
-    $(function () {
-        $( "#startDatePicker" ).datepicker({
-            dateFormat:'yy 년 mm 월 dd 일',
-            dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
-            maxDate : '#end',
-            onSelect: function () {
-                startDate = $("#startDatepicker").val();
+    <c:forEach begin="1" end="${outsideJobList.size()}" varStatus="listStatus">
+        <c:forEach begin="1" end="${outsideJobInfo.size()}" varStatus="infoStatus">
+            if(${outsideJobList.get(listStatus.count-1).userNum eq outsideJobInfo.get(infoStatus.count-1).seq}){
+                document.getElementById("name_${listStatus.count}").innerHTML = "${outsideJobInfo.get(infoStatus.count-1).name}";
+                document.getElementById("task_${listStatus.count}").innerHTML = "${outsideJobInfo.get(infoStatus.count-1).task}";
+                document.getElementById("grade_${listStatus.count}").innerHTML = "${outsideJobInfo.get(infoStatus.count-1).jobGrade}";
             }
-        });
-        $( "#endDatePicker" ).datepicker({
-            dateFormat:'yy 년 mm 월 dd 일',
-            dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
-            onSelect: function () {
+        </c:forEach>
+    </c:forEach>
 
-            }
-        });
-
-        $("#startDatePicker").datepicker('setDate','D');
-        $("#endDatePicker").datepicker('setDate','+1M');
-
-        $(document).on('click', '#mainTable tbody tr', function () {
-            var tr = $(this);
-            var td = tr.children();
-            self.location = "/outside_details?"
-                + "seq=" + td.eq(0).text();
-        });
-
-        $('#searchNameBtn').on('click',function () {
-                self.location = "outside" + '${pageMaker.makeQuery(1)}' + "&keyword=" + encodeURIComponent($('#keywordInput').val());
-        });
-
-        $("#mainTable thead th").on("click",function () {
-            var sortKeyword = $(this).attr('id');
-            var sort;
-
-            if(sortKeyword == "NAME" || sortKeyword  == "TASK" || sortKeyword  == "JOB_GRADE" || sortKeyword == "STATE_YSN"){
-                if(${scri.sort eq "ASC"}){
-                    sort = "DESC";
-                }else{
-                    sort = "ASC";
-                }
-                self.location = "outside" + '${pageMaker.makeQuery(1)}' + "&keyword=" + '${scri.keyword}' + "&sortKeyword=" + sortKeyword + "&sort=" +sort;
-            }
-        });
-
-        if(${scri.sort.equals("ASC")}){
-            $('#NAME').text('직원 ▼');
-            $('#TASK').text('직무 ▼');
-            $('#JOB_GRADE').text('직급 ▼');
-            $('#STATE_YSN').text('상태 ▼');
-        }else{
-            switch('${scri.sortKeyword}'){
-                case "NAME" :
-                    document.getElementById("NAME").innerHTML = "직원 ▲";
-                    $('#TASK').text('직무 ▼');
-                    $('#JOB_GRADE').text('직급 ▼');
-                    $('#STATE_YSN').text('상태 ▼');
-                    break;
-                case "TASK" :
-                    $('#NAME').text('직원 ▼');
-                    $('#TASK').text('직무 ▲');
-                    $('#JOB_GRADE').text('직급 ▼');
-                    $('#STATE_YSN').text('상태 ▼');
-                    break;
-                case "JOB_GRADE" :
-                    $('#NAME').text('직원 ▼');
-                    $('#TASK').text('직무 ▼');
-                    $('#JOB_GRADE').text('직급 ▲');
-                    $('#STATE_YSN').text('상태 ▼');
-                    break;
-                case "STATE_YSN" :
-                    $('#NAME').text('직원 ▼');
-                    $('#TASK').text('직무 ▼');
-                    $('#JOB_GRADE').text('직급 ▼');
-                    $('#STATE_YSN').text('상태 ▲');
-                    break;
-            }
-        }
-    });
 </script>
