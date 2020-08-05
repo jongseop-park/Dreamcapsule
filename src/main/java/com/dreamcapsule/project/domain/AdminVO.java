@@ -1,128 +1,73 @@
 package com.dreamcapsule.project.domain;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import lombok.ToString;
 
-public class AdminVO implements UserDetails {
+@ToString
+public class AdminVO {
+    private int userNo;
+    private String userId;
+    private String userPass;
+    private String userName;
+    private String email;
+    private String tel;
 
-    /** 관리자 아이디 */
-    private String adminId;
+    private String roleName;
 
-    /** 관리자 패스워드 */
-    private String adminPw;
 
-    /** 관리자 이름 */
-    private String adminNm;
-
-    /** 관리자 이메일 */
-    private String adminEmail;
-
-    /** 관리자 연락처 */
-    private String adminTel;
-
-    /** 로그인 실패 횟수 */
-    private Integer failCnt;
-
-    /** 최종 접속 일시 */
-    private String lastLoginDt;
-
-    /** 권한 테이블 */
-    private Collection<? extends GrantedAuthority> roles;
-
-    /** ROLE */
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.roles;
+    public int getUserNo() {
+        return userNo;
     }
 
-    @Override
-    public boolean isAccountNonExpired() { return true; }
-
-    @Override
-    public boolean isAccountNonLocked() { return true; }
-
-    @Override
-    public boolean isCredentialsNonExpired() { return true; }
-
-    @Override
-    public boolean isEnabled() { return true; }
-
-    @Override
-    public String getPassword() {
-        // TODO Auto-generated method stub
-        return this.adminPw;
+    public void setUserNo(int userNo) {
+        this.userNo = userNo;
     }
 
-    @Override
-    public String getUsername() {
-        // TODO Auto-generated method stub
-        return this.adminId;
-    }
-    /** */
-
-    public String getAdminId() {
-        return adminId;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setAdminId(String adminId) {
-        this.adminId = adminId;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
-    public String getAdminPw() {
-        return adminPw;
+    public String getUserPass() {
+        return userPass;
     }
 
-    public void setAdminPw(String adminPw) {
-        this.adminPw = adminPw;
+    public void setUserPass(String userPass) {
+        this.userPass = userPass;
     }
 
-    public String getAdminNm() {
-        return adminNm;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setAdminNm(String adminNm) {
-        this.adminNm = adminNm;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public String getAdminEmail() {
-        return adminEmail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setAdminEmail(String adminEmail) {
-        this.adminEmail = adminEmail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getAdminTel() {
-        return adminTel;
+    public String getTel() {
+        return tel;
     }
 
-    public void setAdminTel(String adminTel) {
-        this.adminTel = adminTel;
+    public void setTel(String tel) {
+        this.tel = tel;
     }
 
-    public Integer getFailCnt() {
-        return failCnt;
+    public String getRoleName() {
+        return roleName;
     }
 
-    public void setFailCnt(Integer failCnt) {
-        this.failCnt = failCnt;
-    }
-
-    public String getLastLoginDt() {
-        return lastLoginDt;
-    }
-
-    public void setLastLoginDt(String lastLoginDt) {
-        this.lastLoginDt = lastLoginDt;
-    }
-
-    public void setRoles(Collection<? extends GrantedAuthority> roles) {
-        this.roles = roles;
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 }

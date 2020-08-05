@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin/management/company")
+@RequestMapping("/management/company")
 public class CompanyController { // 업체 관리
 
     private static final Logger log = LoggerFactory.getLogger(CompanyController.class);

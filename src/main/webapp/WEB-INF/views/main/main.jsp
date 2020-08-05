@@ -54,6 +54,7 @@
                 <!-- 트리 -->
 
                 <p class="mb-4"><h5>홈</h5></p>
+                <H2>${auth}</H2>
 
                 <%-- 날짜 --%>
                 <div class="mb-5" style="display: inline-block; width: 100%">

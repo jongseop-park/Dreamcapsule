@@ -54,7 +54,7 @@
                 <div class="text-center">
                     <div class="error mx-auto" data-text="403">403</div>
                     <p class="lead text-gray-800 mb-5">Forbidden</p>
-                    <p class="text-gray-500 mb-0">페이지 접근 권한이 없습니다.</p>
+                    <p class="text-gray-500 mb-0">페이지가 존재하지 않습니다.</p>
                     <a href="/home">&larr; Back To Home</a>
                 </div>
 

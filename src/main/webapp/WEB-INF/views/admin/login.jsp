@@ -46,12 +46,12 @@
                                 <div class="text-center">
                                     <h1 class="h4 text-gray-900 mb-4">로그인</h1>
                                 </div>
-                                <form  class="user" method="post">
-                                    <div class="form-group" >
-                                        <input type="text" class="form-control form-control-user" id="username" name="username" placeholder="아이디" >
+                                <form class="user" th:action="@{/login} " method="post">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" name="userId" placeholder="아이디" value="admin">
                                     </div>
                                     <div class="form-group">
-                                        <input type="password" class="form-control form-control-user" id="password" name="password" placeholder="패스워드" >
+                                        <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="패스워드" name="userPass" value="dreamcap0902!">
                                     </div>
                                     <div class="form-group">
                                         <div class="custom-control custom-checkbox small">
@@ -59,11 +59,9 @@
                                             <label class="custom-control-label" for="customCheck">계정 기억</label>
                                         </div>
                                     </div>
-                                    <input class="btn btn-primary btn-user btn-block" type="submit" value="로그인" >
-
-                                    <%--<a href="/main" class="btn btn-primary btn-user btn-block">
+                                    <button type="submit"  class="btn btn-primary btn-user btn-block">
                                         로그인
-                                    </a>--%>
+                                    </button>
                             <%--        <hr>
                                     <a href="index.html" class="btn btn-google btn-user btn-block">
                                         <i class="fab fa-google fa-fw"></i> 구글로 로그인
@@ -71,7 +69,6 @@
                                     <a href="index.html" class="btn btn-facebook btn-user btn-block">
                                         <i class="fab fa-facebook-f fa-fw"></i> 페이스북으로 로그인
                                     </a>--%>
-                                    <input name="${_csrf.parameterName}" type="hidden" value="${_crsf.token}">
                                 </form>
                                 <hr>
                                 <div class="text-center">
@@ -85,8 +82,11 @@
                     </div>
                 </div>
             </div>
+
         </div>
+
     </div>
+
 </div>
 
 <!-- Bootstrap core JavaScript-->

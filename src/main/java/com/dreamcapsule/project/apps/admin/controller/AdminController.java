@@ -1,76 +1,88 @@
 package com.dreamcapsule.project.apps.admin.controller;
 
-import com.dreamcapsule.project.apps.admin.service.CustomUserDetailsService;
+import com.dreamcapsule.project.apps.admin.service.AdminService;
+import com.dreamcapsule.project.domain.AdminPrincipalVO;
 import com.dreamcapsule.project.domain.AdminVO;
-import com.dreamcapsule.project.domain.AuthorityVO;
+import com.dreamcapsule.project.domain.OvertimeVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class AdminController {
 
-    private static final Logger log = LoggerFactory.getLogger(AdminController.class);
+
 
     @Autowired
-    CustomUserDetailsService customUserDetailsService;
+    private AdminService adminService;
 
+
+    private static final Logger log = LoggerFactory.getLogger(AdminController.class);
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    @RequestMapping("/login")
-    public String login(){
+    @GetMapping("/login")
+    public String login() {
 
-        return "admin/login";
+        return "/admin/login";
     }
 
-/*    @RequestMapping("/home")
-    public String loginSuccess(){
 
-        log.debug("홈");
 
-        return "home/home";
-    }*/
 
-    /* 회원가입 페이지 */
-    @RequestMapping("/register")
-    public String register(AdminVO adminVO){
+//    @RequestMapping("/update")
+//    @ResponseBody
+//    public OvertimeVO update(@RequestBody OvertimeVO conn) throws Exception {
+//        overtimeService.updateEmpInfo(conn);
+//        return conn;
+//    }
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public String join(AdminVO adminVO,
+       @RequestParam(value = "userId") String userId,@RequestParam(value = "userName") String userName,
+                       @RequestParam(value = "userPass") String userPass
+    ) throws Exception{
+//        AdminPrincipalVO adminprin = new AdminPrincipalVO();
 
-        return "admin/register";
+        adminVO.setUserName(userName);
+        adminVO.setUserId(userId);
+        adminVO.setUserPass(userPass);
+        adminVO.setRoleName("ROLE_USER");
+
+        adminService.InsertUser(adminVO);
+
+        return "redirect:login";
     }
 
-    /* 회원가입 */
-    @RequestMapping("/save")
-    @ResponseBody
-    public String save(@RequestBody AdminVO adminVO){
-        log.info(""+adminVO);
-        AuthorityVO authorityVO = new AuthorityVO();
 
-        adminVO.setAdminPw(passwordEncoder.encode(adminVO.getAdminPw()));
-        authorityVO.setUsername(adminVO.getUsername());
-        authorityVO.setAuthorityNm("ROLE_ADMIN");
+    @GetMapping("/register")
+    public String joinPage1() throws Exception{
 
-        customUserDetailsService.save(adminVO);
-        /*customUserDetailsService.saveRole();*/
-
-        return "redirect:/login";
+        return "/admin/register";
     }
 
-    @RequestMapping("/forgot-password")
-    public String forgotPassword(){
+    @GetMapping("/admin/main")
+    public String loadExceptionPage(ModelMap model) throws Exception{
 
-        return "admin/forgot-password";
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        AdminPrincipalVO adminPrincipalVO = (AdminPrincipalVO) auth.getPrincipal();
+
+        model.addAttribute("name",adminPrincipalVO.getUsername());
+        model.addAttribute("auth",adminPrincipalVO.getAuthorities());
+
+        return "/main/main";
+
     }
 
-    @RequestMapping("/error403")
-    public String error403(){
-
-        return "error/403";
+    @GetMapping("/error403")
+    public String loadAccessdeniedPage() throws Exception{
+        return "/error/403";
     }
+
 }

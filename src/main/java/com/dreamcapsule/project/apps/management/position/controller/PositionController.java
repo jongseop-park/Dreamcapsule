@@ -51,7 +51,7 @@ public class PositionController { // 직급 관리
      * */
     @RequestMapping("/form")
     public String form(@ModelAttribute("conn") PositionVO conn,  Model model){
-        conn.setDelYn("n");
+
         if(StringUtils.isNotEmpty(conn.getSeq())){ // 수정
             model.addAttribute("result",positionService.findByDetail(conn));
             model.addAttribute("isUpdate",true);

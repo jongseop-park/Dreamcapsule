@@ -2,7 +2,7 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/admin/main">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/main">
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-laugh-wink"></i>
         </div>
@@ -14,7 +14,7 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
-        <a class="nav-link" href="/admin/main">
+        <a class="nav-link" href="/main">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Main</span></a>
     </li>
@@ -45,7 +45,7 @@
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Charts</span></a>
     </li>--%>
-
+    <c:if test="${role eq 'ADMIN'}">
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
             <i class="fas fa-fw fa-folder"></i>
@@ -59,7 +59,7 @@
             </div>
         </div>
     </li>
-
+    </c:if>
     <!-- 휴가관리 -->
     <li class="nav-item">
         <a class="nav-link" href="/holiday">
@@ -103,7 +103,8 @@
                 <a class="collapse-item" href="/management/annual/list">연차</a>
                 <a class="collapse-item" href="/management/equipment/list">장비</a>
                 <a class="collapse-item" href="/management/opinion/list">의견</a>
-                <a class="collapse-item" href="/admin/management/company/list">업체</a>
+                <a class="collapse-item" href="/management/company/list">업체</a>
+
             </div>
         </div>
     </li>

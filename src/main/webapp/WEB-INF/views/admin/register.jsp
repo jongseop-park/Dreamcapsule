@@ -42,31 +42,33 @@
                         <div class="text-center">
                             <h1 class="h4 text-gray-900 mb-4">계정 생성</h1>
                         </div>
-                        <form class="user" id="form" method="post" action="/save">
+                        <form action="/save" class="user" method="post">
                             <div class="form-group">
-                                <input type="email" class="form-control form-control-user" id="adminEmail" name="adminEmail" placeholder="이메일">
+                                <input type="email" class="form-control form-control-user" name="email" placeholder="이메일">
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control form-control-user" id="adminTel" name="adminTel" placeholder="연락처">
+                                <input type="text" class="form-control form-control-user" name="tel" placeholder="연락처">
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="text" class="form-control form-control-user" id="adminNm" name="adminNm" placeholder="이름">
+                                    <input type="text" class="form-control form-control-user" name="userName" placeholder="이름">
                                 </div>
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="text" class="form-control form-control-user" id="adminId" name="adminId" placeholder="아이디">
+                                    <input type="text" class="form-control form-control-user" name="userId" placeholder="아이디">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="password" class="form-control form-control-user" id="adminPw" name="adminPw" placeholder="패스워드">
+                                    <input type="password" class="form-control form-control-user" name="userPass" placeholder="패스워드">
                                 </div>
                                 <div class="col-sm-6">
-                                    <input type="password" class="form-control form-control-user" id="reAdminPw" name="reAdminPw" placeholder="패스워드 확인">
+                                    <input type="password" class="form-control form-control-user" name="reuserPass" placeholder="패스워드 확인">
                                 </div>
                             </div>
-                            <input class="btn btn-primary btn-user btn-block" id="join" type="submit" value="가입하기">
-                        <%--<hr>
+                            <button type="submit" id="join" class="btn btn-primary btn-user btn-block">
+                                가입하기
+                            </button>
+                            <%--<hr>
                             <a href="index.html" class="btn btn-google btn-user btn-block">
                                 <i class="fab fa-google fa-fw"></i> 구글로 회원가입
                             </a>
@@ -88,66 +90,44 @@
     </div>
 
 </div>
+
+<!-- Bootstrap core JavaScript-->
+<script src="/static/vendor/jquery/jquery.min.js"></script>
+<script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="/static/js/sb-admin-2.min.js"></script>
+
 </body>
+
 </html>
-<%@include file="/WEB-INF/views/include/plugins_js.jsp" %>
 <script type="text/javascript">
-    $(function () {
-        /*
-        * var : 변수명 재선언 / 값 재할당 가능
-        * let : 변수명 재선언X / 값 재할당 가능
-        * const : 변수명 재선언X / 값 재할당 X (상수)
-        * */
+    // const $join = $form.find("#join");
+    //
+    //
+    // $join.on("click",function(){
+    //     $.ajax({
+    //         url: "/save",
+    //         type: "POST",
+    //         data: JSON.stringify(object),
+    //         contentType:"application/json",
+    //         success:function() {
+    //             alert("정상적으로 등록되었습니다.");
+    //             location.href="/save?"
+    //                 + "userId=" + getParameter("userId")
+    //                 + "&userPass=" + getParameter("userPass")
+    //                 + "&userName=" + getParameter("userName")
+    //                 + "&email=" + getParameter("email")
+    //                 + "&tel=" + getParameter("tel")
+    //         }, error:function(jqXhr) {
+    //             alert("작업이 실패했습니다.");
+    //         }
+    //         });
+    //
+    // });
 
-        const $form = $("#form"); // 입력 폼
-        let $adminId = $form.find("#adminId"); // 아이디
-        let $adminPw = $form.find("#adminPw"); // 비밀번호
-        let $reAdminPw = $form.find("#reAdminPw"); // 비밀번호 확인
-        let $adminNm = $form.find("#adminNm"); // 이름
-        let $adminEmail = $form.find("#adminEmail"); // 이메일
-        let $adminTel = $form.find("#adminTel"); // 연락처
 
-        const $join = $form.find("#join"); // 가입하기
-
-        $join.on("click",function () { // 추가
-            var object = {
-                "adminId": $adminId.val(),
-                "adminPw": $adminPw.val(),
-                "adminNm": $adminNm.val(),
-                "adminEmail": $adminEmail.val(),
-                "adminTel": $adminTel.val()
-            };
-
-                if ($adminPw.val() === $reAdminPw.val()) {
-                    Save(object);
-                } else {
-                    alert("비밀번호를 확인하세요.")
-                    return false;
-                }
-
-        });
-
-        function Save(data) {
-
-            $.ajax({
-                url : "/save",
-                type : "POST",
-                contentType : "application/json",
-                /*async : false, /!* async true가 기본이며 기본적으로 비동기 방식으로 처리하지만 false로 동기방식 처리 *!/*/
-                data : JSON.stringify(data),
-                success : function () {
-                        alert("회원가입이 완료되었습니다.");
-                    history.back();
-                    /*
-                    * history.back() : 이전페이지로 이동
-                    * history.go() : go(-1) 이전 페이지 , go(1) 다음 페이지 이동
-                    * history.forward() : 다음페이지로 이동
-                    * */
-                }, error : function(jqXhr){
-                    alert("회원가입에 실패했습니다.");
-                }
-            });
-        }
-
-    });
 </script>
