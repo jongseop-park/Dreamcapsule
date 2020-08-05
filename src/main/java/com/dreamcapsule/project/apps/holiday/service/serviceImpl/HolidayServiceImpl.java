@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class HolidayServiceImpl implements HolidayService{
@@ -15,19 +16,15 @@ public class HolidayServiceImpl implements HolidayService{
     HolidayMapper holidayMapper;
 
     @Override
-    public List<HolidayVO> findByValue(int seq,int year,int month){
+    public List<HolidayVO> findByValue(int seq,Long year,int month){
         return holidayMapper.findByValue(seq,year,month);
     }
 
     @Override
     public HolidayVO findByInfoValue(int seq) { return holidayMapper.findByInfoValue(seq);}
-    @Override
-    public List<HolidayVO> findAll(String sortValue,String sortType){
-        return holidayMapper.findAll(sortValue,sortType);
-    }
 
     @Override
-    public List<HolidayVO> findByName(String name){ return holidayMapper.findByName(name);}
+    public List<HolidayVO> findAll(String sortValue,String sortType){return holidayMapper.findAll(sortValue,sortType); }
 
     @Override
     public List<HolidayVO> findTask() { return holidayMapper.findTask();}
@@ -45,8 +42,69 @@ public class HolidayServiceImpl implements HolidayService{
     public void detailsUpdate(int seq,char state,String reply){holidayMapper.detailsUpdate(seq,state,reply);}
 
     @Override
-    public int findUseYear(int seq,int year){return holidayMapper.findUseYear(seq,year);}
+    public Long findUseYear(int seq,Long year){return holidayMapper.findUseYear(seq,year);}
 
     @Override
     public void holidayInsert(int userNum,String holidayType,String holidayYear,String holidayMonth,String holidayDate,String note,String useHoliday){holidayMapper.holidayInsert(userNum,holidayType,holidayYear,holidayMonth,holidayDate,note,useHoliday);}
+
+    @Override
+    public String[][] holidayMonthUse(Long year,String task,List<HolidayVO> holidayList){
+        Long[] taskSeq = matchTaskSeq(task,holidayList);
+        List<HolidayVO> yearList = holidayMapper.findYear();
+        if(year == 1) {
+            year = yearList.get(0).getHolidayYear();
+        }
+
+        String[][] use = new String[taskSeq.length][12];
+
+        for (int x = 1; x <= taskSeq.length; x++) {
+            for (int y = 1; y <= 12; y++) {
+                HolidayVO useHoliday = holidayMapper.findUse(taskSeq[x-1],year, y);
+                if (useHoliday != null) {
+                    use[x - 1][y - 1] = useHoliday.getUseHoliday().toString();
+                } else {
+                    use[x - 1][y - 1] = "-";
+                }
+            }
+        }
+
+        return use;
+    }
+
+    @Override
+    public Long[] matchTaskSeq(String task,List<HolidayVO> holidayList){
+        Long[] taskSeq;
+
+        if(task.equals("0")){
+            taskSeq = new Long[holidayList.size()];
+            for(int i = 0; i < taskSeq.length; i++){
+                taskSeq[i] = holidayList.get(i).getSeq();
+            }
+        }else{
+            List<HolidayVO> selectedTaskSeq = holidayMapper.findTaskMember(task);
+            taskSeq = new Long[selectedTaskSeq.size()];
+            for(int i = 0; i < selectedTaskSeq.size();i++){
+                taskSeq[i] = selectedTaskSeq.get(i).getSeq();
+            }
+        }
+        return taskSeq;
+    }
+
+    @Override
+    public Long[] totalUseDay(String task,Long year,List<HolidayVO> holidayList){
+        Long[] taskSeq = matchTaskSeq(task,holidayList);
+        Long[] useDay = new Long[taskSeq.length];
+        int seq;
+        Long day;
+        for (int x = 1; x <= taskSeq.length; x++) {
+            seq = taskSeq[x-1].intValue();
+            day = holidayMapper.findUseYear(seq,year);
+            if(Objects.isNull(day)) {
+                useDay[x - 1] = 0L;
+            }else{
+                useDay[x - 1] = holidayMapper.findUseYear(seq, year);
+            }
+        }
+        return useDay;
+    }
 }

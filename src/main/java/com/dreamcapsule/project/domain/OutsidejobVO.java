@@ -1,5 +1,7 @@
 package com.dreamcapsule.project.domain;
 
+import com.dreamcapsule.project.apps.outsidejob.domain.OutsideJobCriteria;
+
 import java.util.Date;
 
 public class OutsidejobVO {

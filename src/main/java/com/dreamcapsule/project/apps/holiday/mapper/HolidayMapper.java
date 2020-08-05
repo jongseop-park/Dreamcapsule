@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface HolidayMapper {
 
-    public List<HolidayVO> findByValue(@Param("SEQ") int SEQ,@Param("YEAR") int year,@Param("MONTH") int month);
+    public List<HolidayVO> findByValue(@Param("SEQ") int SEQ,@Param("YEAR") Long year,@Param("MONTH") int month);
 
     public HolidayVO findByInfoValue(@Param("SEQ") int SEQ);
 
@@ -30,7 +30,7 @@ public interface HolidayMapper {
 
     public void detailsUpdate(@Param("SEQ") int seq,@Param("STATE") char state,@Param("REPLY") String reply);
 
-    public int findUseYear(@Param("SEQ") int seq,@Param("YEAR") int year);
+    public Long findUseYear(@Param("SEQ") int seq,@Param("YEAR") Long year);
 
     public void holidayInsert(@Param("USER_NUM")int userNum,@Param("HOLIDAY_TYPE") String holidayType,@Param("HOLIDAY_YEAR") String holidayYear,@Param("HOLIDAY_MONTH") String holidayMonth,@Param("HOLIDAY_DATE") String holidayDate,@Param("NOTE") String note,@Param("USE_HOLIDAY") String useHoliday);
 }

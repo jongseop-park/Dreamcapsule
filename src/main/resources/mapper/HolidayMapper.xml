@@ -41,8 +41,8 @@
         SELECT SUM(USE_HOLIDAY) AS USE_HOLIDAY FROM HOLIDAY_TB WHERE USER_NUM = #{NUM} AND HOLIDAY_MONTH = #{MONTH} AND HOLIDAY_YEAR = #{YEAR}
     </select>
 
-    <select id="findUseYear" resultType="int">
-        SELECT SUM(USE_HOLIDAY) AS USE_HOLIDAY FROM HOLIDAY_TB WHERE USER_NUM = #{SEQ} AND HOLIDAY_YEAR = #{YEAR}
+    <select id="findUseYear" resultType="Long">
+        SELECT SUM(USE_HOLIDAY) AS USE_HOLIDAY FROM HOLIDAY_TB WHERE USER_NUM = #{SEQ} AND HOLIDAY_YEAR = #{YEAR} AND STATE_YSN = 'Y'
     </select>
 
     <select id="findUseTask" resultType="HolidayVO">

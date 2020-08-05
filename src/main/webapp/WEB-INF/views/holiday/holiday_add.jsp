@@ -20,6 +20,29 @@
     <!-- Custom styles for this template-->
     <link href="/static/css/sb-admin-2.min.css" rel="stylesheet">
 
+    <style>
+        #h3Title{
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        #divInfo{
+            padding-top: 20px;
+            margin-left: 20px;
+            float: right;
+            height: 100%;
+        }
+        #divSearchBar{
+            width: fit-content;
+            height: fit-content;
+            margin-left: 10px;
+            margin-top: 20px;
+        }
+        #select_type{
+            margin-left: 50px;
+            background-color: rgba(255,255,255,0.0);
+            border-radius: 5px 5px 5px 5px;
+        }
+    </style>
 
 </head>
 <body id="page-top">
@@ -54,23 +77,24 @@
             <div class="container">
               <a href="/home"> 홈 </a>> <a href="/holiday"> 휴가관리 </a>> <a href="/holiday_details"> 상세 </a>> 추가<br>
 
-                <h3 style="margin-top: 10px; margin-bottom: 10px">휴가 추가하기</h3>
-
+                <h3 id="h3Title">휴가 추가하기</h3>
+                <!-- 직원 사진,이름,직무,직금 표시 부분-->
                 <div style="margin-left: 10px; width: fit-content; height: 100px;">
                     <div style="float: left">
                         <img src="/static/img/holiday/holiday_sample_img.png" width="100px" height="100px" alt="기본사진">
                     </div>
-                    <div style=" padding-top: 20px; margin-left: 20px; float: right; height: 100%">
+                    <div id="divInfo">
                         <h5>${holidayDetails.name}</h5>
                             ${holidayDetails.task} 팀 | ${holidayDetails.jobGrade}
                     </div>
                 </div>
 
-                <div style="width: fit-content; height: fit-content; margin-left: 10px; margin-top: 20px">
+                <div id="divSearchBar" >
                     <form id="detailsInsert" method="post">
                     <i class="fa fa-calendar"></i> <span id="useDate"> 00월 00일 ~ 00월 00일</span><input type="button" id="textBtn" value="▼" style="background-color: rgba(255,255,255,0.0); border-color: rgba(255,255,255,0.0)"><br><br>
                     <span id="useDay" style="width: 500px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="use">0</span> 일 / ${holidayDetails.restHoliday-useHoliday} 일 전체 휴가 ${holidayDetails.restHoliday}일<br><br>
-                    휴가 유형 <select name="select_type" id="select_type" style="margin-left: 50px; background-color: rgba(255,255,255,0.0); border-radius: 5px 5px 5px 5px">
+                    휴가 유형 <select name="select_type" id="select_type">
+                        <!--설정 완성된 후 설정 테이블에서 가져오기-->
                     <option value="정기 휴가">정기 휴가</option>
                     <option value="오전 반차">오전 반차</option>
                     <option value="오후 반차">오후 반차</option>

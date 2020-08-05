@@ -19,12 +19,56 @@
 
     <!-- Custom styles for this template-->
     <link href="/static/css/sb-admin-2.min.css" rel="stylesheet">
-    <script>
-        document.getElementById("div_1").addEventListener('click',function(event){
-            alert("dd");
-        });
-    </script>
-
+    <style>
+        #divLeft{
+            width: 50%;
+            height: 100%;
+            float:left;
+        }
+        #divLeftTop{
+            width: 100%;
+            height: 30%;
+            float:top;
+        }
+        #divLeftTopImg{
+            width : 30%;
+            height : 80%;
+            float:left;
+            margin-top: 10px;
+        }
+        #divLeftTopInfo{
+            width : 70%;
+            height : 80%;
+            float:right;
+            margin-top:10px;
+            vertical-align: center;
+        }
+        #h3Title{
+            margin-top: 10px;
+            margin-bottom: 30px;
+        }
+        .divSelect1{
+            border-style: solid;
+            border-radius:10px 10px 10px 10px;
+            width: 90%;
+            height: 150px;
+            margin-top: 20px;
+        }
+        .divSelect2{
+            border-style: solid;
+            border-radius: 30px 30px 30px 30px;
+            width: 100px;
+            text-align: center;
+            float: right;
+            margin: 10px;
+        }
+        #divRight{
+            width: 50%;
+            height: 100%;
+            float:right;
+            padding-top: 50px;
+        }
+    </style>
 </head>
 <body id="page-top">
 
@@ -56,16 +100,18 @@
 
 
             <div class="container">
-                <div style='width: 50%;height: 100%; float:left;'>
-                    <div style='width: 100%;height: 30%; float:top;'>
+                <div id="divLeft">
+                    <div id="divLeftTop">
                         <div style='width : 100%; height : 20%; float:top;'>
                             <a href="/home"> 홈 </a>> <a href="/holiday"> 휴가관리 </a>> 상세<br>
-                            <h3 style="margin-top: 10px; margin-bottom: 30px">휴가 관리하기</h3>
+                            <h3 id="h3Title">휴가 관리하기</h3>
                         </div>
-                        <div style='width : 30%; height : 80%; float:left; margin-top: 10px '>
+                        <%--직원 사진--%>
+                        <div id="divLeftTopImg">
                             <img src="/static/img/holiday/holiday_sample_img.png" width="100px" height="100px" alt="기본사진">
                         </div>
-                        <div style='width : 70%; height : 80%; float:right; margin-top:10px; vertical-align: center'>
+                        <%--이름 직무 직급 표시 및 휴가 추가 버튼--%>
+                        <div id="divLeftTopInfo">
 
                                 <h5>${holidayDetailsInfo.name}</h5>
                                 <form>
@@ -79,10 +125,11 @@
                                 </form>
                         </div>
                     </div>
+                    <!-- 해당 직원 휴가 요약 부분 / 기간 유형 승인 여부 표시-->
                     <div style='width: 100%;height: 70%; float: bottom;' id="selectHoliday">
                         <c:forEach var="holiday" items="${holidayDetails}" varStatus="status">
-                            <div id="${status.count}" style=' border-style: solid; border-radius:10px 10px 10px 10px; width: 90%; height: 150px; margin-top: 20px'>
-                                <div id="state_${status.count}"style=' border-style: solid; border-radius: 30px 30px 30px 30px; width: 100px;text-align: center; float: right; margin: 10px'>
+                            <div id="${status.count}" class="divSelect1">
+                                <div id="state_${status.count}" class="divSelect2">
                                     <c:set var="name">${holiday.holidayDate} div_${status.count}</c:set>
 
                                     <c:choose>
@@ -106,8 +153,8 @@
                         </c:forEach>
                     </div>
                 </div>
-
-                <div style='width: 50%;height: 100%; float:right; padding-top: 50px;'>
+                <!--요약된 휴가 div 클릭시 해당 내용 표시 부분 -->
+                <div id="divRight">
 
                     휴가 날짜 &emsp;<span id="spanDate"></span> <br><br>
                     차감 휴가 &emsp;<span id="spanUse">*</span> 일<br><br>
@@ -195,6 +242,7 @@
         }
     </c:forEach>
 
+    /*필수 입력 (승인 상태/ 답변) 미 입력 시*/
     $('#saveBtn').click(function () {
         $('#detailsUpdate').attr('action', '/holiday_update').submit();
     });
