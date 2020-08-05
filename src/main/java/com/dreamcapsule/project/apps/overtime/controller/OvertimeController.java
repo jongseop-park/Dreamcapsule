@@ -21,6 +21,7 @@ import java.util.Map;
 
 // 야근관리
 @Controller
+@RequestMapping("/admin")
 public class OvertimeController {
 
     @Autowired

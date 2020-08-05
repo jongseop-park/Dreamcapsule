@@ -114,7 +114,7 @@
                         </div>
                         <!-- 테이블 하단 바 -->
                         <div>
-                            <button class="btn btn-dark right" type="button" style="float : right; margin-top: 2%" onclick="location.href='/management/workplace/list'">
+                            <button class="btn btn-dark right" type="button" style="float : right; margin-top: 2%" onclick="location.href='/admin/management/workplace/list'">
                                 저장
                             </button>
                         </div>

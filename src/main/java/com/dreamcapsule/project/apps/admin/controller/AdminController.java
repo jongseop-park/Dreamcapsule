@@ -53,7 +53,7 @@ public class AdminController {
         adminVO.setUserName(userName);
         adminVO.setUserId(userId);
         adminVO.setUserPass(userPass);
-        adminVO.setRoleName("ROLE_USER");
+        adminVO.setRoleName("ROLE_ADMIN");
 
         adminService.InsertUser(adminVO);
 

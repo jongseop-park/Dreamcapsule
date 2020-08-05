@@ -21,7 +21,7 @@ import javax.swing.text.View;
 import java.util.List;
 
 @Controller
-@RequestMapping("")
+@RequestMapping("/admin")
 public class HolidayController {
 
     @Autowired

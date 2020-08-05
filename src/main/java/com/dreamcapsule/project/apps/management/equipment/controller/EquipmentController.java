@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
-@RequestMapping("/management/equipment")
+@RequestMapping("/admin/management/equipment")
 @Controller
 public class EquipmentController { // 장비 관리
 

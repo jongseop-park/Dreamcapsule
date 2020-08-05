@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-@RequestMapping("/management/workplace")
+@RequestMapping("/admin/management/workplace")
 @Controller
 public class WorkplaceController { // 근무지 관리
 
