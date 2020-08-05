@@ -196,7 +196,7 @@
         function Save(data) {
 
             $.ajax({
-                url : "/management/equipment/save",
+                url : "/admin/management/equipment/save",
                 type : "POST",
                 contentType : "application/json",
                 /*async : false, /!* async true가 기본이며 기본적으로 비동기 방식으로 처리하지만 false로 동기방식 처리 *!/*/
@@ -222,7 +222,7 @@
 
         function Delete(data) {
             $.ajax({
-                url : "/management/equipment/delete",
+                url : "/admin/management/equipment/delete",
                 type : "POST",
                 contentType : "application/json",
                 data : JSON.stringify(data),

@@ -93,7 +93,7 @@
                             <div>
                                 <c:choose>
                                     <c:when test="${isUpdate eq false}">
-                                        <input class="btn btn-dark right" id="btnSave" type="submit" style="float : right; margin-top: 2%" value="저장"/> <%-- onclick="location.href='/management/position/list'"--%>
+                                        <input class="btn btn-dark right" id="btnSave" type="submit" style="float : right; margin-top: 2%" value="저장"/> <%-- onclick="location.href='/admin/management/position/list'"--%>
                                     </c:when>
                                     <c:otherwise>
                                         <input class="btn btn-dark right " id="btnUpdate" type="button" style="float : right; margin-left: 20px; margin-top: 2%" value="수정"/>
@@ -187,7 +187,7 @@ $(function () {
         required(data);
 
         $.ajax({
-            url : "/management/position/save",
+            url : "/admin/management/position/save",
             type : "POST",
             contentType : "application/json",
             /*async : false, /!* async true가 기본이며 기본적으로 비동기 방식으로 처리하지만 false로 동기방식 처리 *!/*/
@@ -213,7 +213,7 @@ $(function () {
 
     function Delete(data) {
         $.ajax({
-            url : "/management/position/delete",
+            url : "/admin/management/position/delete",
             type : "POST",
             contentType : "application/json",
             data : JSON.stringify(data),

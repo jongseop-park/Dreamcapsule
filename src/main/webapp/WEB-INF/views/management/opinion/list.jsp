@@ -108,7 +108,7 @@
                             </table>
                             <!-- 테이블 하단 바 -->
                             <div>
-                            <button class="btn btn-dark right" type="button" style="float : right;" onclick="location.href='/management/opinion/form'">
+                            <button class="btn btn-dark right" type="button" style="float : right;" onclick="location.href='/admin/management/opinion/form'">
                                 추가
                             </button>
                             </div>

@@ -14,7 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 
 @Controller
-
+@RequestMapping("/admin")
 public class DailyController {
 
 //  private final static Logger LOG = LoggerFactory.getLogger(DailyController.class);

@@ -100,9 +100,9 @@
                                                 <td colspan="5">데이터가 존재하지 않습니다.</td>
                                             </tr>
                                         </c:if>
-                                        <tr style="cursor: pointer;" onclick="location.href='/management/company/form?seq=${list.seq}'"
-                                            onmouseover="window.status='/management/company/form?seq=${list.seq}'"
-                                            onmouseout="window.status='/management/company/form?seq=${list.seq}'">
+                                        <tr style="cursor: pointer;" onclick="location.href='/admin/management/company/form?seq=${list.seq}'"
+                                            onmouseover="window.status='/admin/management/company/form?seq=${list.seq}'"
+                                            onmouseout="window.status='/admin/management/company/form?seq=${list.seq}'">
                                             <td>${list.companyNm}</td>
                                             <td>${list.empNum}</td>
                                             <td>${list.contactNm}</td>
@@ -115,7 +115,7 @@
                             </table>
                             <!-- 테이블 하단 바 -->
                             <div>
-                            <button class="btn btn-dark right" type="button" style="float : right;" onclick="location.href='/management/company/form'">
+                            <button class="btn btn-dark right" type="button" style="float : right;" onclick="location.href='/admin/management/company/form'">
                                 추가
                             </button>
                             </div>
@@ -123,15 +123,15 @@
                         </div>
                         <ul class="pagination" style="justify-content: center;">
                             <c:if test="${pageMaker.prev}">
-                                <li><a href="/management/company/list?page=${pageMaker.startPage - 1}">◀</a></li>
+                                <li><a href="/admin/management/company/list?page=${pageMaker.startPage - 1}">◀</a></li>
                             </c:if>
 
                             <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
-                                <li><a href="/management/company/list?page=${idx}">[${idx}]</a>　</li>
+                                <li><a href="/admin/management/company/list?page=${idx}">[${idx}]</a>　</li>
                             </c:forEach>
 
                             <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
-                                <li><a href="/management/company/list?page=${pageMaker.endPage + 1}">▶</a></li>
+                                <li><a href="/admin/management/company/list?page=${pageMaker.endPage + 1}">▶</a></li>
                             </c:if>
                         </ul>
                     </div>

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/management/position")
+@RequestMapping("/admin/management/position")
 public class PositionController { // 직급 관리
 
     private static final Logger log = LoggerFactory.getLogger(PositionController.class);

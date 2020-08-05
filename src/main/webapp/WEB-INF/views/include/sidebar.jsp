@@ -2,7 +2,7 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/main">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/admin/main">
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-laugh-wink"></i>
         </div>
@@ -14,7 +14,7 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
-        <a class="nav-link" href="/main">
+        <a class="nav-link" href="/admin/main">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Main</span></a>
     </li>
@@ -53,37 +53,37 @@
         </a>
         <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="/daily">Daily</a>
-                <a class="collapse-item" href="/weekly">Weekly</a>
-                <a class="collapse-item" href="/monthly">Monthly</a>
+                <a class="collapse-item" href="/admin/daily">Daily</a>
+                <a class="collapse-item" href="/admin/weekly">Weekly</a>
+                <a class="collapse-item" href="/admin/monthly">Monthly</a>
             </div>
         </div>
     </li>
     </c:if>
     <!-- 휴가관리 -->
     <li class="nav-item">
-        <a class="nav-link" href="/holiday">
+        <a class="nav-link" href="/admin/holiday">
             <i class="fas fa-fw fa-table"></i>
             <span>휴가관리</span></a>
     </li>
 
     <!-- 외근관리 -->
     <li class="nav-item">
-        <a class="nav-link" href="/outside">
+        <a class="nav-link" href="/admin/outside">
             <i class="fas fa-fw fa-table"></i>
             <span>외근관리</span></a>
     </li>
 
     <!-- 야근관리 -->
     <li class="nav-item">
-        <a class="nav-link" href="/overtime">
+        <a class="nav-link" href="/admin/overtime">
             <i class="fas fa-fw fa-table"></i>
             <span>야근관리</span></a>
     </li>
 
     <!-- 리포트 -->
     <li class="nav-item">
-        <a class="nav-link" href="/report">
+        <a class="nav-link" href="/admin/report">
             <i class="fas fa-fw fa-table"></i>
             <span>리포트</span></a>
     </li>
@@ -96,14 +96,14 @@
         </a>
         <div id="collapsePages1" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="/management/employee/list">직원</a>
-                <a class="collapse-item" href="/management/job/list">직무</a>
-                <a class="collapse-item" href="/management/workplace/list">근무지</a>
-                <a class="collapse-item" href="/management/position/list">직급</a>
-                <a class="collapse-item" href="/management/annual/list">연차</a>
-                <a class="collapse-item" href="/management/equipment/list">장비</a>
-                <a class="collapse-item" href="/management/opinion/list">의견</a>
-                <a class="collapse-item" href="/management/company/list">업체</a>
+                <a class="collapse-item" href="/admin/management/employee/list">직원</a>
+                <a class="collapse-item" href="/admin/management/job/list">직무</a>
+                <a class="collapse-item" href="/admin/management/workplace/list">근무지</a>
+                <a class="collapse-item" href="/admin/management/position/list">직급</a>
+                <a class="collapse-item" href="/admin/management/annual/list">연차</a>
+                <a class="collapse-item" href="/admin/management/equipment/list">장비</a>
+                <a class="collapse-item" href="/admin/management/opinion/list">의견</a>
+                <a class="collapse-item" href="/admin/management/company/list">업체</a>
 
             </div>
         </div>
