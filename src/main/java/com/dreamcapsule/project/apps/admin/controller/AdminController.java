@@ -67,7 +67,7 @@ public class AdminController {
         return "/admin/register";
     }
 
-    @GetMapping("/admin/main")
+    @GetMapping("/admin")
     public String loadExceptionPage(ModelMap model) throws Exception{
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
