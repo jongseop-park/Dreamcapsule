@@ -97,7 +97,7 @@
                             endDate = getDateFormat(endDate);
                             startDate = getDateFormat(startDate);
 
-                            location.href = "/overtime?startDate="
+                            location.href = "/admin/overtime?startDate="
                                 + startDate + "&endDate="
                                 + endDate + "&keyword="
                                 + getParameter("keyword");
@@ -151,7 +151,7 @@
 
             $.ajax({
                 type: "GET",
-                url: "/overtime?sequence=${searchData.seq}" +
+                url: "/admin/overtime?sequence=${searchData.seq}" +
                     "&keyword=${scri.keyword}" +
                     "&page=${scri.page}" +
                     "&startDate=${scri.startDate}" +
@@ -176,7 +176,7 @@
                 var tr = $(this);
                 var td = tr.children();
 
-                self.location = "/readInfo?"
+                self.location = "/admin/readInfo?"
                     + "sequence=" + td.eq(0).text()
                     + "&keyword=${scri.keyword}"
                     + "&page=${scri.page}"
@@ -289,7 +289,7 @@
 
 
                         <!-- 검색 -->
-                        <form method="get" action="/overtime"
+                        <form method="get" action="/admin/overtime"
                               class="d-none d-sm-inline-block form-inline mr-0 ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                             <div class="input-group">
                                 <input type="text" name="keyword" value="${scri.keyword}"
@@ -308,7 +308,7 @@
                              style="float: right; margin: 4px 0 0 10px">
 
                             <%--<a href="/download/overtime"--%>
-                            <a href="/overtimeExcel"
+                            <a href="/admin/download/overtime?keyword=${scri.keyword}&order=${scri.order}&orderKeyword=${scri.orderKeyword}&startDate=${scri.startDate}&endDate=${scri.endDate}"
                                class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                     class="fas fa-download fa-sm text-white-50"></i> 엑셀 다운로드</a>
                         </div>

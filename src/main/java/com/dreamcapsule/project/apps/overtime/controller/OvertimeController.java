@@ -18,6 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
+
 
 // 야근관리
 @Controller
@@ -71,7 +73,7 @@ public class OvertimeController {
         return conn;
     }
 
-    // poi(date)
+    // poi
     @GetMapping(path="/download/overtime", produces="application/vnd.ms-excel")
     public String downloadExcel(Model model, SearchCriteria searchCriteria) throws Exception {
         List<OvertimeVO> overtimeVOList = overtimeService.overtimeExcel(searchCriteria);
@@ -80,7 +82,7 @@ public class OvertimeController {
         return "overtimeXls";
     }
 
-    // jxls(all)
+    // jxls
     @RequestMapping(value= "/overtimeExcel")
     public void listExcel(HttpServletRequest request, HttpServletResponse response)
             throws Exception {

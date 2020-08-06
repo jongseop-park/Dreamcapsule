@@ -19,4 +19,7 @@ public interface ReportMapper {
 
     /* 검색 */
     public List<ReportVO> listSearch(SearchCriteria searchCriteria) throws Exception;
+
+    /* 엑셀 */
+    public List<ReportVO> reportExcel(SearchCriteria searchCriteria) throws Exception;
 }

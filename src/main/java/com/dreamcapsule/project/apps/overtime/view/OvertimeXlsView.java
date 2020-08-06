@@ -34,7 +34,7 @@ public class OvertimeXlsView extends AbstractXlsView {
             sheet.setColumnWidth(i, sheet.getColumnWidth(i)+ 1024);
         }
 
-        for(int i=1; i< ((List<OvertimeVO>)map.get("overtimeVOList")).size(); i++) {
+        for(int i=1; i<= ((List<OvertimeVO>)map.get("overtimeVOList")).size(); i++) {
             Row row = sheet.createRow(i);
             OvertimeVO overtimeVO = ((List<OvertimeVO>)map.get("overtimeVOList")).get(i-1);
 
