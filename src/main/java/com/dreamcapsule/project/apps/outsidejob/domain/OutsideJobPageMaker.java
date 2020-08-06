@@ -79,6 +79,9 @@ public class OutsideJobPageMaker {
                         .queryParam("page",page)
                         .queryParam("perPageNum",cri.getPerPageNum())
                         .queryParam("keyword",encoding(((OutsideJobSearchCriteria)cri).getKeyword()))
+                        .queryParam("searchMonth",((OutsideJobSearchCriteria) cri).getSelectDate())
+                        .queryParam("sortKeyword",((OutsideJobSearchCriteria) cri).getSortKeyword())
+                        .queryParam("sort",((OutsideJobSearchCriteria) cri).getSort())
                         .build();
         return uriComponents.toUriString();
     }

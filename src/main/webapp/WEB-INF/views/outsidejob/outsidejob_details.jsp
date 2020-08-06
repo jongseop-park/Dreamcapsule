@@ -69,7 +69,7 @@
             <!-- End of Topbar -->
 
             <div class="container">
-                <p><a href="/main">홈</a> > <a href="/outside">외근관리</a> > 상세</p>
+                <p><a href="main">홈</a> > <a href="outside">외근관리</a> > 상세</p>
                 <div>
                     <div class="infoDiv">
                         <img src="/static/img/holiday/holiday_sample_img.png" width="100px" height="100px" alt="기본사진">
@@ -111,7 +111,6 @@
                     </div>
                 </form>
             </div>
-
 
             <!-- Footer -->
             <%@include file="/WEB-INF/views/include/footer.jsp" %>
@@ -157,7 +156,7 @@
             }
         }else{
             $('#seq').val('${outsideJobList.seq}');
-            $('#detailsUpdate').attr('action', '/outside_update').submit();
+            $('#detailsUpdate').attr('action', 'outside_update').submit();
         }
     });
 </script>

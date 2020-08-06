@@ -103,7 +103,7 @@
                 <div id="divLeft">
                     <div id="divLeftTop">
                         <div style='width : 100%; height : 20%; float:top;'>
-                            <a href="/home"> 홈 </a>> <a href="/holiday"> 휴가관리 </a>> 상세<br>
+                            <a href="home"> 홈 </a>> <a href="holiday"> 휴가관리 </a>> 상세<br>
                             <h3 id="h3Title">휴가 관리하기</h3>
                         </div>
                         <%--직원 사진--%>
@@ -119,7 +119,7 @@
                                             ${holidayDetailsInfo.task} 팀 | ${holidayDetailsInfo.jobGrade}
                                     </div>
                                     <div style="width: 40%; float:right;">
-                                        <a href="/holiday_add?seq=${holidayDetailsInfo.seq}&year=${holidayDetails.get(0).holidayYear}"
+                                        <a href="holiday_add?seq=${holidayDetailsInfo.seq}&year=${holidayDetails.get(0).holidayYear}"
                                            class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">추가</a>
                                     </div>
                                 </form>
@@ -244,6 +244,6 @@
 
     /*필수 입력 (승인 상태/ 답변) 미 입력 시*/
     $('#saveBtn').click(function () {
-        $('#detailsUpdate').attr('action', '/holiday_update').submit();
+        $('#detailsUpdate').attr('action', 'holiday_update').submit();
     });
 </script>

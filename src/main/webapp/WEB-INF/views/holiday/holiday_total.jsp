@@ -40,6 +40,44 @@
             border-radius: 5px 5px 5px 5px;
             width: 100px
         }
+
+        .sortTh{
+            cursor:pointer;
+        }
+
+        .arrow_box {
+            display: none;
+            position: absolute;
+            width: 100px;
+            padding: 8px;
+            left: 0;
+            -webkit-border-radius: 8px;
+            -moz-border-radius: 8px;
+            border-radius: 8px;
+            background: #333;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        .arrow_box:after {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            margin-left: -10px;
+            border: solid transparent;
+            border-color: rgba(51, 51, 51, 0.0);
+            border-bottom-color: #333;
+            border-width: 10px;
+            pointer-events: none;
+            content: " ";
+        }
+
+        a:hover + p.arrow_box {
+            display: block;
+        }
+
     </style>
 
 </head>
@@ -72,7 +110,7 @@
             <!-- End of Topbar -->
 
             <div class="container">
-                <h6><a href="/home"> 홈 </a>> 휴가 관리</h6>
+                <h6><a href="home"> 홈 </a>> 휴가 관리</h6>
                 <div>
                     <h2> 휴가 관리 </h2>
                     <h6 align="right">
@@ -80,17 +118,17 @@
                         <i class="fa fa-calendar"></i>
                         <select id="selectYears" onchange="location.replace(this.value)" style="border: none;">
                             <c:forEach var="yearList" items="${holidayYear}" varStatus="yearListStatus">
-                                <option value="/holiday?year=${yearList.holidayYear}&task=${cri.task}">${yearList.holidayYear}</option>
+                                <option id= "${yearList.holidayYear}" value="holiday?year=${yearList.holidayYear}&task=${cri.task}">${yearList.holidayYear}</option>
                             </c:forEach>
                         </select>
                         <!--info에 기록된 직무 표시-->
                         <select id="selectTasks" onchange="location.replace(this.value)">
-                            <option value="/holiday">회사 전체</option>
+                            <option id="0" value="holiday">회사 전체</option>
                             <c:forEach var="taskList" items="${holidayTask}" varStatus="taskListStatus">
-                                <option value="/holiday?year= ${cri.year}&task=${taskList.task}">${taskList.task}</option>
+                                <option id="${taskList.task}" value="holiday?year=${cri.year}&task=${taskList.task}">${taskList.task}</option>
                             </c:forEach>
                         </select>
-                        <a href="/holidayExcelDown.do" id="download" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                        <a href="holidayExcelDown.do" id="download" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> 엑셀 다운로드</a>
                     </h6>
                 </div>
@@ -98,9 +136,9 @@
                     <table class="table table-bordered" id="holidayTable">
                         <thead>
                         <tr>
-                            <th id="NAME">직원 ▼</th>
-                            <th id="TASK">직무 ▼</th>
-                            <th id="JOB_GRADE">직급 ▼</th>
+                            <th id="NAME" class="sortTh">직원 ▼</th>
+                            <th id="TASK" class="sortTh">직무 ▼</th>
+                            <th id="JOB_GRADE" class="sortTh">직급 ▼</th>
                             <th>1월</th>
                             <th>2월</th>
                             <th>3월</th>
@@ -177,7 +215,7 @@
 
     <c:choose>
     <c:when test="${holidayUse[x-1][y-1] ne '-'}">
-    document.getElementById("${status.count}_${xStatus.count}").innerHTML = "<a href='/holiday_details?seq=${holidayList.get(x-1).seq}&year=${cri.year}&month=${y}'>${holidayUse[x-1][y-1]}</a>";
+    document.getElementById("${status.count}_${xStatus.count}").innerHTML = "<a href='holiday_details?seq=${holidayList.get(x-1).seq}&year=${cri.year}&month=${y}'>${holidayUse[x-1][y-1]}</a><p class='arrow_box'>dd</p>";
     </c:when>
     <c:otherwise>
     document.getElementById("${status.count}_${xStatus.count}").innerHTML = "${holidayUse[x-1][y-1]}";
@@ -189,18 +227,13 @@
     <c:set var="x" value="${x+1}"/>
     </c:forEach>
 
-    /*이전 선택되어 있는 값을 선택*/
-    $('#selectTasks option:contains(' + ${cri.task.toString()} + ')').attr("selected","selected");
-
-    /*기본 값이 넘어 오면 첫번째 년도 선택 아니면 넘어온 값 선택*/
-    if(${cri.year eq 1}){
-        $('#selectYears option:contains(' + ${holidayYear.get(0).holidayYear} + ')').attr("selected","selected");
-    }else{
-        $('#selectYears option:contains(' + ${cri.year.toString()} + ')').attr("selected","selected");
-    }
 
     /*정렬 상태 텍스트 교체*/
     $(function () {
+        /*이전 선택되어 있는 값을 선택*/
+        $('#selectTasks option:contains("${cri.task}")').prop("selected","selected");
+        $('#selectYears option:contains("${cri.year.toString()}")').prop("selected","selected");
+
         if(${cri.sortingType.equals("ASC")}){
             $('#NAME').val('직원 ▼');
             $('#TASK').val('직무 ▼');
@@ -236,12 +269,12 @@
                 }else{
                     sort = "ASC";
                 }
-                self.location = "/holiday?year=${cri.year}&task=${cri.task}&sortingValue="+ keyword +"&sortingType="+sort;
-                $('#download').attr("href","/holidayExcelDown.do?year=${cri.year}&task=${cri.task}&sortingValue="+ keyword +"&sortingType="+sort);
+                self.location = "holiday?year=${cri.year}&task=${cri.task}&sortingValue="+ keyword +"&sortingType="+sort;
+                $('#download').attr("href","holidayExcelDown.do?year=${cri.year}&task=${cri.task}&sortingValue="+ keyword +"&sortingType="+sort);
            }
         });
 
         /*엑셀 다운로드*/
-        $('#download').attr("href","/holidayExcelDown.do?year=${cri.year}&task=${cri.task}");
+        $('#download').attr("href","holidayExcelDown.do?year=${cri.year}&task=${cri.task}");
     });
 </script>

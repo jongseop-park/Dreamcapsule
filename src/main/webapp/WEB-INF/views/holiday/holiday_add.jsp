@@ -75,7 +75,7 @@
 
 
             <div class="container">
-              <a href="/home"> 홈 </a>> <a href="/holiday"> 휴가관리 </a>> <a href="/holiday_details"> 상세 </a>> 추가<br>
+              <a href="home"> 홈 </a>> <a href="holiday"> 휴가관리 </a>> <a href="holiday_details"> 상세 </a>> 추가<br>
 
                 <h3 id="h3Title">휴가 추가하기</h3>
                 <!-- 직원 사진,이름,직무,직금 표시 부분-->
@@ -195,7 +195,7 @@
         $('#month').val(postDate.substring(0,2));
         $('#holidayDate').val(postDate);
         $('#useHoliday').val(use);
-        $('#detailsInsert').attr('action','/holiday_insert').submit();
+        $('#detailsInsert').attr('action','holiday_insert').submit();
     });
 
 </script>

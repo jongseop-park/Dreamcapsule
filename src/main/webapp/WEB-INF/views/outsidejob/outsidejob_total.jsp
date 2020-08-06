@@ -90,7 +90,7 @@
 
             <div class="container">
                 <div>
-                    <p><a href="/home">홈</a> > 외근관리</p>
+                    <p><a href="home">홈</a> > 외근관리</p>
                     <h4 style="display: inline">외근관리</h4>
                     <form id="searchForm" role="form" method="get" class="d-none d-sm-inline-block form-inline mr-0 ml-md-3 my-2 my-md-0 mw-100 navbar-search" style="float: right">
                         <div class="input-group">
@@ -106,7 +106,7 @@
                                   </button>
                                 </div>
                             </div>
-                            &nbsp;&nbsp;<a href="/outsideExcelDown.do" id="download" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                            &nbsp;&nbsp;<a href="outsideExcelDown.do" id="download" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                     class="fas fa-download fa-sm text-white-50"></i> 엑셀 다운로드</a>
                         </div>
                     </form>
@@ -155,9 +155,14 @@
                     </table>
                     <div id="pagediv">
                         <ul>
-                            <%--<c:if test="${pageMaker.totalPage != 0}">
-                                <a href="outside${pageMaker.makeSearch(pageMaker.cri.page -1)}">◀</a>&nbsp&nbsp&nbsp
-                            </c:if>
+                            <c:choose>
+                                <c:when test="${pageMaker.cri.page > 1}">
+                                    <a href="outside${pageMaker.makeSearch(pageMaker.cri.page-1)}">◀</a>
+                                </c:when>
+                                <c:otherwise>
+                                    ◀
+                                </c:otherwise>
+                            </c:choose>
                             <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
                                 <c:choose>
                                     <c:when test="${idx == pageMaker.cri.page}">
@@ -168,12 +173,14 @@
                                     </c:otherwise>
                                 </c:choose>
                             </c:forEach>
-                            <c:if test="${pageMaker.totalPage != pageMaker.cri.page && pageMaker.totalPage != 0}">
-                                &nbsp&nbsp&nbsp<a href="outside${pageMaker.makeSearch(pageMaker.cri.page + 1)}">▶</a>
-                            </c:if>
-                            <c:if test="${pageMaker.totalPage == pageMaker.cri.page && pageMaker.totalPage != 0}">
-                                &nbsp&nbsp&nbsp<a href="outside${pageMaker.makeSearch(pageMaker.endPage)}">▶</a>
-                            </c:if>--%>
+                            <c:choose>
+                                <c:when test="${pageMaker.cri.page < pageMaker.endPage}">
+                                    <a href="outside${pageMaker.makeSearch(pageMaker.cri.page+1)}">▶</a>
+                                </c:when>
+                                <c:otherwise>
+                                    ▶
+                                </c:otherwise>
+                            </c:choose>
                         </ul>
                     </div>
                 </div>
@@ -208,7 +215,8 @@
 
     $(function () {
         /* 데이트 피커 설정 부분*/
-        var searchMonth = getToFrom();
+        var searchMonth;
+        getToFrom();
         var datepickerSet ={
             dateFormat:'yy 년 mm 월',
             dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
@@ -228,7 +236,7 @@
             $(this).datepicker( "option", "defaultDate", new Date(year, month, 1) );
             $(this).datepicker('setDate', new Date(year, month, 1));
             getToFrom();
-            self.location = "/outside" + '${pageMaker.makeQuery(1)}' + "&keyword=" + encodeURIComponent($('#keywordInput').val()) + "&searchMonth=" + searchMonth;
+            self.location = "outside" + '${pageMaker.makeQuery(1)}' + "&keyword=" + encodeURIComponent($('#keywordInput').val()) + "&searchMonth=" + searchMonth;
         }
 
         $("#startDatePicker").datepicker(datepickerSet);
@@ -246,23 +254,22 @@
         $('#endDatePicker').val(lastDay());
 
         function firstDay(){
-            var year = ${scri.selectDate[0]};
-            var month = ${scri.selectDate[1]};
-
+            var year = ${scri.selectDate.substring(0,4)};
+            var month = ${scri.selectDate.substring(5,6)};
             return year + " 년 " + month + " 월 1 일";
         }
 
         function lastDay(){
-            var year = ${scri.selectDate[2]};
-            var month = ${scri.selectDate[3]};
+            var year = ${scri.selectDate.substring(7,11)};
+            var month = ${scri.selectDate.substring(12,scri.selectDate.length())};
             return year + " 년 " + month + " 월 " + new Date(year,month,0).getDate() + " 일";
         }
 
         function getToFrom(){
-            var startYear = Number($("#startDatePicker").val().substring(0,4));
-            var endYear = Number($("#endDatePicker").val().substring(0,4));
-            var startMonth = Number($("#startDatePicker").val().substring(7,9));
-            var endMonth = Number($("#endDatePicker").val().substring(7,9));
+            var startYear = $("#startDatePicker").val().substring(0,4);
+            var endYear = $("#endDatePicker").val().substring(0,4);
+            var startMonth = $("#startDatePicker").val().substring(7,9);
+            var endMonth = $("#endDatePicker").val().substring(7,9);
 
             searchMonth = startYear + ',' + startMonth + ',' + endYear + ',' + endMonth;
         }
@@ -270,7 +277,7 @@
         $(document).on('click', '#mainTable tbody tr', function () {
             var tr = $(this);
             var td = tr.children();
-            self.location = "/outside_details?"
+            self.location = "outside_details?"
                 + "seq=" + td.eq(0).text();
         });
 
@@ -288,7 +295,7 @@
                 }else{
                     sort = "ASC";
                 }
-                self.location = "outside" + '${pageMaker.makeQuery(1)}' + "&keyword=" + '${scri.keyword}' + "&sortKeyword=" + sortKeyword + "&sort=" +sort;
+                self.location = "outside" + '${pageMaker.makeQuery(1)}' + "&keyword=" + '${scri.keyword}' + "&searchMonth=" + '${scri.selectDate}' +"&sortKeyword=" + sortKeyword + "&sort=" +sort;
             }
         });
 

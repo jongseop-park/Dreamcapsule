@@ -35,7 +35,6 @@ public class HolidayController {
 
         if(criteria.getTask().equals("0")){
                 model.addAttribute("holidayList", holidayList);
-
         }else{
                 model.addAttribute("holidayList", holidayService.findTaskMember(criteria.getTask()));
         }

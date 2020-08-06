@@ -9,7 +9,7 @@ public class OutsideJobSearchCriteria extends OutsideJobCriteria{
     private int[] searchMonth;
     private String startDate;
     private String endDate;
-    private int[] selectDate;
+    private String selectDate;
 
     OutsideJobSearchCriteria() {
         Calendar cal = Calendar.getInstance();
@@ -18,6 +18,8 @@ public class OutsideJobSearchCriteria extends OutsideJobCriteria{
         searchMonth[1] = cal.get(Calendar.MONTH) + 1;
         searchMonth[2] = cal.get(Calendar.YEAR);
         searchMonth[3] = cal.get(Calendar.MONTH) + 1;
+        String strMonth = searchMonth[0] + "," + searchMonth[1] + "," + searchMonth[2] + "," + searchMonth[3];
+        setSelectDate(strMonth);
     }
 
     public String getKeyword() {
@@ -44,7 +46,8 @@ public class OutsideJobSearchCriteria extends OutsideJobCriteria{
     public int[] getSearchMonth(){return searchMonth;}
 
     public void setSearchMonth(int[] searchDate){
-        setSelectDate(searchDate);
+        String strMonth = searchDate[0] + "," + searchDate[1] + "," + searchDate[2] + "," + searchDate[3];
+        setSelectDate(strMonth);
         int[] year = new int[searchDate.length/2];
         int[] month = new int[searchDate.length/2];
         int y = 0;
@@ -105,9 +108,9 @@ public class OutsideJobSearchCriteria extends OutsideJobCriteria{
 
     public void setEndDate(String endDate){this.endDate = endDate;}
 
-    public int[] getSelectDate(){return selectDate;}
+    public String getSelectDate(){return selectDate;}
 
-    public void setSelectDate(int[] selectDate){this.selectDate = selectDate;}
+    public void setSelectDate(String selectDate){this.selectDate = selectDate;}
 
     @Override
     public String toString(){
