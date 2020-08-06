@@ -9,4 +9,5 @@ public interface ReportService {
     public List<ReportVO> reportList() throws Exception;
     public int countSearch(SearchCriteria searchCriteria) throws Exception;
     public List<ReportVO> listSearch(SearchCriteria searchCriteria) throws Exception;
+    public List<ReportVO> reportExcel(SearchCriteria searchCriteria) throws Exception;
 }

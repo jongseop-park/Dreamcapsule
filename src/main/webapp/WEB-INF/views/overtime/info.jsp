@@ -193,13 +193,13 @@
             alert("상태를 선택해주세요.");
         } else {
             $.ajax({
-                url: "/update",
+                url: "/admin/update",
                 type: "POST",
                 data: JSON.stringify(object),
                 contentType:"application/json",
                 success:function() {
                     alert("정상적으로 등록되었습니다.");
-                    location.href="/overtime?"
+                    location.href="/admin/overtime?"
                         + "keyword=" + getParameter("keyword")
                         + "&page=" + getParameter("page")
                         + "&startDate=" + getParameter("startDate")

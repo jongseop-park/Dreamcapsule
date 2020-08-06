@@ -81,7 +81,7 @@
                 order = "asc"
             }
 
-            location.href= "/report?&keyword=${scri.keyword}"
+            location.href= "/admin/report?&keyword=${scri.keyword}"
                 + "&page=${scri.page}"
                 + "&startDate=${scri.startDate}"
                 + "&endDate=${scri.endDate}"
@@ -138,7 +138,7 @@
                     } else {
                         endDate = getDateFormat(endDate);
                         startDate = getDateFormat(startDate);
-                        location.href = "/report?startDate=" + startDate + "&endDate="
+                        location.href = "/admin/report?startDate=" + startDate + "&endDate="
                             + endDate + "&keyword=" + getParameter("keyword");
                     }
                 }
@@ -161,7 +161,7 @@
 
     function searchCheck() {
       var innerText = $('#searchText').val();
-        self.location = "/report?keyword=" + innerText
+        self.location = "/admin/report?keyword=" + innerText
             + "&page=${scri.page}"
             + "&startDate=${scri.startDate}"
             + "&endDate=${scri.endDate}";
@@ -255,7 +255,7 @@
                             <div class="d-sm-flex align-items-center justify-content-between mb-1"
                                  style="float: right; margin: 4px 0 0 10px">
 
-                                <a href="/reportExcel" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                <a href="/admin/download/report?keyword=${scri.keyword}&order=${scri.order}&orderKeyword=${scri.orderKeyword}&startDate=${scri.startDate}&endDate=${scri.endDate}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                         class="fas fa-download fa-sm text-white-50"></i> 엑셀 다운로드</a>
                             </div>
                             <form onsubmit="return false" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" style="float: right">

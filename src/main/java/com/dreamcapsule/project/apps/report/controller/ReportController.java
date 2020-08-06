@@ -41,9 +41,9 @@ public class ReportController {
     }
 
     @GetMapping(path="/download/report" , produces = "application/vnd.ms-excel")
-    public String downloadExcel(Model model) throws Exception {
-        List<ReportVO> reportVOList =  reportService.reportList();
-        model.addAttribute("reportVOList" ,reportVOList);
+    public String downloadExcel(Model model, SearchCriteria searchCriteria) throws Exception {
+        List<ReportVO> reportVOList =  reportService.reportExcel(searchCriteria);
+       model.addAttribute("reportVOList" ,reportVOList);
 
         return "reportXls";
     }
