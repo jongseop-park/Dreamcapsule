@@ -85,27 +85,40 @@
                                 </thead>
                                 <tfoot>
                                 <tbody>
+                            <c:forEach var="list" items="${result}" varStatus="status">
+                                <input type="hidden" id="seq" value="${list.seq}"/>
+                                <c:if test="${empty result}">
                                     <tr>
-                                        <td>본사</td>
-                                        <td>동광로 12길 어디어디</td>
-                                        <td>비콘</td>
-                                        <td>100</td>
+                                        <td colspan="2">데이터가 존재하지 않습니다.</td>
                                     </tr>
-                                    <tr>
-                                        <td>본사</td>
-                                        <td>동광로 12길 어디어디</td>
-                                        <td>비콘</td>
-                                        <td>100</td>
-                                    </tr>
-                                    <tr>
-                                        <td>본사</td>
-                                        <td>동광로 12길 어디어디</td>
-                                        <td>비콘</td>
-                                        <td>100</td>
-                                    </tr>
+                                </c:if>
+                                <tr style="cursor: pointer;" onclick="location.href='/admin/management/workplace/form?seq=${list.seq}'"
+                                    onmouseover="window.status='/admin/management/workplace/form?seq=${list.seq}'"
+                                    onmouseout="window.status='/admin/management/workplace/form?seq=${list.seq}'">
+                                    <td>${list.place}</td>
+                                    <td>${list.address}</td>
+                                    <td>${list.equipNm}</td>
+                                    <td>0</td>
+                                </tr>
+                            </c:forEach>
                                 </tbody>
                             </table>
                             <!-- 테이블 하단 바 -->
+                            <div>
+                                <ul class="pagination" style="justify-content: center;">
+                                    <c:if test="${pageMaker.prev}">
+                                        <li><a href="/admin/management/workplace/list?page=${pageMaker.startPage - 1}">◀</a></li>
+                                    </c:if>
+
+                                    <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
+                                        <li><a href="/admin/management/workplace/list?page=${idx}">[${idx}]</a>　</li>
+                                    </c:forEach>
+
+                                    <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
+                                        <li><a href="/admin/management/workplace/list?page=${pageMaker.endPage + 1}">▶</a></li>
+                                    </c:if>
+                                </ul>
+                            </div>
                             <div>
                             <button class="btn btn-dark right" type="button" style="float : right;" onclick="location.href='/admin/management/workplace/form'">
                                 추가

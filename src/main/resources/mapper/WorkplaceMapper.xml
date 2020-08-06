@@ -4,4 +4,137 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.dreamcapsule.project.apps.management.workplace.mapper.WorkplaceMapper">
 
+    <resultMap id="WorkplaceMap" type="WorkplaceVO">
+        <id property="seq" column="SEQ"/>
+        <result property="place" column="PLACE"/>
+        <result property="address" column="ADDRESS"/>
+        <result property="workingTime" column="WORKING_TIME"/>
+        <result property="workTime" column="WORK_TIME"/>
+        <result property="equipNm" column="EQUIP_NM"/>
+        <result property="regDate" column="REG_DATE"/>
+        <result property="modDate" column="MOD_DATE"/>
+        <result property="delYn" column="DEL_YN"/>
+        <collection property="equipmentVO" ofType="EquipmentVO">
+            <result property="equipmentNm" column="EQUIPMENT_NM"/>
+            <result property="clsfc" column="CLSFC"/>
+            <result property="code" column="CODE"/>
+            <result property="serialNum" column="SERIAL_NUM"/>
+            <result property="equipSeq" column="EQUIP_SEQ"/>
+        </collection>
+    </resultMap>
+
+    <!--
+        상세 정보
+    -->
+    <select id="findByDetail" resultMap="WorkplaceMap" parameterType="WorkplaceVO">
+        SELECT
+            SEQ,
+            PLACE,
+            ADDRESS,
+            WORKING_TIME,
+            WORK_TIME,
+            EQUIP_NM,
+            TO_CHAR(REG_DATE,'yyyy-MM-dd HH24:MI:SS') REG_DATE,
+            TO_CHAR(MOD_DATE,'yyyy-MM-dd HH24:MI:SS') MOD_DATE,
+            DEL_YN
+        FROM WORKPLACE_MNG_TB
+        WHERE SEQ = #{seq}
+        AND DEL_YN = 'N'
+    </select>
+
+    <select id="beaconList" resultType="EquipmentVO" parameterType="EquipmentVO">
+        SELECT
+            EQUIPMENT_NM,
+            EQUIP_SEQ,
+            CLSFC
+        FROM EQUIPMENT_MNG_TB
+        WHERE CLSFC = '비콘'
+        ORDER BY SERIAL_NUM ASC
+    </select>
+
+    <select id="nfcList" resultType="EquipmentVO" parameterType="EquipmentVO">
+        SELECT
+            EQUIPMENT_NM,
+            EQUIP_SEQ,
+            CLSFC
+        FROM EQUIPMENT_MNG_TB
+        WHERE CLSFC = 'NFC'
+        ORDER BY SERIAL_NUM ASC
+    </select>
+
+   <!-- &lt;!&ndash; 저장  &ndash;&gt;
+    <insert id="insert" parameterType="PositionVO">
+        INSERT INTO POSITION_MNG_TB(SEQ, RANK, MEMO, REG_DATE, DEL_YN)
+        VALUES (POSITION_MNG_SEQ.NEXTVAL, #{rank}, #{memo}, SYSDATE, 'N')
+    </insert>
+
+    &lt;!&ndash; 수정 &ndash;&gt;
+    <update id="update" parameterType="PositionVO">
+        UPDATE
+            POSITION_MNG_TB
+        SET
+            SEQ = #{seq},
+            RANK = #{rank},
+            MEMO = #{memo},
+            MOD_DATE = SYSDATE
+        WHERE
+            SEQ = #{seq}
+    </update>
+
+    &lt;!&ndash; 삭제 DEL_YN > Y &ndash;&gt;
+    <update id="delUpdate" parameterType="PositionVO">
+        UPDATE
+            POSITION_MNG_TB
+        SET
+            DEL_YN = 'Y'
+        WHERE
+            SEQ = #{seq}
+    </update>
+
+    &lt;!&ndash; 삭제 &ndash;&gt;
+    <delete id="delete" parameterType="PositionVO">
+        DELETE FROM POSITION_MNB_TB
+        WHERE SEQ = #{seq}
+    </delete>-->
+
+    <!-- 페이징 -->
+    <select id="page" resultMap="WorkplaceMap" parameterType="WorkplaceVO">
+        SELECT
+        SEQ,
+        PLACE,
+        ADDRESS,
+        WORKING_TIME,
+        WORK_TIME,
+        EQUIP_NM,
+        TO_CHAR(REG_DATE,'yyyy-MM-dd HH24:MI:SS') REG_DATE,
+        TO_CHAR(MOD_DATE,'yyyy-MM-dd HH24:MI:SS') MOD_DATE,
+        DEL_YN
+        FROM (
+            SELECT
+            SEQ,
+            PLACE,
+            ADDRESS,
+            WORKING_TIME,
+            WORK_TIME,
+            EQUIP_NM,
+            REG_DATE,
+            MOD_DATE,
+            DEL_YN,
+            ROW_NUMBER() OVER(ORDER BY SEQ DESC) AS SORT_NUM
+        FROM WORKPLACE_MNG_TB
+        WHERE DEL_YN = 'N'
+        ) WORKPLACE_MNG
+        WHERE SORT_NUM BETWEEN #{rowStart} AND #{rowEnd}
+        ORDER BY SEQ DESC
+        <!--<include refid="cmmnWhere"/>
+        <include refid="cmmnOrder"/>-->
+    </select>
+
+    <!-- 페이징 리스트 -->
+    <select id="listCnt" resultType="int">
+        SELECT
+            COUNT(SEQ)
+        FROM WORKPLACE_MNG_TB
+        WHERE SEQ > 0 AND DEL_YN = 'N'
+    </select>
 </mapper>

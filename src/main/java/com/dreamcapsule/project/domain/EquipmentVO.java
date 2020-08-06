@@ -26,6 +26,9 @@ public class EquipmentVO extends Criteria{
     /** 삭제여부 */
     private String delYn;
 
+    /** 장비 시퀀스 */
+    private Integer equipSeq;
+
     public String getSeq() {
         return seq;
     }
@@ -88,5 +91,13 @@ public class EquipmentVO extends Criteria{
 
     public void setDelYn(String delYn) {
         this.delYn = delYn;
+    }
+
+    public Integer getEquipSeq() {
+        return equipSeq;
+    }
+
+    public void setEquipSeq(Integer equipSeq) {
+        this.equipSeq = equipSeq;
     }
 }
