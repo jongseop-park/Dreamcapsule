@@ -28,7 +28,7 @@ public class AdminService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
-        log.info("로드유저바이유저네임 유저 진입            "+userId );
+
         ArrayList<AdminVO> userAuthes = adminMapper.findByUserId(userId);
         if(userAuthes.size() == 0){
             throw new UsernameNotFoundException("User " +userId+"not Found!!!!");
@@ -38,14 +38,14 @@ public class AdminService implements UserDetailsService {
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {Exception.class})
     public String InsertUser(AdminVO adminVO){
-        log.info("인설트 유저 진입");
+
         log.info(adminVO.getRoleName());
         adminVO.setUserPass(bCryptPasswordEncoder.encode(adminVO.getUserPass()));
         int flag = adminMapper.userSave(adminVO);
         if(flag>0){
             int userNo = adminMapper.findUserNo(adminVO.getUserId());
             int roleNo = adminMapper.findRoleNo(adminVO.getRoleName());
-            log.info("됫음");
+
             adminMapper.userRoleSave(userNo,roleNo);
 
             return "success";

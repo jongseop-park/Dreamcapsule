@@ -34,7 +34,7 @@
 <div id="wrapper">
 
     <!-- Sidebar -->
-    <%@include file="/WEB-INF/views/include/sidebar.jsp"%>
+
     <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
@@ -44,7 +44,7 @@
         <div id="content">
 
             <!-- Topbar -->
-            <%@ include file="/WEB-INF/views/include/topbar.jsp"%>
+
             <!-- End of Topbar -->
 
             <!-- Begin Page Content -->
@@ -60,7 +60,7 @@
                         잠시 후 다시 이용해 주십시오.<br/>
                         <br/><br/><br/>
                     </div>
-                    <a href="/home">&larr; Back To Home</a>
+
                 </div>
 
             </div>
@@ -70,7 +70,7 @@
         <!-- End of Main Content -->
 
         <!-- Footer -->
-        <%@include file="/WEB-INF/views/include/footer.jsp"%>
+
         <!-- End of Footer -->
 
     </div>

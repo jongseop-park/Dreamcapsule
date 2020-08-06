@@ -11,8 +11,10 @@
             </div>
             <div class="modal-body">로그아웃 시 세션이 종료됩니다. 로그아웃을 하시겠습니까?</div>
             <div class="modal-footer">
+<%--                <form action="/logout" method="post">--%>
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">취소</button>
-                <a class="btn btn-primary" href="/login">로그아웃</a>
+                <a class="btn btn-primary" href="/logout">로그아웃</a>
+<%--                </form>--%>
             </div>
         </div>
     </div>
