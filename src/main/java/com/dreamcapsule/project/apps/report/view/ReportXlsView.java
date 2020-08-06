@@ -33,7 +33,7 @@ public class ReportXlsView extends AbstractXlsView {
             sheet.setColumnWidth(i, sheet.getColumnWidth(i) + 1024);
         }
 
-        for(int i=1; i < ((List<ReportVO>)map.get("reportVOList")).size(); i++) {
+        for(int i=1; i <= ((List<ReportVO>)map.get("reportVOList")).size(); i++) {
             Row row = sheet.createRow(i);
             ReportVO reportVO = ((List<ReportVO>)map.get("reportVOList")).get(i-1);
 

@@ -90,4 +90,44 @@ ORDER BY
              and (REG_DT BETWEEN to_date(#{startDate}) AND to_date(#{endDate})))
              where rNum between ${rowStart} and ${rowEnd} order by ${orderKeyword} ${order}
             </select>
+
+
+    <select id="reportExcel" resultType="com.dreamcapsule.project.domain.ReportVO">
+    SELECT
+        seq,
+    reg_dt as registerDate,
+    emp_nm as empName,
+    to_char(hire_dt, 'YYYY-MM-DD') AS hireDate,
+    work_dt as workDate,
+    work_tm as workTime,
+    pay_vac_tm as payVacationTime,
+    ot_work_tm as overtimeWorkTime,
+    pl_ot_tm as planOvertime,
+    ac_ot_tm as actualOvertime,
+    vc_count as vacationCount,
+    vc_total as vacationTotal,
+    late_count as lateCount,
+    ab_count as absentCount
+FROM ( SELECT
+    seq,
+    reg_dt,
+    emp_nm,
+    hire_dt,
+    work_dt,
+    work_tm,
+    pay_vac_tm,
+    ot_work_tm,
+    pl_ot_tm,
+    ac_ot_tm,
+    vc_count,
+    vc_total,
+    late_count,
+    ab_count,
+    row_number() over
+(
+ORDER BY
+    ${orderKeyword} ${order}) as rNum from REPORT_TB
+             where EMP_NM like '%' || #{keyword} || '%'
+             and (REG_DT BETWEEN to_date(#{startDate}) AND to_date(#{endDate})))
+    </select>
 </mapper>

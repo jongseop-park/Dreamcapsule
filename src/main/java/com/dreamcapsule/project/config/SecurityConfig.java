@@ -1,4 +1,4 @@
-package com.dreamcapsule.project.apps.admin.config;
+package com.dreamcapsule.project.config;
 
 import com.dreamcapsule.project.apps.admin.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,17 +17,20 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     private AdminService adminService;
 
     @Bean
+    public BCryptPasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
     public DaoAuthenticationProvider authenticationProvider(AdminService adminService){
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(adminService);
-        authenticationProvider.setPasswordEncoder(bCryptPasswordEncoder);
+        authenticationProvider.setPasswordEncoder(passwordEncoder());
         return authenticationProvider;
     }
 
@@ -49,18 +52,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/**").permitAll()
                 .anyRequest().authenticated()
-
             .and()
                 .formLogin()
                 .loginPage("/login")
-//                .loginProcessingUrl("/login/excute")
-                .defaultSuccessUrl("/admin/main")
+                .defaultSuccessUrl("/admin/main",true)
                 .usernameParameter("userId")
                 .passwordParameter("userPass")
                 .permitAll()
             .and()
                 .exceptionHandling()
                 .accessDeniedPage("/error403")
+            .and()
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .clearAuthentication(true)
             .and()
                 .csrf().disable();
     }

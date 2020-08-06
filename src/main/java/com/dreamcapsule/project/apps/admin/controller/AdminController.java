@@ -10,10 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class AdminController {
@@ -35,20 +39,23 @@ public class AdminController {
     }
 
 
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String logoutPage(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if(auth != null){
+            new SecurityContextLogoutHandler().logout(request,response,auth);
+        }
+        return "redirect:/admin/login";
+    }
 
 
-//    @RequestMapping("/update")
-//    @ResponseBody
-//    public OvertimeVO update(@RequestBody OvertimeVO conn) throws Exception {
-//        overtimeService.updateEmpInfo(conn);
-//        return conn;
-//    }
+
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String join(AdminVO adminVO,
        @RequestParam(value = "userId") String userId,@RequestParam(value = "userName") String userName,
                        @RequestParam(value = "userPass") String userPass
     ) throws Exception{
-//        AdminPrincipalVO adminprin = new AdminPrincipalVO();
+
 
         adminVO.setUserName(userName);
         adminVO.setUserId(userId);
@@ -67,18 +74,35 @@ public class AdminController {
         return "/admin/register";
     }
 
-    @GetMapping("/admin")
+
+
+    @GetMapping("/setting")
+    public String settingBar(ModelMap model) throws Exception{
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        AdminPrincipalVO adminPrincipalVO = (AdminPrincipalVO) auth.getPrincipal();
+
+        model.addAttribute("name", adminPrincipalVO.getUsername());
+        model.addAttribute("auth", adminPrincipalVO.getAuthorities());
+
+        return "/include/topbar";
+    }
+
+
+//    @GetMapping("/admin")
+    @GetMapping("/admin/main")
     public String loadExceptionPage(ModelMap model) throws Exception{
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         AdminPrincipalVO adminPrincipalVO = (AdminPrincipalVO) auth.getPrincipal();
 
         model.addAttribute("name",adminPrincipalVO.getUsername());
+
         model.addAttribute("auth",adminPrincipalVO.getAuthorities());
 
         return "/main/main";
 
     }
+
 
     @GetMapping("/error403")
     public String loadAccessdeniedPage() throws Exception{

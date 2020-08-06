@@ -12,8 +12,6 @@
         seq
     </select>
 
-
-
     <select id="findInfo" parameterType="int" resultType="com.dreamcapsule.project.domain.OvertimeVO">
     SELECT seq, reg_Dt, mod_Dt, emp_Nm, emp_Job,
     emp_Pos, ot_Dt, ot_Tm, eat_Yn, status, content, to_char(req_Dt, 'yyyy.MM.dd (DY) hh:mm')

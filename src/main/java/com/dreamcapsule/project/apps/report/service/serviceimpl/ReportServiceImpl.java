@@ -31,4 +31,10 @@ public class ReportServiceImpl implements ReportService {
     public List<ReportVO> listSearch(SearchCriteria searchCriteria) throws Exception {
         return reportMapper.listSearch(searchCriteria);
     }
+
+    /* 엑셀 */
+    @Override
+    public List<ReportVO> reportExcel(SearchCriteria searchCriteria) throws Exception {
+        return reportMapper.reportExcel(searchCriteria);
+    }
 }
