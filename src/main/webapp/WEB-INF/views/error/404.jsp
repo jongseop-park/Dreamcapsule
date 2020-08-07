@@ -28,67 +28,50 @@
 
 </head>
 
-<body id="page-top">
+<body id="page-top" style="background-color: #9fcdff">
 
-<!-- Page Wrapper -->
+
 <div id="wrapper">
 
-    <!-- Sidebar -->
 
-    <!-- End of Sidebar -->
+    <div id="content-wrapper" class="d-flex flex-column" >
 
-    <!-- Content Wrapper -->
-    <div id="content-wrapper" class="d-flex flex-column">
 
-        <!-- Main Content -->
-        <div id="content">
+        <div id="content"style="background-color: #9fcdff">
 
-            <!-- Topbar -->
 
-            <!-- End of Topbar -->
-
-            <!-- Begin Page Content -->
-            <div class="container-fluid">
 
                 <!-- 404 Error Text -->
-                <div class="text-center">
+                <div class="text-center" style="background-color: #ffffff; margin-top: 300px">
+
                     <div class="error mx-auto" data-text="404">404</div>
                     <p class="lead text-gray-800 mb-5">Page Not Found</p>
+
                     <div>
+
                         이용에 불편을 드려 죄송합니다.<br/>
                         현재 이 페이지를 표시할 수 없습니다.<br/>
                         잠시 후 다시 이용해 주십시오.<br/>
                         <br/><br/><br/>
                     </div>
-
+                    <input type="button" value="<- 되돌아가기" onclick="history.go(-1)" style="font-size: 30px; border: 0px solid; background-color: white">
                 </div>
 
-            </div>
-            <!-- /.container-fluid -->
+
+
 
         </div>
-        <!-- End of Main Content -->
-
-        <!-- Footer -->
-
-        <!-- End of Footer -->
-
     </div>
-    <!-- End of Content Wrapper -->
+
 
 </div>
-<!-- End of Page Wrapper -->
 
-<!-- Scroll to Top Button-->
+
+
 <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
 </a>
 
-<!-- Logout Modal-->
-<%@include file="/WEB-INF/views/include/logout_cmmn.jsp"%>
-
-<!-- Bootstrap core JavaScript-->
-<%@include file="/WEB-INF/views/include/plugins_js.jsp"%>
 
 </body>
 

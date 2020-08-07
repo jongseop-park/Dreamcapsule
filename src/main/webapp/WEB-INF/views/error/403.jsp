@@ -28,62 +28,42 @@
 
 </head>
 
-<body id="page-top">
+<body id="page-top" style="background-color: #9fcdff">
 
-<!-- Page Wrapper -->
+
 <div id="wrapper">
 
-    <!-- Sidebar -->
-    <%@include file="/WEB-INF/views/include/sidebar.jsp"%>
-    <!-- End of Sidebar -->
-
-    <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
 
-        <!-- Main Content -->
-        <div id="content">
+        <div id="content" style="background-color: #9fcdff">
 
-            <!-- Topbar -->
-            <%@ include file="/WEB-INF/views/include/topbar.jsp"%>
-            <!-- End of Topbar -->
 
-            <!-- Begin Page Content -->
             <div class="container-fluid">
 
-                <!-- 404 Error Text -->
-                <div class="text-center">
-                    <div class="error mx-auto" data-text="403">403</div>
-                    <p class="lead text-gray-800 mb-5">Forbidden</p>
-                    <p class="text-gray-500 mb-0">페이지가 존재하지 않습니다.</p>
-                    <a href="/home">&larr; Back To Home</a>
+
+                <div class="container-fluid">
+                    <div class="text-center" style="background-color: #ffffff; margin-top: 300px">
+                        <div class="error mx-auto" data-text="403">403</div>
+                        <p class="lead text-gray-800 mb-5">Forbidden</p>
+                        <p class="text-gray-500 mb-0">페이지가 존재하지 않습니다.</p>
+                        <input type="button" value="<- 되돌아가기" onclick="history.go(-1)" style="font-size: 30px; border: 0px solid; background-color: white">
+                    </div>
+
+
                 </div>
 
-            </div>
-            <!-- /.container-fluid -->
 
         </div>
-        <!-- End of Main Content -->
 
-        <!-- Footer -->
-        <%@include file="/WEB-INF/views/include/footer.jsp"%>
-        <!-- End of Footer -->
 
     </div>
-    <!-- End of Content Wrapper -->
+
 
 </div>
-<!-- End of Page Wrapper -->
 
-<!-- Scroll to Top Button-->
-<a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-</a>
 
-<!-- Logout Modal-->
-<%@include file="/WEB-INF/views/include/logout_cmmn.jsp"%>
 
-<!-- Bootstrap core JavaScript-->
-<%@include file="/WEB-INF/views/include/plugins_js.jsp"%>
+
 
 </body>
 
