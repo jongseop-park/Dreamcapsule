@@ -20,7 +20,6 @@
     </select>
 
     <select id="updateEmpInfo" parameterType="com.dreamcapsule.project.domain.OvertimeVO">
-
          UPDATE OT_MNG_TB
          SET mod_Dt=SYSDATE, ans=#{ans}, status=#{status}
          WHERE seq=#{seq}

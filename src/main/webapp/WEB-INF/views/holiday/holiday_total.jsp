@@ -45,39 +45,44 @@
             cursor:pointer;
         }
 
-        .arrow_box {
-            display: none;
-            position: absolute;
-            width: 100px;
-            padding: 8px;
-            left: 0;
-            -webkit-border-radius: 8px;
-            -moz-border-radius: 8px;
-            border-radius: 8px;
-            background: #333;
-            color: #fff;
-            font-size: 14px;
+        .wrap{
+            position: relative;
+            display: inline-block;
+            margin: auto;
         }
 
-        .arrow_box:after {
-            position: absolute;
-            bottom: 100%;
+        .wrap .tooltip{
+            position : absolute;;
+            width: 200px;
+            padding: 0;
+            visibility: hidden;
+            background-color: hotpink;
+            color: white;
+            text-align: center;
+            z-index: 1;
+            bottom: 50%;
             left: 50%;
-            width: 0;
-            height: 0;
+            margin-left: -100px;
+        }
+
+        .wrap .tooltip::after{
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
             margin-left: -10px;
-            border: solid transparent;
-            border-color: rgba(51, 51, 51, 0.0);
-            border-bottom-color: #333;
             border-width: 10px;
-            pointer-events: none;
-            content: " ";
+            border-style: solid;
+            border-color: hotpink transparent transparent transparent;
         }
 
-        a:hover + p.arrow_box {
-            display: block;
+        .wrap p{
+            margin-top:70px;
         }
 
+        .wrap:hover .tooltip{
+            visibility: visible;
+        }
     </style>
 
 </head>
@@ -215,8 +220,9 @@
 
     <c:choose>
     <c:when test="${holidayUse[x-1][y-1] ne '-'}">
-    document.getElementById("${status.count}_${xStatus.count}").innerHTML = "<a href='holiday_details?seq=${holidayList.get(x-1).seq}&year=${cri.year}&month=${y}'>${holidayUse[x-1][y-1]}</a><p class='arrow_box'>dd</p>";
+    document.getElementById("${status.count}_${xStatus.count}").innerHTML = "<a href='holiday_details?seq=${holidayList.get(x-1).seq}&year=${cri.year}&month=${y}'>${holidayUse[x-1][y-1]}</a>";
     </c:when>
+
     <c:otherwise>
     document.getElementById("${status.count}_${xStatus.count}").innerHTML = "${holidayUse[x-1][y-1]}";
     </c:otherwise>
@@ -272,6 +278,10 @@
                 self.location = "holiday?year=${cri.year}&task=${cri.task}&sortingValue="+ keyword +"&sortingType="+sort;
                 $('#download').attr("href","holidayExcelDown.do?year=${cri.year}&task=${cri.task}&sortingValue="+ keyword +"&sortingType="+sort);
            }
+        });
+
+        $("#holidayTable thead td").hover(function () {
+
         });
 
         /*엑셀 다운로드*/

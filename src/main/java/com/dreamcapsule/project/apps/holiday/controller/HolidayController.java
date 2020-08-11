@@ -29,14 +29,14 @@ public class HolidayController {
 
     @RequestMapping(value = "/holiday", method = RequestMethod.GET)
     public String home(@ModelAttribute("cri")Criteria criteria, Model model) {
-        List<HolidayVO> holidayList = holidayService.findAll(criteria.getSortingValue(),criteria.getSortingType());
+        List<HolidayVO> holidayList = holidayService.findAll(criteria.getSortingValue(),criteria.getSortingType(),criteria.getYear());
         List<HolidayVO> taskList = holidayService.findTask();
         List<HolidayVO> yearList = holidayService.findYear();
 
         if(criteria.getTask().equals("0")){
                 model.addAttribute("holidayList", holidayList);
         }else{
-                model.addAttribute("holidayList", holidayService.findTaskMember(criteria.getTask()));
+                model.addAttribute("holidayList", holidayService.findTaskMember(criteria.getTask(),criteria.getYear()));
         }
 
         model.addAttribute("holidayTask",taskList);
@@ -50,7 +50,7 @@ public class HolidayController {
 
     @RequestMapping("/holiday_details")
     public String sub(Model model, @ModelAttribute("cri")Criteria criteria) {
-        HolidayVO holidayDetailsInfo = holidayService.findByInfoValue(criteria.getSeq());
+        HolidayVO holidayDetailsInfo = holidayService.findByInfoValue(criteria.getSeq(),criteria.getYear());
         List<HolidayVO> holidayDetails = holidayService.findByValue(criteria.getSeq(),criteria.getYear(),criteria.getMonth());
 
         model.addAttribute("holidayDetailsInfo",holidayDetailsInfo);
@@ -61,7 +61,7 @@ public class HolidayController {
 
     @RequestMapping("/holiday_add")
     public String add(Model model,@ModelAttribute("cri")Criteria criteria) {
-        HolidayVO holidayDetails = holidayService.findByInfoValue(criteria.getSeq());
+        HolidayVO holidayDetails = holidayService.findByInfoValue(criteria.getSeq(),criteria.getYear());
         Long useHoliday = holidayService.findUseYear(criteria.getSeq(),criteria.getYear());
 
         model.addAttribute("holidayDetails", holidayDetails);
@@ -108,8 +108,8 @@ public class HolidayController {
     @RequestMapping("/holidayExcelDown.do")
     public void holidayExcelDown(HttpServletResponse response,@ModelAttribute("cri")Criteria criteria) throws Exception{
     //뷰 부분 분리해서 사용하기
-        List<HolidayVO> holidayList = holidayService.findAll(criteria.getSortingValue(),criteria.getSortingType());
-        Long[] taskSeq = holidayService.matchTaskSeq(criteria.getTask(),holidayList);
+        List<HolidayVO> holidayList = holidayService.findAll(criteria.getSortingValue(),criteria.getSortingType(),criteria.getYear());
+        Long[] taskSeq = holidayService.matchTaskSeq(criteria.getTask(),holidayList,criteria.getYear());
 
         String[][] use = holidayService.holidayMonthUse(criteria.getYear(),criteria.getTask(),holidayList);
         Long[] useDay = holidayService.totalUseDay(criteria.getTask(),criteria.getYear(),holidayList);

@@ -282,7 +282,8 @@
         });
 
         $('#searchNameBtn').on('click',function () {
-                self.location = "outside" + '${pageMaker.makeQuery(1)}' + "&keyword=" + encodeURIComponent($('#keywordInput').val()) + "&searchMonth=" + searchMonth;
+            getToFrom();
+            self.location = "outside" + '${pageMaker.makeQuery(1)}' + "&keyword=" + encodeURIComponent($('#keywordInput').val()) + "&searchMonth=" + searchMonth;
         });
 
         $("#mainTable thead th").on("click",function () {

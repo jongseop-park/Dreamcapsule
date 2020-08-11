@@ -32,7 +32,7 @@ public class OutsideJobSearchCriteria extends OutsideJobCriteria{
 
     public String getSortKeyword() {
         if(sortKeyword.equals("")){
-            return "seq";
+            return "OUTSIDE_SEQ";
         }
         return sortKeyword;
     }
@@ -43,7 +43,15 @@ public class OutsideJobSearchCriteria extends OutsideJobCriteria{
 
     public void setSort(String sort){this.sort = sort;}
 
-    public int[] getSearchMonth(){return searchMonth;}
+    public int[] getSearchMonth(){
+        if(searchMonth[0] == searchMonth[2] && searchMonth[1] == searchMonth[3]){
+            int[] reMonth = new int[2];
+                    reMonth[0] = searchMonth[0];
+                    reMonth[1] = searchMonth[1];
+            return reMonth;
+        }
+        return searchMonth;
+    }
 
     public void setSearchMonth(int[] searchDate){
         String strMonth = searchDate[0] + "," + searchDate[1] + "," + searchDate[2] + "," + searchDate[3];

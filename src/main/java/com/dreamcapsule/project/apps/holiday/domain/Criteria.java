@@ -13,7 +13,7 @@ public class Criteria {
     private String sortingType;
 
     public void setSeq(int seq){this.seq = seq;}
-
+    
     public int getSeq(){return seq;}
 
     public void setYear(Long year){this.year = year;}
@@ -47,6 +47,7 @@ public class Criteria {
         if(sortingValue == null){
             return "SEQ";
         }
+
         return sortingValue;
     }
 

@@ -21,10 +21,10 @@ public class HolidayServiceImpl implements HolidayService{
     }
 
     @Override
-    public HolidayVO findByInfoValue(int seq) { return holidayMapper.findByInfoValue(seq);}
+    public HolidayVO findByInfoValue(int seq,Long year) { return holidayMapper.findByInfoValue(seq,year);}
 
     @Override
-    public List<HolidayVO> findAll(String sortValue,String sortType){return holidayMapper.findAll(sortValue,sortType); }
+    public List<HolidayVO> findAll(String sortValue,String sortType,Long year){return holidayMapper.findAll(sortValue,sortType,year); }
 
     @Override
     public List<HolidayVO> findTask() { return holidayMapper.findTask();}
@@ -36,7 +36,7 @@ public class HolidayServiceImpl implements HolidayService{
     public HolidayVO findUse(Long num,Long year,int month){ return holidayMapper.findUse(num,year,month);}
 
     @Override
-    public List<HolidayVO> findTaskMember(String task){return holidayMapper.findTaskMember(task);}
+    public List<HolidayVO> findTaskMember(String task,Long year){return holidayMapper.findTaskMember(task,year);}
 
     @Override
     public void detailsUpdate(int seq,char state,String reply){holidayMapper.detailsUpdate(seq,state,reply);}
@@ -49,7 +49,7 @@ public class HolidayServiceImpl implements HolidayService{
 
     @Override
     public String[][] holidayMonthUse(Long year,String task,List<HolidayVO> holidayList){
-        Long[] taskSeq = matchTaskSeq(task,holidayList);
+        Long[] taskSeq = matchTaskSeq(task,holidayList,year);
         List<HolidayVO> yearList = holidayMapper.findYear();
         if(year == 1) {
             year = yearList.get(0).getHolidayYear();
@@ -67,12 +67,11 @@ public class HolidayServiceImpl implements HolidayService{
                 }
             }
         }
-
         return use;
     }
 
     @Override
-    public Long[] matchTaskSeq(String task,List<HolidayVO> holidayList){
+    public Long[] matchTaskSeq(String task,List<HolidayVO> holidayList,Long year){
         Long[] taskSeq;
 
         if(task.equals("0")){
@@ -81,7 +80,7 @@ public class HolidayServiceImpl implements HolidayService{
                 taskSeq[i] = holidayList.get(i).getSeq();
             }
         }else{
-            List<HolidayVO> selectedTaskSeq = holidayMapper.findTaskMember(task);
+            List<HolidayVO> selectedTaskSeq = holidayMapper.findTaskMember(task,year);
             taskSeq = new Long[selectedTaskSeq.size()];
             for(int i = 0; i < selectedTaskSeq.size();i++){
                 taskSeq[i] = selectedTaskSeq.get(i).getSeq();
@@ -92,7 +91,7 @@ public class HolidayServiceImpl implements HolidayService{
 
     @Override
     public Long[] totalUseDay(String task,Long year,List<HolidayVO> holidayList){
-        Long[] taskSeq = matchTaskSeq(task,holidayList);
+        Long[] taskSeq = matchTaskSeq(task,holidayList,year);
         Long[] useDay = new Long[taskSeq.length];
         int seq;
         Long day;
@@ -102,7 +101,7 @@ public class HolidayServiceImpl implements HolidayService{
             if(Objects.isNull(day)) {
                 useDay[x - 1] = 0L;
             }else{
-                useDay[x - 1] = holidayMapper.findUseYear(seq, year);
+                useDay[x - 1] = holidayMapper.findUseYear(seq, year);//설정 생성 후 해당 유형 별 휴가 차감일수 곱 하기
             }
         }
         return useDay;

@@ -14,11 +14,9 @@ public interface HolidayMapper {
 
     public List<HolidayVO> findByValue(@Param("SEQ") int SEQ,@Param("YEAR") Long year,@Param("MONTH") int month);
 
-    public HolidayVO findByInfoValue(@Param("SEQ") int SEQ);
+    public HolidayVO findByInfoValue(@Param("SEQ") int SEQ,@Param("YEAR") Long year);
 
-    public List<HolidayVO> findAll(@Param("VALUE") String sortValue,@Param("TYPE")String sortType);
-
-    public List<HolidayVO> findByName(@Param("NAME") String NAME);
+    public List<HolidayVO> findAll(@Param("VALUE") String sortValue,@Param("TYPE")String sortType,@Param("YEAR")Long year);
 
     public List<HolidayVO> findTask();
 
@@ -26,7 +24,7 @@ public interface HolidayMapper {
 
     public HolidayVO findUse(@Param("NUM") Long num, @Param("YEAR") Long year, @Param("MONTH") int month);
 
-    public List<HolidayVO> findTaskMember(@Param("TASK") String task);
+    public List<HolidayVO> findTaskMember(@Param("TASK") String task,@Param("YEAR")Long year);
 
     public void detailsUpdate(@Param("SEQ") int seq,@Param("STATE") char state,@Param("REPLY") String reply);
 
