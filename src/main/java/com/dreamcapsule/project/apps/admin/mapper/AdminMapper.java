@@ -11,9 +11,9 @@ import java.util.ArrayList;
 @Mapper
 public interface AdminMapper {
 
-    public ArrayList<AdminVO> findByUserId(String userId);
+    public ArrayList<AdminVO> findByUserId(String adminId);
     int userSave(AdminVO adminVO);
-    int userRoleSave(int userNo,int roleNo);
+    int userRoleSave(int adminSeq,int authSeq);
     int findUserNo( String userId);
     int findRoleNo( String roleName);
 

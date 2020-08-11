@@ -56,14 +56,14 @@ public class AdminController {
                        @RequestParam(value = "userPass") String userPass
     ) throws Exception{
 
-
-        adminVO.setUserName(userName);
-        adminVO.setUserId(userId);
-        adminVO.setUserPass(userPass);
-        adminVO.setRoleName("ROLE_ADMIN");
+        log.info(userId + "///" + userName + "///" + userPass);
+        adminVO.setAdminNm(userName);
+        adminVO.setAdminId(userId);
+        adminVO.setAdminPwd(userPass);
+       adminVO.setAuthNm("ROLE_ADMIN");
 
         adminService.InsertUser(adminVO);
-
+        log.info(userId + "///" + userName + "///" + userPass);
         return "redirect:login";
     }
 

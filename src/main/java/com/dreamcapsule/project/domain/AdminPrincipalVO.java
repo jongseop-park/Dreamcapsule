@@ -21,19 +21,19 @@ public class AdminPrincipalVO implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         for(int x = 0; x<adminVO.size(); x++){
-            authorities.add(new SimpleGrantedAuthority(adminVO.get(x).getRoleName()));
+            authorities.add(new SimpleGrantedAuthority(adminVO.get(x).getAuthNm()));
         }
         return authorities;
     }
 
     @Override
     public String getPassword() {
-        return adminVO.get(0).getUserPass();
+        return adminVO.get(0).getAdminPwd();
     }
 
     @Override
     public String getUsername() {
-        return adminVO.get(0).getUserName();
+        return adminVO.get(0).getAdminNm();
     }
 
     @Override
