@@ -5,69 +5,75 @@ import lombok.ToString;
 
 @ToString
 public class AdminVO {
-    private int userNo;
-    private String userId;
-    private String userPass;
-    private String userName;
-    private String email;
-    private String tel;
-
-    private String roleName;
 
 
-    public int getUserNo() {
-        return userNo;
+    /** 관리자 회원 시퀀스 **/
+    private int adminSeq;
+
+    /** 관리자 아이디 **/
+    private String adminId;
+
+    /** 관리자 비밀번호 **/
+    private String adminPwd;
+
+    /** 관리자 회원 이름 **/
+    private String adminNm;
+
+    /** 관리자 권한 시퀀스 **/
+    private String authNo;
+
+    /** 관리자 권한 이름 **/
+    private String authNm;
+
+
+
+    public int getAdminSeq() {
+        return adminSeq;
     }
 
-    public void setUserNo(int userNo) {
-        this.userNo = userNo;
+    public void setAdminSeq(int adminSeq) {
+        this.adminSeq = adminSeq;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getAdminId() {
+        return adminId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setAdminId(String adminId) {
+        this.adminId = adminId;
     }
 
-    public String getUserPass() {
-        return userPass;
+    public String getAdminPwd() {
+        return adminPwd;
     }
 
-    public void setUserPass(String userPass) {
-        this.userPass = userPass;
+    public void setAdminPwd(String adminPwd) {
+        this.adminPwd = adminPwd;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getAuthNo() {
+        return authNo;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setAuthNo(String authNo) {
+        this.authNo = authNo;
     }
 
-    public String getEmail() {
-        return email;
+    public String getAuthNm() {
+        return authNm;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setAuthNm(String authNm) {
+        this.authNm = authNm;
     }
 
-    public String getTel() {
-        return tel;
+    public String getAdminNm() {
+        return adminNm;
     }
 
-    public void setTel(String tel) {
-        this.tel = tel;
+    public void setAdminNm(String adminNm) {
+        this.adminNm = adminNm;
     }
 
-    public String getRoleName() {
-        return roleName;
-    }
 
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
-    }
 }

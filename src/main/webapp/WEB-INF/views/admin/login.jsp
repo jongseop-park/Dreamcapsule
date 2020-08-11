@@ -48,10 +48,10 @@
                                 </div>
                                 <form class="user" th:action="@{/login} " method="post">
                                     <div class="form-group">
-                                        <input type="text" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" name="userId" placeholder="아이디" value="admin">
+                                        <input type="text" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" name="adminId" placeholder="아이디" value="admin">
                                     </div>
                                     <div class="form-group">
-                                        <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="패스워드" name="userPass" value="admin">
+                                        <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="패스워드" name="adminPwd" value="admin">
                                     </div>
                                     <div class="form-group">
                                         <div class="custom-control custom-checkbox small">

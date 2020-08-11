@@ -27,34 +27,34 @@ public class AdminService implements UserDetailsService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
-    public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
-        log.info("로드유저바이유저네임 유저 진입            "+userId );
-        ArrayList<AdminVO> userAuthes = adminMapper.findByUserId(userId);
+    public UserDetails loadUserByUsername(String adminId) throws UsernameNotFoundException {
+        log.info("로드유저바이유저네임 유저 진입            "+adminId );
+        ArrayList<AdminVO> userAuthes = adminMapper.findByUserId(adminId);
         if(userAuthes.size() == 0){
-            throw new UsernameNotFoundException("User " +userId+"not Found!!!!");
+            throw new UsernameNotFoundException("User " +adminId+"not Found!!!!");
         }
         return new AdminPrincipalVO(userAuthes);
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {Exception.class})
     public String InsertUser(AdminVO adminVO){
-        log.info("인설트 유저 진입");
-        log.info(adminVO.getRoleName());
-        adminVO.setUserPass(bCryptPasswordEncoder.encode(adminVO.getUserPass()));
+
+        adminVO.setAdminPwd(bCryptPasswordEncoder.encode(adminVO.getAdminPwd()));
         int flag = adminMapper.userSave(adminVO);
         if(flag>0){
-            int userNo = adminMapper.findUserNo(adminVO.getUserId());
-            int roleNo = adminMapper.findRoleNo(adminVO.getRoleName());
-            log.info("됫음");
-            adminMapper.userRoleSave(userNo,roleNo);
+
+            int adminSeq = adminMapper.findUserNo(adminVO.getAdminId());
+            int authSeq = adminMapper.findRoleNo(adminVO.getAuthNm());
+
+            adminMapper.userRoleSave(adminSeq,authSeq);
 
             return "success";
         }
         return "fail";
     }
 
-    public void userSave(AdminVO adminVO){
+    /*public void userSave(AdminVO adminVO){
         adminMapper.userSave(adminVO);
 
-    }
+    }*/
 }
