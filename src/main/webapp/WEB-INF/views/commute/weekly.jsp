@@ -134,7 +134,7 @@
                     <div class="d-sm-flex align-items-center justify-content-between mb-1"
                          style="float: right; margin: 4px 0 0 10px">
 
-                        <a href="/download/weeklydown?startDate=${pageMaker.cri.startDate}&endDate=${pageMaker.cri.endDate}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                        <a href="download/weeklydown?startDate=${pageMaker.cri.startDate}&endDate=${pageMaker.cri.endDate}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> 엑셀 다운로드</a>
                     </div>
 
@@ -456,6 +456,13 @@
                 + "&keyword=" + encodeURIComponent(keywordVal);
             window.location.href = url;
         })
+        $('#keyword').keydown(function(key){
+            if(key.keyCode==13) {
+                key.preventDefault();//input의 enter 기능을 막는다.
+                $("#searchBtn").trigger("click"); //seachBtn의 클릭 이벤트를 발생시킨다.
+            }
+        });
+
     }
 
 

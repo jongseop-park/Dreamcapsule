@@ -154,28 +154,29 @@
     <!--==========================엑셀 다운로드 할 모든 데이터================================-->
     <select id="dailyAllList" resultType="DailyDomain" parameterType="Criteria">
         SELECT
-        DAILY_SEQ,
         EMPL_NM,
         DUTY_NM,
         RANK_NM,
-        COMM_TI,
+        ONW_TI,
+        OFFW_TI,
         WORK_ST,
         WORK_TI,
         REST_TI,
         WORK_PL,
-        TO_CHAR(REG_DT,'YYYY/MM/DD')
+        REG_DT
         FROM ( SELECT
-        DAILY.DAILY_SEQ as daily_seq,
+
         EMP.EMP_NM AS EMPL_NM,
         DUTY.DUTY_NM AS DUTY_NM,
         RANK.RANK_NM AS RANK_NM,
-        DAILY.ONW_TI || ' ~ ' ||  DAILY.OFFW_TI AS COMM_TI,
+        DAILY.ONW_TI AS ONW_TI,
+        DAILY.OFFW_TI AS OFFW_TI,
         DAILY.WORK_ST AS WORK_ST,
         ROUND(((TO_dATE(DAILY.OFFW_TI,'HH24:MI') - TO_DATE(DAILY.ONW_TI,'HH24:MI'))*24))-DAILY.REST_TI AS WORK_TI,
         DAILY.REST_TI AS REST_TI,
         PLACE.PLACE_NM AS WORK_PL,
-        TO_CHAR(DAILY.REG_DT,'YYYY/MM/DD') AS REG_DT,
-        ROW_NUMBER() OVER(ORDER BY DAILY.REG_DT) AS RNUM
+        TO_CHAR(DAILY.REG_DT,'YYYY/MM/DD') AS REG_DT
+
         FROM WEB_DAILY DAILY
         INNER JOIN WEB_EMPL_MGM EMP
         ON DAILY.EMP_SEQ = EMP.EMP_SEQ
