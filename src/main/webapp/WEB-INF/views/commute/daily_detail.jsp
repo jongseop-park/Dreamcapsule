@@ -90,7 +90,7 @@
                             <td></br></br>
                                 <h2>${detail.get(0).emplNm}</h2></td>
                             </tr>
-                            <td>${detail.get(0).dutyId} 팀 | ${detail.get(0).rankId}</td>
+                            <td>${detail.get(0).dutyNm} 팀 | ${detail.get(0).rankNm}</td>
 
                             </tbody>
                         </table>
@@ -115,7 +115,7 @@
 
                     <form action="/dailyUpdate" method="POST" id="form" >
                     <table class="detailtable" STYLE="width: 400px; height: 160px;  table-layout: fixed">
-                        <input type="hidden" name="emplNm" id="emplNm" value="${detail.get(0).emplNm}" />
+                        <input type="hidden" name="dailySeq" id="dailySeq" value="${detail.get(0).dailySeq}" />
                         <input type="hidden" name="regDt" id="regDt" value="${detail.get(0).regDt}" />
                         <tbody>
                         <td>출근시간</td>
@@ -187,14 +187,14 @@ $('.offtimepicker').wickedpicker();
 
 $(function (){
     const $form = $("form")
-    let $emplNm = $form.find("#emplNm");
+    let $dailySeq = $form.find("#dailySeq");
     let $regDt = $form.find("#regDt");
     let $startTime = $form.find("#startTime");
     let $endTime = $form.find("#endTime");
     const $btnUpdate = $form.find("#btnUpdate");
     $btnUpdate.on("click",function(){
         var object = {
-            "emplNm" : $emplNm.val(),
+            "dailySeq" : $dailySeq.val(),
             "regDt" : $regDt.val(),
             "startTime": $startTime.val(),
             "endTime" : $endTime.val()
@@ -208,7 +208,7 @@ $(function (){
     function Update(data) {
 
     $.ajax({
-        url :  "/detailUpdate",
+        url :  "detailUpdate",
         type : "POST",
         data : JSON.stringify(data),
         contentType : "application/json",
@@ -217,7 +217,7 @@ $(function (){
             alert("수정 되었습니다.");
             history.back();
         }, error:function(jqXhr){
-            console.log("fff");
+            console.log(jqXhr);
             alert("작업이 실패하였습니다.");
         }
     })

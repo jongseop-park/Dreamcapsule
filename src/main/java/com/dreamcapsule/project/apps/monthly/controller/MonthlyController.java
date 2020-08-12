@@ -32,7 +32,7 @@ public class MonthlyController {
         model.addAttribute("monthlyData",monthlyService.monthlyData(cri));
 
         model.addAttribute("lastdayNum",monthlyService.lastdayNum(cri));
-        model.addAttribute("dutyid",monthlyService.dutyFind());
+        model.addAttribute("dutynm",monthlyService.dutyFind());
 
 
         return "commute/monthly";

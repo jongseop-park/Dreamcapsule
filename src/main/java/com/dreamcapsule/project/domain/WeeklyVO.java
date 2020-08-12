@@ -3,8 +3,8 @@ package com.dreamcapsule.project.domain;
 public class WeeklyVO {
 
     private String emplNm;
-    private String dutyId;
-    private String rankId;
+    private String dutyNm;
+    private String rankNm;
     private String commTi;
     private String workSt;
     private int workTi;
@@ -30,20 +30,22 @@ public class WeeklyVO {
         this.emplNm = emplNm;
     }
 
-    public String getDutyId() {
-        return dutyId;
+
+
+    public String getDutyNm() {
+        return dutyNm;
     }
 
-    public void setDutyId(String dutyId) {
-        this.dutyId = dutyId;
+    public void setDutyNm(String dutyNm) {
+        this.dutyNm = dutyNm;
     }
 
-    public String getRankId() {
-        return rankId;
+    public String getRankNm() {
+        return rankNm;
     }
 
-    public void setRankId(String rankId) {
-        this.rankId = rankId;
+    public void setRankNm(String rankNm) {
+        this.rankNm = rankNm;
     }
 
     public String getCommTi() {

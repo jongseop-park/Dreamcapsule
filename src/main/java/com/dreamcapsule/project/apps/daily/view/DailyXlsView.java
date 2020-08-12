@@ -41,8 +41,8 @@ public class DailyXlsView extends AbstractXlsView {
             row = sheet.createRow(i+1);
             DailyDomain dailyDomain = ((List<DailyDomain>)map.get("dailyXlsList")).get(i);
 
-            Object[] values = {dailyDomain.getEmplNm(), dailyDomain.getDutyId(),
-                    dailyDomain.getRankId(), dailyDomain.getOnwTi(),dailyDomain.getOffwTi(),dailyDomain.getWorkSt(),
+            Object[] values = {dailyDomain.getEmplNm(), dailyDomain.getDutyNm(),
+                    dailyDomain.getRankNm(), dailyDomain.getOnwTi(),dailyDomain.getOffwTi(),dailyDomain.getWorkSt(),
                     dailyDomain.getWorkTi(), dailyDomain.getRestTi(),dailyDomain.getWorkPl(),dailyDomain.getRegDt()
             };
             for(int j=0; j<headName.length; j++){

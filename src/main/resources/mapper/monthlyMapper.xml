@@ -14,12 +14,22 @@
 
     <select id="monthlyData" resultType="MonthlyVO">
 
-        select empl_nm,LISTAGG(to_number(to_Char(REG_DT,'dd')),',')WITHIN GROUP(ORDER BY REG_DT) as
-        monthlyday,listagg(work_st,',')within group(order by reg_dt) work_st, listagg(ONW_TI ||'~'||OFFW_TI ,',')within
-        group(order by reg_Dt) as COMM_TI from
-        comm_tb where TO_dATE(REG_DT,'YY/MM/DD') BETWEEN TRUNC(TO_DATE(#{regDt},'YY/MM/DD'),'MM') AND
-        LAST_dAY(TO_dATE(#{regDt},'YY/MM/DD'))  <include refid="keywordserch"></include> GROUP BY EMPL_NM
 
+        SELECT
+            EMP.EMP_NM AS EMPL_NM,
+            LISTAGG(TO_NUMBER(TO_CHAR(DAILY.REG_DT,'DD')),',') WITHIN GROUP(ORDER BY DAILY.REG_DT) AS monthlyday,
+            LISTAGG(DAILY.WORK_ST,',')WITHIN GROUP(ORDER BY DAILY.REG_DT) AS WORK_ST,
+            LISTAGG(DAILY.ONW_TI || '~' || DAILY.OFFW_TI,',') WITHIN GROUP(ORDER BY DAILY.REG_DT) AS COMM_TI
+        FROM
+            WEB_DAILY DAILY
+            INNER JOIN WEB_EMPL_MGM EMP
+            ON DAILY.EMP_SEQ = EMP.EMP_SEQ
+            INNER JOIN WEB_DUTY_MGM DUTY
+            on EMP.DUTY_SEQ = DUTY.DUTY_SEQ
+
+        WHERE
+            TO_DATE(DAILY.REG_DT,'YY/MM/DD') BETWEEN TRUNC(TO_DATE(#{regDt},'YY/MM/DD'),'MM') AND
+            LAST_DAY(TO_DATE(#{regDt},'YY/MM/DD')) <include refid="keywordserch"></include> GROUP BY EMP.EMP_NM
     </select>
 
     <select id="lastdayNum" resultType="int" parameterType="Criteria">
@@ -40,14 +50,14 @@
 
 
         <if test="keyword != null">
-            and duty_id = #{keyword}
+            and DUTY.DUTY_NM = #{keyword}
         </if>
 
     </sql>
 
 
     <select id="dutyFind" resultType="MonthlyVO">
-       select distinct duty_id from comm_tb ORDER by duty_id
+       select distinct duty_NM from WEB_DUTY_MGM ORDER by duty_NM
     </select>
 
 </mapper>

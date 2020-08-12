@@ -8,46 +8,50 @@
     <!--    모두 검색  -->
     <select id="findAll" resultType="DailyDomain">
         SELECT
-            empl_nm,
-            duty_id,
-            rank_id,
-            comm_ti,
-            work_st,
-            work_ti,
-            rest_ti,
-            work_pl,
-            work_ad,
-            total_ti,
-            tardy_ct,
-            abti_ct,
-            to_char(reg_dt, 'yyyymmdd')
-        FROM
-            comm_tb
+            EMP.EMP_NM AS EMPL_NM,
+            DUTY.DUTY_NM AS DUTY_NM,
+            RANK.RANK_NM AS RANK_NM,
+            DAILY.ONW_TI AS ONW_TI,
+            DAILY.OFFW_TI AS OFFW_TI,
+            DAILY.WORK_ST AS WORK_ST,
+            ROUND(((TO_dATE(DAILY.OFFW_TI,'HH24:MI') - TO_DATE(DAILY.ONW_TI,'HH24:MI'))*24))-DAILY.REST_TI AS WORK_TI,
+            DAILY.REST_TI AS REST_TI,
+            PLACE.PLACE_NM AS PLACE_NM,
+            DAILY.REG_DT AS REG_DT
+        FROM WEB_DAILY DAILY
+        INNER JOIN WEB_EMPL_MGM EMP
+        ON DAILY.EMP_SEQ = EMP.EMP_SEQ
+        INNER JOIN WEB_PLACE_MGM PLACE
+        ON DAILY.PLACE_SEQ = PLACE.PLACE_SEQ
+        INNER JOIN WEB_DUTY_MGM DUTY
+        ON EMP.DUTY_SEQ = DUTY.DUTY_SEQ
+        INNER JOIN WEB_RANK_MGM RANK
+        ON EMP.RANK_SEQ = RANK.RANK_SEQ
     </select>
 
     <sql id="searchCondition">
 
         <if test="keyword != null and regDt == null">
             where
-            seq>0 and empl_nm
+            DAILY.DAILY_SEQ>0 and EMP.emp_nm
             like '%' || #{keyword} || '%'
         </if>
 
         <if test="keyword == null and regDt != null">
             where
-            to_date(reg_dt,'yy/mm/dd') = to_date(#{regDt},'yy/mm/dd')
+            to_date(DAILY.reg_dt,'yy/mm/dd') = to_date(#{regDt},'yy/mm/dd')
         </if>
 
         <if test="keyword != null and regDt !=null">
             where
-            to_date(reg_dt,'yy/mm/dd') = to_date(#{regDt},'yy/mm/dd')
-            and seq>0
-            and empl_nm like '%' || #{keyword} || '%'
+            to_date(DAILY.reg_dt,'yy/mm/dd') = to_date(#{regDt},'yy/mm/dd')
+            and DAILY.DAILY_SEQ>0
+            and EMP.emp_nm like '%' || #{keyword} || '%'
         </if>
 
         <if test="keyword == null and regDt == null">
             where
-            to_date(reg_dt,'yy/mm/dd') = to_date(sysdate,'yy/mm/dd')
+            to_date(DAILY.reg_dt,'yy/mm/dd') = to_date(sysdate,'yy/mm/dd')
         </if>
 
     </sql>
@@ -55,105 +59,134 @@
 
     <sql id="keywordserch">
         <if test="keyword != null">
-            where
-            seq>0
-            and empl_nm
-            like '%' || #{keyword} || '%'
+            WHERE DAILY.DAILY_SEQ>0 AND EMP.EMP_NM LIKE  '%' || #{keyword} || '%'
         </if>
     </sql>
 
-
+<!--    WHERE DAILY.DAILY_SEQ>0 AND EMP.EMP_NM LIKE '%김수연%'-->
     <!--==========================데이터 테이블 위에 출력================================-->
     <select id="listPage" resultType="DailyDomain" parameterType="Criteria">
         SELECT
-        empl_nm,
-        duty_id,
-        rank_id,
-        comm_ti,
-        work_st,
-        work_ti,
-        rest_ti,
-        work_pl,
-        to_char(reg_dt, 'yyyy/mm/dd') AS reg_dt
+        DAILY_SEQ,
+        EMPL_NM,
+        DUTY_NM,
+        RANK_NM,
+        COMM_TI,
+        WORK_ST,
+        WORK_TI,
+        REST_TI,
+        WORK_PL,
+        REG_DT
         FROM ( SELECT
-        empl_nm,
-        duty_id,
-        rank_id,
-        onw_ti
-        || '~'
-        || offw_ti AS comm_ti,
-        work_st,
-        round(((to_date(offw_ti, 'HH24:MI') - to_date(onw_ti, 'HH24:MI')) * 24)) - rest_ti AS work_ti,
-        rest_ti,
-        work_pl,
-        reg_dt,
-        ROW_NUMBER() OVER(ORDER BY ${orderKeyword} ${orderMethod} ) AS rnum
-        FROM
-        comm_tb
-        <include refid="searchCondition"></include>)comm
-        where rnum between ${rowStart} and ${rowEnd} order by  ${orderKeyword} ${orderMethod}
+        DAILY.DAILY_SEQ as daily_seq,
+        EMP.EMP_NM AS EMPL_NM,
+        DUTY.DUTY_NM AS DUTY_NM,
+        RANK.RANK_NM AS RANK_NM,
+        DAILY.ONW_TI || ' ~ ' ||  DAILY.OFFW_TI AS COMM_TI,
+        DAILY.WORK_ST AS WORK_ST,
+        ROUND(((TO_dATE(DAILY.OFFW_TI,'HH24:MI') - TO_DATE(DAILY.ONW_TI,'HH24:MI'))*24))-DAILY.REST_TI AS WORK_TI,
+        DAILY.REST_TI AS REST_TI,
+        PLACE.PLACE_NM AS WORK_PL,
+        TO_CHAR(DAILY.REG_DT,'YYYY/MM/DD') AS REG_DT,
+        ROW_NUMBER() OVER(ORDER BY DAILY.REG_DT) AS RNUM
+        FROM WEB_DAILY DAILY
+        INNER JOIN WEB_EMPL_MGM EMP
+        ON DAILY.EMP_SEQ = EMP.EMP_SEQ
+        INNER JOIN WEB_PLACE_MGM PLACE
+        ON DAILY.PLACE_SEQ = PLACE.PLACE_SEQ
+        INNER JOIN WEB_DUTY_MGM DUTY
+        ON EMP.DUTY_SEQ = DUTY.DUTY_SEQ
+        INNER JOIN WEB_RANK_MGM RANK
+        ON EMP.RANK_SEQ = RANK.RANK_SEQ
+        <include refid="searchCondition"></include>) COMM
+        WHERE RNUM BETWEEN ${rowStart} AND ${rowEnd} ORDER BY ${orderKeyword} ${orderMethod}
     </select>
 
     <!--==========================페이징을 위한 총 개수================================-->
     <select id="listCount" resultType="int">
-        select count(*) from comm_tb
+        select count(*) FROM WEB_DAILY DAILY
+        INNER JOIN WEB_EMPL_MGM EMP
+        ON DAILY.EMP_SEQ = EMP.EMP_SEQ
         <include refid="searchCondition"></include>
     </select>
 
 
     <!--==========================디테일 페이지에 입력될 데이터 추출================================-->
     <select id="detailSearch" resultType="DailyDomain" parameterType="Criteria">
-        SELECT
-            empl_nm,
-            duty_id,
-            rank_id,
-            work_pl,
-            work_ad,
-            round(((to_date(offw_ti, 'HH24:MI') - to_date(onw_ti, 'HH24:MI')) * 24)) - rest_ti AS work_ti,
-            rest_ti,
-            to_char(reg_dt, 'yyyy/mm/dd') AS reg_dt
+        select
+            DAILY.DAILY_SEQ AS DAILY_SEQ,
+            EMP.EMP_NM AS EMPL_NM,
+            DUTY.DUTY_NM AS DUTY_NM,
+            RANK.RANK_NM AS RANK_NM,
+            PLACE.PLACE_NM AS WORK_PL,
+            ROUND(((TO_DATE(DAILY.OFFW_TI,'HH24:MI') - TO_DATE(DAILY.ONW_TI,'HH24:MI'))*24))-DAILY.REST_TI AS WORK_TI,
+            DAILY.REST_TI AS REST_TI,
+            TO_CHAR(DAILY.REG_DT,'YYYY/MM/DD') AS REG_DT
         FROM
-            comm_tb where empl_nm = #{keyword} and to_date(reg_dt,'yy/mm/dd') = to_date(#{regDt},'yy/mm/dd' )
+            WEB_DAILY DAILY
+            INNER JOIN WEB_EMPL_MGM EMP
+            ON DAILY.EMP_SEQ = EMP.EMP_SEQ
+            INNER JOIN WEB_DUTY_MGM DUTY
+            ON EMP.DUTY_SEQ = DUTY.DUTY_SEQ
+            INNER JOIN WEB_RANK_MGM RANK
+            ON EMP.RANK_SEQ = RANK.RANK_SEQ
+            INNER JOIN WEB_PLACE_MGM PLACE
+            ON DAILY.PLACE_SEQ = PLACE.PLACE_SEQ
+        WHERE
+            DAILY.DAILY_SEQ=#{seqNum}
+            and
+            to_date(DAILY.REG_DT,'YY/MM/DD') = TO_DATE(#{regDt},'YY/MM/DD')
+
+
+
     </select>
 
     <!--==========================Daily 정보 업데이트================================-->
     <select id="detailUpdate" parameterType="DailyDomain">
-        update comm_tb
+        update WEB_DAILY
         set
-            onw_ti = #{startTime},
-            offw_ti = #{endTime}
+            ONW_TI = #{startTime},
+            OFFW_TI = #{endTime}
         where
-            empl_nm = #{emplNm} and
-            to_date(reg_dt,'yy/mm/dd') = to_Date(#{regDt},'yy/mm/dd')
+            DAILY_SEQ = #{dailySeq} and
+            to_date(REG_DT,'yy/mm/dd') = to_Date(#{regDt},'yy/mm/dd')
     </select>
     <!--==========================엑셀 다운로드 할 모든 데이터================================-->
     <select id="dailyAllList" resultType="DailyDomain" parameterType="Criteria">
         SELECT
-        empl_nm,
-        duty_id,
-        rank_id,
-        comm_ti,
-        work_st,
-        work_ti,
-        rest_ti,
-        work_pl,
-        to_char(reg_dt, 'yyyy/mm/dd') AS reg_dt
+        DAILY_SEQ,
+        EMPL_NM,
+        DUTY_NM,
+        RANK_NM,
+        COMM_TI,
+        WORK_ST,
+        WORK_TI,
+        REST_TI,
+        WORK_PL,
+        TO_CHAR(REG_DT,'YYYY/MM/DD')
         FROM ( SELECT
-        empl_nm,
-        duty_id,
-        rank_id,
-        onw_ti
-        || '~'
-        || offw_ti AS comm_ti,
-        work_st,
-        round(((to_date(offw_ti, 'HH24:MI') - to_date(onw_ti, 'HH24:MI')) * 24)) - rest_ti AS work_ti,
-        rest_ti,
-        work_pl,
-        reg_dt,
-        ROW_NUMBER() OVER(ORDER BY ${orderKeyword} ${orderMethod} ) AS rnum
-        FROM
-        comm_tb
-        <include refid="searchCondition"></include>)comm
+        DAILY.DAILY_SEQ as daily_seq,
+        EMP.EMP_NM AS EMPL_NM,
+        DUTY.DUTY_NM AS DUTY_NM,
+        RANK.RANK_NM AS RANK_NM,
+        DAILY.ONW_TI || ' ~ ' ||  DAILY.OFFW_TI AS COMM_TI,
+        DAILY.WORK_ST AS WORK_ST,
+        ROUND(((TO_dATE(DAILY.OFFW_TI,'HH24:MI') - TO_DATE(DAILY.ONW_TI,'HH24:MI'))*24))-DAILY.REST_TI AS WORK_TI,
+        DAILY.REST_TI AS REST_TI,
+        PLACE.PLACE_NM AS WORK_PL,
+        TO_CHAR(DAILY.REG_DT,'YYYY/MM/DD') AS REG_DT,
+        ROW_NUMBER() OVER(ORDER BY DAILY.REG_DT) AS RNUM
+        FROM WEB_DAILY DAILY
+        INNER JOIN WEB_EMPL_MGM EMP
+        ON DAILY.EMP_SEQ = EMP.EMP_SEQ
+        INNER JOIN WEB_PLACE_MGM PLACE
+        ON DAILY.PLACE_SEQ = PLACE.PLACE_SEQ
+        INNER JOIN WEB_DUTY_MGM DUTY
+        ON EMP.DUTY_SEQ = DUTY.DUTY_SEQ
+        INNER JOIN WEB_RANK_MGM RANK
+        ON EMP.RANK_SEQ = RANK.RANK_SEQ
+        <include refid="searchCondition"></include>) COMM
+
 
     </select>
     <!--===========================================================================================================-->
