@@ -13,6 +13,7 @@ public class Criteria {
     private int perPageNum;
     private int rowStart;
     private int rowEnd;
+    private int seqNum;
 //검색 기능을 위한 멤버--------------------------------------------------------------------------------------------
 
     private String regDt;
@@ -46,6 +47,14 @@ public class Criteria {
             endDate = sformat.format(cal.getTime());
 
 
+    }
+
+    public int getSeqNum() {
+        return seqNum;
+    }
+
+    public void setSeqNum(int seqNum) {
+        this.seqNum = seqNum;
     }
 
     public String getWorderKeyword() {

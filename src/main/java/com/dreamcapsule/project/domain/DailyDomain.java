@@ -9,24 +9,30 @@ import java.text.SimpleDateFormat;
 
 
 public class DailyDomain {
-
+    private int dailySeq;
     private String emplNm;
-    private String dutyId;
-    private String rankId;
+    private String dutyNm;
+    private String rankNm;
     private String commTi;
     private String workSt;
     private int workTi;
     private int restTi;
     private String workPl;
-    private String workAd;
-    private int totalTi;
-    private int tardyCt;
-    private int abtiCt;
+
     private String regDt;
     private String startTime;
     private String endTime;
     private String onwTi;
     private String offwTi;
+
+
+    public int getDailySeq() {
+        return dailySeq;
+    }
+
+    public void setDailySeq(int dailySeq) {
+        this.dailySeq = dailySeq;
+    }
 
     public String getOnwTi() {
         return onwTi;
@@ -68,20 +74,20 @@ public class DailyDomain {
         this.emplNm = emplNm;
     }
 
-    public String getDutyId() {
-        return dutyId;
+    public String getDutyNm() {
+        return dutyNm;
     }
 
-    public void setDutyId(String dutyId) {
-        this.dutyId = dutyId;
+    public void setDutyNm(String dutyNm) {
+        this.dutyNm = dutyNm;
     }
 
-    public String getRankId() {
-        return rankId;
+    public String getRankNm() {
+        return rankNm;
     }
 
-    public void setRankId(String rankId) {
-        this.rankId = rankId;
+    public void setRankNm(String rankNm) {
+        this.rankNm = rankNm;
     }
 
     public String getCommTi() {
@@ -124,37 +130,7 @@ public class DailyDomain {
         this.workPl = workPl;
     }
 
-    public String getWorkAd() {
-        return workAd;
-    }
 
-    public void setWorkAd(String workAd) {
-        this.workAd = workAd;
-    }
-
-    public int getTotalTi() {
-        return totalTi;
-    }
-
-    public void setTotalTi(int totalTi) {
-        this.totalTi = totalTi;
-    }
-
-    public int getTardyCt() {
-        return tardyCt;
-    }
-
-    public void setTardyCt(int tardyCt) {
-        this.tardyCt = tardyCt;
-    }
-
-    public int getAbtiCt() {
-        return abtiCt;
-    }
-
-    public void setAbtiCt(int abtiCt) {
-        this.abtiCt = abtiCt;
-    }
 
     public String getRegDt() {
         return regDt;

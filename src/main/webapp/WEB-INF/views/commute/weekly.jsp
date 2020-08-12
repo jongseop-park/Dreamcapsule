@@ -134,7 +134,7 @@
                     <div class="d-sm-flex align-items-center justify-content-between mb-1"
                          style="float: right; margin: 4px 0 0 10px">
 
-                        <a href="/download/weeklydown?startDate=${pageMaker.cri.startDate}&endDate=${pageMaker.cri.endDate}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                        <a href="download/weeklydown?startDate=${pageMaker.cri.startDate}&endDate=${pageMaker.cri.endDate}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> 엑셀 다운로드</a>
                     </div>
 
@@ -161,10 +161,10 @@
                             <button value="empl_nm" id="emplNm" class="sortbtn" onclick="sort(emplNm.value)"></button>
                         </th>
                         <th>직무
-                            <button value="duty_id" id="dutyId" class="sortbtn" onclick="sort(dutyId.value)"></button>
+                            <button value="duty_nm" id="dutyNm" class="sortbtn" onclick="sort(dutyNm.value)"></button>
                         </th>
                         <th>직급
-                            <button value="rank_id" id="rankId" class="sortbtn" onclick="sort(rankId.value)"></button>
+                            <button value="rank_nm" id="rankNm" class="sortbtn" onclick="sort(rankNm.value)"></button>
                         </th>
                         <th>근무지
                             <button value="work_pl" id="workPl" class="sortbtn" onclick="sort(workPl.value)"></button>
@@ -185,8 +185,8 @@
 
                         <td>${weekly.emplNm}</td>
 
-                        <td>${weekly.dutyId} 팀</td>
-                        <td>${weekly.rankId}</td>
+                        <td>${weekly.dutyNm} 팀</td>
+                        <td>${weekly.rankNm}</td>
                         <td>${weekly.workPl}</td>
 
                         <c:set var="array">월,화,수,목,금,토,일</c:set>
@@ -326,8 +326,8 @@
     $(function () {
         var btnarray = new Array();
         btnarray[0] = "emplNm";
-        btnarray[1] = "dutyId";
-        btnarray[2] = "rankId";
+        btnarray[1] = "dutyNm";
+        btnarray[2] = "rankNm";
         btnarray[3] = "workPl";
 
         for (var i = 0; i < btnarray.length; i++) {
@@ -367,7 +367,7 @@
             order = "asc";
         }
 
-        self.location = "/weekly?page=1" +
+        self.location = "weekly?page=1" +
             "&keyword=" + "${pageMaker.cri.keyword}" +
             "&startDate=" + "${pageMaker.cri.startDate}" +
             "&endDate=" + "${pageMaker.cri.endDate}" +
@@ -456,6 +456,13 @@
                 + "&keyword=" + encodeURIComponent(keywordVal);
             window.location.href = url;
         })
+        $('#keyword').keydown(function(key){
+            if(key.keyCode==13) {
+                key.preventDefault();//input의 enter 기능을 막는다.
+                $("#searchBtn").trigger("click"); //seachBtn의 클릭 이벤트를 발생시킨다.
+            }
+        });
+
     }
 
 

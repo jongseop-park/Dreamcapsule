@@ -10,15 +10,15 @@ public class MonthlyVO {
     private String commTi;
     private String workSt;
     private int lastdayNum;
-    private String dutyId;
+    private String dutyNm;
 
 
-    public String getDutyId() {
-        return dutyId;
+    public String getDutyNm() {
+        return dutyNm;
     }
 
-    public void setDutyId(String dutyId) {
-        this.dutyId = dutyId;
+    public void setDutyNm(String dutyNm) {
+        this.dutyNm = dutyNm;
     }
 
     public String getMonthlyday() {

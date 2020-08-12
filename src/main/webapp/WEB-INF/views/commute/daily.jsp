@@ -142,7 +142,7 @@
                         <div class="d-sm-flex align-items-center justify-content-between mb-1"
                              style="float: right; margin: 4px 0 0 10px">
 
-                            <a href="/download/dailyList?regDt=${pageMaker.cri.regDt}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                            <a href="download/dailyList?regDt=${pageMaker.cri.regDt}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                     class="fas fa-download fa-sm text-white-50"></i> 엑셀 다운로드</a>
                         </div>
 
@@ -170,9 +170,9 @@
                         <th>직원
                         <button value="empl_nm" id="emplNm" class="sortbtn" onclick="sort(emplNm.value)"></button></th>
                         <th>직무
-                        <button value="duty_id" id="dutyId" class="sortbtn" onclick="sort(dutyId.value)"></button></th></th>
+                        <button value="duty_NM" id="dutyId" class="sortbtn" onclick="sort(dutyId.value)"></button></th></th>
                         <th>직급
-                        <button value="rank_id" id="rankId" class="sortbtn" onclick="sort(rankId.value)"></button></th></th>
+                        <button value="rank_NM" id="rankId" class="sortbtn" onclick="sort(rankId.value)"></button></th></th>
                         <th>출/퇴근 시간</th>
                         <th>근무상태
                             <button value="work_st" id="workSt" class="sortbtn" onclick="sort(workSt.value)"></button></th></th>
@@ -189,9 +189,10 @@
 
                     <c:forEach var="daily" items="${daily}">
                         <tr>
+                        <td style="display: none;">${daily.dailySeq}</td>
                          <td>${daily.emplNm}</td>
-                        <td >${daily.dutyId} 팀</td>
-                        <td >${daily.rankId}</td>
+                        <td >${daily.dutyNm} 팀</td>
+                        <td >${daily.rankNm}</td>
                             <td>${daily.commTi}</td>
                                 <%--                        <td>${daily.offwTi}</td>--%>
                             <td>${daily.workSt}</td>
@@ -329,7 +330,7 @@ function sort(orderkeyword) {
           order = "asc";
       }
 
-        self.location = "/daily?page=1" +
+        self.location = "daily?page=1" +
             "&keyword=${pageMaker.cri.keyword}" +
             "&regDt=${pageMaker.cri.regDt}"+
             "&orderKeyword="+orderkeyword +
@@ -369,11 +370,12 @@ function setSearchTypeSelect(){
         window.location.href = url;
     });
     //검색 버튼이 눌리면
+
     $('#searchBtn').on('click',function(){
 
         var keywordVal = $keyword.val();
 
-            //검색어 입력 안했으면 검색창
+        //검색어 입력 안했으면 검색창
         if(!keywordVal){
             alert("검색어를 입력하세요!");
             $('#keyword').focus();
@@ -384,8 +386,18 @@ function setSearchTypeSelect(){
             + "&regDt="+ encodeURIComponent("${pageMaker.cri.regDt}")
             + "&keyword=" + encodeURIComponent(keywordVal)
         ;
+
         window.location.href = url;
-    })
+
+    });
+    $('#keyword').keydown(function(key){
+        if(key.keyCode==13) {
+            key.preventDefault();//input의 enter 기능을 막는다.
+            $("#searchBtn").trigger("click"); //seachBtn의 클릭 이벤트를 발생시킨다.
+        }
+    });
+
+
 }
 $(function () {
     $("._rtable tbody tr").click(function () {
@@ -397,8 +409,8 @@ $(function () {
         })
 
         console.log(array);
-         self.location = "/dailyDetail?"
-        +"&keyword=" + array[0]
+         self.location = "dailyDetail?"
+        +"&seqNum=" + array[0]
         + "&regDt=" + $('._date').val();
     });
 });

@@ -138,8 +138,8 @@
                             <select type="text" class="form-control bg-light border-0 small" id="keyword"
                                     name="keyword">
                                 <option>All</option>
-                                <c:forEach var="duty" items="${dutyid}">
-                                    <option>${duty.dutyId}</option>
+                                <c:forEach var="duty" items="${dutynm}">
+                                    <option>${duty.dutyNm}</option>
                                 </c:forEach>
 
                             </select>
