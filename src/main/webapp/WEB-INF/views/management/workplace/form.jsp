@@ -111,20 +111,27 @@
                                     <label style="margin-left: 30px">NFC<input type="radio" style="margin-left: 10px"  name="selectEquipment" <c:if test="${result.equipNm eq 'NFC'}">checked="checked"</c:if>value="NFC" ></label>
                                 </div>
                                 <!-- TODO 상세 기능  -->
-                                <div class="form-group" style="margin-top: 1%; <c:if test="${result.equipNm ne '비콘'}">display: none;</c:if>" id="divBeacon">
-                                    사용장비 1
-                                    <button style="float : right;">삭제</button>
-                                    <button style="float : right; margin-right: 1%;">추가</button>
-                                    <select class="form-control" style="width: 70%; float: right; margin-right: 1%;" id="beacon">
-                                        <c:forEach var="beacon" items="${beaconList}">
-                                            <option value="${beacon.equipmentNm}">${beacon.equipmentNm}</option>
-                                        </c:forEach>
-                                    </select>
+
+                                <div  style="margin-top: 1%; <c:if test="${result.equipNm ne '비콘'}">display: none;</c:if>" name="divBeacon">
+                                    <c:if test="${empty result.seq}">
+                                    <div class="form-group" name="beaconBox1">
+                                        사용장비 1
+                                        <input type="button" style="float : right; margin-right: 5%;" name="addBeacon" value="추가"/>
+                                        <select class="form-control" style="width: 70%; float: right; margin-right: 1%;" id="beacon">
+                                            <c:forEach var="beacon" items="${beaconList}">
+                                                <option value="${beacon.equipmentNm}">${beacon.equipmentNm}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
+                                    </c:if>
+                                    <c:if test="${not empty result.seq}">
+                                        사용장비 1
+                                    </c:if>
                                 </div>
-                                <div class="form-group" style="margin-top: 1%; <c:if test="${result.equipNm ne 'NFC'}">display: none;</c:if>" id="divNfc">
+
+                                <div class="form-group" style="margin-top: 1%; <c:if test="${result.equipNm ne 'NFC'}">display: none;</c:if>" name="divNFC">
                                     사용장비 1
-                                    <button style="float : right;">삭제</button>
-                                    <button style="float : right; margin-right: 1%;">추가</button>
+                                    <input type="button" style="float : right; margin-right: 5%;" name="addNFC" value="추가"/>
                                     <select class="form-control" style="width: 70%; float: right; margin-right: 1%;" id="nfc">
                                         <c:forEach var="nfc" items="${nfcList}">
                                             <option value="${nfc.equipmentNm}">${nfc.equipmentNm}</option>
@@ -174,7 +181,6 @@
 <!-- Logout Modal-->
 <%@include file="/WEB-INF/views/include/logout_cmmn.jsp"%>
 
-
 <!-- plugins_js -->
 <%@include file="/WEB-INF/views/include/plugins_js.jsp"%>
 <!-- /plugins_js -->
@@ -190,6 +196,21 @@
         * let : 변수명 재선언X / 값 재할당 가능
         * const : 변수명 재선언X / 값 재할당 X (상수)
         * */
+        var beaconlist = new Array();
+        var nfclist = new Array();
+
+        let beaconCnt = 0;
+        let nfcCnt = 0;
+        <c:forEach items="${beaconList}" var="item">
+            beaconlist.push({
+                beacon:"${item.equipmentNm}"
+            });
+        </c:forEach>
+        <c:forEach items="${nfcList}" var="item">
+        nfclist.push({
+            nfc:"${item.equipmentNm}"
+        });
+        </c:forEach>
 
         const $form = $("#form"); // 입력 폼
         let $seq = $form.find("#seq"); // 시퀀스
@@ -198,32 +219,112 @@
         let $workingTime = $form.find("#workingTime"); // 출근시간
         let $workTime = $form.find("#workTime"); // 퇴근시간
         let $selectEquipment = $form.find("input[name=selectEquipment]")// 장비선택
-        let $divBeacon = $form.find("#divBeacon"); // 비콘 div
-        let $divNfc = $form.find("#divNfc"); // NFC 비콘
+        let $divBeacon = $form.find("[name=divBeacon]"); // 비콘 div
+        let $divNFC = $form.find("[name=divNFC]"); // NFC 비콘
         let $beacon = $form.find("#beacon"); // 비콘 장비
         let $nfc = $form.find("#nfc"); // NFC 장비
+        // let $beaconBox = $form.find("[name=beaconBox]"); // 사용장비
 
         const $btnSave = $form.find("#btnSave"); // 저장
         const $btnUpdate = $form.find("#btnUpdate"); // 수정
         const $btnDelete = $form.find("#btnDelete"); // 삭제
 
-        $selectEquipment.click(function () {
-            var selEquip = $("input[name=selectEquipment]:checked").val();
-            if(selEquip == '없음'){
-                $divBeacon.css("display","none");
-                $divNfc.css("display","none");
-            } else if(selEquip == '비콘'){
-                $divBeacon.css("display","block");
-                $divNfc.css("display","none");
-            } else{
-                $divNfc.css("display","block");
-                $divBeacon.css("display","none");
-            }
-        });
 
         $workingTime.val("${result.workingTime}").prop("selected",true);
         $workTime.val("${result.workTime}").prop("selected",true);
 
+        $selectEquipment.click(function () {
+            var selEquip = $("input[name=selectEquipment]:checked").val();
+            if(selEquip == '없음'){
+                $divBeacon.css("display","none");
+                $divNFC.css("display","none");
+            } else if(selEquip == '비콘'){
+                $divBeacon.css("display","block");
+                $divNFC.css("display","none");
+            } else{
+                $divNFC.css("display","block");
+                $divBeacon.css("display","none");
+            }
+        });
+
+        $(document).on("click","[name=addBeacon]",function (){ // 추가버튼 클릭 시 태그 추가
+            addBeacon();
+        })  ;
+
+        $(document).on("click","[name=delBeacon]",function (){ // 삭제버튼 클릭 시 해당 사용장비 삭제
+            $(this).parent().remove();
+        })
+
+        $(document).on("click","[name=addNFC]",function (){
+           addNFC();
+        });
+
+        $(document).on("click","[name=delNFC]",function (){
+            $(this).parent().remove();
+        })
+
+
+        function addBeacon(){
+            var useEquipmentHtml;
+            if(beaconCnt < 8) {
+                useEquipmentHtml = '<div class="form-group" name="beaconBox" style="margin-top: 2%;">' +
+                    '사용장비 '+(beaconCnt+2)+
+                    '<input type="button" style="float : right;" name="delBeacon" value="삭제"/>' +
+                    '<input type="button" style="float : right; margin-right: 1%;" name="addBeacon" value="추가"/>' +
+                    '<select class="form-control" style="width: 70%; float: right; margin-right: 1%;" id="beacon">';
+
+                for(var i = 0; i < beaconlist.length; i++){
+                    useEquipmentHtml += '<option value='+beaconlist[i].beacon+'>'+beaconlist[i].beacon+'</option>';
+                }
+                useEquipmentHtml += '</select>'+'</div>'
+                $divBeacon.append(useEquipmentHtml);
+                beaconCnt++;
+            } else if (beaconCnt == 8){
+                useEquipmentHtml = '<div class="form-group" name="beaconBox" style="margin-top: 2%;">' +
+                    '사용장비 '+(beaconCnt+2)+
+                    '<input type="button" style="float : right;" name="delBeacon" value="삭제"/>' +
+                    '<select class="form-control" style="width: 70%; float: right; margin-right: 6%;" id="beacon">';
+
+                for(var i = 0; i < beaconlist.length; i++){
+                    useEquipmentHtml += '<option value='+beaconlist[i].beacon+'>'+beaconlist[i].beacon+'</option>';
+                }
+                useEquipmentHtml += '</select>'+'</div>'
+                $divBeacon.append(useEquipmentHtml);
+                beaconCnt++;
+            }
+        }
+
+        function addNFC() {
+            var useEquipmentHtml;
+            if(nfcCnt < 8) {
+                useEquipmentHtml = '<div class="form-group" name="nfcBox" style="margin-top: 2%;">' +
+                    '사용장비 '+(nfcCnt+2)+
+                    '<input type="button" style="float : right;" name="delNFC" value="삭제"/>' +
+                    '<input type="button" style="float : right; margin-right: 1%;" name="addNFC" value="추가"/>' +
+                    '<select class="form-control" style="width: 70%; float: right; margin-right: 1%;" id="nfc">';
+
+                for(var i = 0; i < nfclist.length; i++){
+                    useEquipmentHtml += '<option value='+nfclist[i].nfc+'>'+nfclist[i].nfc+'</option>';
+                }
+                useEquipmentHtml += '</select>'+'</div>'
+                $divNFC.append(useEquipmentHtml);
+                nfcCnt++;
+            } else if (nfcCnt == 8){
+                useEquipmentHtml = '<div class="form-group" name="nfcBox" style="margin-top: 2%;">' +
+                    '사용장비 '+(nfcCnt+2)+
+                    '<input type="button" style="float : right;" name="delNFC" value="삭제"/>' +
+                    '<select class="form-control" style="width: 70%; float: right; margin-right: 6%;" id="nfc">';
+
+                for(var i = 0; i < nfclist.length; i++){
+                    useEquipmentHtml += '<option value='+nfclist[i].nfc+'>'+nfclist[i].nfc+'</option>';
+                }
+                useEquipmentHtml += '</select>'+'</div>'
+                $divNFC.append(useEquipmentHtml);
+                nfcCnt++;
+            }
+        }
+
+        // 저장, 업데이트, 삭제
         $btnSave.on("click",function () { // 추가
             var object = {
             };

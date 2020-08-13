@@ -34,6 +34,9 @@ public class WorkplaceVO extends Criteria{
     /** 자식테이블(equipment_mng_tb) */
     private List<EquipmentVO> equipmentVO;
 
+    /** 자식테이블(use_equipment_tb) */
+    private List<UseEquipmentVO> useEquipmentVO;
+
     public String getSeq() {
         return seq;
     }
@@ -112,5 +115,13 @@ public class WorkplaceVO extends Criteria{
 
     public void setEquipmentVO(List<EquipmentVO> equipmentVO) {
         this.equipmentVO = equipmentVO;
+    }
+
+    public List<UseEquipmentVO> getUseEquipmentVO() {
+        return useEquipmentVO;
+    }
+
+    public void setUseEquipmentVO(List<UseEquipmentVO> useEquipmentVO) {
+        this.useEquipmentVO = useEquipmentVO;
     }
 }

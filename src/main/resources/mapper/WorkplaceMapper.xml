@@ -19,7 +19,6 @@
             <result property="clsfc" column="CLSFC"/>
             <result property="code" column="CODE"/>
             <result property="serialNum" column="SERIAL_NUM"/>
-            <result property="equipSeq" column="EQUIP_SEQ"/>
         </collection>
     </resultMap>
 
@@ -45,7 +44,6 @@
     <select id="beaconList" resultType="EquipmentVO" parameterType="EquipmentVO">
         SELECT
             EQUIPMENT_NM,
-            EQUIP_SEQ,
             CLSFC
         FROM EQUIPMENT_MNG_TB
         WHERE CLSFC = '비콘'
@@ -55,7 +53,6 @@
     <select id="nfcList" resultType="EquipmentVO" parameterType="EquipmentVO">
         SELECT
             EQUIPMENT_NM,
-            EQUIP_SEQ,
             CLSFC
         FROM EQUIPMENT_MNG_TB
         WHERE CLSFC = 'NFC'

@@ -1,0 +1,601 @@
+[33mcommit cd85b478737c547e61507410e0d9ab7ed9bce722[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: ParkSeungHa <tmdgk1031@gmail.com>
+Date:   Tue Aug 11 11:19:57 2020 +0900
+
+    회원가입 로그인 DB 수정
+
+[33mcommit 4d8588ad4b548a38d9360d8538ee044b512f0834[m
+Merge: 6cfc15d fea607c
+Author: ParkSeungHa <tmdgk1031@gmail.com>
+Date:   Thu Aug 6 17:19:36 2020 +0900
+
+    Merge remote-tracking branch 'origin/master'
+
+[33mcommit 6cfc15d5e5518b6c3a0183e2d5bac30be5da4e5b[m
+Author: ParkSeungHa <tmdgk1031@gmail.com>
+Date:   Thu Aug 6 17:19:25 2020 +0900
+
+    Error 페이지 ( side, top, footer 등) 제거
+
+[33mcommit fea607c172d57ed9c7e7559eb878d09d6661bc0d[m
+Author: jongseop-park <jongseop94@adcapsule.co.kr>
+Date:   Thu Aug 6 16:05:16 2020 +0900
+
+    근무지 관리 중간 업로드
+
+[33mcommit 7af71e476f8de2a7a3388b628ef04e331b231d9f[m
+Merge: 86087c8 f0cd370
+Author: ParkSeungHa <tmdgk1031@gmail.com>
+Date:   Thu Aug 6 15:46:02 2020 +0900
+
+    Merge remote-tracking branch 'origin/master'
+
+[33mcommit 86087c8a6dcb693e6174e929a00d8bdb31da0adf[m
+Author: ParkSeungHa <tmdgk1031@gmail.com>
+Date:   Thu Aug 6 15:45:47 2020 +0900
+
+    Logout 및 Logout시 세션제거
+    topbar 이름 표시 등 수정
+
+[33mcommit f0cd370a66364846383a80eb17668baa4d8ad3f2[m
+Author: ParkSeungYong <qkrtmddyd12@naver.com>
+Date:   Thu Aug 6 11:30:06 2020 +0900
+
+    야근관리,리포트 엑셀 다운로드 수정
+
+[33mcommit 221802f78affda7a2132ee0f8efb98ca5e87a094[m
+Author: jongseop-park <jongseop94@adcapsule.co.kr>
+Date:   Wed Aug 5 17:33:47 2020 +0900
+
+    WebConfig 패스워드인코더 삭제 > SecurityConfig 패스워드인코더 추가
+
+[33mcommit 4b3faf1d050a5deae71a5bbc56a899f898bf3ffc[m
+Author: ParkSeungHa <tmdgk1031@gmail.com>
+Date:   Wed Aug 5 17:22:12 2020 +0900
+
+    main 페이지 일부 수정
+
+[33mcommit 0b600ee6456c35f29e6e18247523264865177706[m
+Author: jongseop-park <jongseop94@adcapsule.co.kr>
+Date:   Wed Aug 5 17:18:00 2020 +0900
+
+    권한 변경
+
+[33mcommit 0e2851abcb032cee16d349d6fbec312423b80916[m
+Author: jongseop-park <jongseop94@adcapsule.co.kr>
+Date:   Wed Aug 5 17:16:28 2020 +0900
+
+    admin 경로 추가
+
+[33mcommit 5f9a4a3671a56b76998e6039a4222305cda9a219[m
+Author: jongseop-park <jongseop94@adcapsule.co.kr>
+Date:   Wed Aug 5 17:15:31 2020 +0900
+
+    admin 경로 수정
+
+[33mcommit b8351d2930ebfcb2c4914b3dc7c5cd95f635d6ac[m
+Author: ParkSeungHa <tmdgk1031@gmail.com>
+Date:   Wed Aug 5 16:52:24 2020 +0900
+
+    Security Login 권한 설정 완료.
+
+[33mcommit c999d3dc7ab64c6acda133ee27345ceb90d24ce6[m
+Author: ParkSeungHa <tmdgk1031@gmail.com>
+Date:   Tue Aug 4 13:10:24 2020 +0900
+
+    Revert "휴가 관리 수정/외근 관리 중간 업로드"
+    
+    This reverts commit 1e8c4166
+
+[33mcommit 1e8c4166a2d9d904dc38d3da2167d0b95fd9e26d[m
+Author: kairo <kairo139@naver.com>
+Date:   Fri Jul 31 17:51:20 2020 +0900
+
+    휴가 관리 수정/외근 관리 중간 업로드
+
+[33mcommit 89b15c011ee55467247ae7e92d39c15bf6f601d8[m
+Author: jongseop-park <jongseop94@adcapsule.co.kr>
+Date:   Fri Jul 31 17:28:13 2020 +0900
+
+    Security 로그인 추가
+
+[33mcommit fd79a5d6c0319784019bdec1979c730d49afa1fa[m
+Author: ParkSeungHa <tmdgk1031@gmail.com>
+Date:   Fri Jul 31 17:07:46 2020 +0900
+
+    list 배치도 수정
+
+[33mcommit 7dc945a4234f733bf400623572e0a21dd7ecea31[m
+Author: ParkSeungYong <qkrtmddyd12@naver.com>
+Date:   Fri Jul 31 16:48:39 2020 +0900
+
+    템플릿, 엑셀 클래스 추가
+
+[33mcommit 5a54978a866be36723a697eb6ab1427ba3881941[m
+Author: ParkSeungHa <tmdgk1031@gmail.com>
+Date:   Fri Jul 31 16:45:42 2020 +0900
+
+    daily 조금 수정
+
+[33mcommit 44779e36316280ce91bf1e8c9ee5d4647b2c07c2[m
+Author: ParkSeungYong <qkrtmddyd12@naver.com>
+Date:   Fri Jul 31 16:40:30 2020 +0900
+
+    리포트, 야근관리 엑셀다운로드 수정
+
+[33mcommit a44ab896d5722d71a0610ab656685b71641a84b6[m
+Author: ParkSeungHa <tmdgk1031@gmail.com>
+Date:   Fri Jul 31 16:29:51 2020 +0900
+
+    dayil,weekly,monthly
+    finished
+
+[33mcommit eb48101fcf96c779a54f9f8bce9a01684a697721[m
+Author: ParkSeungHa <tmdgk1031@gmail.com>
+Date:   Fri Jul 31 13:59:03 2020 +0900
+
+    daily,weekly 엑셀 다운추가
+
+[33mcommit f0c1b7d767eba1700822fe2ada3439c19a4ddf97[m
+Author: ParkSeungYong <qkrtmddyd12@naver.com>
+Date:   Thu Jul 30 10:11:30 2020 +0900
+
+    리포트 매퍼 수정
+
+[33mcommit 88d719e05d7b4e078cff0b52ead9101fb93aec00[m
+Author: ParkSeungHa <tmdgk1031@gmail.com>
+Date:   Wed Jul 29 17:55:06 2020 +0900
+
+    데이터 없음, 정렬 박스 수정
+
+[33mcommit 02606d0509bad18c9ff03f2e24cabd3ddecd4329[m
+Author: ParkSeungHa <tmdgk1031@gmail.com>
+Date:   Wed Jul 29 17:53:21 2020 +0900
+
+    daily,weekly,monthly
+    기본 모두 완성.
+
+[33mcommit d697086037ae0b79a36bddf20704878530490856[m
+Author: ParkSeungYong <qkrtmddyd12@naver.com>
+Date:   Wed Jul 29 09:11:36 2020 +0900
+
+    야근관리 url 수정
+
+[33mcommit a4bef4143fc20791b097894cbe3a53d718e8f5a2[m
+Author: ParkSeungYong <qkrtmddyd12@naver.com>
+Date:   Wed Jul 29 09:03:01 2020 +0900
+
+    야근관리 매퍼수정
+
+[33mcommit 47e8b208d6e456761767139fd8392b0308f2f215[m
+Author: kairo <kairo139@naver.com>
+Date:   Tue Jul 28 13:14:15 2020 +0900
+
+    휴가 관리(상세) 승인/반려 변경 오류 수정
+
+[33mcommit 2c61418717608dd40957b4138afbf49a543caad1[m
+Merge: ad43fc6 901ef65
+Author: kairo <kairo139@naver.com>
+Date:   Tue Jul 28 13:06:54 2020 +0900
+
+    Merge remote-tracking branch 'origin/master'
+
+[33mcommit ad43fc652f99a45c25fdb553c673b0d862c13162[m
+Author: kairo <kairo139@naver.com>
+Date:   Tue Jul 28 13:06:37 2020 +0900
+
+    휴가 관리 추가 기능/ 외근 관리 중간 업로드
+
+[33mcommit d7e4f72622fc1617669ad92de0419c2538bd6588[m
+Author: kairo <kairo139@naver.com>
+Date:   Fri Jul 24 17:31:40 2020 +0900
+
+    휴가 관리(상세) 중간 업로드
+
+[33mcommit 901ef651eb31b566a75ee1d2bf129c6ae638035e[m
+Author: jongseop-park <jongseop94@adcapsule.co.kr>
+Date:   Fri Jul 24 17:28:17 2020 +0900
+
+    직급 관리 권한 수정
+
+[33mcommit a9f48fabc0c6e6343964235e69bdc3e83512bdd8[m
+Author: ParkSeungYong <qkrtmddyd12@naver.com>
+Date:   Fri Jul 24 14:14:45 2020 +0900
+
+    야근관리,리포트 엑셀 다운로드
+
+[33mcommit 7ed1f5369f754754ba0b3e15159bec257bc4310b[m
+Author: jongseop-park <jongseop94@adcapsule.co.kr>
+Date:   Thu Jul 23 17:44:36 2020 +0900
+
+    url
+
+[33mcommit 417829388640811999a1dda708010b45d208a786[m
+Author: ParkSeungHa <tmdgk1031@gmail.com>
+Date:   Thu Jul 23 17:39:31 2020 +0900
+
+    topbar 오류 해결
+
+[33mcommit dd387306e28249295fe52eb0c0056ac6a78f54f1[m
+Author: ParkSeungHa <tmdgk1031@gmail.com>
+Date:   Thu Jul 23 17:16:06 2020 +0900
+
+    daily 검색 수정
+    monthly 추가
+
+[33mcommit a459f146c210245554c9b0591aa2ac74ba1b0d9a[m
+Author: jongseop-park <jongseop94@adcapsule.co.kr>
+Date:   Thu Jul 23 17:13:41 2020 +0900
+
+    view 수정
+
+[33mcommit 7c4a7296adcf4046efec25002b4796b4c1a7f453[m
+Author: jongseop-park <jongseop94@adcapsule.co.kr>
+Date:   Thu Jul 23 17:12:42 2020 +0900
+
+    home > main으로 수정 (url : local~/main
+
+[33mcommit 5343d7536ee41a08563273901a9b554e723aac8d[m
+Author: ParkSeungYong <qkrtmddyd12@naver.com>
+Date:   Thu Jul 23 14:53:52 2020 +0900
+
+    야근관리 수정기능 수정, 리포트 기능 업데이트
+
+[33mcommit fcd31214c484249f974659ca47e324eb3e1af328[m
+Author: jongseop-park <jongseop94@adcapsule.co.kr>
+Date:   Wed Jul 22 14:41:23 2020 +0900
+
+    장비관리 추가
+
+[33mcommit 6b40792e1f675178961636c9031976223731ebce[m
+Author: ParkSeungYong <qkrtmddyd12@naver.com>
+Date:   Wed Jul 22 10:02:54 2020 +0900
+
+    리포트 추가
+
+[33mcommit e9d57686935b4eef880ef88d14a2cd36735a412a[m
+Author: kairo <kairo139@naver.com>
+Date:   Tue Jul 21 14:06:41 2020 +0900
+
+    HolidayDetailsVO 추가
+
+[33mcommit be31b17615facf7ae02456c3cb0fca99c38a233b[m
+Merge: befe468 5cfad6b
+Author: kairo <kairo139@naver.com>
+Date:   Tue Jul 21 10:51:32 2020 +0900
+
+    Merge remote-tracking branch 'origin/master'
+
+[33mcommit befe4685f12775dd43cae9c8600401568436df3b[m
+Author: kairo <kairo139@naver.com>
+Date:   Tue Jul 21 10:51:03 2020 +0900
+
+    휴가관리(메인) 기능 추가/ 휴가관리(상세) 중간 업로드
+
+[33mcommit 5cfad6b01dfd9e8e1a4eb0b63fba0feb502f2443[m
+Author: ParkSeungYong <qkrtmddyd12@naver.com>
+Date:   Tue Jul 21 09:45:53 2020 +0900
+
+    야근관리 정렬기능 수정
+
+[33mcommit 3618713bffe5d8ebe0eef9e65804dd5cab413932[m
+Merge: 3bba9d8 fe03148
+Author: ParkSeungHa <tmdgk1031@gmail.com>
+Date:   Tue Jul 21 09:11:10 2020 +0900
+
+    Merge remote-tracking branch 'origin/master'
+
+[33mcommit 3bba9d8341a19fb05a8337b7c50351d3472c6b74[m
+Author: ParkSeungHa <tmdgk1031@gmail.com>
+Date:   Tue Jul 21 09:10:23 2020 +0900
+
+    출퇴근(daily) 완성 (필터제외)
+
+[33mcommit fe03148f7be3ae1243a1f15847c505332ee4f490[m
+Author: jongseop-park <jongseop94@adcapsule.co.kr>
+Date:   Mon Jul 20 17:59:13 2020 +0900
+
+    업체관리 추가
+
+[33mcommit b0d93e0a018c8053bd0c7c775767bf7c1a4d8948[m
+Merge: 9f7a33f 85e7b96
+Author: jongseop-park <jongseop94@adcapsule.co.kr>
+Date:   Fri Jul 17 15:21:36 2020 +0900
+
+    Merge remote-tracking branch 'origin/master'
+
+[33mcommit 9f7a33fd25507fb4d2870d5f0abb4dba9321c3fd[m
+Author: jongseop-park <jongseop94@adcapsule.co.kr>
+Date:   Fri Jul 17 15:20:40 2020 +0900
+
+    position 추가
+
+[33mcommit 85e7b96e27db638b0ce1398702866c3f6cd20d47[m
+Author: ParkSeungYong <qkrtmddyd12@naver.com>
+Date:   Thu Jul 16 16:07:39 2020 +0900
+
+    야근관리 정렬기능, 페이징 수정
+
+[33mcommit 97fc7f61e2bb1a79dcfee5d22dbb867d9c06d790[m
+Author: jongseop-park <jongseop94@adcapsule.co.kr>
+Date:   Thu Jul 16 09:20:10 2020 +0900
+
+    깃 테스트
+
+[33mcommit a0dd1bc3b92147b47b58d9c2b065d8bb28240b4e[m
+Author: jongseop-park <jongseop94@adcapsule.co.kr>
+Date:   Thu Jul 16 09:19:18 2020 +0900
+
+    테스트
+
+[33mcommit 2004073d0422e7b00c2106582161dcb32a1614d5[m
+Author: jongseop-park <jongseop94@adcapsule.co.kr>
+Date:   Thu Jul 16 09:10:23 2020 +0900
+
+    regDt > regDate
+
+[33mcommit 4f3cd03082120688bc254518b2ab508187f9b6de[m
+Merge: 2393aa7 9ddc12c
+Author: ParkSeungHa <tmdgk1031@gmail.com>
+Date:   Wed Jul 15 17:44:02 2020 +0900
+
+    Merge remote-tracking branch 'origin/master'
+
+[33mcommit 2393aa752cfe24d99af054585ab1254094c78463[m
+Author: ParkSeungHa <tmdgk1031@gmail.com>
+Date:   Wed Jul 15 17:43:44 2020 +0900
+
+    출퇴근(daily) 완성 (필터제외)
+
+[33mcommit 9ddc12cead5be42c45bac6d970d81166e5c93f2c[m
+Author: jongseop-park <jongseop94@adcapsule.co.kr>
+Date:   Wed Jul 15 17:42:41 2020 +0900
+
+    직무관리 추가
+
+[33mcommit e8640ca18b7d9f96d955e70fc6c857d30d338a37[m
+Author: ParkSeungYong <qkrtmddyd12@naver.com>
+Date:   Wed Jul 15 17:38:38 2020 +0900
+
+    야근관리 추가
+
+[33mcommit 681369afada1af3cd9be05e8ca1a536915918014[m
+Author: ParkSeungYong <qkrtmddyd12@naver.com>
+Date:   Wed Jul 15 16:59:28 2020 +0900
+
+    야근관리 캘린더,검색 업데이트
+
+[33mcommit b00652a01833aac67fdf0ab3fc2e8c193cf6107c[m
+Merge: 3a7cf68 9682611
+Author: ParkSeungYong <qkrtmddyd12@naver.com>
+Date:   Wed Jul 15 15:48:04 2020 +0900
+
+    Merge remote-tracking branch 'origin/master'
+
+[33mcommit 968261168b996ee39625be87b423cf020c1f0608[m
+Merge: 0d2b872 f85db7d
+Author: ParkSeungHa <tmdgk1031@gmail.com>
+Date:   Tue Jul 14 15:58:00 2020 +0900
+
+    Merge remote-tracking branch 'origin/master'
+
+[33mcommit 0d2b872164b8bd8d8c79a76e72a4ed36714ea852[m
+Author: ParkSeungHa <tmdgk1031@gmail.com>
+Date:   Tue Jul 14 15:57:44 2020 +0900
+
+    출/퇴근관리(Daily) 중간업데이트
+
+[33mcommit f85db7d4330e70f88737f621c47084db058cc9c4[m
+Merge: d6ef6e0 7a5ea81
+Author: kairo <kairo139@naver.com>
+Date:   Mon Jul 13 17:48:53 2020 +0900
+
+    Merge remote-tracking branch 'origin/master'
+
+[33mcommit d6ef6e0880ac98afaa0f2deb57370bdea42dd5af[m
+Author: kairo <kairo139@naver.com>
+Date:   Mon Jul 13 17:48:30 2020 +0900
+
+    휴가 관리 중간 업로드/ 외근 관리 생성
+
+[33mcommit 7a5ea81ed4a0fc3187d8667ba3046dfc937f58de[m
+Merge: 90790a4 2cc0043
+Author: ParkSeungHa <tmdgk1031@gmail.com>
+Date:   Mon Jul 13 15:19:25 2020 +0900
+
+    Merge remote-tracking branch 'origin/master'
+
+[33mcommit 90790a470272db2e2e94dbba11b24b01f60c4948[m
+Author: ParkSeungHa <tmdgk1031@gmail.com>
+Date:   Mon Jul 13 15:18:58 2020 +0900
+
+    출/퇴근관리(Daily) 페이징 업데이트
+
+[33mcommit 2cc004368dd82c436de3ded8cfa48f219c83a4da[m
+Author: jongseop-park <jongseop94@adcapsule.co.kr>
+Date:   Mon Jul 13 15:15:02 2020 +0900
+
+    직원, 직무, 근무지, 직급, 연차, 장비, 의견, 업체 페이지 추가
+
+[33mcommit 3a7cf6828e67ea04bca6f7bca663a9f656376988[m
+Author: ParkSeungYong <qkrtmddyd12@naver.com>
+Date:   Mon Jul 13 14:59:50 2020 +0900
+
+    야근관리 상세 화면 수정, 페이징
+
+[33mcommit 7969251d9d69f606fdbc02aade72dd454e859b00[m
+Author: ParkSeungYong <qkrtmddyd12@naver.com>
+Date:   Mon Jul 13 14:48:58 2020 +0900
+
+    야근관리 상세 화면 수정, 페이징
+
+[33mcommit ca00aa219e1bda5928fe94c6179044e7ba56e2b3[m
+Merge: 9a506a9 51e086c
+Author: ParkSeungYong <qkrtmddyd12@naver.com>
+Date:   Mon Jul 13 14:41:34 2020 +0900
+
+    Merge remote-tracking branch 'origin/master'
+    
+    # Conflicts:
+    #       src/main/webapp/WEB-INF/views/home/home.jsp
+
+[33mcommit 9a506a982d0dca83d97c89a5f3b6646b0a197646[m
+Merge: 4b31219 6a33e95
+Author: ParkSeungYong <qkrtmddyd12@naver.com>
+Date:   Mon Jul 13 14:41:10 2020 +0900
+
+    Merge remote-tracking branch 'origin/master'
+    
+    # Conflicts:
+    #       src/main/webapp/WEB-INF/views/home/home.jsp
+
+[33mcommit 51e086c8f07069174a37aafd8fed383790b9d9df[m
+Author: jongseop-park <jongseop94@adcapsule.co.kr>
+Date:   Mon Jul 13 13:59:56 2020 +0900
+
+    로그아웃 공용 인클루드 생성 및 적용
+
+[33mcommit 6a33e95174b7c7b0cfae91dc096108e425566955[m
+Author: ParkSeungHa <tmdgk1031@gmail.com>
+Date:   Fri Jul 10 18:00:06 2020 +0900
+
+    출퇴근(Daily) 달력 업로드
+
+[33mcommit d4cc46d475be6cf37f2bc213f155cfdee3e5429b[m
+Author: jongseop-park <jongseop94@adcapsule.co.kr>
+Date:   Fri Jul 10 17:57:31 2020 +0900
+
+    Home 화면 수정
+
+[33mcommit d58181332d61764a6891db7d1e7b32e660e49c1e[m
+Author: ParkSeungHa <tmdgk1031@gmail.com>
+Date:   Fri Jul 10 14:02:30 2020 +0900
+
+    출퇴근(Daily) 중간 업로드 / 엑셀 다운로드 inClude 파일 생성
+
+[33mcommit 0bdeac27f2614f790c430f102caf17ac326bb2ff[m
+Author: ParkSeungHa <tmdgk1031@gmail.com>
+Date:   Fri Jul 10 14:02:04 2020 +0900
+
+    출퇴근(Daily) 중간 업로드 / 엑셀 다운로드 inClude 파일 생성
+
+[33mcommit 4b312198088fc3224d95d8b5efb6f736c635fdad[m
+Merge: 70ae7af 29a80a2
+Author: ParkSeungYong <qkrtmddyd12@naver.com>
+Date:   Fri Jul 10 13:06:51 2020 +0900
+
+    Merge remote-tracking branch 'origin/master'
+
+[33mcommit 29a80a238dbfb3fee656a5a82452f974b4fdbeae[m
+Author: jongseop-park <jongseop94@adcapsule.co.kr>
+Date:   Fri Jul 10 13:05:43 2020 +0900
+
+    페이징, 오름/내림차순 기능 뷰 추가(sampleView/tables.html)
+
+[33mcommit b973e86a3410b79854fa32ce1b13e202315424ea[m
+Merge: ac585ba c274610
+Author: jongseop-park <jongseop94@adcapsule.co.kr>
+Date:   Fri Jul 10 11:38:49 2020 +0900
+
+    Merge branch 'master' of https://github.com/jongseop-park/Dreamcapsule
+
+[33mcommit ac585ba474b81a609a69f03f4e934de930113433[m
+Author: jongseop-park <jongseop94@adcapsule.co.kr>
+Date:   Fri Jul 10 11:38:02 2020 +0900
+
+    에러페이지 구현
+
+[33mcommit c2746104867d3e01224bf9c3922e7f30778e75b7[m
+Author: kairo <kairo139@naver.com>
+Date:   Fri Jul 10 09:41:50 2020 +0900
+
+    HolidayVO.java 변수명 변경으로 사용되는 views 수정
+
+[33mcommit 6cafcc48b5e43feecb0cb6690a1013ef6be00f6f[m
+Author: jongseop-park <jongseop94@adcapsule.co.kr>
+Date:   Thu Jul 9 17:58:55 2020 +0900
+
+    Holiday mapper 수정
+
+[33mcommit c82377381dcafb2c596def25ef68235a98671ea8[m
+Author: kairo <kairo139@naver.com>
+Date:   Thu Jul 9 17:29:20 2020 +0900
+
+    휴가관리 임시 추가
+
+[33mcommit 48a7d9cb2956412b88d5f63f712814238d39f415[m
+Author: kairo <kairo139@naver.com>
+Date:   Thu Jul 9 16:37:50 2020 +0900
+
+    휴가관리 임시 추가
+
+[33mcommit 9414bad0c8dde6094f8117f56bf316447884b042[m
+Author: ParkSeungHa <tmdgk1031@gmail.com>
+Date:   Thu Jul 9 16:29:02 2020 +0900
+
+    제이쿼리 파일 업로드
+
+[33mcommit b6c4f602c0889f855339d252863a4debbd1dc1cd[m
+Author: ParkSeungHa <tmdgk1031@gmail.com>
+Date:   Thu Jul 9 16:27:43 2020 +0900
+
+    출/퇴근관리(Daily) 나머지 업로드
+
+[33mcommit 70ae7af21a06b38dace79765e013075aab9bf65f[m
+Merge: 493662a 06102bc
+Author: ParkSeungYong <qkrtmddyd12@naver.com>
+Date:   Thu Jul 9 16:19:02 2020 +0900
+
+    Merge remote-tracking branch 'origin/master'
+
+[33mcommit 06102bce42621edd32dd3934ab5d020e504f4016[m
+Author: ParkSeungHa <tmdgk1031@gmail.com>
+Date:   Thu Jul 9 16:17:26 2020 +0900
+
+    출/퇴근관리 (Daily) 페이지 중간 업로드
+
+[33mcommit 493662a2c1bcb9bf70b6ab07ca1970496638d88d[m
+Merge: a4a7d7b d6c39ab
+Author: ParkSeungYong <qkrtmddyd12@naver.com>
+Date:   Thu Jul 9 16:17:26 2020 +0900
+
+    Merge remote-tracking branch 'origin/master'
+    
+    # Conflicts:
+    #       src/main/webapp/WEB-INF/views/home/home.jsp
+
+[33mcommit a4a7d7b0b4a780346fcd532052e002b58cd9ec43[m
+Author: ParkSeungYong <qkrtmddyd12@naver.com>
+Date:   Thu Jul 9 16:14:35 2020 +0900
+
+    커밋
+
+[33mcommit d6c39ab4e4adb2bcb4a0388bfa219ba508b2601c[m
+Author: jongseop-park <jongseop94@adcapsule.co.kr>
+Date:   Thu Jul 9 15:43:04 2020 +0900
+
+    로그인 페이지 임시 구현
+
+[33mcommit 8033a75294d34e7471f3ef0d36fa84b2f0b778ac[m
+Author: jongseop-park <jongseop94@adcapsule.co.kr>
+Date:   Wed Jul 8 14:11:30 2020 +0900
+
+    뷰 공통으로 나눔
+
+[33mcommit 5a60a411dbba6c91045769413210fd9c7929c57e[m
+Author: jongseop-park <jongseop94@adcapsule.co.kr>
+Date:   Wed Jul 8 13:04:12 2020 +0900
+
+    깃 테스트2
+
+[33mcommit 3d90d0f7f6a6cbaa4b23f131a2d30ccb936cd2a4[m
+Author: jongseop-park <jongseop94@adcapsule.co.kr>
+Date:   Wed Jul 8 12:40:15 2020 +0900
+
+    git 수정사항 반영
+
+[33mcommit 7569529f518f0694a8c3748ce7d59490757fc97d[m
+Author: jongseop-park <jongseop94@adcapsule.co.kr>
+Date:   Wed Jul 8 12:26:47 2020 +0900
+
+    new github
