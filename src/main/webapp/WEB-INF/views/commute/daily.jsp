@@ -279,7 +279,7 @@
 <%--스크립트 라인 ( 데이트 피커 )--%>
 <script src="https://code.jquery.com/jquery-3.4.1.js" crossorigin="anonymous"></script>
 <script src="/static/js/datepicker/datepicker.js"></script>
-<script src="/static/js/commute/table-click.js"></script>
+
 <%--데이트 피커 사용 ( 한글변환)----------------------------------------------------------------------------------------%>
 <script src="/static/js/commute/ko-datepicker.js"></script>
 <%------------------------------------------------------------------------------------------------------------------%>
@@ -307,7 +307,7 @@ $(document).ready(function(){
 
             }else {
                 document.getElementById(btnarray[i]).innerText = "▲";
-            }
+        }
 
         }
     setPerPageNumSelect();

@@ -21,7 +21,11 @@
 
     <!-- Custom styles for this page -->
     <link href="/static/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-
+    <style>
+        .table-bordered tbody tr:hover{
+            background-color: #8fd19e;
+        }
+    </style>
 </head>
 
 <body id="page-top">
@@ -47,6 +51,8 @@
             <div class="container-fluid">
 
                 <!-- 트리 -->
+
+
 
                 <p class="mb-4"><h5>홈 > 직원관리</h5></p>
 
@@ -79,7 +85,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table style="text-align: center" class="table table-bordered" width="100%" cellspacing="0">
+                            <table style="text-align: center" class="table table-bordered _listtable" width="100%" cellspacing="0">
                                 <thead>
                                 <tr>
                                     <th style="width: 20%">직원</th>
@@ -92,26 +98,17 @@
                                 <tfoot>
                                 <tbody>
                                     <tr>
-                                        <td>홍길동</td>
-                                        <td>본사</td>
-                                        <td>테크니컬 팀</td>
-                                        <td>사원</td>
-                                        <td>직원</td>
+                                        <c:forEach var="emplist"  items="${emplist}">
+                                            <td style="display: none">${emplist.empSeq}</td>
+                                            <td>${emplist.emplNm}</td>
+                                            <td>${emplist.placeNm}</td>
+                                            <td>${emplist.dutyNm} 팀</td>
+                                            <td>${emplist.rankNm}</td>
+                                            <td>${emplist.authNm}</td>
                                     </tr>
-                                    <tr>
-                                        <td>홍길동</td>
-                                        <td>본사</td>
-                                        <td>테크니컬 팀</td>
-                                        <td>사원</td>
-                                        <td>직원</td>
-                                    </tr>
-                                    <tr>
-                                        <td>홍길동</td>
-                                        <td>본사</td>
-                                        <td>테크니컬 팀</td>
-                                        <td>사원</td>
-                                        <td>직원</td>
-                                    </tr>
+                                        </c:forEach>
+
+
                                 </tbody>
                             </table>
                             <!-- 테이블 하단 바 -->
@@ -157,3 +154,20 @@
 </body>
 
 </html>
+<script type="text/javascript">
+    $(function () {
+        $("._listtable tbody tr").click(function () {
+
+            var td = $(this).children();
+            var array = new Array();
+            td.each(function(i){
+                array.push(td.eq(i).text());
+            })
+
+            console.log(array);
+            self.location = "form?"
+                +"&empSeq=" + array[0]
+                ;
+        });
+    });
+</script>

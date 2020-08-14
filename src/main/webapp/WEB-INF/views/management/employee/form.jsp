@@ -22,6 +22,26 @@
     <!-- Custom styles for this page -->
     <link href="/static/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
+    <link href="/static/css/datepicker/bootstrap.min.css" rel="stylesheet"
+          crossorigin="anonymous">
+    <link href="/static/css/datepicker/datepicker.css" rel="stylesheet">
+    <style>
+        form div{
+            font-size: 17px;
+        }
+        ._inputstyle{
+            margin-top: 2%;
+        }
+        ._inputstyle input, ._inputstyle select{
+            width : 80%;
+            float : right;
+        }
+        #btnDelete, #btnUpdate, #btnSave{
+            float : right;
+            margin-top: 2%;
+            width: 15%;
+        }
+    </style>
 </head>
 
 <body id="page-top">
@@ -47,52 +67,113 @@
             <div class="container-fluid">
 
                 <!-- 트리 -->
-                <p class="mb-4"><h5>홈 > 직원관리 > 추가</h5></p>
 
-                <!-- 변경할 뷰 -->
+
+                <c:choose>
+                    <c:when test="${pagecheck eq true}">
+                        <p class="mb-4"><h5>홈 > <a href="/admin/management/employee/list">직원관리</a> > 관리</h5></p>
                 <div class="card shadow mb-4">
 
                     <!-- 테이블 상단 바 -->
                     <div class="card-header py-sm-1 ">
-                        <h2 class="m-0 font-weight-bold text-primary">직원 추가하기
+                        <h2 class="m-0 font-weight-bold text-primary">직원 관리하기
                         </h2>
+                    </c:when>
+                    <c:when test="${pagecheck eq false}">
+                        <p class="mb-4"><h5>홈 > <a href="/admin/management/employee/list">직원관리</a> > 추가</h5></p>
+                        <div class="card shadow mb-4">
+
+                            <!-- 테이블 상단 바 -->
+                            <div class="card-header py-sm-1 ">
+                                <h2 class="m-0 font-weight-bold text-primary">직원 추가하기
+                                </h2>
+                    </c:when>
+                </c:choose>
+
+
+                <!-- 변경할 뷰 -->
+
                         <!-- /테이블 상단 바 -->
 
-                    </div>
+
                     <div class="card-body">
                         <div class="table-responsive">
-                            <form class="user">
-                                <div class="form-group" >
-                                    이름<input type="text" class="form-control" id="_name" style="width: 80%; float: right;">
+                            <form action="/bbb"  id="saveform" name="saveform" method="POST" style="margin-top: 30px">
+                                <div class="form-group _inputstyle" >
+                                    이름<input type="text" class="form-control" id="emplNm" name="emplNm">
                                 </div>
-                                <div class="form-group" style="margin-top: 2%">
-                                    직무<input type="text" class="form-control" id="_job" style="width: 80%; float: right;">
+                                <div class="form-group _inputstyle" >
+                                    직무<select name="dutySeq" class="form-control" id="dutySeq" >
+                                    <option> </option>
+                                            <c:forEach var="dutylist" items="${dutylist}">
+                                                <option value="${dutylist.dutylistSeq}">${dutylist.dutyList} 팀</option>
+                                            </c:forEach>
+                                        </select>
                                 </div>
-                                <div class="form-group" style="margin-top: 2%">
-                                    직급<input type="text" class="form-control" id="_position" style="width: 80%; float: right;">
+                                <div class="form-group _inputstyle" >
+                                    직급<select name="rankSeq" id="rankSeq" class="form-control"  >
+                                    <option> </option>
+                                    <c:forEach var="ranklist" items="${ranklist}">
+
+                                        <option value="${ranklist.ranklistSeq}">${ranklist.rankList}</option>
+                                    </c:forEach>
+                                </select>
                                 </div>
-                                <div class="form-group" style="margin-top: 2%">
-                                    권한<input type="text" class="form-control" id="_auth" style="width: 80%; float: right;">
+                                <div class="form-group _inputstyle" >
+                                    권한<select name="authSeq" id="authSeq" class="form-control"  >
+                                    <option> </option>
+                                    <c:forEach var="authlist" items="${authlist}">
+
+                                    <option value="${authlist.authlistSeq}">${authlist.authList}</option>
+                                    </c:forEach>
+                                </select>
                                 </div>
-                                <div class="form-group" style="margin-top: 2%">
-                                    근무지<input type="text" class="form-control" id="_workplace" style="width: 80%; float: right;">
+                                <div class="form-group _inputstyle" >
+                                    근무지<select name="placeSeq" id="placeSeq" class="form-control"  >
+                                    <option> </option>
+                                    <c:forEach var="placelist" items="${placelist}">
+                                        <option value="${placelist.placelistSeq}">${placelist.placeList}</option>
+                                    </c:forEach>
+                                </select>
                                 </div>
-                                <div class="form-group" style="margin-top: 2%">
-                                    이메일<input type="text" class="form-control" id="_email" style="width: 80%; float: right;">
+                                <div class="form-group _inputstyle" >
+                                    이메일<input type="email" class="form-control" id="email" name="email" >
                                 </div>
-                                <div class="form-group" style="margin-top: 2%">
-                                    전화번호<input type="text" class="form-control" id="_tel" style="width: 80%; float: right;">
+                                <div class="form-group _inputstyle" >
+                                    전화번호<input type="tel" class="form-control" id="tel" name="tel" >
                                 </div>
-                                <div class="form-group" style="margin-top: 2%">
+                                <div class="form-group " style="margin-top: 2%">
                                     입사일
+                                    <div style="width: 80%;float: right;">
+                                    <i class="fa fa-calendar" STYLE="float: left;margin-top: 10px; margin-right: 10px"></i>
+                                    <input type="text" class="form-control _date" id="datepicker" name="joinDt" style="width: 30%; float: left;">
+                                    </div>
                                 </div>
-                            </form>
-                        </div>
+
                         <!-- 테이블 하단 바 -->
-                        <div>
-                            <button class="btn btn-dark right" type="button" style="float : right; margin-top: 2%" onclick="location.href='/admin/management/employee/list'">
-                                저장
-                            </button>
+                            <c:choose>
+                                <c:when test="${pagecheck eq true}">
+                                    <div>
+                                    <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" id="btnUpdate"
+                                            type="button"   >
+                                        <span style="font-size: 20px">수정</span>
+                                    </button>
+                                    <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" id="btnDelete"
+                                            type="button"   style="margin-right: 10px"  >
+                                        <span style="font-size: 20px">삭제</span>
+                                    </button>
+                                    </div>
+                                </c:when>
+                                <c:when test="${pagecheck eq false}">
+                                    <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" id="btnSave"
+                                            type="button"    >
+                                        <span style="font-size: 20px">저장</span>
+                                    </button>
+
+                                </c:when>
+                            </c:choose>
+
+                            </form>
                         </div>
                         <!-- /테이블 하단 바 -->
                     </div>
@@ -130,3 +211,94 @@
 </body>
 
 </html>
+<script src="https://code.jquery.com/jquery-3.4.1.js" crossorigin="anonymous"></script>
+<script src="/static/js/datepicker/datepicker.js"></script>
+<%--데이트 피커 사용 ( 한글변환)----------------------------------------------------------------------------------------%>
+<script src="/static/js/commute/ko-datepicker.js"></script>
+
+
+
+
+<script type="text/javascript">
+//===================================================================================================================
+$(function(){
+    if(!${pagecheck}){
+        console.log("직원 추가하기");
+        <%--$("#emplNm").innerText="${infolist.emplNm}";--%>
+    }else{
+        console.log("직원 관리하기");
+        console.log("${infolist.dutylistSeq}");
+        $("#emplNm").val("${infolist.emplNm}");
+        $("#dutySeq").val("${infolist.dutylistSeq}");
+        $("#rankSeq").val("${infolist.ranklistSeq}");
+        $("#authSeq").val("${infolist.authlistSeq}");
+        $("#placeSeq").val("${infolist.placelistSeq}");
+        $("#email").val("${infolist.email}");
+        $("#tel").val("${infolist.tel}");
+        $("._date").val("${infolist.joinDt}");
+    }
+})
+
+//===================================================================================================================
+    $("#btnSave").on("click",function(){
+        // var saveQuery = $("form[name=saveform]").serialize(); //saveform id를 가진 form 을 찾아 form안에 있는 id의 값을 찾아온다.
+        var object = makeJosn();
+        console.log(object);
+        callAjax(object,"save","회원등록");
+         });
+
+//===================================================================================================================
+    $("#btnUpdate").on("click",function(){
+        var object = makeJosn();
+        console.log(object);
+        callAjax(object,"infoUpdate","회원수정")
+    });
+
+
+//===================================================================================================================
+    $("#btnDelete").on("click",function(){
+        var object = {
+            "empSeq" : ${infolist.empSeq}
+        };
+        callAjax(object,'infoDelete','회원삭제')
+
+    });
+
+
+//===================================================================================================================
+function callAjax(data,url,massage) {
+    $.ajax({
+        type:"POST",
+        url:url,
+        data:JSON.stringify(data),
+        contentType : "application/json",
+        success : function () {
+            alert(massage+"이 정상적으로 수행되었습니다.");
+            history.back();
+        },error : function (jqXhr) {
+            alert(massage+" 실패!");
+        }
+    });
+
+}
+//===================================================================================================================
+function makeJosn(){
+    console.log(${infolist.empSeq});
+    var object = {
+        "empSeq" : ${infolist.empSeq},
+        "emplNm" : $("#emplNm").val(),
+        "dutylistSeq" : $("#dutySeq").val(),
+        "ranklistSeq" : $("#rankSeq").val(),
+        "authlistSeq" : $("#authSeq").val(),
+        "placelistSeq" : $("#placeSeq").val(),
+        "email" : $("#email").val(),
+        "tel" : $("#tel").val(),
+        "joinDt" : $("._date").val()
+    };
+    return object;
+}
+
+
+
+
+</script>

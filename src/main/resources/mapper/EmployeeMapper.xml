@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dreamcapsule.project.apps.management.employee.mapper.EmployeeMapper">
+
+<select id="emplList" resultType="EmployeeVO">
+    select
+    EMP.EMP_SEQ AS EMP_SEQ,
+    EMP.EMP_NM AS EMPL_NM,
+    PLACE.PLACE_NM AS PLACE_NM,
+    DUTY.DUTY_NM AS DUTY_NM,
+    RANK.RANK_NM AS RANK_NM,
+    AUTH.AUTH_DESC AS AUTH_NM
+FROM
+    WEB_EMPL_MGM EMP
+    INNER JOIN WEB_PLACE_MGM PLACE
+    ON EMP.PLACE_SEQ = PLACE.PLACE_SEQ
+    INNER JOIN WEB_DUTY_MGM DUTY
+    ON EMP.DUTY_SEQ = DUTY.DUTY_SEQ
+    INNER JOIN WEB_RANK_MGM RANK
+    ON EMP.RANK_SEQ = RANK.RANK_SEQ
+    INNER JOIN WEB_AUTHOR_GRP AUTH
+    ON EMP.AUTH_SEQ = AUTH.AUTH_SEQ
+
+</select>
+
+    <select id="dutylist" resultType="EmployeeVO">
+        SELECT DUTY_SEQ AS DUTYLIST_SEQ, DUTY_NM AS DUTY_LIST
+        FROM WEB_DUTY_MGM
+        WHERE DUTY_NM != '대표이사'
+    </select>
+    <select id="ranklist" resultType="EmployeeVO">
+        SELECT RANK_SEQ AS RANKLIST_SEQ, RANK_NM AS RANK_LIST
+        FROM WEB_RANK_MGM
+        WHERE RANK_NM != '대표' ORDER BY RANK_SEQ DESC
+    </select>
+    <select id="placelist" resultType="EmployeeVO">
+        SELECT PLACE_SEQ AS PLACELIST_SEQ, PLACE_NM AS PLACE_LIST
+        FROM WEB_PLACE_MGM
+    </select>
+    <select id="authlist" resultType="EmployeeVO">
+        SELECT AUTH_SEQ AS AUTHLIST_SEQ, AUTH_DESC AS AUTH_LIST
+        FROM WEB_AUTHOR_GRP ORDER BY AUTH_SEQ DESC
+    </select>
+
+    <insert id="empUpdate" parameterType="EmployeeVO">
+        insert into web_empl_mgm(
+        emp_seq,emp_nm,duty_seq,rank_seq,email,tel,join_dt,reg_dt,place_seq,auth_seq)
+        values(emp_seq.nextval,#{emplNm},#{dutylistSeq},#{ranklistSeq},#{email},#{tel}
+        ,to_date(#{joinDt},'yy/mm/dd'),to_date(sysdate,'yy/mm/dd'),#{placelistSeq},#{authlistSeq})
+    </insert>
+
+    <select id="infolist" parameterType="EmployeeVO" resultType="EmployeeVO">
+       select emp.emp_Seq as empSeq,emp.emp_nm as empl_nm, duty.duty_nm as duty_nm, rank.rank_nm as rank_nm
+        ,auth.auth_nm as auth_nm,place.place_nm as place_nm,email,tel,to_char(join_dt,'yyyy/mm/dd') as join_Dt
+        ,emp.duty_seq as dutylistSeq,emp.rank_seq as ranklistSeq, emp.auth_seq as authlistSeq,emp.place_seq as placelistSeq
+        from web_empl_mgm emp
+        inner join web_duty_mgm duty
+        on emp.duty_Seq = duty.duty_seq
+        inner join web_rank_mgm rank
+        on emp.rank_seq = rank.rank_seq
+        inner join web_author_grp auth
+        on emp.auth_seq = AUTH.AUTH_SEQ
+        INNER JOIN WEB_PLACE_MGM  PLACE
+        ON EMP.PLACE_SEQ = PLACE.PLACE_SEQ
+
+        WHERE EMP.EMP_SEQ = ${empSeq}
+    </select>
+    <update id="infoUpdate" parameterType="EmployeeVO">
+        update web_empl_mgm set
+        emp_nm = #{emplNm},
+        duty_seq = #{dutylistSeq},
+        rank_seq = #{ranklistSeq},
+        auth_seq = #{authlistSeq},
+        place_seq = #{placelistSeq},
+        email= #{email},
+        tel = #{tel}
+        where emp_seq = ${empSeq}
+
+
+    </update>
+    <delete id="infoDelete" parameterType="EmployeeVO">
+        delete from web_empl_mgm where emp_seq = ${empSeq}
+
+    </delete>
+</mapper>
+
+
+
+
+
+
+
+
+
+
