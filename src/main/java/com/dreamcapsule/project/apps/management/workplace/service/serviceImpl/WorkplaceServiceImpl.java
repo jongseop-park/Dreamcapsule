@@ -45,5 +45,25 @@ public class WorkplaceServiceImpl implements WorkplaceService {
         return workplaceMapper.nfcList();
     }
 
+    @Override
+    public void insert(WorkplaceVO conn){
+        workplaceMapper.insert(conn);
+    }
+
+    @Override
+    public void update(WorkplaceVO conn){
+        workplaceMapper.update(conn);
+    }
+
+    @Override
+    public void delUpdate(WorkplaceVO conn){
+        workplaceMapper.delUpdate(conn);
+    }
+
+    @Override
+    public void delete(WorkplaceVO conn){
+        workplaceMapper.delete(conn);
+    }
+
 
 }

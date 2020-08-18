@@ -3,6 +3,7 @@ package com.dreamcapsule.project.apps.management.workplace.controller;
 import com.dreamcapsule.project.apps.management.workplace.service.WorkplaceService;
 import com.dreamcapsule.project.domain.EquipmentVO;
 import com.dreamcapsule.project.domain.PageMaker;
+import com.dreamcapsule.project.domain.UseEquipmentVO;
 import com.dreamcapsule.project.domain.WorkplaceVO;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -67,7 +68,22 @@ public class WorkplaceController { // 근무지 관리
     @RequestMapping("/save")
     @ResponseBody
     public WorkplaceVO save(@RequestBody WorkplaceVO conn){
+        if(StringUtils.isEmpty(conn.getSeq())){
+//            workplaceService.insert(conn);
+            log.info("WorkplaceVO : "+conn);
+            log.info("==================================================================");
+            log.info("management/workplace/save");
+            log.info("insert");
+            log.info("==================================================================");
 
+        }
+        else {
+//            workplaceService.update(conn);
+            log.info("==================================================================");
+            log.info("management/workplace/save");
+            log.info("update");
+            log.info("==================================================================");
+        }
         return conn;
     }
 

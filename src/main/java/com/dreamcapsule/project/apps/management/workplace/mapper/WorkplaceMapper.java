@@ -20,4 +20,14 @@ public interface WorkplaceMapper {
     public List<EquipmentVO> beaconList();
 
     public List<EquipmentVO> nfcList();
+
+    public void insert(WorkplaceVO conn);
+
+    public void insertUseEquipment(WorkplaceVO conn);
+
+    public void update(WorkplaceVO conn);
+
+    public void delUpdate(WorkplaceVO conn);
+
+    public void delete(WorkplaceVO conn);
 }
