@@ -272,9 +272,9 @@
                             </form>
                             <div style="display:flex; float: right"><h6>
                                 <input type="text" class="startDatepicker" id="date1" value="<%= startDate  %>">
-                                <button id="dateSort" value="reg_dt" onclick="sort(dateSort.value)"><%= registerDate %></button> ~
+                                <button id="dateSort" value="join_dt" onclick="sort(dateSort.value)"><%= hireDate %></button> ~
                                 <input type="text" class="endDatepicker" id="date2" value="<%= endDate %>">
-                                <button id="dateSort2" value="reg_dt" onclick="sort(dateSort.value)"><%= registerDate %></button>
+                                <button id="dateSort2" value="join_dt" onclick="sort(dateSort.value)"><%= hireDate %></button>
                             </h6></div>
                         </h2>
                         <!-- /테이블 상단 바 -->
@@ -285,7 +285,7 @@
                             <table style="text-align: center" class="table table-bordered" width="100%" cellspacing="0">
                                 <thead>
                                 <th rowspan="2">직원<button id="empName" value="emp_nm" onclick="sort(empName.value)"><%= empName %></button></th>
-                                <th rowspan="2">입사일<button id="hireDate" value="hire_dt" onclick="sort(hireDate.value)"><%= hireDate %></button></th>
+                                <th rowspan="2">입사일<button id="hireDate" value="join_dt" onclick="sort(hireDate.value)"><%= hireDate %></button></th>
                                 <th rowspan="2">실제근로일수</th>
                                 <th rowspan="2">실제근로시간</th>
                                 <th rowspan="2">유급휴가시간</th>

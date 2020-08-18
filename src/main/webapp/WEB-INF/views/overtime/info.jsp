@@ -82,13 +82,16 @@
                         <td>시간</td><td>${empInfo.otTm}</td>
                     </tr>
                     <tr>
-                        <td>석식</td><td>${empInfo.eatYn}</td>
+                        <td>석식</td>
+                        <td><c:if test="${empInfo.eatYn == 'y'}">O</c:if>
+                            <c:if test="${empInfo.eatYn == 'n'}">X</c:if>
+                        </td>
                     </tr>
                     <tr>
                         <td>메모</td><td>${empInfo.content}</td>
                     </tr>
                     <tr>
-                        <td>신청날짜</td><td>${empInfo.reqDt}</td>
+                        <td>신청날짜</td><td>${empInfo.regDt}</td>
                     </tr>
                     <tr>
                         <c:if test="${empInfo.status}">

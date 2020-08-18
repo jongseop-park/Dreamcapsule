@@ -7,103 +7,68 @@
     SELECT
         *
     FROM
-        ot_mng_tb
+        web_overtime
     ORDER BY
-        seq
+        over_seq
     </select>
 
     <select id="findInfo" parameterType="int" resultType="com.dreamcapsule.project.domain.OvertimeVO">
-    SELECT seq, reg_Dt, mod_Dt, emp_Nm, emp_Job,
-    emp_Pos, ot_Dt, ot_Tm, eat_Yn, status, content, to_char(req_Dt, 'yyyy.MM.dd (DY) hh:mm')
-    AS req_Dt, ans FROM OT_MNG_TB WHERE seq = ${sequence}
+   select o.over_seq as seq, o.reg_date as reg_dt, o.mod_date as mod_dt, e.emp_nm as emp_nm, d.duty_nm as emp_job
+   , r.rank_nm as emp_pos , o.ot_Date as ot_dt,(o.ot_time_start || '~' || o.ot_time_end) as ot_tm, o.eat_Yn, o.status, o.content
+   , ans from web_overtime o, web_empl_mgm e, web_rank_mgm r, web_duty_mgm d
+where o.over_seq = #{sequence} and o.emp_num = e.emp_seq
+and d.duty_seq = e.duty_seq
+and r.rank_seq = e.rank_seq
 
     </select>
 
     <select id="updateEmpInfo" parameterType="com.dreamcapsule.project.domain.OvertimeVO">
-         UPDATE OT_MNG_TB
-         SET mod_Dt=SYSDATE, ans=#{ans}, status=#{status}
-         WHERE seq=#{seq}
+         update web_overtime set mod_date=SYSDATE, ans=#{ans}, status=#{status} where over_seq= #{seq}
     </select>
 
     <select id="countSearch" resultType="int">
 
-            select count(seq) from OT_MNG_TB
-            where emp_Nm like '%' || #{keyword} || '%'
-            and (req_Dt between to_date(#{startDate}) and to_date(#{endDate}))
+           select count(o.over_seq) from web_overtime o, web_empl_mgm e, web_duty_mgm d, web_rank_mgm r
+where e.emp_nm LIKE '%' || #{keyword} || '%'
+and o.reg_date BETWEEN to_date(#{startDate}) AND to_date(#{endDate})
+and e.emp_seq = o.emp_num
+and d.duty_seq = e.duty_seq and r.rank_seq = e.rank_seq
     </select>
 
     <select id="search" parameterType="com.dreamcapsule.project.apps.overtime.domain.SearchCriteria"
             resultType="com.dreamcapsule.project.domain.OvertimeVO">
-SELECT
-    seq,
-    reg_dt,
-    mod_dt,
-    emp_nm,
-    emp_job,
-    emp_pos,
-    ot_dt,
-    ot_tm,
-    eat_yn,
-    status,
-    content,
-    to_char(req_dt, 'yyyy.MM.dd (DY) hh:mm') AS req_dt,
-    ans
-FROM ( SELECT
-    seq,
-    reg_dt,
-    mod_dt,
-    emp_nm,
-    emp_job,
-    emp_pos,
-    ot_dt,
-    ot_tm,
-    eat_yn,
-    status,
-    content,
-    req_dt,
-    ans,
-    row_number() over
-(
-ORDER BY
-    ${orderKeyword} ${order}) as rnum FROM OT_MNG_TB WHERE emp_Nm LIKE '%' || #{keyword} || '%'
-AND (req_Dt BETWEEN to_date(#{startDate}) AND to_date(#{endDate}))) WHERE rnum BETWEEN #{rowStart}
-AND #{rowEnd} order by ${orderKeyword} ${order}
-
+select over_seq as seq, reg_date as reg_dt, mod_date as mod_dt, emp_nm as emp_nm, duty_nm as emp_job
+, rank_nm as emp_pos, to_char(ot_date, 'MM.dd(DY)') as ot_dt, ot_time as ot_tm, eat_yn, nvl(status, '대기중') as status, content, ans
+from (
+  select o.over_seq, o.reg_date, o.mod_date, e.emp_nm, d.duty_nm, r.rank_nm, o.ot_date,
+  (o.ot_time_start || '~' || o.ot_time_end) as ot_time, o.eat_yn,
+ o.status, o.content, o.ans, row_number() over
+ (
+  order by ${orderKeyword} ${order}) as rnum
+  FROM web_overtime o, web_empl_mgm e, web_rank_mgm r, web_duty_mgm d
+  where e.emp_seq = o.emp_num
+  AND e.duty_seq = d.duty_seq
+  AND e.rank_seq = r.rank_seq
+  AND (e.emp_nm LIKE '%' || #{keyword} || '%')
+  AND (o.reg_date BETWEEN #{startDate} AND #{endDate}))
+  where rnum between #{rowStart} AND #{rowEnd}
+  order by ${orderKeyword} ${order}
     </select>
 
     <select id="overtimeExcel" resultType="com.dreamcapsule.project.domain.OvertimeVO">
-        SELECT
-    seq,
-    reg_dt,
-    mod_dt,
-    emp_nm,
-    emp_job,
-    emp_pos,
-    ot_dt,
-    ot_tm,
-    eat_yn,
-    status,
-    content,
-    to_char(req_dt, 'yyyy.MM.dd (DY) hh:mm') AS req_dt,
-    ans
-FROM ( SELECT
-    seq,
-    reg_dt,
-    mod_dt,
-    emp_nm,
-    emp_job,
-    emp_pos,
-    ot_dt,
-    ot_tm,
-    eat_yn,
-    status,
-    content,
-    req_dt,
-    ans,
-    row_number() over
-(
-ORDER BY
-    ${orderKeyword} ${order}) as rnum FROM OT_MNG_TB WHERE emp_Nm LIKE '%' || #{keyword} || '%'
-AND (req_Dt BETWEEN to_date(#{startDate}) AND to_date(#{endDate})))
+     select over_seq as seq, reg_date as reg_dt, mod_date as mod_dt, emp_nm as emp_nm, duty_nm as emp_job
+, rank_nm as emp_pos, to_char(ot_date, 'MM.dd(DY)') as ot_dt, ot_time as ot_tm, eat_yn, nvl(status, '대기중') as status, content, ans
+from (
+  select o.over_seq, o.reg_date, o.mod_date, e.emp_nm, d.duty_nm, r.rank_nm, o.ot_date,
+  (o.ot_time_start || '~' || o.ot_time_end) as ot_time, o.eat_yn,
+ o.status, o.content, o.ans, row_number() over
+ (
+  order by ${orderKeyword} ${order}) as rnum
+  FROM web_overtime o, web_empl_mgm e, web_rank_mgm r, web_duty_mgm d
+  where e.emp_seq = o.emp_num
+  AND e.duty_seq = d.duty_seq
+  AND e.rank_seq = r.rank_seq
+  AND (e.emp_nm LIKE '%' || #{keyword} || '%')
+  AND (o.reg_date BETWEEN #{startDate} AND #{endDate}))
     </select>
 </mapper>

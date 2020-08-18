@@ -33,7 +33,7 @@
     String order = request.getParameter("order") == null ? "" : request.getParameter("order");
     String orderKeyword = request.getParameter("orderKeyword") == null ? "" : request.getParameter("orderKeyword");
 
-    String btnNames[] = {"emp_Nm", "emp_Job", "emp_Pos", "status", "req_Dt"};
+    String btnNames[] = {"emp_Nm", "duty_nm", "rank_nm", "status", "reg_date"};
     String btnValues[] = {"▼", "▼", "▼", "▼", "▼"};
 
     if (order.equals("asc")) {
@@ -279,10 +279,10 @@
                             <img style="height: 30px; width: 30px; margin: 4px 2px 0 150px;"
                                  src="https://icons.iconarchive.com/icons/custom-icon-design/mono-business-2/32/calendar-icon.png">
                             <input type="text" class="startDatepicker" id="date1" value="<%= startDate  %>">
-                            <button id="dateSort" value="req_Dt" onClick="sort(dateSort.value)"><%= btnValues[4] %>
+                            <button id="dateSort" value="reg_date" onClick="sort(dateSort.value)"><%= btnValues[4] %>
                             </button>
                             ~<input type="text" class="endDatepicker" id="date2" value="<%= endDate %>">
-                            <button id="dateSort2" value="req_Dt" onClick="sort(dateSort2.value)"><%= btnValues[4] %>
+                            <button id="dateSort2" value="reg_date" onClick="sort(dateSort2.value)"><%= btnValues[4] %>
                             </button>
 
 
@@ -326,11 +326,11 @@
                                     </button>
                                 </th>
                                 <th id="직무">직무
-                                    <button id="empJob" value="emp_Job" onClick="sort(empJob.value)"><%= btnValues[1] %>
+                                    <button id="empJob" value="duty_nm" onClick="sort(empJob.value)"><%= btnValues[1] %>
                                     </button>
                                 </th>
                                 <th id="직급">직급
-                                    <button id="empPosition" value="emp_Pos"
+                                    <button id="empPosition" value="rank_nm"
                                             onClick="sort(empPosition.value)"><%= btnValues[2] %>
                                     </button>
                                 </th>
@@ -355,7 +355,12 @@
                                     <td>${searchData.empPos}</td>
                                     <td>${searchData.otDt}</td>
                                     <td>${searchData.otTm}</td>
-                                    <td>${searchData.eatYn}</td>
+                                    <c:if test="${searchData.eatYn == 'y'}">
+                                        <td>O</td>
+                                    </c:if>
+                                    <c:if test="${searchData.eatYn != 'y'}">
+                                        <td>X</td>
+                                    </c:if>
                                     <td>${searchData.status}</td>
                                 </tr>
                             </c:forEach>
