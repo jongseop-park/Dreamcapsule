@@ -7,14 +7,14 @@
     String startDate = request.getParameter("startDate");
     String endDate = request.getParameter("endDate");
 
-    if(startDate != null && endDate != null) {
+    if(startDate != null && endDate != null) { // 날짜 선택 시
         SimpleDateFormat source = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일");
 
         startDate = sdf.format(source.parse(startDate));
         endDate = sdf.format(source.parse(endDate));
-    } else {
-        Calendar cal = Calendar.getInstance();
+    } else { // 날짜 미선택 시
+        Calendar cal = Calendar.getInstance(); // 현재 날짜 가져옴
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH) + 1;
         int dayOfMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
@@ -23,7 +23,7 @@
         endDate = year + "년 " + String.format("%02d", month) + "월 " + String.format("%02d일", dayOfMonth);
     }
 
-    /* 정렬 */
+    /* 정렬버튼 전환 */
     String order = request.getParameter("order") == null? "" : request.getParameter("order");
     String orderKeyword = request.getParameter("orderKeyword") == null? "": request.getParameter("orderKeyword");
 
@@ -71,6 +71,7 @@
 
     <!-- java script -->
     <script type="text/javascript">
+        /* 정렬 */
         function sort(keyword) {
             var order = "asc";
             var orderKeyword = keyword;
@@ -270,19 +271,21 @@
                                     </div>
                                 </div>
                             </form>
-                            <div style="display:flex; float: right"><h6>
+                            <div style="display:flex; float: right">
+                                <h6>
                                 <input type="text" class="startDatepicker" id="date1" value="<%= startDate  %>">
                                 <button id="dateSort" value="join_dt" onclick="sort(dateSort.value)"><%= hireDate %></button> ~
                                 <input type="text" class="endDatepicker" id="date2" value="<%= endDate %>">
                                 <button id="dateSort2" value="join_dt" onclick="sort(dateSort.value)"><%= hireDate %></button>
-                            </h6></div>
+                                </h6>
+                            </div>
                         </h2>
                         <!-- /테이블 상단 바 -->
 
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table style="text-align: center" class="table table-bordered" width="100%" cellspacing="0">
+                            <table style="text-align: center;" class="table table-bordered" width="100%" cellspacing="0">
                                 <thead>
                                 <th rowspan="2">직원<button id="empName" value="emp_nm" onclick="sort(empName.value)"><%= empName %></button></th>
                                 <th rowspan="2">입사일<button id="hireDate" value="join_dt" onclick="sort(hireDate.value)"><%= hireDate %></button></th>

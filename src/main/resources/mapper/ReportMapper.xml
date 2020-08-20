@@ -20,26 +20,6 @@
         <result property="absentCount" column="AB_COUNT" />
     </resultMap>
 
-    <select id="reportList" resultType="com.dreamcapsule.project.domain.ReportVO" resultMap="ReportMap">
-         SELECT
-    emp_nm,
-    to_char(hire_dt, 'YYYY-MM-DD') AS hire_dt,
-    work_dt,
-    work_tm,
-    pay_vac_tm,
-    ot_work_tm,
-    pl_ot_tm,
-    ac_ot_tm,
-    vc_count,
-    vc_total,
-    late_count,
-    ab_count
-FROM
-    report_tb
-ORDER BY
-    seq
-    </select>
-
     <select id="countSearch" resultType="int">
             select
  count(distinct emp_seq)
@@ -184,8 +164,9 @@ ot_work_tm, pl_ot_tm, ac_ot_tm, vc_count, vc_total, late_count, ab_count from (
         , count(decode(work_st, '결근', 1)) as 결근횟수
         from web_empl_mgm e join web_daily d on e.emp_seq = d.emp_seq
         where d.reg_dt BETWEEN #{startDate} AND #{endDate}
-        group by e.emp_seq, e.emp_nm, e.join_dt) where join_dt BETWEEN #{startDate} AND #{endDate}
-        AND emp_nm like '%' || #{keyword} || '%'
+        group by e.emp_seq, e.emp_nm, e.join_dt)
+        where
+        emp_nm like '%' || #{keyword} || '%'
         group by emp_seq, emp_nm, join_dt order by ${orderKeyword} ${order}
         ) where rNum BETWEEN #{rowStart} AND #{rowEnd}
                     </select>
@@ -282,8 +263,9 @@ ot_work_tm, pl_ot_tm, ac_ot_tm, vc_count, vc_total, late_count, ab_count from (
         , count(decode(work_st, '결근', 1)) as 결근횟수
         from web_empl_mgm e join web_daily d on e.emp_seq = d.emp_seq
         where d.reg_dt BETWEEN #{startDate} AND #{endDate}
-        group by e.emp_seq, e.emp_nm, e.join_dt) where join_dt BETWEEN #{startDate} AND #{endDate}
-        AND emp_nm like '%' || #{keyword} || '%'
+        group by e.emp_seq, e.emp_nm, e.join_dt)
+        where
+        emp_nm like '%' || #{keyword} || '%'
         group by emp_seq, emp_nm, join_dt order by ${orderKeyword} ${order}
         )
     </select>

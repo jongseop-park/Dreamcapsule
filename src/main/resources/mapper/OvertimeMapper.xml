@@ -3,18 +3,9 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.dreamcapsule.project.apps.overtime.mapper.OvertimeMapper">
-     <select id="overtimeList" resultType="com.dreamcapsule.project.domain.OvertimeVO">
-    SELECT
-        *
-    FROM
-        web_overtime
-    ORDER BY
-        over_seq
-    </select>
-
     <select id="findInfo" parameterType="int" resultType="com.dreamcapsule.project.domain.OvertimeVO">
-   select o.over_seq as seq, o.reg_date as reg_dt, o.mod_date as mod_dt, e.emp_nm as emp_nm, d.duty_nm as emp_job
-   , r.rank_nm as emp_pos , o.ot_Date as ot_dt,(o.ot_time_start || '~' || o.ot_time_end) as ot_tm, o.eat_Yn, o.status, o.content
+   select o.over_seq as seq, to_char(o.reg_date, 'yyyy.MM.dd (DY) hh:mm') as reg_dt, o.mod_date as mod_dt, e.emp_nm as emp_nm, d.duty_nm as emp_job
+   , r.rank_nm as emp_pos , to_char(o.ot_Date, 'MM"월" dd"일" (DY)') as ot_dt,(o.ot_time_start || '~' || o.ot_time_end) as ot_tm, o.eat_Yn, o.status, o.content
    , ans from web_overtime o, web_empl_mgm e, web_rank_mgm r, web_duty_mgm d
 where o.over_seq = #{sequence} and o.emp_num = e.emp_seq
 and d.duty_seq = e.duty_seq
