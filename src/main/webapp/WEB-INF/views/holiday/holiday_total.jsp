@@ -56,6 +56,9 @@
             position : relative;
         }
 
+        td:hover .div_tooltip{
+            visibility: visible;
+        }
         .newLabel{
             position : absolute;
             width: 20px;
@@ -74,17 +77,17 @@
 
         .div_tooltip{
            visibility: hidden;
-            width: 200px;
-            background-color: #2E56C7;
+            width: 150px;
+            background-color: rgba(46,86,199,0.7);
             color: white;
             text-align: center;
             border-radius: 10px;
             padding: 10px 5px;
             position: absolute;
-            z-index: 1;
-            top: 1px;
-            left: 1px;
-
+            z-index: 100;
+            bottom: 80%;
+            left: 50%;
+            margin-left: -75px;
         }
 
     </style>
@@ -224,7 +227,7 @@
 
     <c:choose>
     <c:when test="${holidayUse[x-1][y-1] ne null}">
-    document.getElementById("${status.count}_${xStatus.count}").innerHTML = "<div id='div_${status.count}_${xStatus.count}' class='newLabel'>N</div><a href='holiday_details?seq=${holidayList.get(x-1).seq}&year=${cri.year}&month=${y}'>${holidayUse[x-1][y-1]}</a>";
+    document.getElementById("${status.count}_${xStatus.count}").innerHTML = "<div class='div_tooltip'>테스트<br>테스트<br>테스트<br>테스트<br></div><div id='div_${status.count}_${xStatus.count}' class='newLabel'>N</div><a href='holiday_details?seq=${holidayList.get(x-1).seq}&year=${cri.year}&month=${y}'>${holidayUse[x-1][y-1]}</a>";
     </c:when>
 
     <c:otherwise>

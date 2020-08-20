@@ -40,7 +40,7 @@
         }
         li {
             list-style: none;
-            padding: 6px;
+           /* padding: 6px;*/
         }
         .date{
             width: 150px;
