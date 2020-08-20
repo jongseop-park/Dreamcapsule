@@ -46,8 +46,10 @@ public class OutsideJobSearchCriteria extends OutsideJobCriteria{
     public int[] getSearchMonth(){
         if(searchMonth[0] == searchMonth[2] && searchMonth[1] == searchMonth[3]){
             int[] reMonth = new int[2];
-                    reMonth[0] = searchMonth[0];
-                    reMonth[1] = searchMonth[1];
+
+            reMonth[0] = searchMonth[0];
+            reMonth[1] = searchMonth[1];
+
             return reMonth;
         }
         return searchMonth;

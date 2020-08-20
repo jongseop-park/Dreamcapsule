@@ -116,14 +116,14 @@
                     <table class="table table-bordered" id="mainTable">
                         <thead>
                         <tr>
-                            <th id="NAME">직원 ▼</th>
-                            <th id="TASK">직무 ▼</th>
-                            <th id="JOB_GRADE">직급 ▼</th>
+                            <th id="EMPL.EMP_NM">직원 ▼</th>
+                            <th id="DUTY.DUTY_NM">직무 ▼</th>
+                            <th id="RANK.RANK_NM">직급 ▼</th>
                             <th>외근일</th>
                             <th>출/퇴근시간</th>
                             <th>출근지</th>
                             <th>퇴근지</th>
-                            <th id="STATE_YSN">상태 ▼</th>
+                            <th id="OSJ.STATE_YSN">상태 ▼</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -290,7 +290,7 @@
             var sortKeyword = $(this).attr('id');
             var sort;
 
-            if(sortKeyword == "NAME" || sortKeyword  == "TASK" || sortKeyword  == "JOB_GRADE" || sortKeyword == "STATE_YSN"){
+            if(sortKeyword == "EMPL.EMP_NM" || sortKeyword  == "DUTY.DUTY_NM" || sortKeyword  == "RANK.RANK_NM" || sortKeyword == "OSJ.STATE_YSN"){
                 if(${scri.sort eq "ASC"}){
                     sort = "DESC";
                 }else{

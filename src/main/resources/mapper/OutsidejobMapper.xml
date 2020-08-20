@@ -14,7 +14,7 @@
             WEB_OUTSIDE OSJ, WEB_EMPL_MGM EMPL, WEB_RANK_MGM RANK, WEB_DUTY_MGM DUTY
         WHERE
             OSJ.EMP_SEQ = EMPL.EMP_SEQ AND EMPL.RANK_SEQ = RANK.RANK_SEQ AND EMPL.DUTY_SEQ = DUTY.DUTY_SEQ AND <include refid="search"></include>
-    )WHERE rNum BETWEEN #{rowStart} AND #{rowEnd} order by ${sortKeyword} ${sort}
+    )WHERE rNum BETWEEN #{rowStart} AND #{rowEnd}
     </select>
 
     <select id="findAll" resultType="OutsidejobVO">

@@ -28,6 +28,7 @@
         th {
             white-space: nowrap;
             text-align: center;
+            position: relative;
         }
 
         #div_table {
@@ -45,44 +46,47 @@
             cursor:pointer;
         }
 
-        .wrap{
-            position: relative;
-            display: inline-block;
-            margin: auto;
+        td a{
+            border-style: solid;
+            border-radius: 5px 5px 5px 5px;
+            padding: 3px 8px 3px 8px;
+            border-width: 2px;
+        }
+        td{
+            position : relative;
         }
 
-        .wrap .tooltip{
-            position : absolute;;
+        .newLabel{
+            position : absolute;
+            width: 20px;
+            height: 22px;
+            border-radius: 20px 20px 20px 20px;
+            border-style: solid;
+            border-width: 1px;
+            border-color: #2E56C7;
+            top: 1px;
+            left: 1px;
+            text-align: center;
+            background-color: #2E56C7;
+            color: white;
+            display: none;
+        }
+
+        .div_tooltip{
+           visibility: hidden;
             width: 200px;
-            padding: 0;
-            visibility: hidden;
-            background-color: hotpink;
+            background-color: #2E56C7;
             color: white;
             text-align: center;
-            z-index: 1;
-            bottom: 50%;
-            left: 50%;
-            margin-left: -100px;
-        }
-
-        .wrap .tooltip::after{
-            content: "";
+            border-radius: 10px;
+            padding: 10px 5px;
             position: absolute;
-            top: 100%;
-            left: 50%;
-            margin-left: -10px;
-            border-width: 10px;
-            border-style: solid;
-            border-color: hotpink transparent transparent transparent;
+            z-index: 1;
+            top: 1px;
+            left: 1px;
+
         }
 
-        .wrap p{
-            margin-top:70px;
-        }
-
-        .wrap:hover .tooltip{
-            visibility: visible;
-        }
     </style>
 
 </head>
@@ -182,7 +186,7 @@
                         </c:forEach>
                         </tbody>
                     </table>
-                    <span id="trash"></span>
+
                 </div>
             </div>
 
@@ -219,12 +223,12 @@
     <c:forEach begin="1" end="12" varStatus="status">
 
     <c:choose>
-    <c:when test="${holidayUse[x-1][y-1] ne '-'}">
-    document.getElementById("${status.count}_${xStatus.count}").innerHTML = "<a href='holiday_details?seq=${holidayList.get(x-1).seq}&year=${cri.year}&month=${y}'>${holidayUse[x-1][y-1]}</a>";
+    <c:when test="${holidayUse[x-1][y-1] ne null}">
+    document.getElementById("${status.count}_${xStatus.count}").innerHTML = "<div id='div_${status.count}_${xStatus.count}' class='newLabel'>N</div><a href='holiday_details?seq=${holidayList.get(x-1).seq}&year=${cri.year}&month=${y}'>${holidayUse[x-1][y-1]}</a>";
     </c:when>
 
     <c:otherwise>
-    document.getElementById("${status.count}_${xStatus.count}").innerHTML = "${holidayUse[x-1][y-1]}";
+    document.getElementById("${status.count}_${xStatus.count}").innerHTML = "-";
     </c:otherwise>
     </c:choose>
 
@@ -233,9 +237,12 @@
     <c:set var="x" value="${x+1}"/>
     </c:forEach>
 
-
-    /*정렬 상태 텍스트 교체*/
     $(function () {
+        /*휴가 신청 상태 대기 중인 월 표시*/
+        <c:forEach items="${newHoliday}" var="holiday">
+            $("#div_${holiday.holidayMonth}_${holiday.seq}").css("display","block");
+        </c:forEach>
+        /*정렬 상태 텍스트 교체*/
         /*이전 선택되어 있는 값을 선택*/
         $('#selectTasks option:contains("${cri.task}")').prop("selected","selected");
         $('#selectYears option:contains("${cri.year.toString()}")').prop("selected","selected");

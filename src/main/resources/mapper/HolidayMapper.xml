@@ -52,6 +52,14 @@
         WHERE EMPL.DUTY_SEQ = DUTY.DUTY_SEQ AND EMPL.RANK_SEQ = RANK.RANK_SEQ AND EMPL.EMP_SEQ = ANNU.EMP_SEQ and duty.duty_nm = #{TASK} and year = #{YEAR}
     </select>
 
+    <select id="findUseState" resultType="holidayVO">
+        SELECT DENSE_RANK() OVER (ORDER BY <include refid="sort"></include>) SEQ,VAC.HOLIDAY_MONTH HOLIDAY_MONTH FROM WEB_VACATION VAC
+        INNER JOIN WEB_EMPL_MGM EMP ON VAC.EMP_SEQ = EMP.EMP_SEQ
+        INNER JOIN WEB_DUTY_MGM DUTY ON EMP.DUTY_SEQ = DUTY.DUTY_SEQ
+        INNER JOIN WEB_RANK_MGM RANK ON EMP.RANK_SEQ = RANK.RANK_SEQ
+        WHERE VAC.STATE_YSN = 'S' AND HOLIDAY_YEAR = #{YEAR} ORDER BY <include refid="sort"></include>,VAC.HOLIDAY_MONTH ASC
+    </select>
+
     <update id="detailsUpdate">
         UPDATE WEB_VACATION SET STATE_YSN=#{STATE}, REPLY = #{REPLY}, MOD_DT = SYSDATE WHERE VACATION_SEQ = #{SEQ}
     </update>
@@ -61,4 +69,21 @@
         WEB_VACATION(VACATION_SEQ,EMP_SEQ,HOLIDAY_TYPE,HOLIDAY_YEAR,HOLIDAY_MONTH,HOLIDAY_DATE,NOTE,USE_HOLIDAY,STATE_YSN)
          VALUES(VACATION_SEQ.NEXTVAL,#{USER_NUM},#{HOLIDAY_TYPE},#{HOLIDAY_YEAR},#{HOLIDAY_MONTH},#{HOLIDAY_DATE},#{NOTE},#{USE_HOLIDAY},'Y')
     </insert>
+
+    <sql id="sort">
+        <choose>
+            <when test= "VALUE == 'SEQ'">
+                VAC.EMP_SEQ ${TYPE}
+            </when>
+            <when test="VALUE == 'NAME'">
+                EMP.EMP_NM ${TYPE}
+            </when>
+            <when test="VALUE == 'TASK'">
+                DUTY.DUTY_NM ${TYPE}
+            </when>
+            <when test="VALUE == 'JOB_GRADE'">
+                RANK.RANK_NM ${TYPE}
+            </when>
+        </choose>
+    </sql>
 </mapper>

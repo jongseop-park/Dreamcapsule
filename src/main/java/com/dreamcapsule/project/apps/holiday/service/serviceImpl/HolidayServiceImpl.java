@@ -62,8 +62,6 @@ public class HolidayServiceImpl implements HolidayService{
                 HolidayVO useHoliday = holidayMapper.findUse(taskSeq[x-1],year, y);
                 if (useHoliday != null) {
                     use[x - 1][y - 1] = useHoliday.getUseHoliday().toString();
-                } else {
-                    use[x - 1][y - 1] = "-";
                 }
             }
         }
@@ -106,4 +104,8 @@ public class HolidayServiceImpl implements HolidayService{
         }
         return useDay;
     }
+
+    @Override
+    public List<HolidayVO> findUseState(Long year,String sortValue,String sortType){return holidayMapper.findUseState(year,sortValue,sortType);}
+
 }

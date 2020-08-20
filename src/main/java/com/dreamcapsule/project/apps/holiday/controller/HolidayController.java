@@ -3,7 +3,6 @@ package com.dreamcapsule.project.apps.holiday.controller;
 import com.dreamcapsule.project.apps.holiday.domain.Criteria;
 import com.dreamcapsule.project.apps.holiday.service.HolidayService;
 import com.dreamcapsule.project.domain.HolidayVO;
-import com.dreamcapsule.project.domain.OvertimeVO;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -12,12 +11,10 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.text.View;
 import java.util.List;
 
 @Controller
@@ -32,6 +29,8 @@ public class HolidayController {
         List<HolidayVO> holidayList = holidayService.findAll(criteria.getSortingValue(),criteria.getSortingType(),criteria.getYear());
         List<HolidayVO> taskList = holidayService.findTask();
         List<HolidayVO> yearList = holidayService.findYear();
+
+        model.addAttribute("newHoliday",holidayService.findUseState(criteria.getYear(),criteria.getSortingValue(),criteria.getSortingType()));
 
         if(criteria.getTask().equals("0")){
                 model.addAttribute("holidayList", holidayList);
