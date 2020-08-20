@@ -327,12 +327,17 @@
             var selectBeacon = $("[name=beacon] option:selected");
             var cnt = $("[name=beacon] option:selected").length;
             var selEquip = $("input[name=selectEquipment]:checked").val();
-            var obj;
+            var obj = {};
+
+
+
 
             if(selEquip == "비콘"){
-                var obj = {
-                    equipmentSeq : ${result.seq},
-                }
+                obj["equipmentSeq"] = ${result.seq}+"";
+                $("[name=beacon] option:selected").each(function (i,e){ // name=beacon 개수만큼 반복.  i = index, e = $(this)
+                    obj["beacon"+(i+1)] = $(this).text();
+                });
+                console.log(JSON.stringify(obj));
             } else if(selEquip == "NFC"){
                 alert("NFC");
             }
@@ -346,7 +351,8 @@
                 "address" : $address.val(),
                 "workingTime" : $workingTime.val(),
                 "workTime" : $workTime.val(),
-                "equipNm" : $selectEquipment.val()
+                "equipNm" : $selectEquipment.val(),
+                "useEquipmentVO" : JSON.stringify(obj)
             };
 
             Save(object);
