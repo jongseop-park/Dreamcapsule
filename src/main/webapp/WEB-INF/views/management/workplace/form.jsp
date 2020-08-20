@@ -115,9 +115,9 @@
                                 <div  style="margin-top: 1%; <c:if test="${result.equipNm ne '비콘'}">display: none;</c:if>" name="divBeacon">
                                     <c:if test="${empty result.seq}">
                                     <div class="form-group" name="beaconBox1">
-                                        사용장비 1
+                                        사용장비
                                         <input type="button" style="float : right; margin-right: 5%;" name="addBeacon" value="추가"/>
-                                        <select class="form-control" style="width: 70%; float: right; margin-right: 1%;" id="beacon">
+                                        <select class="form-control" style="width: 70%; float: right; margin-right: 1%;" name="beacon">
                                             <c:forEach var="beacon" items="${beaconList}">
                                                 <option value="${beacon.equipmentNm}">${beacon.equipmentNm}</option>
                                             </c:forEach>
@@ -125,12 +125,12 @@
                                     </div>
                                     </c:if>
                                     <c:if test="${not empty result.seq}">
-                                        사용장비 1
+                                        사용장비
                                     </c:if>
                                 </div>
 
                                 <div class="form-group" style="margin-top: 1%; <c:if test="${result.equipNm ne 'NFC'}">display: none;</c:if>" name="divNFC">
-                                    사용장비 1
+                                    사용장비
                                     <input type="button" style="float : right; margin-right: 5%;" name="addNFC" value="추가"/>
                                     <select class="form-control" style="width: 70%; float: right; margin-right: 1%;" id="nfc">
                                         <c:forEach var="nfc" items="${nfcList}">
@@ -139,21 +139,22 @@
                                     </select>
                                 </div>
                                 <!-- TODO 상세 기능  -->
+                                <!-- 테이블 하단 바 -->
+                                <div>
+                                    <c:choose>
+                                        <c:when test="${isUpdate eq false}">
+                                            <input class="btn btn-dark right" id="btnSave" type="button" style="float : right; margin-top: 2%" value="저장"/>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <input class="btn btn-dark right " id="btnUpdate" type="button" style="float : right; margin-left: 20px; margin-top: 2%" value="수정"/>
+                                            <input class="btn btn-dark right " id="btnDelete" type="button" style="float : right; margin-top: 2%" value="삭제"/>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </div>
+                                <!-- /테이블 하단 바 -->
                             </form>
                         </div>
-                        <!-- 테이블 하단 바 -->
-                        <div>
-                            <c:choose>
-                                <c:when test="${isUpdate eq false}">
-                                    <input class="btn btn-dark right" id="btnSave" type="submit" style="float : right; margin-top: 2%" value="저장"/> <%-- onclick="location.href='/admin/management/position/list'"--%>
-                                </c:when>
-                                <c:otherwise>
-                                    <input class="btn btn-dark right " id="btnUpdate" type="button" style="float : right; margin-left: 20px; margin-top: 2%" value="수정"/>
-                                    <input class="btn btn-dark right " id="btnDelete" type="button" style="float : right; margin-top: 2%" value="삭제"/>
-                                </c:otherwise>
-                            </c:choose>
-                        </div>
-                        <!-- /테이블 하단 바 -->
+
                     </div>
                 </div>
                 <!--  /변경할 뷰 -->
@@ -199,8 +200,6 @@
         var beaconlist = new Array();
         var nfclist = new Array();
 
-        let beaconCnt = 0;
-        let nfcCnt = 0;
         <c:forEach items="${beaconList}" var="item">
             beaconlist.push({
                 beacon:"${item.equipmentNm}"
@@ -265,42 +264,40 @@
 
 
         function addBeacon(){
+            var beaconCnt = $("[name=beaconBox]").length;
             var useEquipmentHtml;
             if(beaconCnt < 8) {
                 useEquipmentHtml = '<div class="form-group" name="beaconBox" style="margin-top: 2%;">' +
-                    '사용장비 '+(beaconCnt+2)+
-                    '<input type="button" style="float : right;" name="delBeacon" value="삭제"/>' +
-                    '<input type="button" style="float : right; margin-right: 1%;" name="addBeacon" value="추가"/>' +
-                    '<select class="form-control" style="width: 70%; float: right; margin-right: 1%;" id="beacon">';
+                    '사용장비 '+
+                    '<input type="button" style="float : right; margin-right: 5%;" name="delBeacon" value="삭제"/>' +
+                    '<select class="form-control" style="width: 70%; float: right; margin-right: 1%;" name="beacon">';
 
                 for(var i = 0; i < beaconlist.length; i++){
                     useEquipmentHtml += '<option value='+beaconlist[i].beacon+'>'+beaconlist[i].beacon+'</option>';
                 }
                 useEquipmentHtml += '</select>'+'</div>'
                 $divBeacon.append(useEquipmentHtml);
-                beaconCnt++;
             } else if (beaconCnt == 8){
                 useEquipmentHtml = '<div class="form-group" name="beaconBox" style="margin-top: 2%;">' +
-                    '사용장비 '+(beaconCnt+2)+
-                    '<input type="button" style="float : right;" name="delBeacon" value="삭제"/>' +
-                    '<select class="form-control" style="width: 70%; float: right; margin-right: 6%;" id="beacon">';
+                    '사용장비 '+
+                    '<input type="button" style="float : right; margin-right: 5%;" name="delBeacon" value="삭제"/>' +
+                    '<select class="form-control" style="width: 70%; float: right; margin-right: 1%;" name="beacon">';
 
                 for(var i = 0; i < beaconlist.length; i++){
                     useEquipmentHtml += '<option value='+beaconlist[i].beacon+'>'+beaconlist[i].beacon+'</option>';
                 }
                 useEquipmentHtml += '</select>'+'</div>'
                 $divBeacon.append(useEquipmentHtml);
-                beaconCnt++;
             }
         }
 
         function addNFC() {
+            var nfcCnt = $("[name=nfcBox]").length;
             var useEquipmentHtml;
             if(nfcCnt < 8) {
                 useEquipmentHtml = '<div class="form-group" name="nfcBox" style="margin-top: 2%;">' +
-                    '사용장비 '+(nfcCnt+2)+
-                    '<input type="button" style="float : right;" name="delNFC" value="삭제"/>' +
-                    '<input type="button" style="float : right; margin-right: 1%;" name="addNFC" value="추가"/>' +
+                    '사용장비 '+
+                    '<input type="button" style="float : right; margin-right: 5%;" name="delNFC" value="삭제"/>' +
                     '<select class="form-control" style="width: 70%; float: right; margin-right: 1%;" id="nfc">';
 
                 for(var i = 0; i < nfclist.length; i++){
@@ -311,9 +308,9 @@
                 nfcCnt++;
             } else if (nfcCnt == 8){
                 useEquipmentHtml = '<div class="form-group" name="nfcBox" style="margin-top: 2%;">' +
-                    '사용장비 '+(nfcCnt+2)+
-                    '<input type="button" style="float : right;" name="delNFC" value="삭제"/>' +
-                    '<select class="form-control" style="width: 70%; float: right; margin-right: 6%;" id="nfc">';
+                    '사용장비 '+
+                    '<input type="button" style="float : right; margin-right: 5%;" name="delNFC" value="삭제"/>' +
+                    '<select class="form-control" style="width: 70%; float: right; margin-right: 1%;" id="nfc">';
 
                 for(var i = 0; i < nfclist.length; i++){
                     useEquipmentHtml += '<option value='+nfclist[i].nfc+'>'+nfclist[i].nfc+'</option>';
@@ -326,13 +323,37 @@
 
         // 저장, 업데이트, 삭제
         $btnSave.on("click",function () { // 추가
+            var equipmentList = new Array();
+            var selectBeacon = $("[name=beacon] option:selected");
+            var cnt = $("[name=beacon] option:selected").length;
+            var selEquip = $("input[name=selectEquipment]:checked").val();
+            var obj;
+
+            if(selEquip == "비콘"){
+                var obj = {
+                    equipmentSeq : ${result.seq},
+                }
+            } else if(selEquip == "NFC"){
+                alert("NFC");
+            }
+
+            for(var i = 0; i<cnt; i++) {
+                equipmentList[i] = selectBeacon.eq(i).val();
+            }
+            // console.log(JSON.stringify(equipmentList));
             var object = {
+                "place" : $place.val(),
+                "address" : $address.val(),
+                "workingTime" : $workingTime.val(),
+                "workTime" : $workTime.val(),
+                "equipNm" : $selectEquipment.val()
             };
 
             Save(object);
         });
 
         $btnUpdate.on("click",function () { // 수정
+            alert("저장 클릭 ");
             var object = {
                 "seq" : $seq.val()
             };
@@ -350,7 +371,7 @@
 
         function Save(data) {
 
-            required(data);
+            // required(data);
 
             $.ajax({
                 url : "/admin/management/workplace/save",

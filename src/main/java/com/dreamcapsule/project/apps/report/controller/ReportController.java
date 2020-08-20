@@ -1,7 +1,7 @@
 package com.dreamcapsule.project.apps.report.controller;
 
 
-import com.dreamcapsule.project.apps.overtime.view.MakeExcel;
+
 import com.dreamcapsule.project.apps.report.domain.PageMaker;
 import com.dreamcapsule.project.apps.report.domain.SearchCriteria;
 import com.dreamcapsule.project.apps.report.service.ReportService;
@@ -46,16 +46,5 @@ public class ReportController {
        model.addAttribute("reportVOList" ,reportVOList);
 
         return "reportXls";
-    }
-
-    @RequestMapping(value= "reportExcel")
-    public void reportExcel(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        List<ReportVO> dataList = reportService.reportList();
-
-        Map<String, Object> beans = new HashMap<>();
-        beans.put("dataList", dataList);
-
-        MakeExcel makeExcel = new MakeExcel();
-        makeExcel.download(request, response, beans, "report", "reporttemplate.xls", "");
     }
 }

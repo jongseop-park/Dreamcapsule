@@ -33,7 +33,7 @@
     String order = request.getParameter("order") == null ? "" : request.getParameter("order");
     String orderKeyword = request.getParameter("orderKeyword") == null ? "" : request.getParameter("orderKeyword");
 
-    String btnNames[] = {"emp_Nm", "emp_Job", "emp_Pos", "status", "req_Dt"};
+    String btnNames[] = {"emp_Nm", "duty_nm", "rank_nm", "status", "reg_date"};
     String btnValues[] = {"▼", "▼", "▼", "▼", "▼"};
 
     if (order.equals("asc")) {
@@ -170,7 +170,7 @@
             });
         }
 
-        // 조회
+        // 상세조회
         $(function () {
             $(document).on('click', '#myTable tbody tr', function () {
                 var tr = $(this);
@@ -224,6 +224,7 @@
             width: 30px;
             color: #d1d3e2;
             border-radius: 5px;
+
         }
 
         #empName, #empJob, #empPosition, #statussort {
@@ -267,27 +268,17 @@
             <!-- 메인 내용 -->
             <div class="container">
                 <h5 style="margin-left: 20px">홈 > 야근관리</h5>
-                <h4 id="title" style="margin:20px 320px 0 20px;">야근관리</h4>
+                <h4 id="title" style="display: flex;" class="float-left mr-0 ml-md-3 my-1 my-md-0 mw-100 text-primary font-weight-bold">야근관리</h4>
                 <div id="top" style=" width: 100%; padding-right: 20px" >
-
-
-
-
                     <div style="display:flex;  float: right">
-
-
                             <img style="height: 30px; width: 30px; margin: 4px 2px 0 150px;"
                                  src="https://icons.iconarchive.com/icons/custom-icon-design/mono-business-2/32/calendar-icon.png">
-                            <input type="text" class="startDatepicker" id="date1" value="<%= startDate  %>">
-                            <button id="dateSort" value="req_Dt" onClick="sort(dateSort.value)"><%= btnValues[4] %>
+                            <input type="text" class="startDatepicker" id="date1" value="<%= startDate  %>" >
+                            <button id="dateSort" value="reg_date" onClick="sort(dateSort.value)"><%= btnValues[4] %>
                             </button>
                             ~<input type="text" class="endDatepicker" id="date2" value="<%= endDate %>">
-                            <button id="dateSort2" value="req_Dt" onClick="sort(dateSort2.value)"><%= btnValues[4] %>
+                            <button id="dateSort2" value="reg_date" onClick="sort(dateSort2.value)"><%= btnValues[4] %>
                             </button>
-
-
-
-
                         <!-- 검색 -->
                         <form method="get" action="/admin/overtime"
                               class="d-none d-sm-inline-block form-inline mr-0 ml-md-3 my-2 my-md-0 mw-100 navbar-search">
@@ -314,10 +305,12 @@
                         </div>
                       </div>
                 </div>
+
+                </div>
                 </br></br>
-                <div class="card-body" id="tableDiv">
+                <div class="card-body">
                     <div class="table-responsive">
-                        <table id="myTable" class="table table-bordered table-hover">
+                        <table id="myTable" class="table table-bordered table-hover" style="background: #ffffff;">
                             <thead>
                             <tr>
                                 <th id="직원">직원
@@ -326,11 +319,11 @@
                                     </button>
                                 </th>
                                 <th id="직무">직무
-                                    <button id="empJob" value="emp_Job" onClick="sort(empJob.value)"><%= btnValues[1] %>
+                                    <button id="empJob" value="duty_nm" onClick="sort(empJob.value)"><%= btnValues[1] %>
                                     </button>
                                 </th>
                                 <th id="직급">직급
-                                    <button id="empPosition" value="emp_Pos"
+                                    <button id="empPosition" value="rank_nm"
                                             onClick="sort(empPosition.value)"><%= btnValues[2] %>
                                     </button>
                                 </th>
@@ -344,9 +337,7 @@
                                 </th>
                             </tr>
                             </thead>
-                            <tbody style="color:#6e707e">
-
-
+                            <tbody style="color:#6e707e;">
                             <c:forEach var="searchData" items="${searchList}">
                                 <tr>
                                     <td style="display:none;">${searchData.seq}</td>
@@ -355,16 +346,19 @@
                                     <td>${searchData.empPos}</td>
                                     <td>${searchData.otDt}</td>
                                     <td>${searchData.otTm}</td>
-                                    <td>${searchData.eatYn}</td>
+                                    <c:if test="${searchData.eatYn == 'y'}">
+                                        <td>O</td>
+                                    </c:if>
+                                    <c:if test="${searchData.eatYn != 'y'}">
+                                        <td>X</td>
+                                    </c:if>
                                     <td>${searchData.status}</td>
                                 </tr>
                             </c:forEach>
-
                             </tbody>
                         </table>
-
                     </div>
-                </div>
+
                 <!-- 페이지 -->
 
                 <c:if test="${searchList.size() == 0}">
@@ -391,14 +385,16 @@
                         &nbsp&nbsp&nbsp<a href="overtime${pageMaker.makeSearch(pageMaker.endPage)}">▶</a>
                     </c:if>
                 </div>
+                </div>
                 <!-- /메인 내용 -->
-            </div>
             <!-- End of Main Content -->
         </div>
         <!-- End of Content Wrapper -->
+
         <!-- Footer -->
         <%@include file="/WEB-INF/views/include/footer.jsp" %>
         <!-- End of Footer -->
+
     </div>
     <!-- End of Page Wrapper -->
 

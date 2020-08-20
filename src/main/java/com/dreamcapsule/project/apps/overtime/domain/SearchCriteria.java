@@ -14,7 +14,7 @@ public class SearchCriteria extends Criteria {
 
     public String getOrderKeyword() {
         if (orderKeyword.equals(""))
-            return "seq";
+            return "over_seq";
 
         return orderKeyword;
     }

@@ -38,18 +38,19 @@
     <div id="content-wrapper" class="d-flex flex-column">
 
         <!-- Main Content -->
-        <div id="content" class="container-fluid">
+        <div id="content" class="overflow-auto" style="text-align: left">
 
             <!-- Topbar -->
             <%@include file="/WEB-INF/views/include/topbar.jsp"%>
             <!-- End of Topbar -->
 
             <!-- 메인 내용 -->
-            <div id="infoTitle" style="margin-left: 10px;">
-            <h6>홈 > 야근관리 > 상세</h6>
-                <h5><b>야근 관리하기</b></h5>
-            </div >
-            <div id="contents" style="margin-left:2%;">
+            <div class="container" style="display: inline-block">
+                    <div id="infoTitle" style="margin-left: 10px;">
+                    <h5>홈 > 야근관리 > 상세</h5>
+                      <h4 class="text-primary font-weight-bold">야근 관리하기</h4>
+            </div>
+
             <form action="/updateInfo" method="POST" name="modifyForm" id="modifyForm"  >
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                 <input type="hidden" id="page" name="page" value="${scri.page}" readonly="readonly" />
@@ -60,11 +61,11 @@
                 <input type="hidden" id="orderKeyword" name="orderKeyword" value="${scri.orderKeyword}" readonly="readonly" />
                 <input type="hidden" id="modDt" name="modifyDate" value="${empInfo.modDt}" />
                 <input type="hidden" id="sequence" name="sequence" value="${empInfo.seq}" />
-                <table width="230" height="70">
+                <table width="230" height="70" style="color:#000000;">
                     <tr>
                         <td rowspan="2">
-                            <img src="/static/img/overtime/testimage.png" width="60" height="60"></td>
-                        <td colspan="2"><b>${empInfo.empNm}</b></td>
+                            <img src="/static/img/overtime/testimage.png" width="80" height="80"></td>
+                        <td colspan="2"><h5><b>${empInfo.empNm}</b></h5></td>
                     </tr>
                     <tr>
                         <td>${empInfo.empJob} |</td>
@@ -72,7 +73,7 @@
                     </tr>
                 </table>
                 <br>
-                <table id="rtable" style=" width: 100%; height:40%; font-size:16px;">
+                <table id="rtable" style=" width: 100%; height:40%; font-size:16px; ">
                     <tr>
                         <td class="table_th" style="width:250px;">상태</td><td>${empInfo.status}</td>
                     </tr>
@@ -82,52 +83,92 @@
                         <td>시간</td><td>${empInfo.otTm}</td>
                     </tr>
                     <tr>
-                        <td>석식</td><td>${empInfo.eatYn}</td>
+                        <td>석식</td>
+                        <td><c:if test="${empInfo.eatYn == 'y'}">O</c:if>
+                            <c:if test="${empInfo.eatYn == 'n'}">X</c:if>
+                        </td>
                     </tr>
                     <tr>
                         <td>메모</td><td>${empInfo.content}</td>
                     </tr>
                     <tr>
-                        <td>신청날짜</td><td>${empInfo.reqDt}</td>
+                        <td>신청날짜</td><td>${empInfo.regDt}</td>
                     </tr>
                     <tr>
+
                         <c:if test="${empInfo.status}">
                         </c:if>
                         <c:choose>
                             <c:when test="${empInfo.status eq '승인'}">
-                                <td>승인&nbsp&nbsp<input type="radio"  name="status" value="승인" checked="checked"></td>
-                                <td>반려&nbsp&nbsp<input type="radio"  name="status" value="반려"></td>
+                                <td>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" name="status" id="jb-radio-1" class="custom-control-input"
+                                               checked="checked">
+                                        <label class="custom-control-label" for="jb-radio-1">승인</label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" name="status" id="jb-radio-2" class="custom-control-input"
+                                               >
+                                        <label class="custom-control-label" for="jb-radio-2">반려</label>
+                                    </div>
+                                </td>
                             </c:when>
                             <c:when test="${empInfo.status eq '반려'}">
-                                <td>승인&nbsp&nbsp<input type="radio"  name="status" value="승인" ></td>
+                            <td>
+                                <div class="custom-control custom-radio">
+                               <input type="radio" name="status" id="jb-radio-3" class="custom-control-input">
+                               <label class="custom-control-label" for="jb-radio-3">승인</label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" name="status" id="jb-radio-4" class="custom-control-input"
+                                    checked="checked">
+                                    <label class="custom-control-label" for="jb-radio-4">반려</label>
+                                </div>
+                            </td>
+                           <%--     <td>승인&nbsp&nbsp<input type="radio"  name="status" value="승인" ></td>
                                 <td>반려&nbsp&nbsp<input type="radio"  name="status" value="반려" checked="checked"></td>
+                           --%>
                             </c:when>
                             <c:otherwise>
-                                <td>승인&nbsp&nbsp<input type="radio"  name="status" value="승인"></td>
-                                <td>반려&nbsp&nbsp<input type="radio"  name="status" value="반려"></td>
+                                <td>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" name="status" id="jb-radio-5" class="custom-control-input"
+                                               >
+                                        <label class="custom-control-label" for="jb-radio-5">승인</label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" name="status" id="jb-radio-6" class="custom-control-input"
+                                        >
+                                        <label class="custom-control-label" for="jb-radio-6">반려</label>
+                                    </div>
+                                </td>
+                                <%--<td>승인&nbsp&nbsp<input type="radio"  name="status" value="승인"></td>
+                                <td>반려&nbsp&nbsp<input type="radio"  name="status" value="반려"></td>--%>
                             </c:otherwise>
                         </c:choose>
                     </tr>
                 </table>
-                <textarea class="form-control" id="answer" name="answer"
-                          rows="3" style="width:70%; resize:none;" value="answer" placeholder="답변을 입력해주세요." >${empInfo.ans}</textarea>
-                <input id="modifyButton" name="modifyButton" type="button" class="btn bt
-                n-light btn-outline-primary" value="수정" style=" margin-top: 10px; width:120px;
-                height:35px; right:480px; margin-left: 55%;"<%--onclick="check()"--%>/>
-                 </form>
-            </div>
-            <!-- /메인 내용 -->
 
+                <textarea class="form-control" id="answer" name="answer"
+                          rows="4" style="width:100%; resize:none;" value="answer" placeholder="답변을 입력해주세요." >${empInfo.ans}</textarea>
+                <input id="modifyButton" name="modifyButton" type="button"
+                       class="btn btn-light btn-outline-primary float-right mt-3 mb-3" value="수정" style="width:120px;"/>
+                 </form>
+            <!-- /메인 내용 -->
         </div>
         <!-- End of Main Content -->
-
-        <!-- Footer -->
-        <%@include file="../include/footer.jsp"%>
-        <!-- End of Footer -->
-
     </div>
     <!-- End of Content Wrapper -->
 
+    <!-- Footer -->
+    <%@include file="/WEB-INF/views/include/footer.jsp"%>
+    <!-- End of Footer -->
 </div>
 <!-- End of Page Wrapper -->
 
@@ -140,7 +181,7 @@
 <!-- plugins_js -->
 <%@include file="../include/plugins_js.jsp"%>
 <!-- /plugins_js -->
-</body
+</body>
 </html>
 <script type="text/javascript">
     function getParameter(name) {
@@ -185,7 +226,7 @@
                         + "keyword=" + getParameter("keyword")
                         + "&page=" + getParameter("page")
                         + "&startDate=" + getParameter("startDate")
-                        + "&endDate=" + getParameter("endDate")
+                        + "&endDate=" + getParameter("endDate");
                 }, error:function(jqXhr) {
                     alert("작업이 실패했습니다.");
                 }

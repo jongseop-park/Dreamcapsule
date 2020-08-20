@@ -20,114 +20,253 @@
         <result property="absentCount" column="AB_COUNT" />
     </resultMap>
 
-    <select id="reportList" resultType="com.dreamcapsule.project.domain.ReportVO" resultMap="ReportMap">
-         SELECT
-    emp_nm,
-    to_char(hire_dt, 'YYYY-MM-DD') AS hire_dt,
-    work_dt,
-    work_tm,
-    pay_vac_tm,
-    ot_work_tm,
-    pl_ot_tm,
-    ac_ot_tm,
-    vc_count,
-    vc_total,
-    late_count,
-    ab_count
-FROM
-    report_tb
-ORDER BY
-    seq
-    </select>
-
     <select id="countSearch" resultType="int">
-            SELECT
-    COUNT(seq)
-            FROM
-    report_tb
-            WHERE
-    emp_nm LIKE '%'
-                || #{keyword} || '%' and
-            (REG_DT between TO_DATE(#{startDate}) and TO_DATE(#{endDate}) )
+            select
+ count(distinct emp_seq)
+from
+(select e.emp_seq, e.emp_nm
+ , e.join_dt
+ , to_number(null) as 실제근로일수
+ , to_number(null) as 실제근로시간
+ , sum(v.use_holiday)*8 as 유급휴가시간
+ , to_number(null) as 실제초과근로시간
+ , to_number(null) as 야간계획근로시간
+ , to_number(null) as 실제야간근로시간
+ , sum(decode(v.holiday_year, a.year, v.use_holiday)) as 사용휴가
+ , sum(a.ann_days) / count(a.ann_days)  as 남은휴가
+ , to_number(null) as 지각횟수
+ , to_number(null) as 결근횟수
+from web_vacation v join web_empl_mgm e on v.emp_seq = e.emp_seq join web_annu_mgm a on v.emp_seq = a.emp_seq where a.year = ${startDate.substring(0,4)}
+ group by e.emp_seq ,e.emp_nm, e.join_dt
+ union
+select emp_seq, emp_nm, join_dt
+, to_number(null) as 실제근로일수
+, to_number(null) as 실제근로시간
+, to_number(null) as 유급휴가시간
+, to_number(null) as 실제초과근로시간
+, sum(((to_date(ot_time_end, 'HH24:MI') - to_date(ot_time_start, 'HH24:MI'))*24)) as 계획야간근로시간
+, sum(decode(status, '승인', (((to_date(ot_time_end, 'HH24:MI') - to_date(ot_time_start, 'HH24:MI'))*24)))) as 실제야간근로시간
+, to_number(null) as 사용휴가
+, to_number(null) as 남은휴가
+, to_number(null) as 지각횟수
+, to_number(null) as 결근횟수
+ from web_empl_mgm e join web_overtime o on o.emp_num = e.emp_seq  where o.reg_date BETWEEN #{startDate} AND #{endDate}
+ group by emp_seq, emp_nm, join_dt
+ union
+select e.emp_seq, e.emp_nm, e.join_dt
+, count(decode(d.work_st, '정상근무', 1)) as 실제근로일수
+, sum(d.WORK_TI) as 실제근로시간
+, to_number(null) as 유급휴가시간
+, case when sum(d.WORK_TI) &gt; 20 then sum(d.WORK_TI )-20 else 0 end 실제초과근로시간
+, to_number(null) as 계획야간근로시간
+, to_number(null) as 실제야간근로시간
+, to_number(null) as 사용휴가
+, to_number(null) as 남은휴가
+, count(decode(work_st, '지각', 1)) as 지각횟수
+, count(decode(work_st, '결근', 1)) as 결근횟수
+ from web_empl_mgm e join web_daily d on e.emp_seq = d.emp_seq
+ where d.reg_dt BETWEEN #{startDate} AND #{endDate}
+ group by e.emp_seq, e.emp_nm, e.join_dt) where join_dt BETWEEN #{startDate} AND #{endDate} and emp_nm like '%' || #{keyword} || '%'
     </select>
 
     <select id="listSearch" resultType="com.dreamcapsule.project.domain.ReportVO" resultMap="ReportMap">
-       SELECT
-    seq,
-    reg_dt,
-    emp_nm,
-    to_char(hire_dt, 'YYYY-MM-DD') AS hire_dt,
-    work_dt,
-    work_tm,
-    pay_vac_tm,
-    ot_work_tm,
-    pl_ot_tm,
-    ac_ot_tm,
-    vc_count,
-    vc_total,
-    late_count,
-    ab_count
-FROM ( SELECT
-    seq,
-    reg_dt,
-    emp_nm,
-    hire_dt,
-    work_dt,
-    work_tm,
-    pay_vac_tm,
-    ot_work_tm,
-    pl_ot_tm,
-    ac_ot_tm,
-    vc_count,
-    vc_total,
-    late_count,
-    ab_count,
-    row_number() over
-(
-ORDER BY
-    seq ${order}) as rNum from REPORT_TB
-             where EMP_NM like '%' || #{keyword} || '%'
-             and (REG_DT BETWEEN to_date(#{startDate}) AND to_date(#{endDate})))
-             where rNum between ${rowStart} and ${rowEnd} order by ${orderKeyword} ${order}
-            </select>
+select seq, emp_nm, hire_dt, work_dt, work_tm, pay_vac_tm,
+ot_work_tm, pl_ot_tm, ac_ot_tm, vc_count, vc_total, late_count, ab_count from (
+        select
+        emp_seq as seq
+        , emp_nm
+        ,  to_char(join_dt, 'yyyy.MM.dd') as hire_dt
+        , nvl(sum(실제근로일수),0) as work_dt
+        ,
+        case when sum(실제근로시간) - trunc(sum(실제근로시간)) &gt; 0 then trunc(sum(실제근로시간)) || '시간' || to_char( (sum(실제근로시간) - trunc(sum(실제근로시간))) * 60) || '분'
+        when sum(실제근로시간) - trunc(sum(실제근로시간)) = 0 then sum(실제근로시간) || '시간'
+        else '0시간'
+        end work_tm
+        ,
+        case when sum(유급휴가시간) - trunc(sum(유급휴가시간)) &gt; 0 then trunc(sum(유급휴가시간)) || '시간' || to_char( (sum(유급휴가시간) - trunc(sum(유급휴가시간))) * 60) || '분'
+        when sum(유급휴가시간) - trunc(sum(유급휴가시간)) = 0 then sum(유급휴가시간) || '시간'
+        else '0시간'
+        end pay_vac_tm
+        ,
+        case when sum(실제초과근로시간) - trunc(sum(실제초과근로시간)) &gt; 0 then trunc(sum(실제초과근로시간)) || '시간' || to_char( (sum(실제초과근로시간) - trunc(sum(실제초과근로시간))) * 60) || '분'
+        when sum(실제초과근로시간) - trunc(sum(실제초과근로시간)) &lt;= 0 then sum(실제초과근로시간) || '시간'
+        else '0시간'
+        end ot_work_tm
+        ,
+        case when sum(야간계획근로시간) - trunc(sum(야간계획근로시간)) &gt; 0  then trunc(sum(야간계획근로시간)) || '시간' || to_char( (sum(야간계획근로시간) - trunc(sum(야간계획근로시간))) * 60) || '분'
+        when sum(야간계획근로시간) - trunc(sum(야간계획근로시간)) = 0  then sum(야간계획근로시간) || '시간'
+        else '0시간'
+        end pl_ot_tm
+        ,
+        case when sum(실제야간근로시간) - trunc(sum(실제야간근로시간)) &gt; 0  then trunc(sum(실제야간근로시간)) || '시간' || to_char( (sum(실제야간근로시간) - trunc(sum(실제야간근로시간))) * 60) || '분'
+        when sum(실제야간근로시간) - trunc(sum(실제야간근로시간)) = 0  then sum(실제야간근로시간) || '시간'
+        else '0시간'
+        end ac_ot_tm
+        , nvl(sum(사용휴가),0) as vc_count, nvl(sum(남은휴가),0) as vc_total , nvl(sum(지각횟수),0) as late_count , nvl(sum(결근횟수), 0) as ab_count
+        ,  row_number() over (order by ${orderKeyword} ${order}) as rNum
+        from
+        (select emp_seq, emp_nm, join_dt
+        , to_number(null) as 실제근로일수
+        , to_number(null) as 실제근로시간
+        , sum(use_holiday) * 8 as 유급휴가시간
+        , to_number(null) as 실제초과근로시간
+        , to_number(null) as 야간계획근로시간
+        , to_number(null) as 실제야간근로시간
+        , sum(use_holiday) as 사용휴가
+        , sum(ann_days) as 남은휴가
+		, to_number(null) as 지각횟수
+        , to_number(null) as 결근횟수
+        from (
+        select
+        distinct e.emp_seq
+        ,e.emp_nm
+        ,e.join_dt
+        ,a.ann_days
+        ,a.year
+        , sum(decode(a.year, v.holiday_year, decode(v.STATE_YSN, 'Y', v.use_holiday))) as use_holiday
+        from web_annu_mgm a, web_vacation v, web_empl_mgm e
+        where  v.emp_seq = a.emp_seq
+        and v.emp_seq = e.emp_seq
+        and a.year BETWEEN ${startDate.substring(0,4)} AND ${endDate.substring(0,4)}
+        group by e.emp_seq, a.ann_days, a.year, e.emp_nm, e.join_dt
+        ) group by emp_seq, emp_nm, join_dt
+        union
+        select emp_seq, emp_nm, join_dt
+        , to_number(null) as 실제근로일수
+        , to_number(null) as 실제근로시간
+        , to_number(null) as 유급휴가시간
+        , to_number(null) as 실제초과근로시간
+        , sum(((to_date(ot_time_end, 'HH24:MI') - to_date(ot_time_start, 'HH24:MI'))*24)) as 계획야간근로시간
+        , sum(decode(status, '승인', (((to_date(ot_time_end, 'HH24:MI') - to_date(ot_time_start, 'HH24:MI'))*24)))) as 실제야간근로시간
+        , to_number(null) as 사용휴가
+        , to_number(null) as 남은휴가
+        , to_number(null) as 지각횟수
+        , to_number(null) as 결근횟수
+        from web_empl_mgm e join web_overtime o on o.emp_num = e.emp_seq  where o.reg_date BETWEEN #{startDate} AND #{endDate}
+        group by emp_seq, emp_nm, join_dt
+        union
+        select e.emp_seq, e.emp_nm, e.join_dt
+        , sum(
+         case when d.work_st = '정상근무' then 1
+          when d.work_st = '지각' then 1
+          when d.work_st = '오전반차' then 1
+          when d.work_st = '오후반차' then 1
+          when d.work_st = '야근' then 1
+          else 0 end) as 실제근로일수
+        , sum(d.WORK_TI) as 실제근로시간
+        , to_number(null) as 유급휴가시간
+        , case when avg(d.WORK_TI) > 8 then avg(d.WORK_TI )-8 else 0 end 실제초과근로시간
+        , to_number(null) as 계획야간근로시간
+        , to_number(null) as 실제야간근로시간
+        , to_number(null) as 사용휴가
+        , to_number(null) as 남은휴가
+        , count(decode(work_st, '지각', 1)) as 지각횟수
+        , count(decode(work_st, '결근', 1)) as 결근횟수
+        from web_empl_mgm e join web_daily d on e.emp_seq = d.emp_seq
+        where d.reg_dt BETWEEN #{startDate} AND #{endDate}
+        group by e.emp_seq, e.emp_nm, e.join_dt)
+        where
+        emp_nm like '%' || #{keyword} || '%'
+        group by emp_seq, emp_nm, join_dt order by ${orderKeyword} ${order}
+        ) where rNum BETWEEN #{rowStart} AND #{rowEnd}
+                    </select>
 
 
     <select id="reportExcel" resultType="com.dreamcapsule.project.domain.ReportVO">
-    SELECT
-        seq,
-    reg_dt as registerDate,
-    emp_nm as empName,
-    to_char(hire_dt, 'YYYY-MM-DD') AS hireDate,
-    work_dt as workDate,
-    work_tm as workTime,
-    pay_vac_tm as payVacationTime,
-    ot_work_tm as overtimeWorkTime,
-    pl_ot_tm as planOvertime,
-    ac_ot_tm as actualOvertime,
-    vc_count as vacationCount,
-    vc_total as vacationTotal,
-    late_count as lateCount,
-    ab_count as absentCount
-FROM ( SELECT
-    seq,
-    reg_dt,
-    emp_nm,
-    hire_dt,
-    work_dt,
-    work_tm,
-    pay_vac_tm,
-    ot_work_tm,
-    pl_ot_tm,
-    ac_ot_tm,
-    vc_count,
-    vc_total,
-    late_count,
-    ab_count,
-    row_number() over
-(
-ORDER BY
-    ${orderKeyword} ${order}) as rNum from REPORT_TB
-             where EMP_NM like '%' || #{keyword} || '%'
-             and (REG_DT BETWEEN to_date(#{startDate}) AND to_date(#{endDate})))
+    select seq as sequence, emp_nm as empName, hire_dt as hireDate, work_dt as workDate , work_tm as workTime
+    , pay_vac_tm as payVacationTime, ot_work_tm as overtimeWorkTime, pl_ot_tm as planOvertime
+    , ac_ot_tm as actualOvertime , vc_count as vacationCount, vc_total as vacationTotal
+    , late_count as lateCount, ab_count as absentCount from (
+        select
+        emp_seq as seq
+        , emp_nm
+        ,  to_char(join_dt, 'yyyy.MM.dd') as hire_dt
+        , nvl(sum(실제근로일수),0) as work_dt
+        ,
+        case when sum(실제근로시간) - trunc(sum(실제근로시간)) &gt; 0 then trunc(sum(실제근로시간)) || '시간' || to_char( (sum(실제근로시간) - trunc(sum(실제근로시간))) * 60) || '분'
+        when sum(실제근로시간) - trunc(sum(실제근로시간)) = 0 then sum(실제근로시간) || '시간'
+        else '0시간'
+        end work_tm
+        ,
+        case when sum(유급휴가시간) - trunc(sum(유급휴가시간)) &gt; 0 then trunc(sum(유급휴가시간)) || '시간' || to_char( (sum(유급휴가시간) - trunc(sum(유급휴가시간))) * 60) || '분'
+        when sum(유급휴가시간) - trunc(sum(유급휴가시간)) = 0 then sum(유급휴가시간) || '시간'
+        else '0시간'
+        end pay_vac_tm
+        ,
+        case when sum(실제초과근로시간) - trunc(sum(실제초과근로시간)) &gt; 0 then trunc(sum(실제초과근로시간)) || '시간' || to_char( (sum(실제초과근로시간) - trunc(sum(실제초과근로시간))) * 60) || '분'
+        when sum(실제초과근로시간) - trunc(sum(실제초과근로시간)) &lt;= 0 then sum(실제초과근로시간) || '시간'
+        else '0시간'
+        end ot_work_tm
+        ,
+        case when sum(야간계획근로시간) - trunc(sum(야간계획근로시간)) &gt; 0  then trunc(sum(야간계획근로시간)) || '시간' || to_char( (sum(야간계획근로시간) - trunc(sum(야간계획근로시간))) * 60) || '분'
+        when sum(야간계획근로시간) - trunc(sum(야간계획근로시간)) = 0  then sum(야간계획근로시간) || '시간'
+        else '0시간'
+        end pl_ot_tm
+        ,
+        case when sum(실제야간근로시간) - trunc(sum(실제야간근로시간)) &gt; 0  then trunc(sum(실제야간근로시간)) || '시간' || to_char( (sum(실제야간근로시간) - trunc(sum(실제야간근로시간))) * 60) || '분'
+        when sum(실제야간근로시간) - trunc(sum(실제야간근로시간)) = 0  then sum(실제야간근로시간) || '시간'
+        else '0시간'
+        end ac_ot_tm
+        , nvl(sum(사용휴가),0) as vc_count, nvl(sum(남은휴가),0) as vc_total , nvl(sum(지각횟수),0) as late_count , nvl(sum(결근횟수), 0) as ab_count
+        ,  row_number() over (order by emp_seq asc) as rNum
+        from
+        (select emp_seq, emp_nm, join_dt
+        , to_number(null) as 실제근로일수
+        , to_number(null) as 실제근로시간
+        , sum(use_holiday) * 8 as 유급휴가시간
+        , to_number(null) as 실제초과근로시간
+        , to_number(null) as 야간계획근로시간
+        , to_number(null) as 실제야간근로시간
+        , sum(use_holiday) as 사용휴가
+        , sum(ann_days) as 남은휴가
+		, to_number(null) as 지각횟수
+        , to_number(null) as 결근횟수
+        from (
+        select
+        distinct e.emp_seq
+        ,e.emp_nm
+        ,e.join_dt
+        ,a.ann_days
+        ,a.year
+        , sum(decode(a.year, v.holiday_year, v.use_holiday)) as use_holiday
+        from web_annu_mgm a, web_vacation v, web_empl_mgm e
+        where  v.emp_seq = a.emp_seq
+        and v.emp_seq = e.emp_seq
+        and a.year BETWEEN ${startDate.substring(0,4)} AND ${endDate.substring(0,4)}
+        group by e.emp_seq, a.ann_days, a.year, e.emp_nm, e.join_dt
+        ) group by emp_seq, emp_nm, join_dt
+        union
+        select emp_seq, emp_nm, join_dt
+        , to_number(null) as 실제근로일수
+        , to_number(null) as 실제근로시간
+        , to_number(null) as 유급휴가시간
+        , to_number(null) as 실제초과근로시간
+        , sum(((to_date(ot_time_end, 'HH24:MI') - to_date(ot_time_start, 'HH24:MI'))*24)) as 계획야간근로시간
+        , sum(decode(status, '승인', (((to_date(ot_time_end, 'HH24:MI') - to_date(ot_time_start, 'HH24:MI'))*24)))) as 실제야간근로시간
+        , to_number(null) as 사용휴가
+        , to_number(null) as 남은휴가
+        , to_number(null) as 지각횟수
+        , to_number(null) as 결근횟수
+        from web_empl_mgm e join web_overtime o on o.emp_num = e.emp_seq  where o.reg_date BETWEEN #{startDate} AND #{endDate}
+        group by emp_seq, emp_nm, join_dt
+        union
+        select e.emp_seq, e.emp_nm, e.join_dt
+        , count(decode(d.work_st, '정상근무', 1)) as 실제근로일수
+        , sum(d.WORK_TI) as 실제근로시간
+        , to_number(null) as 유급휴가시간
+        , case when sum(d.WORK_TI) &gt; 20 then sum(d.WORK_TI )-20 else 0 end 실제초과근로시간
+        , to_number(null) as 계획야간근로시간
+        , to_number(null) as 실제야간근로시간
+        , to_number(null) as 사용휴가
+        , to_number(null) as 남은휴가
+        , count(decode(work_st, '지각', 1)) as 지각횟수
+        , count(decode(work_st, '결근', 1)) as 결근횟수
+        from web_empl_mgm e join web_daily d on e.emp_seq = d.emp_seq
+        where d.reg_dt BETWEEN #{startDate} AND #{endDate}
+        group by e.emp_seq, e.emp_nm, e.join_dt)
+        where
+        emp_nm like '%' || #{keyword} || '%'
+        group by emp_seq, emp_nm, join_dt order by ${orderKeyword} ${order}
+        )
     </select>
 </mapper>

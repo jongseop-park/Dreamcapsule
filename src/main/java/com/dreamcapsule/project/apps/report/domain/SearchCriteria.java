@@ -17,7 +17,7 @@ public class SearchCriteria extends Criteria {
 
     public String getOrderKeyword() {
         if(orderKeyword.equals(""))
-            return "SEQ";
+            return "emp_seq";
 
         return orderKeyword;
     }

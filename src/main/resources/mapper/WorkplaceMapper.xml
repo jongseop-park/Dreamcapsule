@@ -20,6 +20,29 @@
             <result property="code" column="CODE"/>
             <result property="serialNum" column="SERIAL_NUM"/>
         </collection>
+        <collection property="useEquipmentVO" ofType="UseEquipmentVO">
+            <id property="equipment_seq" column="EQUIPMENT_SEQ"/>
+            <result property="beacon1" column="BEACON1"/>
+            <result property="beacon2" column="BEACON2"/>
+            <result property="beacon3" column="BEACON3"/>
+            <result property="beacon4" column="BEACON4"/>
+            <result property="beacon5" column="BEACON5"/>
+            <result property="beacon6" column="BEACON6"/>
+            <result property="beacon7" column="BEACON7"/>
+            <result property="beacon8" column="BEACON8"/>
+            <result property="beacon9" column="BEACON9"/>
+            <result property="beacon10" column="BEACON10"/>
+            <result property="nfc1" column="NFC1"/>
+            <result property="nfc2" column="NFC2"/>
+            <result property="nfc3" column="NFC3"/>
+            <result property="nfc4" column="NFC4"/>
+            <result property="nfc5" column="NFC5"/>
+            <result property="nfc6" column="NFC6"/>
+            <result property="nfc7" column="NFC7"/>
+            <result property="nfc8" column="NFC8"/>
+            <result property="nfc9" column="NFC9"/>
+            <result property="nfc10" column="NFC10"/>
+        </collection>
     </resultMap>
 
     <!--
@@ -59,11 +82,17 @@
         ORDER BY SERIAL_NUM ASC
     </select>
 
-   <!-- &lt;!&ndash; 저장  &ndash;&gt;
-    <insert id="insert" parameterType="PositionVO">
-        INSERT INTO POSITION_MNG_TB(SEQ, RANK, MEMO, REG_DATE, DEL_YN)
+    <!-- 저장  -->
+    <insert id="insert" parameterType="WorkplaceVO">
+        INSERT INTO WORKPLACE_MNG_TB(SEQ, RANK, MEMO, REG_DATE, DEL_YN)
         VALUES (POSITION_MNG_SEQ.NEXTVAL, #{rank}, #{memo}, SYSDATE, 'N')
     </insert>
+
+    <!--<insert id="insertUseEquipment" parameterType="WorkplaceVO">
+        INSERT INTO USE_EQUIPMENT_TB(EQUIPMENT_SEQ, BEACON1, BEACON2, BEACON3, BEACON4, BEACON5, BEACON6, BEACON7, BEACON8, BEACON9, BEACON10, NFC1, NFC2, NFC3, NFC4, NFC5, NFC6, NFC7, NFC8, NFC9, NFC10)
+    </insert>-->
+
+<!--
 
     &lt;!&ndash; 수정 &ndash;&gt;
     <update id="update" parameterType="PositionVO">
@@ -92,7 +121,8 @@
     <delete id="delete" parameterType="PositionVO">
         DELETE FROM POSITION_MNB_TB
         WHERE SEQ = #{seq}
-    </delete>-->
+    </delete>
+-->
 
     <!-- 페이징 -->
     <select id="page" resultMap="WorkplaceMap" parameterType="WorkplaceVO">
