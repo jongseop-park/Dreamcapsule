@@ -2,7 +2,9 @@ package com.dreamcapsule.project.apps.management.employee.controller;
 
 import com.dreamcapsule.project.apps.admin.controller.AdminController;
 import com.dreamcapsule.project.apps.management.employee.service.EmployeeService;
+import com.dreamcapsule.project.domain.Criteria;
 import com.dreamcapsule.project.domain.EmployeeVO;
+import com.dreamcapsule.project.domain.PageMaker;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
@@ -20,8 +22,12 @@ public class EmployeeController { // 직원 관리
     EmployeeService employeeService;
 
     @RequestMapping("/management/employee/list")
-    public String list(Model model){
-        model.addAttribute("emplist",employeeService.emplList());
+    public String list(Model model, Criteria criteria){
+        model.addAttribute("emplist",employeeService.emplList(criteria));
+        PageMaker pageMaker = new PageMaker();
+        pageMaker.setCri(criteria);
+        pageMaker.setTotalCount(employeeService.empCount(criteria));
+        model.addAttribute("pageMaker",pageMaker);
         return "management/employee/list";
     }
 

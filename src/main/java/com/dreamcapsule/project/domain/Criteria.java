@@ -23,6 +23,7 @@ public class Criteria {
     private String endDate;
 //정렬을 위한 멤버-----------------------------------------------------------------------------------------------
     private String orderKeyword="reg_dt"; //sql문 row_number() 안에 기본 정열이 들어가야 하므로
+    private String eorderKeyword="emp.empl_nm";
     private String worderKeyword="empl_nm";
     private String orderMethod="asc";     //초기화
 //-------------------------------------------------------------------------------------------------------------
@@ -153,7 +154,13 @@ public class Criteria {
         this.regDt = regDt;
     }
 
+    public String getEorderKeyword() {
+        return eorderKeyword;
+    }
 
+    public void setEorderKeyword(String eorderKeyword) {
+        this.eorderKeyword = eorderKeyword;
+    }
 
     @Override
     public String toString() {

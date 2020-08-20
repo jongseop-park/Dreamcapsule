@@ -2,6 +2,7 @@ package com.dreamcapsule.project.apps.management.employee.service.serviceImpl;
 
 import com.dreamcapsule.project.apps.management.employee.mapper.EmployeeMapper;
 import com.dreamcapsule.project.apps.management.employee.service.EmployeeService;
+import com.dreamcapsule.project.domain.Criteria;
 import com.dreamcapsule.project.domain.EmployeeVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,8 +41,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<EmployeeVO> emplList() {
-        return employeeMapper.emplList();
+    public List<EmployeeVO> emplList(Criteria criteria) {
+        return employeeMapper.emplList(criteria);
     }
 
     @Override
@@ -57,5 +58,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public List<EmployeeVO> placelist() {
         return employeeMapper.placelist();
+    }
+
+    @Override
+    public int empCount(Criteria criteria) {
+        return employeeMapper.empCount(criteria);
     }
 }

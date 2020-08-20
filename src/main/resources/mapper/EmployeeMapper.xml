@@ -4,24 +4,43 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.dreamcapsule.project.apps.management.employee.mapper.EmployeeMapper">
 
-<select id="emplList" resultType="EmployeeVO">
-    select
-    EMP.EMP_SEQ AS EMP_SEQ,
-    EMP.EMP_NM AS EMPL_NM,
-    PLACE.PLACE_NM AS PLACE_NM,
-    DUTY.DUTY_NM AS DUTY_NM,
-    RANK.RANK_NM AS RANK_NM,
-    AUTH.AUTH_DESC AS AUTH_NM
-FROM
-    WEB_EMPL_MGM EMP
-    INNER JOIN WEB_PLACE_MGM PLACE
-    ON EMP.PLACE_SEQ = PLACE.PLACE_SEQ
-    INNER JOIN WEB_DUTY_MGM DUTY
-    ON EMP.DUTY_SEQ = DUTY.DUTY_SEQ
-    INNER JOIN WEB_RANK_MGM RANK
-    ON EMP.RANK_SEQ = RANK.RANK_SEQ
-    INNER JOIN WEB_AUTHOR_GRP AUTH
-    ON EMP.AUTH_SEQ = AUTH.AUTH_SEQ
+    <sql id="keywordsearch">
+        <if test="keyword != null">
+            WHERE emp.emp_nm LIKE  '%' || #{keyword} || '%'
+        </if>
+    </sql>
+
+
+    <select id="emplList" resultType="EmployeeVO" parameterType="Criteria">
+   select
+        EMP_SEQ,
+        EMPL_NM,
+        PLACE_NM,
+        DUTY_NM,
+        RANK_NM,
+        AUTH_NM
+    FROM(
+        select
+            EMP.EMP_SEQ AS EMP_SEQ,
+            EMP.EMP_NM AS EMPL_NM,
+            PLACE.PLACE_NM AS PLACE_NM,
+            DUTY.DUTY_NM AS DUTY_NM,
+            RANK.RANK_NM AS RANK_NM,
+            AUTH.AUTH_DESC AS AUTH_NM,
+
+            ROW_NUMBER() OVER (ORDER BY EMP.JOIN_DT ASC) AS RNUM
+        FROM
+            WEB_EMPL_MGM EMP
+            INNER JOIN WEB_PLACE_MGM PLACE
+            ON EMP.PLACE_SEQ = PLACE.PLACE_SEQ
+            INNER JOIN WEB_DUTY_MGM DUTY
+            ON EMP.DUTY_SEQ = DUTY.DUTY_SEQ
+            INNER JOIN WEB_RANK_MGM RANK
+            ON EMP.RANK_SEQ = RANK.RANK_SEQ
+            INNER JOIN WEB_AUTHOR_GRP AUTH
+            ON EMP.AUTH_SEQ = AUTH.AUTH_SEQ
+        <include refid="keywordsearch"></include>)EMP
+    WHERE RNUM BETWEEN  ${rowStart} AND ${rowEnd} ORDER BY ${eorderKeyword} ${orderMethod}
 
 </select>
 
@@ -84,6 +103,10 @@ FROM
         delete from web_empl_mgm where emp_seq = ${empSeq}
 
     </delete>
+
+    <select id="empCount" resultType="Integer" parameterType="Criteria">
+        select count(*) from web_empl_mgm emp <include refid="keywordsearch"></include>
+    </select>
 </mapper>
 
 

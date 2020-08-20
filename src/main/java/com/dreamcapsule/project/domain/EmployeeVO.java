@@ -203,4 +203,5 @@ public class EmployeeVO {
     public void setAuthNm(String authNm) {
         this.authNm = authNm;
     }
+
 }

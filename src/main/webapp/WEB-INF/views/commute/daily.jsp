@@ -21,11 +21,9 @@
     <!-- Custom styles for this template-->
     <link href="/static/css/commute/sb-admin-comm.css" rel="stylesheet">
     <%-- 기본 여기까지--%>
-
-    <link href="/static/css/datepicker/bootstrap.min.css" rel="stylesheet"
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
           crossorigin="anonymous">
-<%--    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"--%>
-<%--          crossorigin="anonymous">--%>
+
     <link href="/static/css/datepicker/datepicker.css" rel="stylesheet">
 
 
@@ -82,7 +80,6 @@
 <body id="page-top">
 <!-- Page Wrapper -->
 <div id="wrapper">
-
     <!-- Sidebar -->
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
@@ -101,7 +98,6 @@
 
         <!-- Main Content -->
         <div id="content">
-
             <!-- Topbar -->
             <%@include file="include/topbar_comm.jsp" %>
 
@@ -312,7 +308,6 @@ $(document).ready(function(){
         }
     setPerPageNumSelect();
     setSearchTypeSelect();
-    changeColor();
     var thisPage = '${pageMaker.cri.page}';
     $('#page'+thisPage).addClass('active');
 })
@@ -366,7 +361,7 @@ function setSearchTypeSelect(){
         var url = "daily?page=1"
         + "&perPageNum=" + "${pageMaker.cri.perPageNum}"
         +"&regDt=" + encodeURIComponent(date)
-        +"&keyword=" + "${pageMaker.cri.keyword}";
+     ;
         window.location.href = url;
     });
     //검색 버튼이 눌리면
