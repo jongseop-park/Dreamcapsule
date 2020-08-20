@@ -74,6 +74,9 @@ public class PageMaker {
 //    }
 
 //
+
+//=================================================================================================
+//=================================페이징 url처리를 위한 메소드========================================
     public String makeQuery(int page) {
         UriComponentsBuilder uriComponents =
                 UriComponentsBuilder.newInstance()
@@ -106,7 +109,8 @@ public class PageMaker {
         return uriComponents.build().encode().toString();
     }
 
-
+//================================================================================================
+//=================================Weekly 페이징==================================================
     public String weekmakeQuery(int page) {
         UriComponentsBuilder uriComponents =
                 UriComponentsBuilder.newInstance()
@@ -135,5 +139,25 @@ public class PageMaker {
         }
         return uriComponents.build().encode().toString();
     }
+//=================================================================================================
+//=================================직원 관리 페이징==================================================
+public String empmakeQuery(int page) {
+    UriComponentsBuilder uriComponents =
+            UriComponentsBuilder.newInstance()
+                    .queryParam("page", page)
+                    .queryParam("perPageNum", cri.getPerPageNum());
+    if (this.cri.getKeyword() != null || this.cri.getRegDt() != null) {
+        uriComponents
+                .queryParam("keyword", this.cri.getKeyword());
+
+    }
+    if (this.cri.getOrderKeyword() != null && this.cri.getOrderMethod() != null) {
+        uriComponents
+                .queryParam("orderKeyword", this.cri.getEorderKeyword())
+                .queryParam("orderMethod", this.cri.getOrderMethod());
+    }
+    return uriComponents.build().encode().toString();
+}
+    
 
 }

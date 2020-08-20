@@ -1,5 +1,6 @@
 package com.dreamcapsule.project.apps.management.employee.mapper;
 
+import com.dreamcapsule.project.domain.Criteria;
 import com.dreamcapsule.project.domain.EmployeeVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
@@ -11,7 +12,7 @@ import java.util.List;
 @Repository
 public interface EmployeeMapper {
 
-    public List<EmployeeVO> emplList();
+    public List<EmployeeVO> emplList(Criteria criteria);
     public List<EmployeeVO> dutylist();
     public List<EmployeeVO> ranklist();
     public List<EmployeeVO> placelist();
@@ -20,5 +21,6 @@ public interface EmployeeMapper {
     public EmployeeVO infolist(EmployeeVO employeeVO);
     public void infoUpdate(EmployeeVO employeeVO);
     public void infoDelete(EmployeeVO employeeVO);
+    public int empCount(Criteria criteria);
 
 }

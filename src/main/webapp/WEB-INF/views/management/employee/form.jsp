@@ -20,10 +20,11 @@
     <link href="/static/css/sb-admin-2.min.css" rel="stylesheet">
 
     <!-- Custom styles for this page -->
-    <link href="/static/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
-    <link href="/static/css/datepicker/bootstrap.min.css" rel="stylesheet"
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
           crossorigin="anonymous">
+
+
     <link href="/static/css/datepicker/datepicker.css" rel="stylesheet">
     <style>
         form div{
@@ -98,7 +99,7 @@
 
                     <div class="card-body">
                         <div class="table-responsive">
-                            <form action="/bbb"  id="saveform" name="saveform" method="POST" style="margin-top: 30px">
+                            <form action="/form"  id="saveform" name="saveform" method="POST" style="margin-top: 30px">
                                 <div class="form-group _inputstyle" >
                                     이름<input type="text" class="form-control" id="emplNm" name="emplNm">
                                 </div>
@@ -237,12 +238,22 @@ $(function(){
         $("#tel").val("${infolist.tel}");
         $("._date").val("${infolist.joinDt}");
     }
-})
+});
 
 //===================================================================================================================
     $("#btnSave").on("click",function(){
+
         // var saveQuery = $("form[name=saveform]").serialize(); //saveform id를 가진 form 을 찾아 form안에 있는 id의 값을 찾아온다.
-        var object = makeJosn();
+        var object = {
+            "emplNm" : $("#emplNm").val(),
+            "dutylistSeq" : $("#dutySeq").val(),
+            "ranklistSeq" : $("#rankSeq").val(),
+            "authlistSeq" : $("#authSeq").val(),
+            "placelistSeq" : $("#placeSeq").val(),
+            "email" : $("#email").val(),
+            "tel" : $("#tel").val(),
+            "joinDt" : $("._date").val()
+        }
         console.log(object);
         callAjax(object,"save","회원등록");
          });
@@ -258,7 +269,7 @@ $(function(){
 //===================================================================================================================
     $("#btnDelete").on("click",function(){
         var object = {
-            "empSeq" : ${infolist.empSeq}
+            "empSeq" : ${infolist.empSeq}+""
         };
         callAjax(object,'infoDelete','회원삭제')
 
@@ -267,6 +278,7 @@ $(function(){
 
 //===================================================================================================================
 function callAjax(data,url,massage) {
+    console.log(data);
     $.ajax({
         type:"POST",
         url:url,
@@ -284,8 +296,9 @@ function callAjax(data,url,massage) {
 //===================================================================================================================
 function makeJosn(){
     console.log(${infolist.empSeq});
+
     var object = {
-        "empSeq" : ${infolist.empSeq},
+        "empSeq" : ${infolist.empSeq}+"",
         "emplNm" : $("#emplNm").val(),
         "dutylistSeq" : $("#dutySeq").val(),
         "ranklistSeq" : $("#rankSeq").val(),

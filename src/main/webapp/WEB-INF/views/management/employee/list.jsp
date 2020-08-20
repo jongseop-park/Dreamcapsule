@@ -19,12 +19,25 @@
     <!-- Custom styles for this template -->
     <link href="/static/css/sb-admin-2.min.css" rel="stylesheet">
 
-    <!-- Custom styles for this page -->
-    <link href="/static/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="/static/css/commute/pagination.css" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" media="screen"
+          href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css">
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
+          crossorigin="anonymous">
     <style>
         .table-bordered tbody tr:hover{
             background-color: #8fd19e;
         }
+        .sortbtn {
+            border: 0px;
+            background-color: rgba(0, 0, 0, 0);
+            color: skyblue;
+            padding: 5px;
+
+        }
+
     </style>
 </head>
 
@@ -70,10 +83,10 @@
                              <%@ include file="/WEB-INF/views/include/excel_include.jsp"%>
                             <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" style="float: right">
                                 <div class="input-group" >
-                                    <input type="text" class="form-control bg-light border-1 small" placeholder="직원 검색"
-                                           aria-label="Search" aria-describedby="basic-addon2">
+                                    <input type="text" class="form-control bg-light border-0 small" placeholder="직원 검색.."
+                                           id="keyword" name="keyword" value="${pageMaker.cri.keyword}"/>
                                     <div class="input-group-append">
-                                        <button class="btn btn-primary" type="button">
+                                        <button class="btn btn-primary" type="button" id="searchBtn">
                                             <i class="fas fa-search fa-sm"></i>
                                         </button>
                                     </div>
@@ -88,11 +101,11 @@
                             <table style="text-align: center" class="table table-bordered _listtable" width="100%" cellspacing="0">
                                 <thead>
                                 <tr>
-                                    <th style="width: 20%">직원</th>
-                                    <th style="width: 20%">근무지</th>
-                                    <th style="width: 20%">직무</th>
-                                    <th style="width: 20%">직급</th>
-                                    <th style="width: 20%">권한</th>
+                                    <th style="width: 20%">직원<button id="emplNm" value="empl_Nm" class="sortBtn" onclick="sort(emplNm.value)"></button> </th>
+                                    <th style="width: 20%">근무지<button id="placeNm" value="place_Nm" class="sortBtn" onclick="sort(placeNm.value)"></button></th>
+                                    <th style="width: 20%">직무<button id="dutyNm" value="duty_Nm" class="sortBtn" onclick="sort(dutyNm.value)"></button></th>
+                                    <th style="width: 20%">직급<button id="rankNm" value="rank_Nm" class="sortBtn" onclick="sort(rankNm.value)"></button></th>
+                                    <th style="width: 20%">권한<button id="authNm" value="auth_Nm" class="sortBtn" onclick="sort(authNm.value)"></button></th>
                                 </tr>
                                 </thead>
                                 <tfoot>
@@ -111,6 +124,17 @@
 
                                 </tbody>
                             </table>
+                                <div>
+                                    <ul class="pagination" style="justify-content: center">
+                                        <li><a href="list${pageMaker.empmakeQuery(pageMaker.startPage - 1)}">이전</a></li>
+                                        <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
+                                            <li id="page${idx}"><a href="list${pageMaker.empmakeQuery(idx)}">${idx}</a></li>
+                                        </c:forEach>
+                                        <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
+                                            <li><a href="list${pageMaker.empmakeQuery(pageMaker.endPage + 1)}">다음</a></li>
+                                        </c:if>
+                                    </ul>
+                                </div>
                             <!-- 테이블 하단 바 -->
                             <div>
                             <button class="btn btn-dark right" type="button" style="float : right;" onclick="location.href='/admin/management/employee/form'">
@@ -154,7 +178,60 @@
 </body>
 
 </html>
+<script src="https://code.jquery.com/jquery-3.4.1.js" crossorigin="anonymous"></script>
 <script type="text/javascript">
+    $(document).ready(function(){
+        var thisPage = '${pageMaker.cri.page}';
+        $('#page'+thisPage).addClass('active');
+
+        var btnarray = new Array();
+        btnarray[0]="emplNm";
+        btnarray[1]="dutyNm";
+        btnarray[2]="rankNm";
+        btnarray[3]="placeNm";
+        btnarray[4]="authNm";
+
+        for(var i = 0;i<btnarray.length;i++){
+            console.log(document.getElementById(btnarray[i]).value);
+            if(document.getElementById(btnarray[i]).value == "${pageMaker.cri.eorderKeyword}"){
+                if("${pageMaker.cri.orderMethod}"=="asc"){
+
+                    document.getElementById(btnarray[i]).innerText = "▲";
+                }else{
+                    document.getElementById(btnarray[i]).innerText = "▼";
+                }
+
+            }else {
+                document.getElementById(btnarray[i]).innerText = "▲";
+            }
+        }
+
+        })
+
+    function sort(orderkeyword) {
+
+        var order; //정렬 기준(오름차순,내림차순)을 담을 변수
+        var e = window.event,              //클릭한 해당 버튼의 ID 값을 추출
+            btn = e.target || e.srcElement;    //클릭한 해당 버튼의 ID 값을 추출
+        // document.getElementById(btn.id).innerText = "▼";
+        var intext = document.getElementById(btn.id).innerText;
+
+        if("${pageMaker.cri.orderMethod}"=="asc"){
+            order = "desc";
+        }else{
+            order = "asc";
+        }
+
+        self.location = "list?page=1" +
+            "&keyword=${pageMaker.cri.keyword}" +
+            "&eorderKeyword="+orderkeyword +
+            "&orderMethod="+order;
+
+
+    }
+
+
+
     $(function () {
         $("._listtable tbody tr").click(function () {
 
@@ -170,4 +247,31 @@
                 ;
         });
     });
+
+
+
+
+
+        $('#searchBtn').on('click',function(){
+            var $keyword = $('#keyword');
+            var keywordVal = $keyword.val();
+
+            //검색어 입력 안했으면 검색창
+            if(!keywordVal){
+                alert("검색어를 입력하세요!");
+                $('#keyword').focus();
+                return;
+            }
+            var url = "list?page=1"
+                + "&perPageNum=" + "${pageMaker.cri.perPageNum}"
+                + "&keyword=" + encodeURIComponent(keywordVal)
+            ;
+
+            window.location.href = url;
+
+        });
+
+
+
+
 </script>
