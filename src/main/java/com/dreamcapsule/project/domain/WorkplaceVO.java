@@ -35,7 +35,7 @@ public class WorkplaceVO extends Criteria{
     private List<EquipmentVO> equipmentVO;
 
     /** 자식테이블(use_equipment_tb) */
-    private List<UseEquipmentVO> useEquipmentVO;
+    private UseEquipmentVO useEquipmentVO;
 
     public String getSeq() {
         return seq;
@@ -117,11 +117,11 @@ public class WorkplaceVO extends Criteria{
         this.equipmentVO = equipmentVO;
     }
 
-    public List<UseEquipmentVO> getUseEquipmentVO() {
+    public UseEquipmentVO getUseEquipmentVO() {
         return useEquipmentVO;
     }
 
-    public void setUseEquipmentVO(List<UseEquipmentVO> useEquipmentVO) {
+    public void setUseEquipmentVO(UseEquipmentVO useEquipmentVO) {
         this.useEquipmentVO = useEquipmentVO;
     }
 }
